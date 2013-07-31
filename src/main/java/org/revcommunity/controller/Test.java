@@ -27,6 +27,7 @@ public class Test
     @RequestMapping( value = "/add" )
     public void addUser()
     {
+        log.debug( "add" );
         User u = new User();
         u.setUserName( "u1" );
         Review r = new Review();
