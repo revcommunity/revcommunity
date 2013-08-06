@@ -7,5 +7,5 @@ deploy:
   provider: openshift
   user: "straszewski.tomasz@gmail.com"
   password: "twojaStaraMaWasy" # can be encrypted
-  app: "core"
-  domain: "www.revcommunity-i4.rhcloud.com"
+  app: "RevCommunity"
+  domain: "revcommunity-i4"
