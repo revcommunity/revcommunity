@@ -5,7 +5,7 @@ jdk:
 install: mvn install -Dmaven.compiler.target=1.7 -Dmaven.compiler.source=1.7 -DskipTests=true -B
 deploy:
   provider: openshift
-  user: straszewski.tomasz@gmail.com
-  password: twojaStaraMaWasy # can be encrypted
-  app: core
-  domain: revcommunity-i4.rhcloud.com
+  user: "straszewski.tomasz@gmail.com"
+  password: "twojaStaraMaWasy" # can be encrypted
+  app: "core"
+  domain: "core-revcommunity.rhcloud.com"
