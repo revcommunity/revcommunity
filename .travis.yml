@@ -8,4 +8,4 @@ deploy:
   user: straszewski.tomasz@gmail.com
   password: twojaStaraMaWasy # can be encrypted
   app: core
-  domain: 'revcommunity-i4.rhcloud.com'
+  domain: revcommunity-i4.rhcloud.com
