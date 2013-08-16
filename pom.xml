@@ -86,6 +86,6 @@
       </dependency>
    </dependencies>
    <build>
-      <finalName>core</finalName>
+      <finalName>revcommunity</finalName>
    </build>
 </project>
