@@ -15,38 +15,39 @@ import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.security.core.GrantedAuthority;
 
 @NodeEntity
-public class User extends org.springframework.security.core.userdetails.User
+public class User
+    extends org.springframework.security.core.userdetails.User
 {
 
-    public User(String username, String password, boolean enabled,
-			boolean accountNonExpired, boolean credentialsNonExpired,
-			boolean accountNonLocked,
-			Collection<? extends GrantedAuthority> authorities) {
-		super(username, password, enabled, accountNonExpired, credentialsNonExpired,
-				accountNonLocked, authorities);
-	}
-    
-    public User(String username, String password, Collection<? extends GrantedAuthority> authorities) {
-        super(username, password, true, true, true, true, authorities);
+    public User( String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
+                 boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities )
+    {
+        super( username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities );
     }
-    
-    public User(String username, String password, String firstName, String lastName, Collection<? extends GrantedAuthority> authorities) {
-    	super(username, password, true, true, true, true, authorities);
-    	
-    	this.firstName = firstName;
-    	this.lastName = lastName;
-	}
 
-	@GraphId
+    public User( String username, String password, Collection<? extends GrantedAuthority> authorities )
+    {
+        super( username, password, true, true, true, true, authorities );
+    }
+
+    public User( String username, String password, String firstName, String lastName, Collection<? extends GrantedAuthority> authorities )
+    {
+        super( username, password, true, true, true, true, authorities );
+
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
+    @GraphId
     private Long nodeId;
 
     @Indexed
     private String userName;
-    
+
     private String firstName;
 
     private String lastName;
-    
+
     private List<String> permissions = new ArrayList<String>();
 
     @RelatedTo( type = "REVIEWS", direction = Direction.BOTH, elementClass = Review.class )
@@ -103,23 +104,27 @@ public class User extends org.springframework.security.core.userdetails.User
         this.reviews.add( review );
     }
 
-	public List<String> getPermissions() {
-		return permissions;
-	}
+    public List<String> getPermissions()
+    {
+        return permissions;
+    }
 
-	public void setPermissions(List<String> permissions) {
-		this.permissions = permissions;
-	}
-	
-	public void addPermission(String permission){
-		for (String p : permissions) {
-			// TODO zbior dozwolonych uprawnien
-			if(p.equals(permission) /* && prawidlowa nazwa uprawnienia*/)
-				return;
-		}
-		
-		this.permissions.add(permission);
-		
-	}
+    public void setPermissions( List<String> permissions )
+    {
+        this.permissions = permissions;
+    }
+
+    public void addPermission( String permission )
+    {
+        for ( String p : permissions )
+        {
+            // TODO zbior dozwolonych uprawnien
+            if ( p.equals( permission ) /* && prawidlowa nazwa uprawnienia */)
+                return;
+        }
+
+        this.permissions.add( permission );
+
+    }
 
 }
