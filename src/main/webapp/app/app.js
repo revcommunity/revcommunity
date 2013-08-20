@@ -1,15 +1,15 @@
 Ext.application({
     name: 'RevCommunity',
-    views:[
-    	'form.BaseFieldSet',
-    	'form.CategoryFieldSet',
-    	'form.ProductInfoFieldSet',
-    	'form.SpecificationFieldSet',
-    	'form.NewProductForm'
-    ],
     launch: function() {
-    	var appRouter = new AppRouter(); // Router initialization 
-		Backbone.history.start();
-
+    	Ext.Msg.alert('Test','Hello');
+        Ext.create('Ext.container.Viewport', {
+            layout: 'fit',
+            items: [
+                {
+                    title: 'Hello',
+                    html : 'Test'
+                }
+            ]
+        });
     }
 });
