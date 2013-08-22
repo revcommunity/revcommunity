@@ -2,12 +2,19 @@ var AppRouter = Backbone.Router.extend({
     routes: {
     	'': 'home',
     	'newProduct':'newProduct',
-    	'productList':'productList'
+    	'productList':'productList',
+    	'product':'product'
     },
     home : function()
     {
     	console.log("home");
     },
+ 	product:function(){
+ 		this.clearPage();
+ 		var panel=Ext.widget('productpanel',{
+			renderTo:Ext.get('page')
+		});	
+ 	},
  	newProduct:function(){
  		this.clearPage();
  		var form=Ext.widget('newproductform',{

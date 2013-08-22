@@ -1,6 +1,6 @@
 Ext.application({
     name: 'RevCommunity',
-    stores:['ProductStore'],
+    stores:['ProductStore','ReviewStore'],
     controllers:['UserController'],
     views:[
     	'form.BaseFieldSet',
@@ -8,7 +8,11 @@ Ext.application({
     	'form.ProductInfoFieldSet',
     	'form.SpecificationFieldSet',
     	'form.NewProductForm',
-    	'ProductList'
+    	'ProductList',
+    	'product.ProductPanel',
+    	'product.QuickViewPanel',
+    	'product.ReviewsPanel',
+    	'product.SpecificationPanel'
     ],
     launch: function() {
     	var appRouter = new AppRouter(); // Router initialization 
