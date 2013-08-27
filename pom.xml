@@ -105,8 +105,13 @@
 			<artifactId>spring-security-web</artifactId>
 			<version>3.1.4.RELEASE</version>
 		</dependency>
-
+		<dependency>
+			<groupId>com.jcraft</groupId>
+			<artifactId>jsch</artifactId>
+			<version>0.1.50</version>
+		</dependency>
 	</dependencies>
+
 	<build>
 		<finalName>revcommunity</finalName>
 	</build>

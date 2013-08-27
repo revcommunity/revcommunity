@@ -4,7 +4,7 @@
 </head>
 <body>
 
-<form method="POST" action="/j_spring_security_check">
+<form method="POST" action="/revcommunity/j_spring_security_check">
     <table border="1">
         <tbody>
             <tr>
@@ -20,7 +20,7 @@
             </tr>
         </tbody>
     </table>
-    <a href="/j_spring_security_logout" >Wyloguj</a>
+    <a href="/revcommunity/j_spring_security_logout" >Wyloguj</a>
 </form>
 
 </body>

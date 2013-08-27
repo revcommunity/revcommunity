@@ -1,1 +1,0 @@
-Pliki przekleic do folderu c:/users/(uzytkownik)/.ssh
