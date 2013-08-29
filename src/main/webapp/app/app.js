@@ -1,7 +1,7 @@
 Ext.application({
     name: 'RevCommunity',
-    stores:['ProductStore'],
-    controllers:['ProductController'],
+    stores:['ProductStore','ReviewStore'],
+    controllers:['ProductController','UserController'],
     views:[
     	'form.BaseFieldSet',
     	'form.CategoryFieldSet',
@@ -9,7 +9,11 @@ Ext.application({
     	'form.SpecificationFieldSet',
     	'form.NewProductForm',
     	'ImageList',
-    	'ProductList'
+    	'ProductList',
+    	'product.ProductPanel',
+    	'product.QuickViewPanel',
+    	'product.ReviewsPanel',
+    	'product.SpecificationPanel'
     ],
     models:['Product'],
     launch: function() {

@@ -1,0 +1,60 @@
+<project>
+
+	<loadproperties>
+		<file file="cudaNaKiju\connection.properties" />
+	</loadproperties>
+
+	<target name="createWAR" description="Builds the individual project">
+		<exec executable="cmd">
+			<arg value="/c" />
+			<arg line="mvn.bat compile war:war" />
+		</exec>
+	</target>
+
+	<target name="stop" depends="createWAR">
+		<echo>
+			Stopping Tomcat ...
+		</echo>
+		<sshexec host="${openShift.host}" trust="yes" username="${openShift.user}"
+			keyfile="${basedir}${openShift.key}" command="${openShift.stop}" />
+		<echo>
+			Done !
+		</echo>
+	</target>
+
+
+	<target name="clean" depends="stop">
+		<echo>
+			Cleaning Tomcat directory ...
+		</echo>
+		<sshexec host="${openShift.host}" trust="yes" username="${openShift.user}"
+			keyfile="${basedir}${openShift.key}" command="${openShift.clean}" />
+		<echo>
+			Done !
+		</echo>
+	</target>
+
+	<target name="upload" depends="clean">
+		<echo>
+			Uploading ...
+		</echo>
+		<scp file="target\revcommunity.war"
+			todir="${openShift.user}@${openShift.host}:${openShift.webapps}"
+			keyfile="${basedir}${openShift.key}" passphrase="" trust="yes" />
+		<echo>
+			Done !
+		</echo>
+	</target>
+
+	<target name="start" depends="upload">
+		<echo>
+			Restarting Apache Tomcat...
+		</echo>
+		<sshexec host="${openShift.host}" trust="yes" username="${openShift.user}"
+			keyfile="${basedir}${openShift.key}" command="${openShift.start}" />
+		<echo>
+			Done !
+		</echo>
+	</target>
+
+</project>
