@@ -19,6 +19,7 @@ var AppRouter = Backbone.Router.extend({
  		var list=Ext.widget('productlist',{
 			renderTo:Ext.get('page')
 		});	
+		list.getStore().load();
  	},
  	clearPage:function(){
  		var childs=Ext.get('page').dom.children;

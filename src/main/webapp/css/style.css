@@ -167,3 +167,71 @@ font-family: "wf_SegoeUILight","wf_SegoeUI","Tahoma","Verdana","Arial","sans-ser
 .footer-header{
 	font-size:18pt;
 }
+
+
+.rev-col-wrap{
+	
+}
+.rev-img-small{
+	width:100px;
+	height:100px;
+}
+.rev-border{
+	border-width:1px;
+	border-style:solid;
+	border-color:#157FCC;
+}
+.rev-list-header{
+	width:100%;
+	padding:5px;
+	background-color:#e5e5e5;
+	margin-bottom:5px;
+	margin-left:0px;
+}
+.rev-col{
+		float:left;
+}
+.rev-container{
+	height:100px;
+	width:300px;
+	float:left;
+	margin-left:5px;
+	padding:5px;
+}
+.rev-container-fit{
+	width:468px;
+	margin-left:5px;
+	float:left;
+	padding:5px;
+	height:100px;
+}
+
+.rev-list-links{
+	clear:both;
+	padding-top:5px;
+	padding-left:105px;
+}
+.rev-list-links-item{
+	margin:10px;
+	margin-right:5px;
+}
+.rev-box{
+	float:left;
+	padding:10px;
+	margin-right:5px;
+	background-color:#157FCC;
+	color: #FFFFFF;
+    font-family: arial,helvetica,verdana,sans-serif;
+    font-size: 13px;
+    font-weight: bold;
+    line-height: 15px;
+}
+.rev-box-button{
+	text-decoration:underline;
+	cursor:pointer;
+	
+}
+
+.rev-img-list{
+	height:200px;
+}

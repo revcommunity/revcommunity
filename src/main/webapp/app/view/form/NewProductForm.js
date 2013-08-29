@@ -4,6 +4,8 @@ Ext.define('RevCommunity.view.form.NewProductForm' ,{
  	title:'Nowy produkt',
 	bodyPadding: 5,
 	layout: 'anchor',
+	url:'rest/products',
+	method:'POST',
     defaults: {
         anchor: '100%'
     },
@@ -35,19 +37,16 @@ Ext.define('RevCommunity.view.form.NewProductForm' ,{
 			{
 				xtype:'htmleditor',
 				labelAlign:'top',
+				name:'description',
 				fieldLabel:'Opis produktu'
 			},{
-				xtype:'panel',
-				layout:'fit',
-				html:'<div id="gallery" style="height:300"><img src="css/img/a.JPG" data-title="My title" data-description="My description"><img src="css/img/b.JPG" data-title="Another title" data-description="My <em>HTML</em> description"></div>'
+				xtype:'imagelist',
+				fieldLabel:'Dodaj zdjęcie',
+				name:'images',
+				width:500,
+				buttonText: 'Przeglądaj...'
 			}
 	],
-	listeners:{
-		afterrender:function(){
-			 Galleria.loadTheme('app/lib/themes/classic/galleria.classic.min.js');
-		    Galleria.run('#gallery');
-		}
-	},
     buttons: [
 		   		{
 		        	text: 'Podgląd'

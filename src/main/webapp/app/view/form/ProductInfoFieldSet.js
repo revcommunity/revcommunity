@@ -5,13 +5,27 @@ Ext.define('RevCommunity.view.form.ProductInfoFieldSet' ,{
 	layout: 'anchor',
 	items:[
 			{
-				fieldLabel:'Nazwa produktu'
+				fieldLabel:'Nazwa produktu',
+				name:'name'
 			},
 			{
-				fieldLabel:'Producent'
+				fieldLabel:'Producent',
+				name:'producer'
 			},
 			{
-				fieldLabel:'Kod produktu'
+				fieldLabel:'Kod produktu',
+				name:'productCode'
 			}
-	]
+	],
+	initComponent:function(){
+	
+		if(Ext.isEmpty(this.defaults))
+			this.defaults={};
+			
+		Ext.apply(this.defaults, {
+					allowBlank:false
+		});
+		
+		this.callParent(arguments);
+	}
 });

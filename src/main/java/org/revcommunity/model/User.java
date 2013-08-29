@@ -16,26 +16,33 @@ import org.springframework.security.core.GrantedAuthority;
 
 @NodeEntity
 public class User
-    extends org.springframework.security.core.userdetails.User
+// extends org.springframework.security.core.userdetails.User
 {
 
-    public User( String username, String password, boolean enabled, boolean accountNonExpired, boolean credentialsNonExpired,
-                 boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities )
-    {
-        super( username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities );
-    }
+    // public User( String username, String password, boolean enabled, boolean accountNonExpired, boolean
+    // credentialsNonExpired,
+    // boolean accountNonLocked, Collection<? extends GrantedAuthority> authorities )
+    // {
+    // super( username, password, enabled, accountNonExpired, credentialsNonExpired, accountNonLocked, authorities );
+    // }
+    //
+    // public User( String username, String password, Collection<? extends GrantedAuthority> authorities )
+    // {
+    // super( username, password, true, true, true, true, authorities );
+    // }
+    //
+    // public User( String username, String password, String firstName, String lastName, Collection<? extends
+    // GrantedAuthority> authorities )
+    // {
+    // super( username, password, true, true, true, true, authorities );
+    //
+    // this.firstName = firstName;
+    // this.lastName = lastName;
+    // }
 
-    public User( String username, String password, Collection<? extends GrantedAuthority> authorities )
+    public User()
     {
-        super( username, password, true, true, true, true, authorities );
-    }
 
-    public User( String username, String password, String firstName, String lastName, Collection<? extends GrantedAuthority> authorities )
-    {
-        super( username, password, true, true, true, true, authorities );
-
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
     @GraphId
@@ -63,7 +70,6 @@ public class User
         this.nodeId = nodeId;
     }
 
-    @Override
     public String getUsername()
     {
         return this.userName;

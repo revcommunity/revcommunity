@@ -18,9 +18,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class Test
 {
 
-	@Autowired
-	private AuthenticationService authService;
-	
+    @Autowired
+    private AuthenticationService authService;
+
     private static final Logger log = Logger.getLogger( Test.class );
 
     @Autowired
@@ -32,20 +32,20 @@ public class Test
     @RequestMapping( value = "/add" )
     public void addUser()
     {
-//        log.debug( "add" );
-//        User u = new User();
-//        u.setUserName( "u1" );
-//        Review r = new Review();
-//        r.setContent( "r1" );
-//        u.addReview( r );
-//        repo.save( u );
-    	try {
-			authService.addUser("jan123", "jan123", "Jan", "Kowalski", new String[] {"read","write"});
-			authService.loadUserByUsername("jan123");
-		} catch (UsernameAlreadyExistsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        log.debug( "add" );
+        User u = new User();
+        u.setUsername( "u1" );
+        Review r = new Review();
+        r.setContent( "r1" );
+        u.addReview( r );
+        repo.save( u );
+        // try {
+        // authService.addUser("jan123", "jan123", "Jan", "Kowalski", new String[] {"read","write"});
+        // authService.loadUserByUsername("jan123");
+        // } catch (UsernameAlreadyExistsException e) {
+        // // TODO Auto-generated catch block
+        // e.printStackTrace();
+        // }
     }
 
     @RequestMapping( value = "/users" )
