@@ -48,7 +48,7 @@
 
 	<target name="start" depends="upload">
 		<echo>
-			Restarting Apache Tomcat...
+			Starting Apache Tomcat...
 		</echo>
 		<sshexec host="${openShift.host}" trust="yes" username="${openShift.user}"
 			keyfile="${basedir}${openShift.key}" command="${openShift.start}" />
