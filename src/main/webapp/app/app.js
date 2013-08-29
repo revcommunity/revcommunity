@@ -1,7 +1,7 @@
 Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore'],
-    controllers:['ProductController','UserController'],
+    controllers:['ProductController'],
     views:[
     	'form.BaseFieldSet',
     	'form.CategoryFieldSet',
