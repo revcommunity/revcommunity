@@ -11,10 +11,10 @@ import javax.servlet.ServletContext;
 import org.apache.commons.io.IOUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-@Controller
+@Service
 public class ImageService
 {
     private static final Logger log = Logger.getLogger( ImageService.class.getName() );
