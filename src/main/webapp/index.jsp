@@ -18,7 +18,9 @@
 </head>
 <body>
 
-<div class="top-bar"><a href="/web/logout.do" >Wyloguj</a></div>
+<div class="top-bar"><a href="auth/login.jsp" >Zaloguj</a></div>
+<div class="top-bar"><a href="auth/register.jsp" >Zarejestruj</a></div>
+<div class="top-bar"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
 	<div id="header"  class="blue-wrap" >
 		
 		<div id="logo">

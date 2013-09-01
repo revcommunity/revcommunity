@@ -1,31 +1,58 @@
 <beans:beans xmlns="http://www.springframework.org/schema/security"
-    xmlns:beans="http://www.springframework.org/schema/beans" 
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans
+	xmlns:beans="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
     http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-    <http use-expressions="true">
-        <form-login login-page="/login/" authentication-failure-url="/fail/"/>
-    	<logout logout-success-url="/"/>
-    </http>
+	<http auto-config="true" access-denied-page="/auth/denied">
+		<intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
+		<intercept-url pattern="/manage/*" access="ROLE_USER" />
+		<intercept-url pattern="/user/*" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/auth/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/auth/register*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/auth/j_spring_security_check" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/auth/j_spring_security_logout" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<form-login login-page="/revcommunity/auth/login.jsp"
+			authentication-failure-url="/auth/login.jsp?login_error=true"
+			default-target-url="/user/userPage.jsp" />
+		<logout logout-url="/j_spring_security_logout" logout-success-url="/index.jsp"
+			invalidate-session="true" />
+	</http>
 
-	<beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" id="saltSource">
-    	<beans:property name="userPropertyToUse" value="username"/>
+	<authentication-manager alias="authenticationManager">
+		<authentication-provider user-service-ref="userAuthenticationService">
+			<password-encoder hash="sha-256">
+				<!-- http://www.javablog.eu/java/implementacja-uwierzytelniania-w-spring-security/ -->
+				<!-- <salt-source ref="saltSource" /> -->
+				<salt-source system-wide="cewuiqwzie" />
+			</password-encoder>
+		</authentication-provider>
+	</authentication-manager>
+
+	<!--############ Beans #################-->
+
+	<beans:bean id="userAuthenticationService"
+		class="org.revcommunity.util.AuthenticationServiceImpl">
+	</beans:bean>
+	
+	<!-- <beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" 
+		id="saltSource"> <beans:property name="userPropertyToUse" value="username"/> 
+		</beans:bean> -->
+
+	<!-- 
+		<beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">
+		<beans:property name="hierarchy">
+			<beans:value>
+				ROLE_ADMIN > ROLE_USER
+				ROLE_USER > ROLE_GUEST
+			</beans:value>
+		</beans:property>
 	</beans:bean>
 
-    <authentication-manager alias="authenticationManager">
-    	<authentication-provider user-service-ref="userAuthenticationService">
-    		<password-encoder hash="sha-256">
-    		<!-- W takkim przypadku login nie moze sie nigdy zmienic -->
-    		<!-- http://www.javablog.eu/java/implementacja-uwierzytelniania-w-spring-security/ -->
-    			<salt-source ref="saltSource" />
-    		</password-encoder>
-    	</authentication-provider>
-    </authentication-manager>
-    
-    <beans:bean id="userAuthenticationService" class="org.revcommunity.authentication.AuthenticationServiceImpl">
-    </beans:bean>
-    
+	<beans:bean id="roleVoter" class="org.springframework.security.access.vote.RoleHierarchyVoter">
+		<beans:constructor-arg><beans:ref bean="roleHierarchy"/></beans:constructor-arg>
+	</beans:bean> -->
+
 </beans:beans> 
