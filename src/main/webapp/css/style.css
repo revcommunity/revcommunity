@@ -34,15 +34,14 @@
 }
 #nav{
 	float:left;
-	width:250px;
+	width:240px;
 	height:auto;
    	min-height:500px;
-   	margin-left:120px;
+   	margin-left:20px;
    	margin-top:20px;
 }
 #content{
-	float:right;
-	width:1000px;
+	overflow:hidden; 
 	height:auto;
 	margin-top:10px;
 	min-height:500px;
