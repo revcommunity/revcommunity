@@ -36,7 +36,6 @@
 					<ul class="list position">
 						<li class="position"><a href="#newProduct" >Dodaj produkt</a></li>
 						<li class="position"><a href="#productList" >Lista produktów</a></li>
-						<li class="position"><a href="#product" >Widok produktu</a></li>
 					</ul>
 				</div>
 				<div id="content" >

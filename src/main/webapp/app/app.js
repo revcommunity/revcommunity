@@ -1,6 +1,6 @@
 Ext.application({
     name: 'RevCommunity',
-    stores:['ProductStore','ReviewStore'],
+    stores:['ProductStore','ReviewStore','ProductReviewsStore'],
     controllers:['ProductController'],
     views:[
     	'form.BaseFieldSet',
@@ -11,11 +11,10 @@ Ext.application({
     	'ImageList',
     	'ProductList',
     	'product.ProductPanel',
-    	'product.QuickViewPanel',
-    	'product.ReviewsPanel',
-    	'product.SpecificationPanel'
+    	'product.ProductWrapper',
+    	'product.ReviewsPanel'
     ],
-    models:['Product'],
+    models:['Product','Review'],
     launch: function() {
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();

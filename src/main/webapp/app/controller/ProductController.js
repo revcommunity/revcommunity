@@ -14,8 +14,7 @@ Ext.define('RevCommunity.controller.ProductController', {
             			console.log(record.data);
             		}
             		else if( e.target.getAttribute("action")=="details" ){
-            			console.log('details clicked. record data: ');
-            			console.log(record.data);
+            			this.showDetails(record);
             		}
             		
             	}
@@ -31,5 +30,9 @@ Ext.define('RevCommunity.controller.ProductController', {
     			product:Ext.encode(product.data)
     		}
     	});
+    },
+    showDetails: function(record){
+    	var id = record.data.id;
+		location.href='#product/'+id;
     }
 });
