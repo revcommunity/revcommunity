@@ -14,41 +14,45 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 @RequestMapping( "/user" )
-public class UserController {
+public class UserController
+{
 
-	private static final Logger log = Logger.getLogger( UserController.class );
-	
-	private static String SALT = "cewuiqwzie";
-	
-	private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
-	
-	@Autowired
-	private AuthenticationService authenticationService;
-	
-	@RequestMapping( value = "/add", method = RequestMethod.POST)
-	//TODO musimy zwracac jakis status (0-OK, 1-Juz istnieje, 2-Blad serwera ? )
-    public void addUser(@RequestParam User user)
-    {	
-		/*
-			Zakldam ¿e login oraz haslo to pola wymagane (walidacja na poziomie interfejsu)
-		*/
+    private static final Logger log = Logger.getLogger( UserController.class );
+
+    private static String SALT = "cewuiqwzie";
+
+    private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
+
+    @Autowired
+    private AuthenticationService authenticationService;
+
+    @RequestMapping( value = "/add", method = RequestMethod.POST )
+    // TODO musimy zwracac jakis status (0-OK, 1-Juz istnieje, 2-Blad serwera ? )
+    public void addUser( @RequestParam User user )
+    {
+        /*
+         * Zakldam Å¼e login oraz haslo to pola wymagane (walidacja na poziomie interfejsu)
+         */
         String password_encoded = passwordEncoder.encodePassword( user.getPassword(), SALT );
-        
-        user.setPassword(password_encoded);
-        user.addAuthority("ROLE_USER");
 
-        try {
-			this.authenticationService.addUser( user );
-		} catch (UsernameAlreadyExistsException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        user.setPassword( password_encoded );
+        user.addAuthority( "ROLE_USER" );
+
+        try
+        {
+            this.authenticationService.addUser( user );
+        }
+        catch ( UsernameAlreadyExistsException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
     }
-	
-	public void removeUser(@RequestParam String username){
-		
-		this.authenticationService.removeUser(username);
-	}
-	
-	
+
+    public void removeUser( @RequestParam String username )
+    {
+
+        this.authenticationService.removeUser( username );
+    }
+
 }
