@@ -2,6 +2,7 @@ var AppRouter = Backbone.Router.extend({
     routes: {
     	'': 'home',
     	'newProduct':'newProduct',
+    	'newCategory':'newCategory',
     	'productList':'productList',
     	'product':'product'
     },
@@ -18,6 +19,12 @@ var AppRouter = Backbone.Router.extend({
  	newProduct:function(){
  		this.clearPage();
  		var form=Ext.widget('newproductform',{
+			renderTo:Ext.get('page')
+		});	
+ 	},
+ 	newCategory:function(){
+ 		this.clearPage();
+ 		var form=Ext.widget('newcategoryform',{
 			renderTo:Ext.get('page')
 		});	
  	},

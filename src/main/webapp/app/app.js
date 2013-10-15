@@ -13,7 +13,10 @@ Ext.application({
     	'product.ProductPanel',
     	'product.QuickViewPanel',
     	'product.ReviewsPanel',
-    	'product.SpecificationPanel'
+    	'product.SpecificationPanel',
+    	'category.NewCategoryForm',
+    	'category.CategoryNameFieldSet',
+    	'category.ParentCategoryFieldSet'
     ],
     models:['Product'],
     launch: function() {
