@@ -44,7 +44,7 @@ public class ReviewController {
 	public Review get(@PathVariable Long id) {
 		return rr.findOne(id);
 	}
-	
+
 	@RequestMapping(value = "/productReviews/{productId}", method = RequestMethod.GET)
 	@ResponseBody
 	public List<Review> getReviewsByProductId(@PathVariable Long productId) {
@@ -67,7 +67,7 @@ public class ReviewController {
 		Review r = om.readValue(review, Review.class);
 
 		rr.save(r);
-		log.debug("Zapisano review: " + r.getId());
+		log.debug("Zapisano review: " + r.getNodeId());
 		return new Message();
 	}
 }

@@ -28,7 +28,7 @@ public class AuthenticationServiceImpl
         if ( username == null || username.length() == 0 )
             throw new UsernameNotFoundException( "User : " + username + " was not found" );
 
-        
+        //FIXME Klasa Rosola
         User user = userRepository.findByUsername(username);
         
 		//user.setAuthorities(roles);

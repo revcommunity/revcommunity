@@ -11,12 +11,9 @@ Ext.application({
     	'ImageList',
     	'ProductList',
     	'product.ProductPanel',
-    	'product.QuickViewPanel',
-    	'product.ReviewsPanel',
-    	'product.SpecificationPanel',
     	'category.NewCategoryForm',
     	'category.CategoryNameFieldSet',
-    	'category.ParentCategoryFieldSet'
+    	'category.ParentCategoryFieldSet',
     	'product.ProductWrapper',
     	'product.ReviewsPanel'
     ],

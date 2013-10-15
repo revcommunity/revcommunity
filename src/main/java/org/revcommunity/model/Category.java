@@ -1,45 +1,34 @@
 package org.revcommunity.model;
 
+import java.util.Set;
+
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
-public class Category {
-	@GraphId
-	private Long id;
+public class Category extends AbstractCategory {
 
-	private String name;
+	@RelatedTo(type = "CATEGORY_PARENT", direction = Direction.INCOMING)
+	private CategoryGroup parent;
+	@RelatedTo(type = "FILTERS", direction = Direction.OUTGOING)
+	private Set<CategoryFilter> filters;
 
-	private Long idParentCategory;
-
-	public Long getId() {
-		return id;
+	public CategoryGroup getParent() {
+		return parent;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setParent(CategoryGroup parent) {
+		this.parent = parent;
 	}
 
-	public String getName() {
-		return name;
+	public Set<CategoryFilter> getFilters() {
+		return filters;
 	}
 
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public Long getIdParentCategory() {
-		return idParentCategory;
-	}
-
-	public void setIdParentCategory(Long idParentCategory) {
-		this.idParentCategory = idParentCategory;
-	}
-
-	@Override
-	public String toString() {
-		return "Category [id=" + id + ", name=" + name + ", idParentCategory="
-				+ idParentCategory + "]";
+	public void setFilters(Set<CategoryFilter> filters) {
+		this.filters = filters;
 	}
 
 }
