@@ -34,15 +34,14 @@
 }
 #nav{
 	float:left;
-	width:250px;
+	width:240px;
 	height:auto;
    	min-height:500px;
-   	margin-left:120px;
+   	margin-left:20px;
    	margin-top:20px;
 }
 #content{
-	float:right;
-	width:1000px;
+	overflow:hidden; 
 	height:auto;
 	margin-top:10px;
 	min-height:500px;
@@ -229,9 +228,90 @@ font-family: "wf_SegoeUILight","wf_SegoeUI","Tahoma","Verdana","Arial","sans-ser
 .rev-box-button{
 	text-decoration:underline;
 	cursor:pointer;
-	
 }
 
 .rev-img-list{
 	height:200px;
+}
+
+.rev-img-details{
+	height:200px;
+	max-width: 240px;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.rev-boxes{
+	display: block;
+	clear: both;
+	padding-top: 10px;
+}
+.rev-product-spec{
+}
+
+.rev-product-boxes{
+	margin-bottom: 10px;
+	display: inline-block;
+}
+
+.rev-review-mark{
+	height: 90px;
+	width: 90px;
+	-moz-border-radius: 45px;
+	-webkit-border-radius: 45px; 
+	border-radius: 45px;
+	border: 2px solid #CECECE;
+	text-align: center;
+	line-height: 90px;
+	font-size: 25pt;
+	background-color: white;
+}
+
+.rev-user-container{
+	text-align: center;
+}
+
+.rev-review-content{
+	height: 130px;
+	overflow-y: scroll;
+	overflow-x: hidden;
+	border: 1px solid #CECECE;
+	background-color: white;
+	white-space: pre-wrap;      /* CSS3 */   
+   	white-space: -moz-pre-wrap; /* Firefox */    
+   	white-space: -pre-wrap;     /* Opera <7 */   
+   	white-space: -o-pre-wrap;   /* Opera 7 */    
+   	word-wrap: break-word;      /* IE */
+}
+
+.rev-usefulness-progressbar {
+	margin-top: 5px;
+    background-color: red;
+    border-radius: 5px;
+}
+    
+.rev-usefulness-inner {
+    background-color: green;
+    height: 10px;
+    border-radius: 5px;
+}
+
+.rev-user-small-image{
+	width: 120px;
+}
+
+.rev-user-name{
+	font-size: 18pt;
+	color: #1570A6;
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+
+.rev-user-rank{
+	
+}
+
+.rev-review-panel{
+	margin-right: 5px;
 }
