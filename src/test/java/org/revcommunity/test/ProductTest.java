@@ -3,11 +3,14 @@ package org.revcommunity.test;
 import static org.junit.Assert.assertEquals;
 
 import java.util.Arrays;
+import java.util.List;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.revcommunity.model.Product;
+import org.revcommunity.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
@@ -37,6 +40,19 @@ public class ProductTest
         assertEquals( "id equals", p.getId(), savedProd.getId() );
         assertEquals( "images size ok", 2, savedProd.getImages().size() );
         assertEquals( "testName", savedProd.getName() );
+    }
+
+    @Autowired
+    private ProductRepo pr;
+
+    @Test
+    public void deleteAllProducts()
+    {
+        EndResult<Product> p = pr.findAll();
+        for ( Product product : p )
+        {
+            pr.delete( product );
+        }
     }
 
 }
