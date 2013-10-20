@@ -1,37 +1,38 @@
 package org.revcommunity.model;
 
+import java.util.Set;
+
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 
 @NodeEntity
-public class Review {          
+public class Review {
 
-	public Review(){
+	public Review() {
 	}
-	
+
 	@GraphId
-	private Long id;
+	private Long nodeId;
 
 	@Indexed
 	private String content;
-
+	private String title;
 	private Integer usefulness;
 
 	private Integer rank;
-    
-	//TODO: replace with link to existing user
-	private String authorName;
-	
-	//TODO: replace with link to existing product
-	private Long productId;
 
-	public Long getId() {
-		return id;
+	private User author;
+	private Set<Comment> comments;
+	private Set<ReviewRating> ratings;
+	private Product product;
+
+	public Long getNodeId() {
+		return nodeId;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setNodeId(Long nodeId) {
+		this.nodeId = nodeId;
 	}
 
 	public String getContent() {
@@ -40,6 +41,14 @@ public class Review {
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Integer getUsefulness() {
@@ -58,22 +67,36 @@ public class Review {
 		this.rank = rank;
 	}
 
-	public String getAuthorName() {
-		return authorName;
+	public User getAuthor() {
+		return author;
 	}
 
-	public void setAuthorName(String authorName) {
-		this.authorName = authorName;
+	public void setAuthor(User author) {
+		this.author = author;
 	}
 
-	public Long getProductId() {
-		return productId;
+	public Set<Comment> getComments() {
+		return comments;
 	}
 
-	public void setProductId(Long productId) {
-		this.productId = productId;
+	public void setComments(Set<Comment> comments) {
+		this.comments = comments;
 	}
-	
 
+	public Set<ReviewRating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<ReviewRating> ratings) {
+		this.ratings = ratings;
+	}
+
+	public Product getProduct() {
+		return product;
+	}
+
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 
 }
