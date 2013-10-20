@@ -7,96 +7,121 @@ import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 
 @NodeEntity
-public class Review {
+public class Review
+{
 
-	public Review() {
-	}
+    public Review()
+    {
+    }
 
-	@GraphId
-	private Long nodeId;
+    @GraphId
+    private Long nodeId;
 
-	@Indexed
-	private String content;
-	private String title;
-	private Integer usefulness;
+    @Indexed
+    private String content;
 
-	private Integer rank;
+    private String title;
 
-	private User author;
-	private Set<Comment> comments;
-	private Set<ReviewRating> ratings;
-	private Product product;
+    private Integer usefulness;
 
-	public Long getNodeId() {
-		return nodeId;
-	}
+    private Integer rank;
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
+    private User author;
 
-	public String getContent() {
-		return content;
-	}
+    private Set<Comment> comments;
 
-	public void setContent(String content) {
-		this.content = content;
-	}
+    private Set<ReviewRating> ratings;
 
-	public String getTitle() {
-		return title;
-	}
+    private Product product;
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+    public Long getNodeId()
+    {
+        return nodeId;
+    }
 
-	public Integer getUsefulness() {
-		return usefulness;
-	}
+    public void setNodeId( Long nodeId )
+    {
+        this.nodeId = nodeId;
+    }
 
-	public void setUsefulness(Integer usefulness) {
-		this.usefulness = usefulness;
-	}
+    public String getContent()
+    {
+        return content;
+    }
 
-	public Integer getRank() {
-		return rank;
-	}
+    public void setContent( String content )
+    {
+        this.content = content;
+    }
 
-	public void setRank(Integer rank) {
-		this.rank = rank;
-	}
+    public String getTitle()
+    {
+        return title;
+    }
 
-	public User getAuthor() {
-		return author;
-	}
+    public void setTitle( String title )
+    {
+        this.title = title;
+    }
 
-	public void setAuthor(User author) {
-		this.author = author;
-	}
+    public Integer getUsefulness()
+    {
+        return usefulness;
+    }
 
-	public Set<Comment> getComments() {
-		return comments;
-	}
+    public void setUsefulness( Integer usefulness )
+    {
+        this.usefulness = usefulness;
+    }
 
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
+    public Integer getRank()
+    {
+        return rank;
+    }
 
-	public Set<ReviewRating> getRatings() {
-		return ratings;
-	}
+    public void setRank( Integer rank )
+    {
+        this.rank = rank;
+    }
 
-	public void setRatings(Set<ReviewRating> ratings) {
-		this.ratings = ratings;
-	}
+    public User getAuthor()
+    {
+        return author;
+    }
 
-	public Product getProduct() {
-		return product;
-	}
+    public void setAuthor( User author )
+    {
+        this.author = author;
+    }
 
-	public void setProduct(Product product) {
-		this.product = product;
-	}
+    public Set<Comment> getComments()
+    {
+        return comments;
+    }
+
+    public void setComments( Set<Comment> comments )
+    {
+        this.comments = comments;
+    }
+
+    public Set<ReviewRating> getRatings()
+    {
+        return ratings;
+    }
+
+    public void setRatings( Set<ReviewRating> ratings )
+    {
+        this.ratings = ratings;
+    }
+
+    public Product getProduct()
+    {
+        return product;
+    }
+
+    public void setProduct( Product product )
+    {
+        this.product = product;
+    }
 
 }

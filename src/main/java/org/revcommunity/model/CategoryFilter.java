@@ -3,56 +3,71 @@ package org.revcommunity.model;
 import java.util.Set;
 
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.NodeEntity;
 
-public class CategoryFilter {
+@NodeEntity
+public class CategoryFilter
+{
 
-	@GraphId
-	private Long nodeId;
-	private String name;
-	private String symbol;
+    @GraphId
+    private Long nodeId;
 
-	private CategoryFilterType type;
+    private String name;
 
-	private Set<String> values;
+    private String symbol;
 
-	public Long getNodeId() {
-		return nodeId;
-	}
+    private CategoryFilterType type;
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
+    private Set<String> values;
 
-	public String getName() {
-		return name;
-	}
+    public Long getNodeId()
+    {
+        return nodeId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setNodeId( Long nodeId )
+    {
+        this.nodeId = nodeId;
+    }
 
-	public String getSymbol() {
-		return symbol;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setSymbol(String symbol) {
-		this.symbol = symbol;
-	}
+    public void setName( String name )
+    {
+        this.name = name;
+    }
 
-	public CategoryFilterType getType() {
-		return type;
-	}
+    public String getSymbol()
+    {
+        return symbol;
+    }
 
-	public void setType(CategoryFilterType type) {
-		this.type = type;
-	}
+    public void setSymbol( String symbol )
+    {
+        this.symbol = symbol;
+    }
 
-	public Set<String> getValues() {
-		return values;
-	}
+    public CategoryFilterType getType()
+    {
+        return type;
+    }
 
-	public void setValues(Set<String> values) {
-		this.values = values;
-	}
+    public void setType( CategoryFilterType type )
+    {
+        this.type = type;
+    }
+
+    public Set<String> getValues()
+    {
+        return values;
+    }
+
+    public void setValues( Set<String> values )
+    {
+        this.values = values;
+    }
 
 }

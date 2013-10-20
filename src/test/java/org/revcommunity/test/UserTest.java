@@ -1,19 +1,11 @@
 package org.revcommunity.test;
 
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.revcommunity.model.Role;
 import org.revcommunity.model.User;
-import org.revcommunity.repo.UserRepository;
+import org.revcommunity.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.GrantedAuthorityImpl;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -23,7 +15,7 @@ public class UserTest
 {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo userRepository;
 
     @Test
     public void empty()
@@ -48,11 +40,11 @@ public class UserTest
         //
         // userRepository.save(u);
 
-        User un = userRepository.findByUsername( "tim91" );
+        User un = userRepository.findByUserName( "tim91" );
 
-        Collection<Role> set = un.getAuthorities();
+        // Collection<Role> set = un.getAuthorities();
 
-        System.out.println( set.toString() );
+        // System.out.println( set.toString() );
 
     }
 
@@ -61,13 +53,13 @@ public class UserTest
     {
 
         User u = getUserByName( "tim911" );
-        Assert.assertEquals( "tim91", u.getUsername() );
+        Assert.assertEquals( "tim91", u.getUserName() );
     }
 
     public User getUserByName( String name )
     {
 
-        return this.userRepository.findByUsername( "tim91" );
+        return this.userRepository.findByUserName( "tim91" );
     }
 
 }

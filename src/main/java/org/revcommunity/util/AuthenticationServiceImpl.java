@@ -1,8 +1,8 @@
 package org.revcommunity.util;
 
 import org.revcommunity.authentication.UsernameAlreadyExistsException;
-import org.revcommunity.model.User;
-import org.revcommunity.repo.UserRepository;
+import org.revcommunity.model.UserAuth;
+import org.revcommunity.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,10 +14,10 @@ public class AuthenticationServiceImpl
 {
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepo userRepository;
 
     private static String SALT = "cewuiqwzie";
-    
+
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
     @Transactional
@@ -28,12 +28,11 @@ public class AuthenticationServiceImpl
         if ( username == null || username.length() == 0 )
             throw new UsernameNotFoundException( "User : " + username + " was not found" );
 
-        //FIXME Klasa Rosola
-        User user = userRepository.findByUsername(username);
-        
-		//user.setAuthorities(roles);
-        
-        return user;
+        // FIXME Klasa Rosola
+        // UserAuth user = userRepository.findByUsername( username );
+
+        // user.setAuthorities(roles);
+        return null;
 
     }
 
@@ -52,24 +51,17 @@ public class AuthenticationServiceImpl
     public void addUser( String username, String password )
         throws UsernameAlreadyExistsException
     {
-        addUser(username, password, "", "",new String[]{"ROLE_ADMIN"});
+        addUser( username, password, "", "", new String[] { "ROLE_ADMIN" } );
 
     }
 
     public void addUser( String username, String password, String firstName, String lastName, String... permissions )
         throws UsernameAlreadyExistsException
     {
-
-    	if(this.userRepository.findByUsername(username) != null)
-    		throw new UsernameAlreadyExistsException();
-
-//        Set<Permission> authorities = new HashSet<Permission>();
-//        authorities.add(new Permission("ROLE_USER"));
+        // if ( this.userRepository.findByUsername( username ) != null )
+        // throw new UsernameAlreadyExistsException();
 
         String password_encoded = passwordEncoder.encodePassword( password, SALT );
-        User newUser = new User( username, password_encoded, firstName, lastName, permissions);
-
-        this.userRepository.save( newUser );
 
     }
 
@@ -82,32 +74,33 @@ public class AuthenticationServiceImpl
     public void removeUser( String username )
         throws UsernameNotFoundException
     {
-    	User user = this.userRepository.findByUsername(username);
-    	
-    	if( user == null)
-    		throw new UsernameNotFoundException("User :" + username + " doesn't not exist");
-    	else
-    		this.userRepository.delete(user);
+        // UserAuth user = this.userRepository.findByUsername( username );
+        //
+        // if ( user == null )
+        // throw new UsernameNotFoundException( "User :" + username + " doesn't not exist" );
+        // else
+        // this.userRepository.delete( user );
     }
 
     public boolean userExists( String username )
     {
-    	User user = this.userRepository.findByUsername(username);
-    	
-    	if( user != null)
-    		return true;
-    	
-    	return false;
+        // UserAuth user = this.userRepository.findByUsername( username );
+        //
+        // if ( user != null )
+        // return true;
+
+        return false;
     }
 
-	public void addUser(User user) throws UsernameAlreadyExistsException {
-		
-		
-		if( userExists(user.getUsername()))
-			throw new UsernameAlreadyExistsException();
-		
-		this.userRepository.save(user);
-		
-	}
+    public void addUser( UserAuth user )
+        throws UsernameAlreadyExistsException
+    {
+
+        if ( userExists( user.getUsername() ) )
+            throw new UsernameAlreadyExistsException();
+
+        // this.userRepository.save( user );
+
+    }
 
 }

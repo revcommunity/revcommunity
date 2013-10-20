@@ -3,6 +3,7 @@ Ext.define('RevCommunity.model.Product', {
     fields: [
     		'name',
     		'producer',
+    		'nodeId',
     		'productCode',
     		'description',
     		{
@@ -14,8 +15,8 @@ Ext.define('RevCommunity.model.Product', {
 	    			else 
 	    				return v;
 	    		}
-    		},
-    		'id'],
+    		}
+    	],
      proxy: {
         type: 'rest',
         url : 'rest/products'

@@ -20,7 +20,7 @@
 	          expression="org.springframework.stereotype.Controller"/>
  </context:component-scan>
 
-  <neo4j:config storeDirectory="app-root/data/database/neo4j-db"/>
+  <neo4j:config storeDirectory="c:/temp/neo4j-db"/>
   <neo4j:repositories base-package="org.revcommunity.repo"/>
 	
  <tx:annotation-driven mode="proxy"/>

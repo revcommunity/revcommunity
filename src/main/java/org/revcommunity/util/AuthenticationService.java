@@ -1,7 +1,7 @@
 package org.revcommunity.util;
 
 import org.revcommunity.authentication.UsernameAlreadyExistsException;
-import org.revcommunity.model.User;
+import org.revcommunity.model.UserAuth;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -39,7 +39,7 @@ public interface AuthenticationService extends UserDetailsService {
 			throws UsernameAlreadyExistsException;
 	
 	
-	public void addUser(User user)
+	public void addUser(UserAuth user)
 			throws UsernameAlreadyExistsException;
 
 	/**

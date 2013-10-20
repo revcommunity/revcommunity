@@ -25,6 +25,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+/**
+ * Kontroler odpowiedzialny za operacje na produktach
+ * 
+ * @author Paweł Rosolak 20 paź 2013
+ */
 @Controller
 @RequestMapping( "/products" )
 public class ProductController
@@ -42,9 +47,9 @@ public class ProductController
     private ImageService imageService;
 
     /**
-     * @param product TODO Nie wiem dlaczego nie potrafi odczytać odrazu obiektu Product.
-     * @param images
-     * @return
+     * @param product Product w formacie JSON
+     * @param images Zdjęcia produktu z formularza
+     * @return Wiadomość zakończenia powodzeniem.
      * @throws JsonParseException
      * @throws JsonMappingException
      * @throws IOException
@@ -66,6 +71,12 @@ public class ProductController
         return new Message();
     }
 
+    /**
+     * Pobiera listę wszystkich produktów
+     * 
+     * @return Lista produktów
+     * @author Paweł Rosolak 20 paź 2013
+     */
     @RequestMapping( method = RequestMethod.GET )
     @ResponseBody
     public EndResult<Product> getAll()
@@ -73,6 +84,13 @@ public class ProductController
         return pr.findAll();
     }
 
+    /**
+     * Pobiera jeden produkt na posdstawie id
+     * 
+     * @param id Id produktu
+     * @return Obiekt produktu
+     * @author Paweł Rosolak 20 paź 2013
+     */
     @RequestMapping( value = "/{id}", method = RequestMethod.GET )
     @ResponseBody
     public Product get( @PathVariable Long id )
