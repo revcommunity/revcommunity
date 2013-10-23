@@ -15,7 +15,9 @@ Ext.application({
     	'category.CategoryNameFieldSet',
     	'category.ParentCategoryFieldSet',
     	'product.ProductWrapper',
-    	'product.ReviewsPanel'
+    	'product.ReviewsPanel',
+    	'user.UserInfoPanel',
+    	'myReviews.MyReviewsPanel'
     ],
     models:['Product','Review'],
     launch: function() {

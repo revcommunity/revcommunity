@@ -23,7 +23,8 @@
 	<!-- Service -->
 	<script type="text/javascript" src="app/service/UtilService.js"></script>
 	<script type="text/javascript" src="app/service/ProductService.js"></script>
-	
+	<script type="text/javascript" src="app/service/ReviewService.js"></script>
+	<script type="text/javascript" src="app/service/UserService.js"></script>
 	
     <script type="text/javascript" src="app/app.js"></script>
 </head>
@@ -45,6 +46,7 @@
 				<li class="navigation-list-item"><a href="#newProduct" >Dodaj produkt</a></li>
 				<li class="navigation-list-item"><a href="#productList" >Lista produktów</a></li>
 				<li class="navigation-list-item"><a href="#newCategory" >Dodaj kategorię</a></li>
+				<li class="navigation-list-item"><a href="#myReviews" >Moje recenzje</a></li>
 			</ul>
 		</div>
 		

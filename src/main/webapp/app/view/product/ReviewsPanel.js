@@ -17,7 +17,7 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 		            	width: 150,
 		            	tpl : new Ext.XTemplate(   
 			        			'<div class="rev-user-container">',
-			        				'<img src="css/img/b.JPG" class="rev-user-small-image" ></img>',
+			        				'<img src="img/empty.jpg" class="rev-user-small-image" ></img>',
 			        				'<div class="rev-user-name">{authorName}</div>',
 			        				'<div class="rev-user-rank">Amator</div>',
 			        			'</div>'
