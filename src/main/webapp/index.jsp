@@ -5,55 +5,53 @@
 
     <link rel="stylesheet" type="text/css" href="ext-4/resources/css/ext-all-neptune.css">
     
-  <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
+    
+    <script src="app/lib/less-1.4.2.min.js" type="text/javascript"></script>
+    
+	<link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="ext-4/ext-all-dev.js"></script>
     
    	<script type="text/javascript" src="app/lib/jquery.min.js"></script>
 	<script type="text/javascript" src="app/lib/underscore.js"></script>
 	<script type="text/javascript" src="app/lib/backbone.js"></script>
 	<script type="text/javascript" src="app/lib/galleria-1.2.9.min.js"></script>
+	
+	<script src="app/config.js" type="text/javascript"></script>
 	<script type="text/javascript" src="app/routers.js"></script>
 	
     <script type="text/javascript" src="app/app.js"></script>
 </head>
 <body>
-
-<div class="top-bar"><a href="auth/login.jsp" >Zaloguj</a></div>
-<div class="top-bar"><a href="auth/register.jsp" >Zarejestruj</a></div>
-<div class="top-bar"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
-	<div id="header"  class="blue-wrap" >
-		
-		<div id="logo">
-		RevCommunity
-				<!--  <img src="css/img/apps.png" id="p1" class="pics" /> -->
-		</div>
+	<div class="top-bar">
+		<div class="top-bar-item"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
+		<div class="top-bar-item"><a href="auth/register.jsp" >Zarejestruj</a></div>
+		<div class="top-bar-item"><a href="auth/login.jsp" >Zaloguj</a></div>
 	</div>
-	<div id="wrap">
-		
-			<div id="main">
-				<div id="nav">
-					<p class="menu">Nawigacja</p>
-					<ul class="list position">
-						<li class="position"><a href="#newProduct" >Dodaj produkt</a></li>
-						<li class="position"><a href="#productList" >Lista produktów</a></li>
-						<li class="position"><a href="#newCategory" >Dodaj kategorię</a></li>
-					</ul>
-				</div>
-				<div id="content" >
-					<div id="page" >	
+	<div id="logo"  class="logo-bar" >
+		<div>RevCommunity</div>
+	</div>
+
+	<div id="main" class="main">
 	
-
-					</div>
-				</div>
-			</div>
-			
+		<div id="nav" class="navigation-bar">
+			<p class="navigation-header">Nawigacja</p>
+			<ul class="navigation-list">
+				<li class="navigation-list-item"><a href="#newProduct" >Dodaj produkt</a></li>
+				<li class="navigation-list-item"><a href="#productList" >Lista produktów</a></li>
+				<li class="navigation-list-item"><a href="#newCategory" >Dodaj kategorię</a></li>
+			</ul>
+		</div>
+		
+		<div id="content" class="content" ></div>
 	</div>
-	<div id="footer-wrap" class="blue-wrap">
-		<div id="under-footer-left">
+
+	<div id="footer-bar" class="footer-bar">
+		<div id="contact" class="contact">
 			<p class="footer-header">Kontakt</p>
 			<p>kontakt@revcommunity.com</p>
 		</div>
 	</div>
-	<div id="footer">Copyright 2013 by RevCommunity. All Rights Reserved.</div>
+	<div id="bottom-bar" class="bottom-bar">Copyright 2013 by RevCommunity. All Rights Reserved.</div>
 </body>
 </html>

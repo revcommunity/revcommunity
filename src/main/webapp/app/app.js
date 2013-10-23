@@ -19,8 +19,26 @@ Ext.application({
     ],
     models:['Product','Review'],
     launch: function() {
+    	log('launch');
+    	
+    	var panel=Ext.widget('container',{    
+			id:'contentPanel',
+			renderTo:Ext.get('content'),
+			layout:'fit',
+			calculateWidth:function(){
+				var winWidth=Ext.get('logo').getWidth();
+				var nav=Ext.get('nav');
+				var contentX=nav.getX()+nav.getWidth();
+				var width=winWidth-contentX-Ext.get('content').getMargin().right-1;
+				this.setWidth(width);
+			}
+		});
+    	panel.calculateWidth();
+    	Ext.EventManager.onWindowResize(function(w, h){
+    		log('win resize');
+    		panel.calculateWidth();
+    	});
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();
-	
     }
 });
