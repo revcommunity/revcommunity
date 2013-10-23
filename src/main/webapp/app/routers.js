@@ -1,5 +1,4 @@
 var AppRouter = Backbone.Router.extend({
-<<<<<<< HEAD
     routes: {
     	'': 'home',
     	'newProduct':'newProduct',
