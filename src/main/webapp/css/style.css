@@ -109,11 +109,6 @@
 	overflow-x: hidden;
 	border: 1px solid #CECECE;
 	background-color: white;
-	white-space: pre-wrap;      /* CSS3 */   
-   	white-space: -moz-pre-wrap; /* Firefox */    
-   	white-space: -pre-wrap;     /* Opera <7 */   
-   	white-space: -o-pre-wrap;   /* Opera 7 */    
-   	word-wrap: break-word;      /* IE */
 }
 
 .rev-usefulness-progressbar {
@@ -145,4 +140,13 @@
 
 .rev-review-panel{
 	margin-right: 5px;
+}
+
+.rev-review-content,
+.rev-container-fit{
+white-space: pre-wrap; /* CSS3 */
+white-space: -moz-pre-wrap; /* Firefox */
+white-space: -pre-wrap; /* Opera <7 */
+white-space: -o-pre-wrap; /* Opera 7 */
+word-wrap: break-word; /* IE */
 }
