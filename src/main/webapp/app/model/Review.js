@@ -5,8 +5,9 @@ Ext.define('RevCommunity.model.Review', {
     		'content',
     		'usefulness',
     		'rank',
-    		'authorName',
-    		'productId'],
+    		'author',
+    		'title',
+    		'product'],
      proxy: {
         type: 'rest',
         url : 'rest/reviews'

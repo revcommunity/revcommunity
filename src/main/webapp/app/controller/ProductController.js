@@ -14,6 +14,8 @@ Ext.define('RevCommunity.controller.ProductController', {
 						console.log(record.data);
 					} else if (e.target.getAttribute("action") == "details") {
 						this.showDetails(record);
+					}else if (e.target.getAttribute("action") == "addReview") {
+						this.addReview(record);
 					}
 
 				}
@@ -33,5 +35,9 @@ Ext.define('RevCommunity.controller.ProductController', {
 	showDetails : function(record) {
 		var id = record.data.nodeId;
 		location.href = '#product/' + id;
+	},
+	addReview : function(record) {
+		var id = record.data.nodeId;
+		location.href = '#addReview/' + id;
 	}
 });
