@@ -20,6 +20,11 @@
 	<script src="app/config.js" type="text/javascript"></script>
 	<script type="text/javascript" src="app/routers.js"></script>
 	
+	<!-- Service -->
+	<script type="text/javascript" src="app/service/UtilService.js"></script>
+	<script type="text/javascript" src="app/service/ProductService.js"></script>
+	
+	
     <script type="text/javascript" src="app/app.js"></script>
 </head>
 <body>
