@@ -7,7 +7,19 @@ Ext.define('RevCommunity.view.category.CategoryNameFieldSet' ,{
 			{
 				fieldLabel:'Nazwa',
 				name:'name'
-			}
+			},
+			{
+	            xtype: 'container',
+	            defaultType: 'checkboxfield',
+	            items: [
+	                {
+	                    boxLabel  : 'Kategoria końcowa',
+	                    name      : 'lastcategoryfield',
+	                    inputValue: '1',
+	                    checked   : true
+	                }
+	            ]
+	        }
 	],
 	initComponent:function(){
 	

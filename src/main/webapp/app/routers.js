@@ -44,6 +44,9 @@ var AppRouter = Backbone.Router.extend({
 		});	
  	},
  	newCategory:function(){
+
+ 		
+ 		
  		this.clearPage();
  		var form=Ext.widget('newcategoryform',{
 			renderTo:Ext.get('page')

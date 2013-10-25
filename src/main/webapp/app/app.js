@@ -1,7 +1,7 @@
 Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore'],
-    controllers:['ProductController'],
+    controllers:['ProductController','CategoryController'],
     views:[
     	'form.BaseFieldSet',
     	'form.CategoryFieldSet',
@@ -14,10 +14,11 @@ Ext.application({
     	'category.NewCategoryForm',
     	'category.CategoryNameFieldSet',
     	'category.ParentCategoryFieldSet',
+    	'category.CategoryParameters',
     	'product.ProductWrapper',
     	'product.ReviewsPanel'
     ],
-    models:['Product','Review'],
+    models:['Product','Review','Category'],
     launch: function() {
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();
