@@ -34,46 +34,40 @@ var AppRouter = Backbone.Router.extend({
 				 		var wrapper=Ext.widget('productwrapper',{
 		 					items : [grid, panel]
 				 		});
+						Ext.getCmp('contentPanel').add(wrapper);
+
 		 		    }
 		 		});
 		 		
  		    }
  		});
  	},
- 	newProduct:function(){
- 		this.clearPage();
- 		var form=Ext.widget('newproductform',{
-			renderTo:Ext.get('page')
-		});	
- 	},
- 	newCategory:function(){
-
- 		
- 		
- 		this.clearPage();
- 		var form=Ext.widget('newcategoryform',{
-			renderTo:Ext.get('page')
-		});	
- 	},
- 	productList:function(){
- 		this.clearPage();
- 		var list=Ext.widget('productlist',{
-			renderTo:Ext.get('page')
-		});	
+	newProduct : function() {
+		this.clearPage();
+		var form = Ext.widget('newproductform');
+		Ext.getCmp('contentPanel').add(form);
+	},
+	newCategory : function() {
+		this.clearPage();
+		var form = Ext.widget('newcategoryform', {
+		});
+		Ext.getCmp('contentPanel').add(form);
+	},
+	productList : function() {
+		this.clearPage();
+		var list = Ext.widget('productlist', {
+		});
+		Ext.getCmp('contentPanel').add(list);
 		list.getStore().load();
- 	},
- 	newReview:function(){
- 		this.clearPage();
- 		var form=Ext.widget('newreviewform',{
-			renderTo:Ext.get('page')
-		});	
- 	},
- 	clearPage:function(){
- 		var childs=Ext.get('page').dom.children;
- 		for(var i=0;i<childs.length;i++){
- 			Ext.getCmp(childs[i].id).destroy();
- 		}
- 	},
+	},
+	clearPage : function() {
+//		var childs = Ext.get('content').dom.children;
+//		for (var i = 0; i < childs.length; i++) {
+//			Ext.getCmp(childs[i].id).destroy();
+//		}
+		Ext.getCmp('contentPanel').removeAll();
+	},
+
  	addReview:function(id){ 		
  		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
  		var thisRouter = this;
