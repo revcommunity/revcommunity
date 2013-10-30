@@ -2,6 +2,7 @@ package org.revcommunity.controller;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.ServletContext;
 
@@ -10,10 +11,13 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.revcommunity.model.Review;
+import org.revcommunity.model.User;
 import org.revcommunity.repo.ReviewRepo;
+import org.revcommunity.repo.UserRepo;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +34,12 @@ public class ReviewController
 
     @Autowired
     private ServletContext servletContext;
+
+    @Autowired
+    private Neo4jTemplate tpl;
+
+    @Autowired
+    private UserRepo ur;
 
     @Autowired
     private ReviewRepo rr;
@@ -75,4 +85,16 @@ public class ReviewController
         log.debug( "Zapisano review: " + r.getNodeId() );
         return new Message();
     }
+
+    @RequestMapping( method = RequestMethod.GET, value = "myReviews" )
+    @ResponseBody
+    public Set<Review> getMyReviews()
+        throws JsonParseException, JsonMappingException, IOException
+    {
+        // TODO zmienić na uzytkownika zalogowanego
+        User u = ur.findByUserName( "test" );
+        tpl.fetch( u.getReviews() );
+        return u.getReviews();
+    }
+
 }
