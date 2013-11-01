@@ -11,12 +11,18 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 //		          ],
 		    viewConfig:{
 		    	disableSelection:true,
-		    	overItemCls:'',
+		    	//overItemCls:'',
 		    	enableTextSelection: true
 		    },
 		    store: 'ProductReviewsStore',
 		    cls: 'rev-review-panel',
 		    flex: 1,
+		    listeners : {
+		        itemdblclick: function(dv, record, item, index, e) {
+		    		var id = record.data.nodeId;
+		    		location.href = '#review/' + id;
+		        }
+		    },
 		    columns: [
 		              {
 		            	xtype: 'templatecolumn', 
@@ -34,7 +40,7 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 				       	flex:1,
 				        tpl : new Ext.XTemplate(
 				        				'<div class="rev-list-header"><span>{title}</span></div>',
-				        				'<div class="rev-review-content">{content}</div>', 
+				        				'<div class="rev-reviewList-content">{content}</div>', 
 				        				'<div>',
 				        				    '<div class="rev-usefulness-progressbar">',
 				        						'<div style="width: {usefulness}%" class="rev-usefulness-inner"></div>',
