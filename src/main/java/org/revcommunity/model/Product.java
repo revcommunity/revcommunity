@@ -20,9 +20,32 @@ public class Product {
 
 	private String description;
 
+	private Long shopCount;
+	
+	private Long offerCount;
+	
+	private String priceMin;
+	
+	private String priceMax;
+	
+	private String priceAvg;
+	
+	private String url;
+	
+	private String imageMini;
+	
+	private String imageMedium;
+	
+	private String imageLarge;
+	
+	private String thumbnail;
+	
 	private List<String> images;
 
-	private String mainImage;
+	private Long id;
+	
+	private String image;
+	
 	private Category category;
 
 	public Long getNodeId() {
@@ -77,16 +100,8 @@ public class Product {
 
 	public void addImage(String image) {
 		if (getImages().isEmpty())
-			setMainImage(image);
+			setImage(image);
 		getImages().add(image);
-	}
-
-	public String getMainImage() {
-		return mainImage;
-	}
-
-	public void setMainImage(String mainImage) {
-		this.mainImage = mainImage;
 	}
 
 	public Category getCategory() {
@@ -97,4 +112,115 @@ public class Product {
 		this.category = category;
 	}
 
+	public String getImage() {
+		return image;
+	}
+
+	public void setImage(String image) {
+		this.image = image;
+	}
+
+	public Long getShopCount() {
+		return shopCount;
+	}
+
+	public void setShopCount(Long shopCount) {
+		this.shopCount = shopCount;
+	}
+
+	public Long getOfferCount() {
+		return offerCount;
+	}
+
+	public void setOfferCount(Long offerCount) {
+		this.offerCount = offerCount;
+	}
+
+	public String getPriceMin() {
+		return priceMin;
+	}
+
+	public void setPriceMin(String priceMin) {
+		this.priceMin = priceMin;
+	}
+
+	public String getPriceMax() {
+		return priceMax;
+	}
+
+	public void setPriceMax(String priceMax) {
+		this.priceMax = priceMax;
+	}
+
+	public String getPriceAvg() {
+		return priceAvg;
+	}
+
+	public void setPriceAvg(String priceAvg) {
+		this.priceAvg = priceAvg;
+	}
+
+	public String getUrl() {
+		return url;
+	}
+
+	public void setUrl(String url) {
+		this.url = url;
+	}
+
+	public String getImageMini() {
+		return imageMini;
+	}
+
+	public void setImageMini(String imageMini) {
+		this.imageMini = imageMini;
+	}
+
+	public String getImageMedium() {
+		return imageMedium;
+	}
+
+	public void setImageMedium(String imageMedium) {
+		this.imageMedium = imageMedium;
+	}
+
+	public String getImageLarge() {
+		return imageLarge;
+	}
+
+	public void setImageLarge(String imageLarge) {
+		this.imageLarge = imageLarge;
+	}
+
+	public String getThumbnail() {
+		return thumbnail;
+	}
+
+	public void setThumbnail(String thumbnail) {
+		this.thumbnail = thumbnail;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	@Override
+	public String toString() {
+		return "Product [nodeId=" + nodeId + ", name=" + name + ", producer="
+				+ producer + ", productCode=" + productCode + ", description="
+				+ description + ", shopCount=" + shopCount + ", offerCount="
+				+ offerCount + ", priceMin=" + priceMin + ", priceMax="
+				+ priceMax + ", priceAvg=" + priceAvg + ", url=" + url
+				+ ", imageMini=" + imageMini + ", imageMedium=" + imageMedium
+				+ ", imageLarge=" + imageLarge + ", thumbnail=" + thumbnail
+				+ ", images=" + images + ", id=" + id + ", image=" + image
+				+ ", category=" + category + "]";
+	}
+	
+	
+	
 }

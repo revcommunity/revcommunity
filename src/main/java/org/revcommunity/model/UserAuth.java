@@ -32,7 +32,7 @@ public class UserAuth implements UserDetails, CredentialsContainer {
 	private String username;
 
 	@Fetch
-	@RelatedTo(type = "user_roles", direction = Direction.INCOMING)
+	@RelatedTo(type = "USER_ROLES", direction = Direction.INCOMING)
 	Set<Role> authorities = new HashSet<Role>();
 
 	private String[] roles;
