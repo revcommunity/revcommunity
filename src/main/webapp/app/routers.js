@@ -87,7 +87,9 @@ var AppRouter = Backbone.Router.extend({
 	},
 	myReviews:function(){
 		this.clearPage();
-		var panel = Ext.widget('myreviewspanel');
+		var panel = Ext.widget('myreviewspanel',{
+			mode:'myReviews'
+		});
 		Ext.getCmp('contentPanel').add(panel);
 	}
 });
