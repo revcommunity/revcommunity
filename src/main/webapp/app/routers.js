@@ -8,7 +8,7 @@ var AppRouter = Backbone.Router.extend({
 		'newReview' : 'newReview',
 		'addReview/:id' : 'addReview',
 		'myReviews' : 'myReviews',
-		'review/:id' : 'review',
+		'review/:id' : 'review'
 	},
 	home : function() {
 		console.log("home");
@@ -37,7 +37,6 @@ var AppRouter = Backbone.Router.extend({
 									items : [ grid, panel ]
 								});
 								Ext.getCmp('contentPanel').add(wrapper);
-
 							}
 						});
 
@@ -51,23 +50,20 @@ var AppRouter = Backbone.Router.extend({
 	},
 	newCategory : function() {
 		this.clearPage();
-		var form = Ext.widget('newcategoryform', {});
+		var form = Ext.widget('newcategoryform', {
+		});
 		Ext.getCmp('contentPanel').add(form);
 	},
 	productList : function() {
 		this.clearPage();
-		var list = Ext.widget('productlist', {});
+		var list = Ext.widget('productlist', {
+		});
 		Ext.getCmp('contentPanel').add(list);
 		list.getStore().load();
 	},
 	clearPage : function() {
-		// var childs = Ext.get('content').dom.children;
-		// for (var i = 0; i < childs.length; i++) {
-		// Ext.getCmp(childs[i].id).destroy();
-		// }
 		Ext.getCmp('contentPanel').removeAll();
 	},
-
 	addReview : function(id) {
 		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
 		var thisRouter = this;
@@ -118,12 +114,13 @@ var AppRouter = Backbone.Router.extend({
 			reviewCount : count
 		});
 	},
-	myReviews : function() {
+	myReviews:function(){
 		this.clearPage();
-		var panel = Ext.widget('myreviewspanel');
+		var panel = Ext.widget('myreviewspanel',{
+			mode:'myReviews'
+		});
 		Ext.getCmp('contentPanel').add(panel);
 	},
-
 	review : function(id) {
 		this.clearPage();
 		var review = Ext.ModelManager.getModel('RevCommunity.model.Review');
@@ -135,5 +132,5 @@ var AppRouter = Backbone.Router.extend({
 				Ext.getCmp('contentPanel').add(panel);
 			}
 		});
-	},
+	}
 });

@@ -92,7 +92,15 @@ public class ReviewController
         throws JsonParseException, JsonMappingException, IOException
     {
         // TODO zmienić na uzytkownika zalogowanego
-        User u = ur.findByUserName( "test" );
+        return getReviewsForUser( "test" );
+    }
+
+    @RequestMapping( method = RequestMethod.GET, value = "userReviews" )
+    @ResponseBody
+    public Set<Review> getReviewsForUser( @PathVariable String userName )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+        User u = ur.findByUserName( userName );
         tpl.fetch( u.getReviews() );
         return u.getReviews();
     }
