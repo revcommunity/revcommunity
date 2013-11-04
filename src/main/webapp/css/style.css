@@ -103,7 +103,7 @@
 	text-align: center;
 }
 
-.rev-review-content{
+.rev-reviewList-content{
 	height: 130px;
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -142,11 +142,67 @@
 	margin-right: 5px;
 }
 
-.rev-review-content,
-.rev-container-fit{
+.rev-reviewList-content,
+.rev-container-fit,
+.rev-review-content{
 white-space: pre-wrap; /* CSS3 */
 white-space: -moz-pre-wrap; /* Firefox */
 white-space: -pre-wrap; /* Opera <7 */
 white-space: -o-pre-wrap; /* Opera 7 */
 word-wrap: break-word; /* IE */
+}
+
+.rev-comments-user-image {
+	width: 80px;
+}
+
+.rev-comment-content {
+	min-height: 80px;
+	border: 1px solid #CECECE;
+	background-color: white;
+	padding : 5px;
+}
+
+.rev-comment-textarea {
+	margin: 5px 10px 10px;
+}
+
+#commentSubmitButton {
+	margin-left: 10px;
+	margin-top: 5px;
+}
+
+.rev-comment-submit-form {
+	border-color: #C0C0C0;
+	border-style: solid;
+	border-top-style: none;
+	border-width: 1px;
+}
+
+.rev-evaluation-box {
+	width: 100%;
+	text-align: center;
+}
+
+.rev-overal-mark-in {
+	background-color: #1570A6;
+	border-radius: 8px;
+	border: 2px solid #075685;
+	font-size: 40px;
+	text-align: center;
+	color: white;
+	padding: 5px;
+}
+
+.rev-overal-mark-out {
+	padding: 10px;
+}
+
+.rev-review-usefulness {
+	padding: 10px;
+	background-color: #1570A6;
+	border-radius: 8px;
+	border: 2px solid #075685;
+	color: white;
+	text-align: center;
 }

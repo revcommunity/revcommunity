@@ -1,8 +1,10 @@
 Ext.application({
     name: 'RevCommunity',
-    stores:['ProductStore','ReviewStore','ProductReviewsStore'],
-    controllers:['ProductController'],
-    views:[
+    stores:['ProductStore','ReviewStore','ProductReviewsStore',
+            'ReviewCommentsTestStore', 'ReviewEvaluationTestStore'
+            ],
+controllers:['ProductController','ReviewController','CategoryController'],    
+views:[
     	'form.BaseFieldSet',
     	'form.CategoryFieldSet',
     	'form.ProductInfoFieldSet',
@@ -14,12 +16,19 @@ Ext.application({
     	'category.NewCategoryForm',
     	'category.CategoryNameFieldSet',
     	'category.ParentCategoryFieldSet',
+    	'category.CategoryParameters',
     	'product.ProductWrapper',
     	'product.ReviewsPanel',
     	'user.UserInfoPanel',
-    	'myReviews.MyReviewsPanel'
-    ],
-    models:['Product','Review'],
+    	'myReviews.MyReviewsPanel',		
+    	'review.NewReviewForm',
+    	'form.CategoryComboBoxSet',		
+    	'myReviews.MyReviewsPanel',
+    	'review.ReviewForm',
+    	'review.EvaluationForm',
+    	'review.CommentsList',
+    	],
+    models:['Product','Review','Category'],
     launch: function() {
     	log('launch');
     	

@@ -5,7 +5,10 @@ var AppRouter = Backbone.Router.extend({
 		'newCategory' : 'newCategory',
 		'productList' : 'productList',
 		'product/:id' : 'product',
-		'myReviews':'myReviews'
+		'newReview' : 'newReview',
+		'addReview/:id' : 'addReview',
+		'myReviews' : 'myReviews',
+		'review/:id' : 'review'
 	},
 	home : function() {
 		console.log("home");
@@ -59,11 +62,37 @@ var AppRouter = Backbone.Router.extend({
 		list.getStore().load();
 	},
 	clearPage : function() {
-//		var childs = Ext.get('content').dom.children;
-//		for (var i = 0; i < childs.length; i++) {
-//			Ext.getCmp(childs[i].id).destroy();
-//		}
 		Ext.getCmp('contentPanel').removeAll();
+	},
+	addReview : function(id) {
+		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
+		var thisRouter = this;
+		product.load(id, {
+			success : function(product) {
+				thisRouter.clearPage();
+
+				var panel = Ext.widget('productpanel', {
+					data : product.data
+				});
+
+				// this.clearPage();
+				var form = Ext.widget('newreviewform', {
+					renderTo : Ext.get('page')
+				});
+
+				form.getForm().setValues({
+					productName : product.data.name
+				});
+				form.getForm().setValues({
+					productId : product.data.nodeId
+				});
+				var image = form.down('image');
+				// var image =
+				// form.getForm().findChildByElement('name=productImage');
+				image.setSrc(product.data.mainImage);
+				// form.getForm().setValues({productImage:product.data.mainImage});
+			}
+		});
 	},
 	calculateProductProperties : function(records, product) {
 
@@ -91,5 +120,17 @@ var AppRouter = Backbone.Router.extend({
 			mode:'myReviews'
 		});
 		Ext.getCmp('contentPanel').add(panel);
+	},
+	review : function(id) {
+		this.clearPage();
+		var review = Ext.ModelManager.getModel('RevCommunity.model.Review');
+		review.load(id, {
+			success : function(review) {
+				var panel = Ext.widget('reviewform', {
+					data : review.data
+				});
+				Ext.getCmp('contentPanel').add(panel);
+			}
+		});
 	}
 });

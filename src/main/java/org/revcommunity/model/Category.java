@@ -8,27 +8,34 @@ import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
-public class Category extends AbstractCategory {
+public class Category
+    extends AbstractCategory
+{
 
-	@RelatedTo(type = "CATEGORY_PARENT", direction = Direction.INCOMING)
-	private CategoryGroup parent;
-	@RelatedTo(type = "FILTERS", direction = Direction.OUTGOING)
-	private Set<CategoryFilter> filters;
+    @RelatedTo( type = "CATEGORY_PARENT", direction = Direction.INCOMING )
+    private CategoryGroup parent;
 
-	public CategoryGroup getParent() {
-		return parent;
-	}
+    @RelatedTo( type = "FILTERS", direction = Direction.OUTGOING )
+    private Set<CategoryFilter> filters;
 
-	public void setParent(CategoryGroup parent) {
-		this.parent = parent;
-	}
+    public CategoryGroup getParent()
+    {
+        return parent;
+    }
 
-	public Set<CategoryFilter> getFilters() {
-		return filters;
-	}
+    public void setParent( CategoryGroup parent )
+    {
+        this.parent = parent;
+    }
 
-	public void setFilters(Set<CategoryFilter> filters) {
-		this.filters = filters;
-	}
+    public Set<CategoryFilter> getFilters()
+    {
+        return filters;
+    }
+
+    public void setFilters( Set<CategoryFilter> filters )
+    {
+        this.filters = filters;
+    }
 
 }

@@ -4,36 +4,57 @@ import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 
-public abstract class AbstractCategory {
+public abstract class AbstractCategory
+{
 
-	@GraphId
-	private Long nodeId;
-	@RelatedTo(type = "CategoryGroup_Parent", direction = Direction.OUTGOING)
-	private CategoryGroup parent;
-	private String name;
+    @GraphId
+    private Long nodeId;
 
-	public Long getNodeId() {
-		return nodeId;
-	}
+    @RelatedTo( type = "CategoryGroup_Parent", direction = Direction.OUTGOING )
+    private CategoryGroup parent;
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
+    private Long parentId;
 
-	public CategoryGroup getParent() {
-		return parent;
-	}
+    private String name;
 
-	public void setParent(CategoryGroup parent) {
-		this.parent = parent;
-	}
+    public Long getNodeId()
+    {
+        return nodeId;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public void setNodeId( Long nodeId )
+    {
+        this.nodeId = nodeId;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public CategoryGroup getParent()
+    {
+        return parent;
+    }
+
+    public void setParent( CategoryGroup parent )
+    {
+        this.parent = parent;
+    }
+
+    public String getName()
+    {
+        return name;
+    }
+
+    public void setName( String name )
+    {
+        this.name = name;
+    }
+
+    public Long getParentId()
+    {
+        return parentId;
+    }
+
+    public void setParentId( Long parentId )
+    {
+        this.parentId = parentId;
+    }
 
 }
