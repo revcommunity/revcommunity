@@ -4,97 +4,149 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
+import org.springframework.data.neo4j.fieldaccess.DynamicPropertiesContainer;
 
 @NodeEntity
-public class Product {
-	@GraphId
-	private Long nodeId;
+public class Product
+{
+    @GraphId
+    private Long nodeId;
 
-	private String name;
+    private String name;
 
-	private String producer;
+    private String producer;
 
-	private String productCode;
+    private String productCode;
 
-	private String description;
+    private String description;
 
-	private List<String> images;
+    private List<String> images;
 
-	private String mainImage;
-	private Category category;
+    private String mainImage;
 
-	public Long getNodeId() {
-		return nodeId;
-	}
+    private Map<String, Object> keys;
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
+    private DynamicProperties properties = new DynamicPropertiesContainer();
 
-	public String getName() {
-		return name;
-	}
+    @Fetch
+    @RelatedTo( type = "BELONGS_TO", direction = Direction.OUTGOING )
+    private Category category;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Long getNodeId()
+    {
+        return nodeId;
+    }
 
-	public String getProducer() {
-		return producer;
-	}
+    public void setNodeId( Long nodeId )
+    {
+        this.nodeId = nodeId;
+    }
 
-	public void setProducer(String producer) {
-		this.producer = producer;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public String getProductCode() {
-		return productCode;
-	}
+    public void setName( String name )
+    {
+        this.name = name;
+    }
 
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
+    public String getProducer()
+    {
+        return producer;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public void setProducer( String producer )
+    {
+        this.producer = producer;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public String getProductCode()
+    {
+        return productCode;
+    }
 
-	public List<String> getImages() {
-		if (images == null)
-			images = new ArrayList<String>();
-		return images;
-	}
+    public void setProductCode( String productCode )
+    {
+        this.productCode = productCode;
+    }
 
-	public void setImages(List<String> images) {
-		this.images = images;
-	}
+    public String getDescription()
+    {
+        return description;
+    }
 
-	public void addImage(String image) {
-		if (getImages().isEmpty())
-			setMainImage(image);
-		getImages().add(image);
-	}
+    public void setDescription( String description )
+    {
+        this.description = description;
+    }
 
-	public String getMainImage() {
-		return mainImage;
-	}
+    public List<String> getImages()
+    {
+        if ( images == null )
+            images = new ArrayList<String>();
+        return images;
+    }
 
-	public void setMainImage(String mainImage) {
-		this.mainImage = mainImage;
-	}
+    public void setImages( List<String> images )
+    {
+        this.images = images;
+    }
 
-	public Category getCategory() {
-		return category;
-	}
+    public void addImage( String image )
+    {
+        if ( getImages().isEmpty() )
+            setMainImage( image );
+        getImages().add( image );
+    }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    public String getMainImage()
+    {
+        return mainImage;
+    }
+
+    public void setMainImage( String mainImage )
+    {
+        this.mainImage = mainImage;
+    }
+
+    public Category getCategory()
+    {
+        return category;
+    }
+
+    public void setCategory( Category category )
+    {
+        this.category = category;
+    }
+
+    public DynamicProperties getProperties()
+    {
+        return properties;
+    }
+
+    public void setProperties( DynamicProperties properties )
+    {
+        this.properties = properties;
+    }
+
+    public Map<String, Object> getKeys()
+    {
+        return keys;
+    }
+
+    public void setKeys( Map<String, Object> keys )
+    {
+        if ( keys != null )
+            properties.createFrom( keys );
+        this.keys = keys;
+    }
 
 }

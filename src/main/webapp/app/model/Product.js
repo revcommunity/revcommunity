@@ -5,6 +5,7 @@ Ext.define('RevCommunity.model.Product', {
     		'producer',
     		'nodeId',
     		'productCode',
+    		'category',
     		'description',
     		{
 	    		name:'mainImage',

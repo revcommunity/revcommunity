@@ -2,13 +2,21 @@ package org.revcommunity.model;
 
 import java.util.Set;
 
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 public class Review
 {
+
+    @Override
+    public String toString()
+    {
+        return "Review [nodeId=" + nodeId + ", content=" + content + ", title=" + title + ", comments=" + comments + "]";
+    }
 
     public Review()
     {
@@ -28,6 +36,7 @@ public class Review
 
     private User author;
 
+    @RelatedTo( type = "HAS", direction = Direction.OUTGOING )
     private Set<Comment> comments;
 
     private Set<ReviewRating> ratings;

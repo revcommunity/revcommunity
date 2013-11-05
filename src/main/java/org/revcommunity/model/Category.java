@@ -12,30 +12,21 @@ public class Category
     extends AbstractCategory
 {
 
-    @RelatedTo( type = "CATEGORY_PARENT", direction = Direction.INCOMING )
-    private CategoryGroup parent;
+    private boolean leaf = true;
 
-    @RelatedTo( type = "FILTERS", direction = Direction.OUTGOING )
-    private Set<CategoryFilter> filters;
-
-    public CategoryGroup getParent()
+    public Category()
     {
-        return parent;
+        super();
     }
 
-    public void setParent( CategoryGroup parent )
+    public Category( Long nodeId )
     {
-        this.parent = parent;
+        super( nodeId );
     }
 
-    public Set<CategoryFilter> getFilters()
+    public boolean isLeaf()
     {
-        return filters;
-    }
-
-    public void setFilters( Set<CategoryFilter> filters )
-    {
-        this.filters = filters;
+        return leaf;
     }
 
 }

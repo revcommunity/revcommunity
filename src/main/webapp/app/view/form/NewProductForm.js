@@ -9,6 +9,18 @@ Ext.define('RevCommunity.view.form.NewProductForm' ,{
     defaults: {
         anchor: '100%'
     },
+    getProduct:function(){
+    	var form=this;
+    	var values = form.getForm().getFieldValues();
+		var product= new RevCommunity.model.Product(values).data;
+    	var categoryCombo=form.down('categorycombo:last');
+		var specFs=form.down('specificationfieldset');
+		product.keys=specFs.getFieldValues();
+		product.category={
+				nodeId:categoryCombo.getValue()
+		};
+		return product;
+    },
     items: [
 	    	{
 				xtype:'categoryfieldset'
