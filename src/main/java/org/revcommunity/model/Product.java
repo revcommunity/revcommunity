@@ -28,31 +28,13 @@ public class Product
 
     private List<String> images;
 
-    private Long shopCount;
-
-    private Long offerCount;
-
-    private String priceMin;
-
-    private String priceMax;
-
     private String priceAvg;
 
-    private String url;
+    private String nokautUrl;
 
-    private String imageMini;
-
-    private String imageMedium;
-
-    private String imageLarge;
-
-    private String thumbnail;
+    private Long nokautId;
 
     private String mainImage;
-
-    private Long id;
-
-    private String image;
 
     private Map<String, Object> keys;
 
@@ -126,8 +108,6 @@ public class Product
 
     public void addImage( String image )
     {
-        if ( getImages().isEmpty() )
-            setImage( image );
         getImages().add( image );
     }
 
@@ -173,56 +153,6 @@ public class Product
         this.keys = keys;
     }
 
-    public String getImage()
-    {
-        return image;
-    }
-
-    public void setImage( String image )
-    {
-        this.image = image;
-    }
-
-    public Long getShopCount()
-    {
-        return shopCount;
-    }
-
-    public void setShopCount( Long shopCount )
-    {
-        this.shopCount = shopCount;
-    }
-
-    public Long getOfferCount()
-    {
-        return offerCount;
-    }
-
-    public void setOfferCount( Long offerCount )
-    {
-        this.offerCount = offerCount;
-    }
-
-    public String getPriceMin()
-    {
-        return priceMin;
-    }
-
-    public void setPriceMin( String priceMin )
-    {
-        this.priceMin = priceMin;
-    }
-
-    public String getPriceMax()
-    {
-        return priceMax;
-    }
-
-    public void setPriceMax( String priceMax )
-    {
-        this.priceMax = priceMax;
-    }
-
     public String getPriceAvg()
     {
         return priceAvg;
@@ -233,73 +163,24 @@ public class Product
         this.priceAvg = priceAvg;
     }
 
-    public String getUrl()
+    public String getNokautUrl()
     {
-        return url;
+        return nokautUrl;
     }
 
-    public void setUrl( String url )
+    public void setNokautUrl( String nokautUrl )
     {
-        this.url = url;
+        this.nokautUrl = nokautUrl;
     }
 
-    public String getImageMini()
+    public Long getNokautId()
     {
-        return imageMini;
+        return nokautId;
     }
 
-    public void setImageMini( String imageMini )
+    public void setNokautId( Long nokautId )
     {
-        this.imageMini = imageMini;
-    }
-
-    public String getImageMedium()
-    {
-        return imageMedium;
-    }
-
-    public void setImageMedium( String imageMedium )
-    {
-        this.imageMedium = imageMedium;
-    }
-
-    public String getImageLarge()
-    {
-        return imageLarge;
-    }
-
-    public void setImageLarge( String imageLarge )
-    {
-        this.imageLarge = imageLarge;
-    }
-
-    public String getThumbnail()
-    {
-        return thumbnail;
-    }
-
-    public void setThumbnail( String thumbnail )
-    {
-        this.thumbnail = thumbnail;
-    }
-
-    public Long getId()
-    {
-        return id;
-    }
-
-    public void setId( Long id )
-    {
-        this.id = id;
-    }
-
-    @Override
-    public String toString()
-    {
-        return "Product [nodeId=" + nodeId + ", name=" + name + ", producer=" + producer + ", productCode=" + productCode + ", description="
-            + description + ", shopCount=" + shopCount + ", offerCount=" + offerCount + ", priceMin=" + priceMin + ", priceMax=" + priceMax
-            + ", priceAvg=" + priceAvg + ", url=" + url + ", imageMini=" + imageMini + ", imageMedium=" + imageMedium + ", imageLarge=" + imageLarge
-            + ", thumbnail=" + thumbnail + ", images=" + images + ", id=" + id + ", image=" + image + ", category=" + category + "]";
+        this.nokautId = nokautId;
     }
 
 }
