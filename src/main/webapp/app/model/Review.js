@@ -7,6 +7,7 @@ Ext.define('RevCommunity.model.Review', {
     		'rank',
     		'author',
     		'title',
+    		'reviewCount',
     		'product',
     		{name:'comments',
     			convert:function(v){

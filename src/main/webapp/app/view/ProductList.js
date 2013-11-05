@@ -23,7 +23,7 @@ Ext.define('RevCommunity.view.ProductList', {
 		    			'<div class="rev-list-links">',
 		    				'<div class="rev-box">Cena: 100 zł{price}</div>',
 		    				'<div class="rev-box">Średnia ocena: 4.5{rating}</div>',
-		    				'<div class="rev-box rev-box-button" action="review">Recenzje</div>',
+		    				'<div class="rev-box">Liczba recenzji: {reviewCount}</div>',
 		    				'<div class="rev-box rev-box-button" action="details">Szczegóły</div>',
 		    				'<div class="rev-box rev-box-button" action="addReview">Dodaj recenzję dla tego produktu</div>',
 		    			'</div>'

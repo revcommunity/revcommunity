@@ -1,5 +1,6 @@
 package org.revcommunity.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
@@ -105,6 +106,8 @@ public class Review
 
     public Set<Comment> getComments()
     {
+        if ( comments == null )
+            comments = new HashSet<Comment>();
         return comments;
     }
 
@@ -131,6 +134,12 @@ public class Review
     public void setProduct( Product product )
     {
         this.product = product;
+    }
+
+    public void addComment( String comment )
+    {
+        getComments().add( new Comment( comment ) );
+
     }
 
 }

@@ -17,4 +17,6 @@ public interface CategoryRepo
     public List<CategoryFilter> getFilters( AbstractCategory cat );
 
     public AbstractCategory findByNokautId( Long id );
+
+    public Category findByName( String name );
 }
