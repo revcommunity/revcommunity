@@ -216,6 +216,10 @@ public class NokautConnector {
 					String jsonString = json.toString();
 					for(Object k : o.keySet()){
 						String s = ((String)k).toString();
+						
+						if(s.equals("id"))
+							s = "nokautId";
+						
 						jsonString = jsonString.replaceAll(s, parse(s));
 					}
 					json = new JSONObject(jsonString);

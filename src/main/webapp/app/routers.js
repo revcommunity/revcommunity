@@ -80,6 +80,8 @@ var AppRouter = Backbone.Router.extend({
 					renderTo : Ext.get('page')
 				});
 
+				Ext.getCmp('contentPanel').add(form);
+				
 				form.getForm().setValues({
 					productName : product.data.name
 				});

@@ -30,7 +30,7 @@ views:[
     	],
     models:['Product','Review','Category'],
     launch: function() {
-    	log('launch');
+ //   	log('launch');
     	
     	var panel=Ext.widget('container',{    
 			id:'contentPanel',

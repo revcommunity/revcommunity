@@ -38,8 +38,8 @@ public class APITest {
 	private ProductRepo productRepo;
 	
 	@Test
-	@Transactional
-	public void test() throws Exception {
+	//@Transactional
+	public void test() {
 		
 		 EndResult<Category> p = categoryRepo.findAll();
 	        for ( Category category : p )
@@ -76,6 +76,14 @@ public class APITest {
 		}
 	}
 	
+	@Test
+	public void getAllProducts(){
+		EndResult<Product> p = productRepo.findAll();
+        for ( Product product : p )
+        {
+        	logger.info(product);
+        }
+	}
 	
 	//@Test
 	public void parserTest(){

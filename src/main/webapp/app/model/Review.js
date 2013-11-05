@@ -8,7 +8,15 @@ Ext.define('RevCommunity.model.Review', {
     		'author',
     		'title',
     		'product',
-    		'comments',
+    		{
+    			name:'comments',
+    				convert:function(v){
+    					if(Ext.isEmpty(v)){
+    						return null;
+    					}
+    					return v;
+    				}
+    		}
     		],
      proxy: {
         type: 'rest',
