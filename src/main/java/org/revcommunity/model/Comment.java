@@ -11,6 +11,15 @@ public class Comment
 
     private String text;
 
+    public Comment()
+    {
+    }
+
+    public Comment( String comment )
+    {
+        text = comment;
+    }
+
     public Long getNodeId()
     {
         return nodeId;
