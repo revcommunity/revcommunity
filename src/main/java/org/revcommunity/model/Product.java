@@ -4,223 +4,183 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
+import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
+import org.springframework.data.neo4j.fieldaccess.DynamicPropertiesContainer;
 
 @NodeEntity
-public class Product {
-	@GraphId
-	private Long nodeId;
+public class Product
+{
+    @GraphId
+    private Long nodeId;
 
-	private String name;
+    private String name;
 
-	private String producer;
+    private String producer;
 
-	private String productCode;
+    private String productCode;
 
-	private String description;
+    private String description;
 
-	private Long shopCount;
-	
-	private Long offerCount;
-	
-	private String priceMin;
-	
-	private String priceMax;
-	
-	private String priceAvg;
-	
-	private String url;
-	
-	private String imageMini;
-	
-	private String imageMedium;
-	
-	private String imageLarge;
-	
-	private String thumbnail;
-	
-	private List<String> images;
+    private List<String> images;
 
-	private Long id;
-	
-	private String image;
-	
-	private Category category;
+    private String priceAvg;
 
-	public Long getNodeId() {
-		return nodeId;
-	}
+    private String nokautUrl;
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
+    private Long nokautId;
 
-	public String getName() {
-		return name;
-	}
+    private String mainImage;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    private Map<String, Object> keys;
 
-	public String getProducer() {
-		return producer;
-	}
+    private DynamicProperties properties = new DynamicPropertiesContainer();
 
-	public void setProducer(String producer) {
-		this.producer = producer;
-	}
+    @Fetch
+    @RelatedTo( type = "BELONGS_TO", direction = Direction.OUTGOING )
+    private Category category;
 
-	public String getProductCode() {
-		return productCode;
-	}
+    public Long getNodeId()
+    {
+        return nodeId;
+    }
 
-	public void setProductCode(String productCode) {
-		this.productCode = productCode;
-	}
+    public void setNodeId( Long nodeId )
+    {
+        this.nodeId = nodeId;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getName()
+    {
+        return name;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setName( String name )
+    {
+        this.name = name;
+    }
 
-	public List<String> getImages() {
-		if (images == null)
-			images = new ArrayList<String>();
-		return images;
-	}
+    public String getProducer()
+    {
+        return producer;
+    }
 
-	public void setImages(List<String> images) {
-		this.images = images;
-	}
+    public void setProducer( String producer )
+    {
+        this.producer = producer;
+    }
 
-	public void addImage(String image) {
-		if (getImages().isEmpty())
-			setImage(image);
-		getImages().add(image);
-	}
+    public String getProductCode()
+    {
+        return productCode;
+    }
 
-	public Category getCategory() {
-		return category;
-	}
+    public void setProductCode( String productCode )
+    {
+        this.productCode = productCode;
+    }
 
-	public void setCategory(Category category) {
-		this.category = category;
-	}
+    public String getDescription()
+    {
+        return description;
+    }
 
-	public String getImage() {
-		return image;
-	}
+    public void setDescription( String description )
+    {
+        this.description = description;
+    }
 
-	public void setImage(String image) {
-		this.image = image;
-	}
+    public List<String> getImages()
+    {
+        if ( images == null )
+            images = new ArrayList<String>();
+        return images;
+    }
 
-	public Long getShopCount() {
-		return shopCount;
-	}
+    public void setImages( List<String> images )
+    {
+        this.images = images;
+    }
 
-	public void setShopCount(Long shopCount) {
-		this.shopCount = shopCount;
-	}
+    public void addImage( String image )
+    {
+        getImages().add( image );
+    }
 
-	public Long getOfferCount() {
-		return offerCount;
-	}
+    public String getMainImage()
+    {
+        return mainImage;
+    }
 
-	public void setOfferCount(Long offerCount) {
-		this.offerCount = offerCount;
-	}
+    public void setMainImage( String mainImage )
+    {
+        this.mainImage = mainImage;
+    }
 
-	public String getPriceMin() {
-		return priceMin;
-	}
+    public Category getCategory()
+    {
+        return category;
+    }
 
-	public void setPriceMin(String priceMin) {
-		this.priceMin = priceMin;
-	}
+    public void setCategory( Category category )
+    {
+        this.category = category;
+    }
 
-	public String getPriceMax() {
-		return priceMax;
-	}
+    public DynamicProperties getProperties()
+    {
+        return properties;
+    }
 
-	public void setPriceMax(String priceMax) {
-		this.priceMax = priceMax;
-	}
+    public void setProperties( DynamicProperties properties )
+    {
+        this.properties = properties;
+    }
 
-	public String getPriceAvg() {
-		return priceAvg;
-	}
+    public Map<String, Object> getKeys()
+    {
+        return keys;
+    }
 
-	public void setPriceAvg(String priceAvg) {
-		this.priceAvg = priceAvg;
-	}
+    public void setKeys( Map<String, Object> keys )
+    {
+        if ( keys != null )
+            properties.createFrom( keys );
+        this.keys = keys;
+    }
 
-	public String getUrl() {
-		return url;
-	}
+    public String getPriceAvg()
+    {
+        return priceAvg;
+    }
 
-	public void setUrl(String url) {
-		this.url = url;
-	}
+    public void setPriceAvg( String priceAvg )
+    {
+        this.priceAvg = priceAvg;
+    }
 
-	public String getImageMini() {
-		return imageMini;
-	}
+    public String getNokautUrl()
+    {
+        return nokautUrl;
+    }
 
-	public void setImageMini(String imageMini) {
-		this.imageMini = imageMini;
-	}
+    public void setNokautUrl( String nokautUrl )
+    {
+        this.nokautUrl = nokautUrl;
+    }
 
-	public String getImageMedium() {
-		return imageMedium;
-	}
+    public Long getNokautId()
+    {
+        return nokautId;
+    }
 
-	public void setImageMedium(String imageMedium) {
-		this.imageMedium = imageMedium;
-	}
+    public void setNokautId( Long nokautId )
+    {
+        this.nokautId = nokautId;
+    }
 
-	public String getImageLarge() {
-		return imageLarge;
-	}
-
-	public void setImageLarge(String imageLarge) {
-		this.imageLarge = imageLarge;
-	}
-
-	public String getThumbnail() {
-		return thumbnail;
-	}
-
-	public void setThumbnail(String thumbnail) {
-		this.thumbnail = thumbnail;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Override
-	public String toString() {
-		return "Product [nodeId=" + nodeId + ", name=" + name + ", producer="
-				+ producer + ", productCode=" + productCode + ", description="
-				+ description + ", shopCount=" + shopCount + ", offerCount="
-				+ offerCount + ", priceMin=" + priceMin + ", priceMax="
-				+ priceMax + ", priceAvg=" + priceAvg + ", url=" + url
-				+ ", imageMini=" + imageMini + ", imageMedium=" + imageMedium
-				+ ", imageLarge=" + imageLarge + ", thumbnail=" + thumbnail
-				+ ", images=" + images + ", id=" + id + ", image=" + image
-				+ ", category=" + category + "]";
-	}
-	
-	
-	
 }

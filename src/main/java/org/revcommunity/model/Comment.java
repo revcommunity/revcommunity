@@ -1,23 +1,40 @@
 package org.revcommunity.model;
 
-public class Comment {
-	private Long nodeId;
-	private String text;
+import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.NodeEntity;
 
-	public Long getNodeId() {
-		return nodeId;
-	}
+@NodeEntity
+public class Comment
+{
+    @GraphId
+    private Long nodeId;
 
-	public void setNodeId(Long nodeId) {
-		this.nodeId = nodeId;
-	}
+    private String text;
 
-	public String getText() {
-		return text;
-	}
+    public Long getNodeId()
+    {
+        return nodeId;
+    }
 
-	public void setText(String text) {
-		this.text = text;
-	}
+    @Override
+    public String toString()
+    {
+        return "Comment [nodeId=" + nodeId + ", text=" + text + "]";
+    }
+
+    public void setNodeId( Long nodeId )
+    {
+        this.nodeId = nodeId;
+    }
+
+    public String getText()
+    {
+        return text;
+    }
+
+    public void setText( String text )
+    {
+        this.text = text;
+    }
 
 }

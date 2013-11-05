@@ -20,6 +20,24 @@ public class CategoryFilter
 
     private Set<String> values;
 
+    public CategoryFilter()
+    {
+    }
+
+    public CategoryFilter( String name, CategoryFilterType type )
+    {
+        super();
+        this.name = name;
+        this.symbol = generateSymbol( name );
+        this.type = type;
+    }
+
+    public String generateSymbol( String name )
+    {
+        // TODO usunac spacje i polskie znaki
+        return name.toLowerCase();
+    }
+
     public Long getNodeId()
     {
         return nodeId;
@@ -68,6 +86,12 @@ public class CategoryFilter
     public void setValues( Set<String> values )
     {
         this.values = values;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "CategoryFilter [name=" + name + ", symbol=" + symbol + ", type=" + type + "]";
     }
 
 }

@@ -77,9 +77,7 @@ var AppRouter = Backbone.Router.extend({
 
 				// this.clearPage();
 				var form = Ext.widget('newreviewform', {
-					renderTo : Ext.get('page')
 				});
-
 				Ext.getCmp('contentPanel').add(form);
 				
 				form.getForm().setValues({

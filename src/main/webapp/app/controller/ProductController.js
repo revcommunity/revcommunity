@@ -24,11 +24,11 @@ Ext.define('RevCommunity.controller.ProductController', {
 	},
 	save : function(btn) {
 		var form = btn.up('form');
-		var values = form.getForm().getFieldValues();
-		var product = new RevCommunity.model.Product(values);
+		var product=form.getProduct();
+		log(product);
 		form.submit({
 			params : {
-				product : Ext.encode(product.data)
+				product : Ext.encode(product)
 			}
 		});
 	},

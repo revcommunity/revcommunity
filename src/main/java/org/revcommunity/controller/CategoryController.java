@@ -1,36 +1,29 @@
 package org.revcommunity.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
-import java.io.File;
-import java.io.IOException;
+import java.io.File;import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.codehaus.jackson.map.ObjectMapper;
+import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
-import org.revcommunity.model.Product;
+import org.revcommunity.model.CategoryGroup;
+import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.nokaut.NokautConnector;
 import org.revcommunity.repo.CategoryRepo;
-import org.revcommunity.repo.ProductRepo;
-import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import scala.collection.Set;
 
 @Controller
 @RequestMapping( "/categories" )
@@ -49,6 +42,9 @@ public class CategoryController
     @Autowired
     private Neo4jTemplate tpl;
 
+    @Autowired
+    private CategoryGroupRepo cgr;
+
     private static final Logger log = Logger.getLogger( CategoryController.class );
 
     @RequestMapping( method = RequestMethod.POST )
@@ -63,7 +59,6 @@ public class CategoryController
         {
             log.debug( "" );
             log.debug( "name: " + iterable_element.getName() );
-            log.debug( "idParent: " + iterable_element.getParentId() );
             log.debug( "filters: " + iterable_element.getFilters() );
             for ( CategoryFilter i : tpl.fetch( iterable_element.getFilters() ) )
             {
@@ -81,21 +76,9 @@ public class CategoryController
 
     @RequestMapping( method = RequestMethod.GET )
     @ResponseBody
-    public ArrayList<Category> getAll()
+    public EndResult<Category> getAll()
     {
-        EndResult<Category> cat;
-        ArrayList<Category> cat2 = new ArrayList<Category>();
-        cat = pr.findAll();
-        for ( Category category : cat )
-        {
-            if ( category.getName() != null )
-            {
-                cat2.add( category );
-                log.debug( ">>" + category.getName() );
-            }
-
-        }
-        return cat2;
+        return pr.findAll();
     }
 
     @RequestMapping( value = "/parent", method = RequestMethod.GET )
@@ -116,7 +99,30 @@ public class CategoryController
         }
         return cat2;
     }
-    
+
+    @RequestMapping( value = "/getByParent" )
+    @ResponseBody
+    public List<AbstractCategory> getByParent( @RequestParam( required = false ) Long parentId )
+    {
+        if ( parentId != null )
+        {
+            CategoryGroup parent = new CategoryGroup( parentId );
+            return cgr.getChildren( parent );
+        }
+        else
+        {
+            return cgr.findByBaseCategory( true );
+        }
+    }
+
+    @RequestMapping( value = "/getFilters" )
+    @ResponseBody
+    public List<CategoryFilter> getFilters( @RequestParam Long categoryId )
+    {
+        Category c = new Category( categoryId );
+        return pr.getFilters( c );
+    }
+
     @RequestMapping( value = "/nokaut", method = RequestMethod.GET )
     @ResponseBody
     public void getFromNokaut()

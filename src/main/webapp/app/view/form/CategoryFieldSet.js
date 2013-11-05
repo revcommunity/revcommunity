@@ -7,13 +7,7 @@ Ext.define('RevCommunity.view.form.CategoryFieldSet' ,{
 	items:[
 			{
 				fieldLabel:'Wybierz kategorie',
-				name:'ppp'
-			},
-			{
-				name:'xx'	
-			},
-			{
-				name:'xsadx'	
+				xtype:'categorycombo'
 			}
 	],
 	initComponent:function(){

@@ -1,30 +1,66 @@
 package org.revcommunity.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 
+@NodeEntity
 public abstract class AbstractCategory
 {
+
+    public AbstractCategory()
+    {
+        super();
+    }
+
+    public AbstractCategory( Long nodeId )
+    {
+        super();
+        this.nodeId = nodeId;
+    }
+
+    public abstract boolean isLeaf();
+
+    private Long nokautId;
+
+    public Long getNokautId()
+    {
+        return nokautId;
+    }
+
+    public void setNokautId( Long nokautId )
+    {
+        this.nokautId = nokautId;
+    }
 
     @GraphId
     private Long nodeId;
 
-    @RelatedTo( type = "CategoryGroup_Parent", direction = Direction.OUTGOING )
-    private Category parent;
+    @RelatedTo( type = "CONTAINS", direction = Direction.INCOMING )
+    private CategoryGroup parent;
 
-    private Long parentId;
+    private boolean baseCategory = true;
+
+    @RelatedTo( type = "FILTERS", direction = Direction.OUTGOING )
+    private Set<CategoryFilter> filters;
+
+    public Set<CategoryFilter> getFilters()
+    {
+        if ( filters == null )
+            filters = new HashSet<CategoryFilter>();
+        return filters;
+    }
+
+    public void setFilters( Set<CategoryFilter> filters )
+    {
+        this.filters = filters;
+    }
+
     private String name;
-    
-    private Long id;
-    
-    private String url;
-    private String imageUrl;
-    private String productCount;
-    private String tree;
-    private String treeName;
-    private Integer treeLevel;
-    private Integer isLeaf;
 
     public Long getNodeId()
     {
@@ -36,13 +72,15 @@ public abstract class AbstractCategory
         this.nodeId = nodeId;
     }
 
-    public Category getParent()
+    public CategoryGroup getParent()
     {
         return parent;
     }
 
-    public void setParent( Category parent )
+    public void setParent( CategoryGroup parent )
     {
+        if ( parent != null )
+            baseCategory = false;
         this.parent = parent;
     }
 
@@ -56,82 +94,20 @@ public abstract class AbstractCategory
         this.name = name;
     }
 
-	public Long getId() {
-		return id;
-	}
+    @Override
+    public String toString()
+    {
+        return "AbstractCategory [nodeId=" + nodeId + ", parent=" + parent + ", name=" + name + "]";
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public boolean isBaseCategory()
+    {
+        return baseCategory;
+    }
 
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-
-	public String getTree() {
-		return tree;
-	}
-
-	public void setTree(String tree) {
-		this.tree = tree;
-	}
-
-	public Long getParentId() {
-		return parentId;
-	}
-
-	public void setParentId(Long parentId) {
-		this.parentId = parentId;
-	}
-
-	public String getImageUrl() {
-		return imageUrl;
-	}
-
-	public void setImageUrl(String imageUrl) {
-		this.imageUrl = imageUrl;
-	}
-
-	public String getProductCount() {
-		return productCount;
-	}
-
-	public void setProductCount(String productCount) {
-		this.productCount = productCount;
-	}
-
-	public String getTreeName() {
-		return treeName;
-	}
-
-	public void setTreeName(String treeName) {
-		this.treeName = treeName;
-	}
-
-	public Integer getTreeLevel() {
-		return treeLevel;
-	}
-
-	public void setTreeLevel(Integer treeLevel) {
-		this.treeLevel = treeLevel;
-	}
-
-	public Integer getIsLeaf() {
-		return isLeaf;
-	}
-
-	public void setIsLeaf(Integer isLeaf) {
-		this.isLeaf = isLeaf;
-	}
-	
-	public boolean isLeaf(){
-		if(this.isLeaf.intValue() == 1)
-			return true;
-		return false;
-	}
+    public void setBaseCategory( boolean baseCategory )
+    {
+        this.baseCategory = baseCategory;
+    }
 
 }

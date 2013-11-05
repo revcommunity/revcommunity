@@ -1,89 +1,25 @@
 package org.revcommunity.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.neo4j.graphdb.Direction;
-import org.springframework.data.neo4j.annotation.Fetch;
-import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
-import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 public class Category
     extends AbstractCategory
 {
 
-    @RelatedTo( type = "CATEGORY_PARENT", direction = Direction.INCOMING )
-    private Category parent;
-    
-    @RelatedTo( type = "FILTERS", direction = Direction.OUTGOING )
-    private Set<CategoryFilter> filters;
-
-    @Fetch
-	@RelatedTo(type = "CATEGORY_PRODUCTS", direction = Direction.OUTGOING)
-	private Set<Product> products = new HashSet<Product>();
-    
-    @Fetch
-	@RelatedTo(type = "CATEGORY_CHILDS", direction = Direction.INCOMING)
-	private Set<Category> childs = new HashSet<Category>();
-
-	public Set<Category> getChilds() {
-		return childs;
-	}
-
-	public void setChilds(Set<Category> childs) {
-		this.childs = childs;
-	}
-
-	public void addChildren(Category ac){
-		this.childs.add(ac);
-	}
-    
-    public Category getParent()
+    public Category()
     {
-        return parent;
+        super();
     }
 
-    public void setParent( Category parent )
+    public Category( Long nodeId )
     {
-        this.parent = parent;
+        super( nodeId );
     }
 
-    public Set<CategoryFilter> getFilters()
+    public boolean isLeaf()
     {
-        return filters;
+        return true;
     }
 
-    public void setFilters( Set<CategoryFilter> filters )
-    {
-        this.filters = filters;
-    }
-
-    public void addProduct(Product p){
-    	this.products.add(p);
-    }
-
-	public Set<Product> getProducts() {
-		return products;
-	}
-
-	public void setProducts(Set<Product> products) {
-		this.products = products;
-	}
-
-	@Override
-	public String toString() {
-		return "Category [parent=" + parent + ", filters=" + filters
-				+ ", products=" + products + ", childs=" + childs
-				+ ", getNodeId()=" + getNodeId() + ", getName()=" + getName()
-				+ ", getId()=" + getId() + ", getUrl()=" + getUrl()
-				+ ", getTree()=" + getTree() + ", getParentId()="
-				+ getParentId() + ", getImageUrl()=" + getImageUrl()
-				+ ", getProductCount()=" + getProductCount()
-				+ ", getTreeName()=" + getTreeName() + ", getTreeLevel()="
-				+ getTreeLevel() + ", getIsLeaf()=" + getIsLeaf() + "]";
-	}
-	
-	
 }
