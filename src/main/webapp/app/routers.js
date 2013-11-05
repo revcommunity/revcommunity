@@ -80,6 +80,7 @@ var AppRouter = Backbone.Router.extend({
 				var form = Ext.widget('newreviewform', {
 				});
 				Ext.getCmp('contentPanel').add(form);
+				
 				form.getForm().setValues({
 					productName : product.data.name
 				});
