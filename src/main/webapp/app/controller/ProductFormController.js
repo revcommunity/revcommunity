@@ -12,7 +12,7 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 		var category=recs[0].data;
 		var categoryId=cmb.getValue();
 		log('catId: '+categoryId);
-		if( !Ext.isEmpty(category.leaf) ){
+		if( category.leaf==true ){
 			var filters=CategoryService.getFilters(categoryId);
 			var specFs=cmb.up('form').down('specificationfieldset');
 			specFs.setFilters(filters);
