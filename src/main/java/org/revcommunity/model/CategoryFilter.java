@@ -34,8 +34,7 @@ public class CategoryFilter
 
     public String generateSymbol( String name )
     {
-        // TODO usunac spacje i polskie znaki
-        return name.toLowerCase();
+        return name.replaceAll( "\\W", "" ).toLowerCase();
     }
 
     public Long getNodeId()

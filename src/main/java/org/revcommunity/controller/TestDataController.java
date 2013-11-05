@@ -86,14 +86,14 @@ public class TestDataController
         u2.setFirstName( "Adam" );
         u2.setLastName( "Nowak" );
         u2.setUserName( "anowak" );
-        u1.setImage( "img/u2.jpg" );
+        u2.setImage( "img/u2.jpg" );
         ur.save( u2 );
 
         User u3 = new User();
         u3.setFirstName( "Michał" );
         u3.setLastName( "Adamczyk" );
         u3.setUserName( "madamczyk" );
-        u1.setImage( "img/u3.jpg" );
+        u3.setImage( "img/u3.jpg" );
         ur.save( u3 );
 
     }

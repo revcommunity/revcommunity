@@ -23,5 +23,8 @@ var UserService={
 		},
 		getLoggedUser:function(){
 			return UtilService.exec('users/me');
+		},
+		getByUserName:function(userName){
+			return UtilService.exec('users/name/'+userName);
 		}
 };

@@ -148,4 +148,8 @@ public class User
         getReviews().add( review );
     }
 
+    public String getFullName()
+    {
+        return ( getFirstName() + " " + getLastName() ).toString().trim();
+    }
 }

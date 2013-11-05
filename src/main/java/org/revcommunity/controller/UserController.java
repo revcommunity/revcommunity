@@ -1,12 +1,10 @@
 package org.revcommunity.controller;
 
 import java.io.IOException;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
-import org.revcommunity.model.Review;
 import org.revcommunity.model.User;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.util.Message;
@@ -14,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -73,6 +72,14 @@ public class UserController
     {
         // TODO zmienic na zalogowanego
         return userRepo.findByUserName( "jkowalski" );
+    }
+
+    @RequestMapping( value = "name/{userName}", method = RequestMethod.GET )
+    @ResponseBody
+    public User getByName( @PathVariable String userName )
+    {
+        // TODO zmienic na zalogowanego
+        return userRepo.findByUserName( userName );
     }
 
     @RequestMapping( value = "clear" )

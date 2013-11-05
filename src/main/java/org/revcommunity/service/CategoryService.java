@@ -43,7 +43,7 @@ public class CategoryService
 
         CategoryGroup cg2 = new CategoryGroup();
         cg2.setName( "Laptopy" );
-        cg2.addCategoryFilter( new CategoryFilter( "PamirAM", CategoryFilterType.INTEGER ) );
+        cg2.addCategoryFilter( new CategoryFilter( "Pamięć RAM", CategoryFilterType.INTEGER ) );
         cg2.setParent( cg1 );
         tpl.save( cg2 );
         log.debug( cg2 );

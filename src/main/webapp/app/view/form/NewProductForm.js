@@ -61,14 +61,8 @@ Ext.define('RevCommunity.view.form.NewProductForm' ,{
 	],
     buttons: [
 		   		{
-		        	text: 'Podgląd'
-		   		}, 
-		   		{
 		        	text: 'Zapisz',
 		        	action:'save'
-		   		}, 
-		    	{
-		        	text: 'Dodaj'
 		   		}
 	]
 });

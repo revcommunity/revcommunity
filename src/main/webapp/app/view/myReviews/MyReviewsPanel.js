@@ -12,12 +12,7 @@ Ext.define('RevCommunity.view.myReviews.MyReviewsPanel' ,{
 	title:'Moje recenzje',
 	userName:null,
 	items:[
-	       {
-	    	   xtype:'userinfopanel',
-	    	   style:{
-	    		   marginRight:5
-	    	   }
-	       }
+	      
 	],
 	initComponent:function(){
 		var url=null;
@@ -27,6 +22,13 @@ Ext.define('RevCommunity.view.myReviews.MyReviewsPanel' ,{
 			url='rest/reviews/userReviews/'+this.userName;
 		}
 		this.callParent(arguments);
+		this.add({
+	    	   xtype:'userinfopanel',
+	    	   userName:this.userName,
+	    	   style:{
+	    		   marginRight:5
+	    	   }
+		});
 		this.add({
 	    	   xtype:'reviewspanel',
 	    	   store:Ext.create('Ext.data.Store',{

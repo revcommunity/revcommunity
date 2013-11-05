@@ -8,7 +8,8 @@ var AppRouter = Backbone.Router.extend({
 		'newReview' : 'newReview',
 		'addReview/:id' : 'addReview',
 		'myReviews' : 'myReviews',
-		'review/:id' : 'review'
+		'review/:id' : 'review',
+		'user/reviews/:userName':'userReviews'
 	},
 	home : function() {
 		console.log("home");
@@ -117,6 +118,13 @@ var AppRouter = Backbone.Router.extend({
 		this.clearPage();
 		var panel = Ext.widget('myreviewspanel',{
 			mode:'myReviews'
+		});
+		Ext.getCmp('contentPanel').add(panel);
+	},
+	userReviews:function(userName){
+		this.clearPage();
+		var panel = Ext.widget('myreviewspanel',{
+			userName:userName
 		});
 		Ext.getCmp('contentPanel').add(panel);
 	},
