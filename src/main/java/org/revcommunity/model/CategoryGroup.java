@@ -46,4 +46,14 @@ public class CategoryGroup
 
     }
 
+    public void addChild( AbstractCategory ac )
+    {
+        getChildren().add( ac );
+    }
+
+    @Override
+    public boolean isLeaf()
+    {
+        return false;
+    }
 }

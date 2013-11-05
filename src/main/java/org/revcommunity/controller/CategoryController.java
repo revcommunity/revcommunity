@@ -51,7 +51,6 @@ public class CategoryController
         {
             log.debug( "" );
             log.debug( "name: " + iterable_element.getName() );
-            log.debug( "idParent: " + iterable_element.getParentId() );
             log.debug( "filters: " + iterable_element.getFilters() );
             for ( CategoryFilter i : tpl.fetch( iterable_element.getFilters() ) )
             {
@@ -115,4 +114,5 @@ public class CategoryController
         Category c = new Category( categoryId );
         return pr.getFilters( c );
     }
+
 }

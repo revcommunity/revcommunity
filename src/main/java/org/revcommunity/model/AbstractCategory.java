@@ -23,6 +23,20 @@ public abstract class AbstractCategory
         this.nodeId = nodeId;
     }
 
+    public abstract boolean isLeaf();
+
+    private Long nokautId;
+
+    public Long getNokautId()
+    {
+        return nokautId;
+    }
+
+    public void setNokautId( Long nokautId )
+    {
+        this.nokautId = nokautId;
+    }
+
     @GraphId
     private Long nodeId;
 
@@ -45,9 +59,6 @@ public abstract class AbstractCategory
     {
         this.filters = filters;
     }
-
-    @Deprecated
-    private Long parentId;
 
     private String name;
 
@@ -81,16 +92,6 @@ public abstract class AbstractCategory
     public void setName( String name )
     {
         this.name = name;
-    }
-
-    public Long getParentId()
-    {
-        return parentId;
-    }
-
-    public void setParentId( Long parentId )
-    {
-        this.parentId = parentId;
     }
 
     @Override
