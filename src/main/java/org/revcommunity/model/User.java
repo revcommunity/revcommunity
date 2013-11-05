@@ -3,8 +3,10 @@ package org.revcommunity.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
 public class User
@@ -23,6 +25,9 @@ public class User
 
     private Set<String> roles;
 
+    private String image = "img/empty.jpg";
+
+    @RelatedTo( type = "WROTE", direction = Direction.OUTGOING )
     private Set<Review> reviews;
 
     private Set<Comment> comments;
@@ -91,6 +96,8 @@ public class User
 
     public Set<Review> getReviews()
     {
+        if ( reviews == null )
+            reviews = new HashSet<Review>();
         return reviews;
     }
 
@@ -124,6 +131,21 @@ public class User
         if ( roles == null )
             roles = new HashSet<String>();
         roles.add( roleName );
+    }
+
+    public String getImage()
+    {
+        return image;
+    }
+
+    public void setImage( String image )
+    {
+        this.image = image;
+    }
+
+    public void addReview( Review review )
+    {
+        getReviews().add( review );
     }
 
 }

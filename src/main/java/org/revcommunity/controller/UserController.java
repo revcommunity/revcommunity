@@ -67,6 +67,14 @@ public class UserController
         return userRepo.findAll();
     }
 
+    @RequestMapping( value = "me", method = RequestMethod.GET )
+    @ResponseBody
+    public User getLoggedUser()
+    {
+        // TODO zmienic na zalogowanego
+        return userRepo.findByUserName( "jkowalski" );
+    }
+
     @RequestMapping( value = "clear" )
     public void clearUsers()
         throws JsonParseException, JsonMappingException, IOException

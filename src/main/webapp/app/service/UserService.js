@@ -18,7 +18,10 @@ var UserService={
 					        	 content:'c1'
 					         }
 					]
-			}
+			};
 			UtilService.execJson('users',user);
+		},
+		getLoggedUser:function(){
+			return UtilService.exec('users/me');
 		}
-}
+};

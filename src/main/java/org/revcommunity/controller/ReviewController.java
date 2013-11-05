@@ -92,7 +92,7 @@ public class ReviewController
         throws JsonParseException, JsonMappingException, IOException
     {
         // TODO zmienić na uzytkownika zalogowanego
-        return getReviewsForUser( "test" );
+        return getReviewsForUser( "jkowalski" );
     }
 
     @RequestMapping( method = RequestMethod.GET, value = "userReviews" )

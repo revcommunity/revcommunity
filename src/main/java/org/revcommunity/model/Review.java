@@ -35,6 +35,7 @@ public class Review
 
     private Integer rank;
 
+    @RelatedTo( type = "WROTE", direction = Direction.INCOMING )
     private User author;
 
     @RelatedTo( type = "HAS", direction = Direction.OUTGOING )
