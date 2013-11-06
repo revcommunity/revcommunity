@@ -24,10 +24,11 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 	    	           { 
 				    	   xtype:'image',
 				    	   name:'image',
-				    	   cls:'rev-img-small'
+				    	   imgCls:'rev-user-small-image'
 				       },
 	    	           {
 				    	   xtype:'displayfield',
+				    	   fieldCls:'rev-user-name',
 				    	   name:'fullName'
 				       },
 				       {
