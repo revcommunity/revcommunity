@@ -10,8 +10,6 @@ Ext
 					},
 					bodyPadding : 5,
 					initComponent : function() {
-						console.log(this.data);
-
 						this.items = [
 								{
 									xtype : 'panel',

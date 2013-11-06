@@ -103,7 +103,6 @@ var AppRouter = Backbone.Router.extend({
 
 		for ( var r in records) {
 			if (records.hasOwnProperty(r)) {
-				console.log(records[r]);
 				count++;
 				sumOfMarks += records[r].data.rank;
 			}

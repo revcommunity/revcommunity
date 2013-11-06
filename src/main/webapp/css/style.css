@@ -1,96 +1,106 @@
-
-.rev-col-wrap{
+.rev-col-wrap {
 	
 }
-.rev-img-small{
-	width:100px;
-	height:100px;
-}
-.rev-border{
-	border-width:1px;
-	border-style:solid;
-	border-color:#157FCC;
-}
-.rev-list-header{
-	width:100%;
-	padding:5px;
-	background-color:#e5e5e5;
-	margin-bottom:5px;
-	margin-left:0px;
-}
-.rev-col{
-		float:left;
-}
-.rev-container{
-	height:100px;
-	width:300px;
-	float:left;
-	margin-left:5px;
-	padding:5px;
-}
-.rev-container-fit{
-	width:468px;
-	margin-left:5px;
-	float:left;
-	padding:5px;
-	height:100px;
+
+.rev-img-small {
+	width: 100px;
+	height: 100px;
 }
 
-.rev-list-links{
-	clear:both;
-	padding-top:5px;
-	padding-left:105px;
+.rev-border {
+	border-width: 1px;
+	border-style: solid;
+	border-color: #157FCC;
 }
-.rev-list-links-item{
-	margin:10px;
-	margin-right:5px;
+
+.rev-list-header {
+	width: 100%;
+	padding: 5px;
+	background-color: #e5e5e5;
+	margin-bottom: 5px;
+	margin-left: 0px;
 }
-.rev-box{
-	float:left;
-	padding:10px;
-	margin-right:5px;
-	background-color:#157FCC;
+
+.rev-col {
+	float: left;
+}
+
+.rev-container {
+	height: 100px;
+	width: 300px;
+	float: left;
+	margin-left: 5px;
+	padding: 5px;
+}
+
+.rev-container-fit {
+	width: 468px;
+	margin-left: 5px;
+	float: left;
+	padding: 5px;
+	height: 100px;
+}
+
+.rev-list-links {
+	clear: both;
+	padding-top: 5px;
+	padding-left: 105px;
+}
+
+.rev-list-links-item {
+	margin: 10px;
+	margin-right: 5px;
+}
+
+.rev-box {
+	float: left;
+	padding: 10px;
+	margin-right: 5px;
+	background-color: #157FCC;
 	color: #FFFFFF;
-    font-family: arial,helvetica,verdana,sans-serif;
-    font-size: 13px;
-    font-weight: bold;
-    line-height: 15px;
-}
-.rev-box-button{
-	text-decoration:underline;
-	cursor:pointer;
+	font-family: arial, helvetica, verdana, sans-serif;
+	font-size: 13px;
+	font-weight: bold;
+	line-height: 15px;
 }
 
-.rev-img-list{
-	height:200px;
+.rev-box-button {
+	text-decoration: underline;
+	cursor: pointer;
 }
 
-.rev-img-details{
-	height:200px;
+.rev-img-list {
+	height: 200px;
+}
+
+.rev-img-details {
+	height: 200px;
 	max-width: 240px;
 	display: block;
 	margin-left: auto;
 	margin-right: auto;
 }
 
-.rev-boxes{
+.rev-boxes {
 	display: block;
 	clear: both;
 	padding-top: 10px;
 }
-.rev-product-spec{
+
+.rev-product-spec {
+	
 }
 
-.rev-product-boxes{
+.rev-product-boxes {
 	margin-bottom: 10px;
 	display: inline-block;
 }
 
-.rev-review-mark{
+.rev-review-mark {
 	height: 90px;
 	width: 90px;
 	-moz-border-radius: 45px;
-	-webkit-border-radius: 45px; 
+	-webkit-border-radius: 45px;
 	border-radius: 45px;
 	border: 2px solid #CECECE;
 	text-align: center;
@@ -99,11 +109,11 @@
 	background-color: white;
 }
 
-.rev-user-container{
+.rev-user-container {
 	text-align: center;
 }
 
-.rev-reviewList-content{
+.rev-reviewList-content {
 	height: 130px;
 	overflow-y: scroll;
 	overflow-x: hidden;
@@ -113,43 +123,49 @@
 
 .rev-usefulness-progressbar {
 	margin-top: 5px;
-    background-color: red;
-    border-radius: 5px;
-}
-    
-.rev-usefulness-inner {
-    background-color: green;
-    height: 10px;
-    border-radius: 5px;
+	background-color: red;
+	border-radius: 5px;
 }
 
-.rev-user-small-image{
+.rev-usefulness-inner {
+	background-color: green;
+	height: 10px;
+	border-radius: 5px;
+}
+
+.rev-user-small-image {
 	width: 120px;
 }
 
-.rev-user-name{
+.rev-user-name {
 	font-size: 18pt;
 	color: #1570A6;
 	margin-bottom: 5px;
 	margin-top: 10px;
 }
 
-.rev-user-rank{
+.rev-user-name-small {
+	font-size: 13pt;
+	color: #1570A6;
+	margin-bottom: 5px;
+	margin-top: 10px;
+}
+
+.rev-user-rank {
 	
 }
 
-.rev-review-panel{
+.rev-review-panel {
 	margin-right: 5px;
 }
 
-.rev-reviewList-content,
-.rev-container-fit,
-.rev-review-content{
-white-space: pre-wrap; /* CSS3 */
-white-space: -moz-pre-wrap; /* Firefox */
-white-space: -pre-wrap; /* Opera <7 */
-white-space: -o-pre-wrap; /* Opera 7 */
-word-wrap: break-word; /* IE */
+.rev-reviewList-content,.rev-container-fit,
+.rev-review-content {
+	white-space: pre-wrap; /* CSS3 */
+	white-space: -moz-pre-wrap; /* Firefox */
+	white-space: -pre-wrap; /* Opera <7 */
+	white-space: -o-pre-wrap; /* Opera 7 */
+	word-wrap: break-word; /* IE */
 }
 
 .rev-comments-user-image {
@@ -160,7 +176,7 @@ word-wrap: break-word; /* IE */
 	min-height: 80px;
 	border: 1px solid #CECECE;
 	background-color: white;
-	padding : 5px;
+	padding: 5px;
 }
 
 .rev-comment-textarea {
