@@ -174,7 +174,7 @@ public class TestDataController
         pr.save( p );
 
         p = new Product();
-        p.setCategory( cr.findByName( "DELL" ) );
+        p.setCategory( cr.findByName( "Dell" ) );
         p.setDescription( "Laptop DELL D200" );
         p.addImage( "img/dell1.jpg" );
         p.setName( "DELL D200" );
@@ -185,7 +185,7 @@ public class TestDataController
         pr.save( p );
 
         p = new Product();
-        p.setCategory( cr.findByName( "DELL" ) );
+        p.setCategory( cr.findByName( "Dell" ) );
         p.setDescription( "Laptop DELL D600" );
         p.addImage( "img/dell2.jpg" );
         p.setName( "DELL D600" );
