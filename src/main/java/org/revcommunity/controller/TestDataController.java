@@ -115,6 +115,8 @@ public class TestDataController
                 r.setTitle( "Recenzja " + p.getName() );
                 r.addComment( p.getName() + ". " + p.getDescription() + ". Komentarz1" );
                 r.addComment( p.getName() + ". " + p.getDescription() + ". Komentarz2" );
+                r.setRank( i + 1 );
+                r.setUsefulness( i * 10 + 20 );
                 rs.save( r );
             }
         }
