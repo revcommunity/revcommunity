@@ -33,23 +33,11 @@ public class ReviewService
     public void save( Review review )
     {
         validate( review );
-        
-        for ( Comment c : review.getComments() )
-        {
-            User u = c.getAuthor();
-
-            u.addComment( c );
-            ur.save( u );
-            cr.save( c );
-        }
 
         Product p = review.getProduct();
         rr.save( review );
         p.increaseReviewCount();
         pr.save( p );
-        User user = review.getAuthor();
-        user.addReview( review );
-        ur.save( user );
     }
 
     private void validate( Review review )

@@ -26,6 +26,11 @@ public class Comment
         this.author = author;
     }
 
+    public Comment( String comment )
+    {
+        text = comment;
+    }
+
     public Long getNodeId()
     {
         return nodeId;

@@ -34,7 +34,7 @@ public class TestDataController
 
     @Autowired
     private Neo4jTemplate tpl;
-    
+
     @Autowired
     private CategoryService cs;
 
@@ -78,6 +78,14 @@ public class TestDataController
         createProducts();
         createUsers();
         createReviews();
+        return new Message();
+    }
+
+    @RequestMapping( value = "clean" )
+    @ResponseBody
+    public Message clean()
+    {
+        commentRepo.deleteAll();
         return new Message();
     }
 
