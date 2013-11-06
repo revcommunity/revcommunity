@@ -11,7 +11,9 @@ import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
 import org.revcommunity.model.CategoryGroup;
+import org.revcommunity.model.Product;
 import org.revcommunity.repo.CategoryGroupRepo;
+import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.nokaut.NokautConnector;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.util.Message;
@@ -141,7 +143,7 @@ public class CategoryController
 	        
 	    Category c = nokautConnector.getCategoryByName("Komputery");
 	
-		Long id = c.getId();
+		Long id = c.getNodeId();
 	
 		pr.save(c);
 		
@@ -152,11 +154,10 @@ public class CategoryController
 			
 			pr.save(category);
 			
-			Long cid = category.getId();
+			Long cid = category.getNokautId();
 			List<Product> products = nokautConnector.getProductsByCategoryId(""+cid.longValue(), 5);
 			
 			for (Product product : products) {
-				product.addImage(product.getThumbnail());
 				log.info(product);
 				productRepo.save(product);
 			}
