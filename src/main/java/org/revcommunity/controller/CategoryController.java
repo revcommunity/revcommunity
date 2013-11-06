@@ -1,5 +1,3 @@
-
-
 package org.revcommunity.controller;
 
 import java.io.IOException;
@@ -55,10 +53,19 @@ public class CategoryController
     public Message saveLeaf( @RequestBody Category cat )
         throws JsonParseException, JsonMappingException, IOException
     {
-        CategoryGroup catParent = cgr.findByNodeId( cat.getParentId() );
-        cat.setParent( catParent );
-        cr.save( cat );
-        catParent.addChild( cat );
+
+        if ( cat.getParentId() == null )
+        {
+            cat.setParent( null );
+            cr.save( cat );
+        }
+        else
+        {
+            CategoryGroup catParent = cgr.findByNodeId( cat.getParentId() );
+            cat.setParent( catParent );
+            cr.save( cat );
+            catParent.addChild( cat );
+        }
 
         for ( Category iterable_element : cr.findAll() )
         {
@@ -135,7 +142,7 @@ public class CategoryController
         }
         return cat2;
     }
-    
+
     @RequestMapping( value = "/getByParent" )
     @ResponseBody
     public List<AbstractCategory> getByParent( @RequestParam( required = false ) Long parentId )
@@ -158,7 +165,7 @@ public class CategoryController
         Category c = new Category( categoryId );
         return cr.getFilters( c );
     }
-    
+
     @RequestMapping( value = "/getByParentWithoutLeaf" )
     @ResponseBody
     public List<AbstractCategory> getByParentWithoutLeaf( @RequestParam( required = false ) Long parentId )
@@ -184,4 +191,3 @@ public class CategoryController
         }
     }
 }
-
