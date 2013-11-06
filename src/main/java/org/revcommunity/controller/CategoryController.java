@@ -158,5 +158,30 @@ public class CategoryController
         Category c = new Category( categoryId );
         return cr.getFilters( c );
     }
+    
+    @RequestMapping( value = "/getByParentWithoutLeaf" )
+    @ResponseBody
+    public List<AbstractCategory> getByParentWithoutLeaf( @RequestParam( required = false ) Long parentId )
+    {
+        if ( parentId != null )
+        {
+            CategoryGroup parent = new CategoryGroup( parentId );
+            List<AbstractCategory> abstractCategory = cgr.getChildren( parent );
+            List<AbstractCategory> childrenWithoutLeaf = new ArrayList<AbstractCategory>();
+
+            for ( int i = 0; i < abstractCategory.size(); i++ )
+            {
+                if ( abstractCategory.get( i ).isLeaf() == false )
+                {
+                    childrenWithoutLeaf.add( abstractCategory.get( i ) );
+                }
+            }
+            return childrenWithoutLeaf;
+        }
+        else
+        {
+            return cgr.findByBaseCategory( true );
+        }
+    }
 }
 
