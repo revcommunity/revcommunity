@@ -15,4 +15,6 @@ public interface CategoryGroupRepo
 
     @Query( "START parent=node({0}) MATCH parent-[:CONTAINS]->children RETURN children" )
     public List<AbstractCategory> getChildren( AbstractCategory parent );
+
+    public CategoryGroup findByNodeId( Long nodeId );
 }

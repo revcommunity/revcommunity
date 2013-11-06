@@ -27,7 +27,8 @@ views:[
     	'review.ReviewForm',
     	'review.EvaluationForm',
     	'review.CommentsList',
-    	'form.CategoryCombo'
+    	'form.CategoryCombo',
+    	'form.CategoryComboWithoutLeaf'
     	],
     models:['Product','Review','Category'],
     launch: function() {

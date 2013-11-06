@@ -32,7 +32,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 public class CategoryController
 {
     @Autowired
-    private CategoryRepo pr;
+    private CategoryRepo cr;
 
     @Autowired
     private ProductRepo productRepo;
@@ -48,19 +48,23 @@ public class CategoryController
 
     private static final Logger log = Logger.getLogger( CategoryController.class );
 
-    @RequestMapping( method = RequestMethod.POST )
+    @RequestMapping( value = "/add_leaf", method = RequestMethod.POST )
     @ResponseBody
-    public Message save( @RequestBody Category cat )
+    public Message saveLeaf( @RequestBody Category cat )
         throws JsonParseException, JsonMappingException, IOException
     {
+        CategoryGroup catParent = cgr.findByNodeId( cat.getParentId() );
+        cat.setParent( catParent );
+        cr.save( cat );
+        catParent.addChild( cat );
 
-        pr.save( cat );
-
-        for ( Category iterable_element : pr.findAll() )
+        for ( Category iterable_element : cr.findAll() )
         {
             log.debug( "" );
             log.debug( "name: " + iterable_element.getName() );
+            log.debug( "parent: " + iterable_element.getParentId() );
             log.debug( "filters: " + iterable_element.getFilters() );
+
             for ( CategoryFilter i : tpl.fetch( iterable_element.getFilters() ) )
             {
                 log.debug( "  param:" + i.getName() );
@@ -75,11 +79,40 @@ public class CategoryController
         return new Message();
     }
 
+    @RequestMapping( value = "/add_group", method = RequestMethod.POST )
+    @ResponseBody
+    public Message saveGroup( @RequestBody CategoryGroup cat )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+
+        if ( cat.getParentId() == null )
+        {
+            cat.setParent( null );
+            cgr.save( cat );
+        }
+        else
+        {
+            CategoryGroup catParent = cgr.findByNodeId( cat.getParentId() );
+            cat.setParent( catParent );
+            cgr.save( cat );
+            catParent.addChild( cat );
+        }
+        for ( CategoryGroup iterable_element : cgr.findAll() )
+        {
+            log.debug( "" );
+            log.debug( "name: " + iterable_element.getName() );
+            log.debug( "ID: " + iterable_element.getNodeId() );
+            log.debug( "parentID: " + iterable_element.getParentId() );
+        }
+
+        return new Message();
+    }
+
     @RequestMapping( method = RequestMethod.GET )
     @ResponseBody
     public EndResult<Category> getAll()
     {
-        return pr.findAll();
+        return cr.findAll();
     }
 
     @RequestMapping( value = "/parent", method = RequestMethod.GET )
@@ -88,13 +121,13 @@ public class CategoryController
     {
         EndResult<Category> cat;
         ArrayList<Category> cat2 = new ArrayList<Category>();
-        cat = pr.findAll();
+        cat = cr.findAll();
         for ( Category category : cat )
         {
             if ( category.getName() != null )
             {
                 cat2.add( category );
-                log.debug( ">><<" + category.getName() );
+                log.debug( category.getName() );
             }
 
         }
@@ -121,17 +154,17 @@ public class CategoryController
     public List<CategoryFilter> getFilters( @RequestParam Long categoryId )
     {
         Category c = new Category( categoryId );
-        return pr.getFilters( c );
+        return cr.getFilters( c );
     }
 
     @RequestMapping( value = "/nokaut", method = RequestMethod.GET )
     @ResponseBody
     public void getFromNokaut()
     {
-        EndResult<Category> p = pr.findAll();
+        EndResult<Category> p = cr.findAll();
         for ( Category category : p )
         {
-            pr.delete( category );
+            cr.delete( category );
         }
 
         EndResult<Product> pp = productRepo.findAll();
@@ -144,7 +177,7 @@ public class CategoryController
 
         Long id = c.getNodeId();
 
-        pr.save( c );
+        cr.save( c );
 
         List<Category> categories = nokautConnector.getCategoriesByParentId( "" + id.longValue() );
 
@@ -152,7 +185,7 @@ public class CategoryController
         {
             // logger.info(category.toString());
 
-            pr.save( category );
+            cr.save( category );
 
             Long cid = category.getNodeId();
             List<Product> products = nokautConnector.getProductsByCategoryId( "" + cid.longValue(), 5 );
@@ -162,6 +195,31 @@ public class CategoryController
                 log.info( product );
                 productRepo.save( product );
             }
+        }
+    }
+
+    @RequestMapping( value = "/getByParentWithoutLeaf" )
+    @ResponseBody
+    public List<AbstractCategory> getByParentWithoutLeaf( @RequestParam( required = false ) Long parentId )
+    {
+        if ( parentId != null )
+        {
+            CategoryGroup parent = new CategoryGroup( parentId );
+            List<AbstractCategory> abstractCategory = cgr.getChildren( parent );
+            List<AbstractCategory> childrenWithoutLeaf = new ArrayList<AbstractCategory>();
+
+            for ( int i = 0; i < abstractCategory.size(); i++ )
+            {
+                if ( abstractCategory.get( i ).isLeaf() == false )
+                {
+                    childrenWithoutLeaf.add( abstractCategory.get( i ) );
+                }
+            }
+            return childrenWithoutLeaf;
+        }
+        else
+        {
+            return cgr.findByBaseCategory( true );
         }
     }
 
