@@ -135,5 +135,28 @@ public class CategoryController
         }
         return cat2;
     }
+    
+    @RequestMapping( value = "/getByParent" )
+    @ResponseBody
+    public List<AbstractCategory> getByParent( @RequestParam( required = false ) Long parentId )
+    {
+        if ( parentId != null )
+        {
+            CategoryGroup parent = new CategoryGroup( parentId );
+            return cgr.getChildren( parent );
+        }
+        else
+        {
+            return cgr.findByBaseCategory( true );
+        }
+    }
+
+    @RequestMapping( value = "/getFilters" )
+    @ResponseBody
+    public List<CategoryFilter> getFilters( @RequestParam Long categoryId )
+    {
+        Category c = new Category( categoryId );
+        return cr.getFilters( c );
+    }
 }
 
