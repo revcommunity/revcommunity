@@ -6,6 +6,8 @@ Ext.define('RevCommunity.model.Product', {
     		'nodeId',
     		'productCode',
     		'category',
+    		'priceAvg',
+    		'reviewCount',
     		'description',
     		{
 	    		name:'mainImage',

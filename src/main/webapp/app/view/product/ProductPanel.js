@@ -13,7 +13,7 @@ Ext.define('RevCommunity.view.product.ProductPanel' ,{
 			      '<div class="rev-box">Srednia ocena: {averageMark}</div>',
 			   '</div>',
 			   '<div class="rev-boxes">',
-			      '<div class="rev-box">Cena: 100 zł{price}</div>',
+			      '<div class="rev-box">Cena: {priceAvg} zł</div>',
 			      '<div class="rev-box">F</div>',
 			  '</div>',
 			'</div>',

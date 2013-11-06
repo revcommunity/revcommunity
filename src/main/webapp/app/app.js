@@ -29,7 +29,7 @@ views:[
     	'review.CommentsList',
     	'form.CategoryCombo'
     	],
-    models:['Product','Review','Category'],
+    models:['Product','Review','Category', 'Comment'],
     launch: function() {
     	
     	var panel=Ext.widget('container',{    

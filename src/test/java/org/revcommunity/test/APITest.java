@@ -2,14 +2,11 @@ package org.revcommunity.test;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.util.List;
 
 import org.apache.log4j.Logger;
-import org.junit.Rule;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.Product;
@@ -28,7 +25,10 @@ public class APITest
 {
 
     private static final Logger logger = Logger.getLogger( APITest.class );
-	
+
+    @Autowired
+    private CategoryRepo categoryRepo;
+
     @Autowired
     private NokautConnector nokauConnctor;
     

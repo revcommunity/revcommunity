@@ -22,13 +22,15 @@ public class Product
 
     private String producer;
 
+    private int reviewCount = 0;
+
     private String productCode;
 
     private String description;
 
     private List<String> images;
 
-    private String priceAvg;
+    private Double priceAvg;
 
     private String nokautUrl;
 
@@ -108,6 +110,8 @@ public class Product
 
     public void addImage( String image )
     {
+        if ( getImages().isEmpty() )
+            setMainImage( image );
         getImages().add( image );
     }
 
@@ -153,16 +157,6 @@ public class Product
         this.keys = keys;
     }
 
-    public String getPriceAvg()
-    {
-        return priceAvg;
-    }
-
-    public void setPriceAvg( String priceAvg )
-    {
-        this.priceAvg = priceAvg;
-    }
-
     public String getNokautUrl()
     {
         return nokautUrl;
@@ -181,6 +175,31 @@ public class Product
     public void setNokautId( Long nokautId )
     {
         this.nokautId = nokautId;
+    }
+
+    public Double getPriceAvg()
+    {
+        return priceAvg;
+    }
+
+    public void setPriceAvg( Double priceAvg )
+    {
+        this.priceAvg = priceAvg;
+    }
+
+    public int getReviewCount()
+    {
+        return reviewCount;
+    }
+
+    public void setReviewCount( int reviewCount )
+    {
+        this.reviewCount = reviewCount;
+    }
+
+    public void increaseReviewCount()
+    {
+        reviewCount++;
     }
 
 }

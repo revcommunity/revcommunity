@@ -14,5 +14,8 @@ var UtilService={
 				jsonData:params
 			}).responseText;
 			return Ext.decode(resp);
+		},
+		populateTestData:function(){
+			UtilService.exec('test/testData');
 		}
 };

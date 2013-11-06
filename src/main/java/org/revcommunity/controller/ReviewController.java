@@ -1,7 +1,6 @@
 package org.revcommunity.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -10,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.revcommunity.model.Comment;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.User;
 import org.revcommunity.repo.ReviewRepo;
@@ -55,14 +55,26 @@ public class ReviewController
     @ResponseBody
     public Review get( @PathVariable Long id )
     {
-        return rr.findOne( id );
+        Review r = rr.findOne( id );
+        tpl.fetch( r.getAuthor() );
+        tpl.fetch( r.getProduct() );
+        for ( Comment c : tpl.fetch( r.getComments() ) )
+        {
+            tpl.fetch( c.getAuthor() );
+        }
+        return r;
     }
 
     @RequestMapping( value = "/productReviews/{productId}", method = RequestMethod.GET )
     @ResponseBody
-    public List<Review> getReviewsByProductId( @PathVariable Long productId )
+    public Set<Review> getReviewsByProductId( @PathVariable Long productId )
     {
-        return rr.findByProductNodeId( productId );
+        Set<Review> reviews = rr.findByProductNodeId( productId );
+        for ( Review r : reviews )
+        {
+            tpl.fetch( r.getAuthor() );
+        }
+        return reviews;
     }
 
     /**
@@ -92,7 +104,7 @@ public class ReviewController
         throws JsonParseException, JsonMappingException, IOException
     {
         // TODO zmienić na uzytkownika zalogowanego
-        return getReviewsForUser( "test" );
+        return getReviewsForUser( "jkowalski" );
     }
 
     @RequestMapping( method = RequestMethod.GET, value = "userReviews" )
