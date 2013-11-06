@@ -26,6 +26,7 @@
 	<script type="text/javascript" src="app/service/ReviewService.js"></script>
 	<script type="text/javascript" src="app/service/UserService.js"></script>
 	<script type="text/javascript" src="app/service/CategoryService.js"></script>
+	<script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
 	
     <script type="text/javascript" src="app/app.js"></script>
 </head>
