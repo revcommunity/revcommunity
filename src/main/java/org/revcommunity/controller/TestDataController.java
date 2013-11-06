@@ -153,7 +153,7 @@ public class TestDataController
         pr.deleteAll();
         Product p = new Product();
         p.setCategory( cr.findByName( "HP" ) );
-        p.setDescription( "Laptop HP h300" );
+        p.setDescription( "Opis Techniczny Procesor (opis): i7-3517U od 1,9 do 3.00 GHz Procesor (opis): 4 procesory logiczne, 2 Fizyczne Matryca (przekątna): 15,6 cale Matryca (rozdzielczość): WXGA 1366 x 768 (16:9) Matryca (powłoka): świecąca Matryca (opis): WLED Pamięć zainstalowana (pojemność): 4 GB Pamięć (max. pojemność): 8 GB Pamięć (technologia): 1600MHz DDR3 Dysk twardy (pojemność): 1000 GB Dysk twardy (interfejs): SATA Napęd optyczny (typ): Super Multi DVD+/-RW/RAM Karta graficzna (model): AMD Radeon HD 8730M 2GB Karta dźwiękowa: HD Audio Wbudowany mikrofon: Tak Karta sieciowa przewodowa: 10/100 Mbps Ethernet Karta sieciowa bezprzewodowa: Tak Karta sieciowa bezprzewodowa (opis): Dell Wireless 1703 - 802.11b/g/n, Bluetooth wer. 4.0 + LE Bluetooth: Tak Kensington Lock: Tak HDMI: Tak Line-out: Tak Wejście mikrofonu: Tak Czytnik kart pamięci: Tak USB 2.0: 2 szt. USB 3.0: 2 szt. System operacyjny: brak Wbudowana kamera: Tak Wymiary (wysokość): 25 mm Wymiary (szerokość): 376 mm Wymiary (głębokość): 259 mm Waga: 2,25 kg Gwarancja: 24 m-ce Next Business Day" );
         p.addImage( "img/hp1.jpg" );
         p.setName( "HP h300" );
         p.setPriceAvg( 3000.0 );

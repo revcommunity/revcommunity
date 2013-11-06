@@ -14,7 +14,7 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 //		          ],
 	    viewConfig:{
 	    	disableSelection:true,
-	    	overItemCls:'',
+	    	//overItemCls:'',
 	    	enableTextSelection: true
 	    },
 	    store: 'ProductReviewsStore',
