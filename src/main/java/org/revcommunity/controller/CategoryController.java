@@ -53,7 +53,6 @@ public class CategoryController
     public Message saveLeaf( @RequestBody Category cat )
         throws JsonParseException, JsonMappingException, IOException
     {
-
         if ( cat.getParentId() == null )
         {
             cat.setParent( null );
@@ -143,29 +142,6 @@ public class CategoryController
         return cat2;
     }
 
-    @RequestMapping( value = "/getByParent" )
-    @ResponseBody
-    public List<AbstractCategory> getByParent( @RequestParam( required = false ) Long parentId )
-    {
-        if ( parentId != null )
-        {
-            CategoryGroup parent = new CategoryGroup( parentId );
-            return cgr.getChildren( parent );
-        }
-        else
-        {
-            return cgr.findByBaseCategory( true );
-        }
-    }
-
-    @RequestMapping( value = "/getFilters" )
-    @ResponseBody
-    public List<CategoryFilter> getFilters( @RequestParam Long categoryId )
-    {
-        Category c = new Category( categoryId );
-        return cr.getFilters( c );
-    }
-
     @RequestMapping( value = "/getByParentWithoutLeaf" )
     @ResponseBody
     public List<AbstractCategory> getByParentWithoutLeaf( @RequestParam( required = false ) Long parentId )
@@ -190,4 +166,43 @@ public class CategoryController
             return cgr.findByBaseCategory( true );
         }
     }
+
+    @RequestMapping( value = "/getByParent" )
+    @ResponseBody
+    public List<AbstractCategory> getByParent( @RequestParam( required = false ) Long parentId )
+    {
+        if ( parentId != null )
+        {
+            CategoryGroup parent = new CategoryGroup( parentId );
+            return cgr.getChildren( parent );
+        }
+        else
+        {
+            return cgr.findByBaseCategory( true );
+        }
+    }
+
+    @RequestMapping( value = "/getFilters" )
+    @ResponseBody
+    public List<CategoryFilter> getFilters( @RequestParam Long categoryId )
+    {
+        Category c = new Category( categoryId );
+        return cr.getFilters( c );
+    }
+
+    @RequestMapping( value = "/product" )
+    @ResponseBody
+    public Product getCategoriesForProduct( @RequestParam Long productId )
+    {
+        Product p = productRepo.findOne( productId );
+        tpl.fetch( p.getCategory() );
+        AbstractCategory c = p.getCategory();
+        while ( c != null )
+        {
+            tpl.fetch( c.getParent() );
+            c = c.getParent();
+        }
+        return p;
+    }
+
 }
