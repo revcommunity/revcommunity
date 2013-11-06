@@ -1,5 +1,6 @@
 package org.revcommunity.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
@@ -12,7 +13,7 @@ public class CategoryGroup
 {
 
     @RelatedTo( type = "CONTAINS", direction = Direction.OUTGOING )
-    private Set<AbstractCategory> children;
+    private Set<AbstractCategory> children = new HashSet<AbstractCategory>();
 
     public CategoryGroup()
     {
@@ -33,14 +34,16 @@ public class CategoryGroup
         this.children = children;
     }
 
-    @Override
-    public String toString()
-    {
-        return "CategoryGroup [children=" + children + ", getNodeId()=" + getNodeId() + ", getParent()=" + getParent() + ", getName()=" + getName()
-            + "]";
-    }
+	@Override
+	public String toString() {
+		return "CategoryGroup [children=" + children + ", getChildren()="
+				+ getChildren() + ", getNokautId()=" + getNokautId()
+				+ ", getFilters()=" + getFilters() + ", getNodeId()="
+				+ getNodeId() + ", getParent()=" + getParent() + ", getName()="
+				+ getName() + ", getClass()=" + getClass() + "]";
+	}
 
-    public void addCategoryFilter( CategoryFilter categoryFilter )
+	public void addCategoryFilter( CategoryFilter categoryFilter )
     {
         getFilters().add( categoryFilter );
 

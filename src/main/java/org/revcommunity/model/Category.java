@@ -22,4 +22,14 @@ public class Category
         return true;
     }
 
+	@Override
+	public String toString() {
+		return "Category [getNokautId()=" + getNokautId() + ", getFilters()="
+				+ getFilters() + ", getNodeId()=" + getNodeId()
+				+ ", getParent()=" + getParent() + ", getName()=" + getName()
+				+ ", getClass()=" + getClass() + "]";
+	}
+
+    
+    
 }

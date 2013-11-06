@@ -17,6 +17,9 @@ Ext.define('RevCommunity.view.category.ParentCategoryFieldSet', {
 	layout : 'hbox',
 
 	items : [ {
+		fieldLabel:'Wybierz kategorie',
+		xtype:'categorycombo'
+	},/*{
 		xtype : 'container',
 		defaultType : 'checkboxfield',
 		width : 200,
@@ -27,7 +30,7 @@ Ext.define('RevCommunity.view.category.ParentCategoryFieldSet', {
 			checked : false
 		} ]
 	}, {
-		fieldLabel : 'Wybierz kategorie',
+		fieldLabel : 'wybrano:',
 		name : 'parent_category',
 		xtype : 'combobox',
 		store : storeCat,
@@ -52,7 +55,7 @@ Ext.define('RevCommunity.view.category.ParentCategoryFieldSet', {
 		displayField : 'name',
 		autoSelect : true,
 		forceSelection : true
-	} ],
+	}*/ ],
 	initComponent : function() {
 
 		if (Ext.isEmpty(this.defaults))

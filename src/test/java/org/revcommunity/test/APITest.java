@@ -8,13 +8,18 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
+import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
 import org.revcommunity.nokaut.NokautConnector;
+import org.revcommunity.repo.AbstractCategoryRepo;
+import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
+import org.springframework.stereotype.Service;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,54 +35,83 @@ public class APITest
     private CategoryRepo categoryRepo;
 
     @Autowired
-    private NokautConnector nokauConnctor;
-
+    private NokautConnector nokautConnctor;
+    
+    @Autowired
+    private CategoryGroupRepo categoryGroupRepo;
+    
+    @Autowired
+    private AbstractCategoryRepo abstractCategoryRepo;
+    
     @Autowired
     private ProductRepo productRepo;
 
     @Test
     @Transactional
-    public void test()
-        throws Exception
+    public void testCategoryById() throws Exception
     {
-
-        EndResult<Category> p = categoryRepo.findAll();
-        for ( Category category : p )
-        {
-            categoryRepo.delete( category );
-        }
-
-        deleteAllProducts();
-
-        Category c = nokauConnctor.getCategoryByName( "Komputery" );
-
-        assertEquals( c.getName(), "Komputery" );
-
-        categoryRepo.save( c );
-
-        Long id = 1L;// c.getId();
-
-        List<Category> categories = nokauConnctor.getCategoriesByParentId( "" + id.longValue() );
-
-        assertTrue( categories.size() > 0 );
-
-        for ( Category category : categories )
-        {
-            logger.info( category.toString() );
-
-            categoryRepo.save( category );
-
-            Long cid = category.getNodeId();
-            List<Product> products = nokauConnctor.getProductsByCategoryId( "" + cid.longValue(), 5 );
-
-            for ( Product product : products )
-            {
-                logger.info( product.toString() );
-                productRepo.save( product );
-            }
-        }
+    	
+        logger.info("-------------------------------------------------------------------------------------------------");
+        logger.info("-------------------------------------------------------------------------------------------------");
+        logger.info("-------------------------------------------------------------------------------------------------");
+        logger.info("-------------------------------------------------------------------------------------------------");
+       //List<AbstractCategory> list =  nokautConnctor.downloadCategoriesByParentId(new Long(126));
+       
+       
+       
+//       logger.info("------------------------------------------------------------------------------------------------");
+//       EndResult<Category> p = this.categoryRepo.findAll();
+//       for ( Category c : p )
+//       {
+//           logger.info(c);
+//       }
+       
+//       logger.info("------------------------------------------------------------------------------------------------");
+//       logger.info("------------------------------------------------------------------------------------------------");
+//       EndResult<CategoryGroup> ppp = this.categoryGroupRepo.findAll();
+//       for ( AbstractCategory c : ppp )
+//       {
+//           logger.info(c);
+//       }
+//       
+//       logger.info("------------------------------------------------------------------------------------------------");
+//       logger.info("------------------------------------------------------------------------------------------------");
+//       logger.info("------------------------------------------------------------------------------------------------");
+//       logger.info("------------------------------------------------------------------------------------------------");
+//       EndResult<AbstractCategory> pp = this.abstractCategoryRepo.findAll();
+//       for ( AbstractCategory c : pp )
+//       {
+//           logger.info(c);
+//       }
+       
+       
     }
-
+    
+    @Test
+    @Transactional
+    public void testDownloadProductsByCategoryId() throws Exception
+    {
+       nokautConnctor.downloadCategoriesByParentId(new Long(126));
+       
+       
+       logger.info("------------------------------------------------------------------------------------------------");
+       EndResult<Category> p = this.categoryRepo.findAll();
+       for ( Category c : p )
+       {
+           logger.info(c);
+           nokautConnctor.downloadProductsByCategoryId(c, 2);
+       }
+       
+       
+    }
+    
+    //@Test
+    @Transactional
+    public void testMainCategories() throws Exception
+    {
+    	nokautConnctor.downloadMainCategories();
+    }
+    
     // @Test
     public void parserTest()
     {

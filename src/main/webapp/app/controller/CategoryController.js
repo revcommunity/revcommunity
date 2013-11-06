@@ -1,6 +1,7 @@
 var global_nr_parameters = 0;
 var global_nr_values = 0;
 var global_active_parameters = 0;
+var global_category_id_leaf = null;
 
 Ext
 		.define(
@@ -102,15 +103,12 @@ Ext
 						var form = btn.up('form');
 						var fr = form.getForm().getFieldValues();
 						console.log(fr);
-
 						var arrayCategory = new Array();
 
 						arrayCategory['name'] = fr.name;
-						if (fr.parentCategory == true) {
-							arrayCategory['parentId'] = null;
-						} else {
-							arrayCategory['parentId'] = fr.parent_category;
-						}
+
+						arrayCategory['parentId'] = global_category_id_leaf;
+
 						var arrayParam = new Array();
 						arrayParam['name'] = 'nazwaParametru_666';
 						arrayParam['values'] = new Array('parametrA',
@@ -131,11 +129,10 @@ Ext
 								values : valuesList
 							});
 						}
-
-						console.dir(list);
-
+						
+						if(fr.lastcategoryfield){// is leaf
 						Ext.Ajax.request({
-							url : 'rest/categories',
+							url : 'rest/categories/add_leaf',
 							jsonData : {
 								name : arrayCategory['name'],
 								parentId : arrayCategory['parentId'],
@@ -143,6 +140,17 @@ Ext
 							},
 							method : 'POST'
 						});
+						} else {
+							Ext.Ajax.request({
+								url : 'rest/categories/add_group',
+								jsonData : {
+									name : arrayCategory['name'],
+									parentId : arrayCategory['parentId'],
+									filters : list,
+								},
+								method : 'POST'
+							});
+						}
 
 					},
 
@@ -159,7 +167,7 @@ Ext
 					},
 
 					changeLastcategoryfield : function(panel) {
-						var nr = panel.getName();
+						/*var nr = panel.getName();
 
 						var form = panel.up('form');
 						fc = form.down('container[name=panel_param]');
@@ -169,7 +177,7 @@ Ext
 							fc.hide();
 						} else {
 							fc.show();
-						}
+						}*/
 					}
 
 				});

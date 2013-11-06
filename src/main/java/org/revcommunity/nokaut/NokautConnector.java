@@ -1,7 +1,10 @@
 package org.revcommunity.nokaut;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.httpclient.HttpClient;
@@ -17,12 +20,18 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
+import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
+import org.revcommunity.repo.AbstractCategoryRepo;
+import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
+import org.revcommunity.repo.ProductRepo;
+import org.revcommunity.util.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * @author Tomek
@@ -34,28 +43,13 @@ public class NokautConnector
     private static final Logger logger = Logger.getLogger( NokautConnector.class );
 
     @Autowired
-    private CategoryRepo categoryRepo;
-
+    private AbstractCategoryRepo abstractCategoryRepo;
+    
     @Autowired
-    private Neo4jTemplate tpl;
-
-    private static final String KEY = "cf9d036f25be50b91c04b2ec9b82de07";
-
-    private static final String URI = "http://api.nokaut.pl/?key=" + KEY + "&format=json";
-
-    private static final String METHOD = "&method=";
-
-    // methods
-    private static final String NOKAUT_CATEGORY_GET_BY_NAME = METHOD + "nokaut.Category.getByName";
-
-    private static final String NOKAUT_CATEGORY_GET_BY_PARENT_ID = METHOD + "nokaut.Category.getByParentId";
-
-    private static final String NOKAUT_PRODUCT_GET_BY_CATEGORY = METHOD + "nokaut.Product.getByCategory";
-
-    // json fields
-    private static final String PARENT_ID = "parentId";
-
-    private static final String ITEMS = "items";
+    private ProductRepo productRepo;
+    
+    @Autowired
+    private org.revcommunity.util.ImageService imageService;
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -63,177 +57,211 @@ public class NokautConnector
 
     private static GetMethod getMethod = new GetMethod();
 
-    // FIXME jak bedziemy docelowo to pobierac?
-    // Po nazwie czy po ID, myślicie że ID sie moze zmienic ?
-    // Po nazwie mam wiele wyników ale za to są już uszeregowane hierarchicznie
+    /**
+     * Metoda pobiera główne kategorie i zapisuje je w bazie
+     * @param id
+     * @return Listę ientyfikatorów pobranych kategorii 
+     * @throws IOException 
+     * @throws JsonMappingException 
+     * @throws JsonParseException 
+     */
     @Transactional
-    public Category getCategoryByName( String name )
+    public List<Long> downloadMainCategories() throws JsonParseException, JsonMappingException, IOException
     {
-        if ( name == null || name.length() == 0 )
-            return null;
+       Long nokautParentId = new Long(0);
+    	
+       List<Long> categories = new ArrayList<Long>();
+        
+       JSONObject j = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + nokautParentId.longValue() );
 
-        JSONObject json = getMethod( URI + NOKAUT_CATEGORY_GET_BY_NAME + "&name=" + name + "&limit=" + 1 );
+       if ( j == null ){
+       	return categories;//throw new Exception("Response is null");
+       }
+       
+       CategoryGroup parent = null;
+        
+        for ( Object o : j.keySet() )
+        {
+        	boolean exist = false;
+            JSONObject c = j.getJSONObject( (String) o );
 
-        JSONObject j = json.getJSONObject( "1item" );
-        Category c = null;
-        String parentId = j.getString( PARENT_ID );
-        // j.put("parent", "");
-        try
-        {
-            c = objectMapper.readValue( j.toString(), Category.class );
-        }
-        catch ( JsonParseException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch ( JsonMappingException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        catch ( IOException e )
-        {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        // c = om.fromJson(j.toString(), Category.class);
-        if ( !parentId.equals( "0" ) )
-        {
-            // nie root
-            Long l = Long.parseLong( parentId );
-            AbstractCategory cg = categoryRepo.findByNokautId( l );
-            if ( cg == null )
-            {
-                return null;
+            JSONObject cat = new JSONObject();
+            for(String key : NokautConstans.categoryFields){
+            	String value = c.getString(key);
+            	cat.put(NokautConstans.categoryFieldsMapper.get(key), value);
             }
-            // c.setParent(cg);
-            // cg.addChildren(c);
-            tpl.save( cg );
+            
+            CategoryGroup category = objectMapper.readValue( cat.toString(), CategoryGroup.class );
+            
+            //FIXME w funkcji ?
+            Long prId = category.getNokautId();
+            //sprawdzam czy obiekt nie istnieje juz bazie
+            if( this.abstractCategoryRepo.findByNokautId(prId) != null)
+            	exist = true;
+            
+            if(!exist){
+            	logger.info(category);
+                category.setParent(parent);
+                this.abstractCategoryRepo.save(category);
+                
+            }
+            categories.add(category.getNokautId());
         }
-
-        return c;
+        
+        return categories;
     }
 
     @Transactional
-    public List<Category> getCategoriesByParentId( String parentId )
+    public void downloadAllCategories() throws JsonParseException, JsonMappingException, IOException
     {
-        if ( parentId == null || parentId.length() == 0 )
+    	List<Long> ids = downloadMainCategories();
+    	
+    	for (Long id : ids) {
+    		downloadCategoriesByParentId(id);
+		}
+    }
+    
+    /**
+     * Metoda rekurencyjnie pobiera wszystkie podkategorie(schodzi do liscia) dla danej kateogorii, 
+     * wszystkie kategorie zostaja automatycznie zapisane w bazie!
+     * @param nokautParentId
+     * @return Lista bezposrednich potomkow danej kategorii
+     * @throws JsonParseException
+     * @throws JsonMappingException
+     * @throws IOException
+     */
+    @Transactional
+    public List<AbstractCategory> downloadCategoriesByParentId( Long nokautParentId ) throws JsonParseException, JsonMappingException, IOException
+    {
+        if ( nokautParentId == null )
             return null;
 
-        List<Category> list = new ArrayList<Category>();
+        List<AbstractCategory> categories = new ArrayList<AbstractCategory>();
+        	JSONObject j = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + nokautParentId.longValue() );
 
-        JSONObject j = getMethod( URI + NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + parentId );
+        	if ( j == null ){
+            	return categories;//throw new Exception("Response is null");
+            }
+        	
+            CategoryGroup parent = (CategoryGroup) this.abstractCategoryRepo.findByNokautId(nokautParentId);
+             
+             for ( Object o : j.keySet() )
+             {
+            	 boolean exist = false;
+                 JSONObject c = j.getJSONObject( (String) o );
 
-        for ( Object o : j.keySet() )
-        {
-            JSONObject category = j.getJSONObject( (String) o );
-
-            try
-            {
-                Category c = objectMapper.readValue( category.toString(), Category.class );
-
-                Long parentId1 = 1L;// c.getParentId();
-                if ( parentId1.longValue() > 0 )
-                {
-                    // nie root
-                    AbstractCategory cg = categoryRepo.findByNokautId( parentId1 );
-                    if ( cg == null )
-                    {
-                        return null;
+                 AbstractCategory category = null;
+                 JSONObject cat = new JSONObject();
+                 for(String key : NokautConstans.categoryFields){
+                 	String value = c.getString(key);
+                 	cat.put(NokautConstans.categoryFieldsMapper.get(key), value);
+                 }
+                 
+                 String isLeaf = c.getString(NokautConstans.IS_LEAF);
+                 if(isLeaf.equals("0")){
+                 	category = objectMapper.readValue( cat.toString(), CategoryGroup.class );
+                 	
+                 	Long prId = category.getNokautId();
+                    //sprawdzam czy obiekt nie istnieje juz bazie
+                    if( this.abstractCategoryRepo.findByNokautId(prId) != null)
+                    	exist = true;
+                 	
+                 	if(!exist){
+                 		logger.info(category);
+                     	category.setParent(parent);
+                 		this.abstractCategoryRepo.save(category);
+                 	}
+                 	
+                 	List<AbstractCategory> childs = downloadCategoriesByParentId(category.getNokautId());
+                 	for (AbstractCategory child : childs) {
+     					((CategoryGroup)category).addChild(child);
+     				}
+                 	
+                 }else{
+                 	category = objectMapper.readValue( cat.toString(), Category.class );
+                 	Long prId = category.getNokautId();
+                    //sprawdzam czy obiekt nie istnieje juz bazie
+                    if( this.abstractCategoryRepo.findByNokautId(prId) != null)
+                    	exist = true;
+                    
+                    if(!exist){
+                    	logger.info(category);
+                    	category.setParent(parent);
+                    	this.abstractCategoryRepo.save(category);
                     }
-                    // TODO Dlaczego leci StackOverFlow
-                    // c.setParent(cg);
-                    // cg.addChildren(c);
-                    tpl.save( cg );
-                }
-
-                list.add( c );
-
-            }
-            catch ( JsonParseException e )
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch ( JsonMappingException e )
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch ( IOException e )
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-        }
-
-        return list;
-
+                 }
+                 
+                 if(!exist){
+                	 categories.add(category);
+                 }
+             }
+             
+        return categories;
     }
 
     /**
-     * Pobiera produkty z danej kategorii, kategoria może być kategorią nadrzędną
-     * 
+     * Pobiera produkty z danej kategorii, podana kategoria musi być lisciem.
+     * Pobrane produkty są automatycznie zapisywane w bazie
      * @param categoryId
      * @param limit
      * @return JSON z produkatmi
      * @throws Exception
      */
     @Transactional
-    public List<Product> getProductsByCategoryId( String categoryId, int limit )
+    public void downloadProductsByCategoryId( Category category, int limit ) throws Exception
     {
-        if ( categoryId == null || categoryId.length() == 0 )
-            return null;
-
+        if ( category == null ){
+        	throw new Exception("Category object is null");
+        }
+            
         if ( limit <= 0 )
             limit = 100; // omyslna wartosc
 
-        AbstractCategory category = categoryRepo.findByNokautId( Long.parseLong( categoryId ) );
-        List<Product> products = new ArrayList<Product>();
-        if ( !category.isLeaf() )
-            return products;
+        JSONObject jsonObject = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_PRODUCT_GET_BY_CATEGORY + "&category=" + category.getNokautId().longValue() + "&limit=" + limit );
 
-        JSONObject jsonObject = getMethod( URI + NOKAUT_PRODUCT_GET_BY_CATEGORY + "&category=" + categoryId + "&limit=" + limit );
-
-        if ( jsonObject == null )
-            return null;
+        if ( jsonObject == null ){
+        	return;//throw new Exception("Response is null");
+        }
 
         for ( Object o : jsonObject.keySet() )
         {
-            String key = (String) o;
-            JSONObject product = jsonObject.getJSONObject( key );
+            JSONObject p = jsonObject.getJSONObject( (String) o );
 
-            Product p;
-            try
-            {
-                p = objectMapper.readValue( product.toString(), Product.class );
+            JSONObject prod = new JSONObject();
+            for(String key : NokautConstans.productFields){
+            	String value = p.getString(key);
+            	if(key.equals(NokautConstans.PRICE_AVG)){
+            		value = value.replace(",", ".");
+            	}
+            	prod.put(NokautConstans.productFieldsMapper.get(key), value);
+            }
+            
+            
+            Product product = objectMapper.readValue( prod.toString(), Product.class );
+            
+            Long prId = product.getNokautId();
+            //sprawdzam czy obiekt nie istnieje juz bazie
+            if( this.productRepo.findByNokautId(prId) != null)
+            	continue;
+            
+            String imageUrl  = p.getString(NokautConstans.IMAGE);
 
-                // TODO to samo co wyzej
-                // p.setCategory(category);
-
-                // category.addProduct(p);
-                tpl.save( category );
-                products.add( p );
-
+            MultipartFile nokautImage = downloadImage(imageUrl);
+            
+            if(nokautImage != null){
+            	List<File> files = this.imageService.save(Arrays.asList(nokautImage));
+                
+                for ( File file : files )
+                {
+                	product.addImage( ImageService.imgDirName + "/" + file.getName() );
+                }
             }
-            catch ( JsonParseException e )
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch ( JsonMappingException e )
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-            catch ( IOException e )
-            {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            
+            
+            
+            this.productRepo.save(product);
+            logger.info(product);
         }
-        return products;
     }
 
     private static JSONObject getMethod( String URI )
@@ -249,23 +277,13 @@ public class NokautConnector
             {
                 res = getMethod.getResponseBodyAsString();
                 JSONObject j = new JSONObject( res );
-                json = j.getJSONObject( "success" ).getJSONObject( ITEMS );
-
-                if ( json.keySet().size() > 0 )
-                {
-                    JSONObject o = json.getJSONObject( "1item" );
-                    String jsonString = json.toString();
-                    for ( Object k : o.keySet() )
-                    {
-
-                        String s = ( (String) k ).toString();
-                        if ( s.equals( "id" ) )
-                            s = "nokautId";
-                        jsonString = jsonString.replaceAll( s, parse( s ) );
-                    }
-                    json = new JSONObject( jsonString );
+                logger.debug(j);
+                try{
+                	json = j.getJSONObject( NokautConstans.SUCCESS ).getJSONObject( NokautConstans.ITEMS );
+                }catch(Exception r){
+                	return null;
                 }
-
+                
                 return json;
             }
 
@@ -309,5 +327,44 @@ public class NokautConnector
             }
         }
         return sb.toString();
+    }
+    
+    
+    private NokautImage downloadImage(String imageUrl){
+    	try
+        {
+            getMethod.setURI( new URI( imageUrl ) );
+            int status = httpClient.executeMethod( getMethod );
+            if ( status == HttpStatus.SC_OK )
+            {
+                InputStream is = getMethod.getResponseBodyAsStream();
+               
+                NokautImage ni = new NokautImage(is);
+                ni.setSize(getMethod.getResponseContentLength());
+                ni.setContentType(getMethod.getResponseCharSet());
+                int i =imageUrl.lastIndexOf('/');
+                imageUrl = imageUrl.substring(++i);
+                ni.setName(imageUrl);
+                ni.setOriginalFilename(imageUrl);
+                return ni;
+            }
+
+        }
+        catch ( URIException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch ( HttpException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch ( IOException e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    	return null;
     }
 }
