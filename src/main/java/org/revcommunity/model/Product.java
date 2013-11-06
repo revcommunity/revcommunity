@@ -202,4 +202,17 @@ public class Product
         reviewCount++;
     }
 
+	@Override
+	public String toString() {
+		return "Product [nodeId=" + nodeId + ", name=" + name + ", producer="
+				+ producer + ", reviewCount=" + reviewCount + ", productCode="
+				+ productCode + ", description=" + description + ", images="
+				+ images + ", priceAvg=" + priceAvg + ", nokautUrl="
+				+ nokautUrl + ", nokautId=" + nokautId + ", mainImage="
+				+ mainImage + ", keys=" + keys + ", properties=" + properties
+				+ ", category=" + category + "]";
+	}
+    
+    
+
 }
