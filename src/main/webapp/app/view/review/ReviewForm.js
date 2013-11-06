@@ -1,4 +1,5 @@
-Ext.define(
+Ext
+		.define(
 				'RevCommunity.view.review.ReviewForm',
 				{
 					extend : 'Ext.container.Container',
@@ -10,7 +11,7 @@ Ext.define(
 					bodyPadding : 5,
 					initComponent : function() {
 						console.log(this.data);
-						
+
 						this.items = [
 								{
 									xtype : 'panel',
@@ -36,8 +37,7 @@ Ext.define(
 														{
 															xtype : 'reviewevaluationform',
 															width : 200,
-														}
-														]
+														} ]
 
 											},
 											{
@@ -57,7 +57,7 @@ Ext.define(
 																	{
 																		xtype : 'image',
 																		name : 'productImage',
-																		src : 'img/empty.jpg',
+																		src : this.data.product.mainImage,
 																		maxHeight : 200,
 																		maxWidth : 200,
 
@@ -80,12 +80,12 @@ Ext.define(
 																					}
 																				},
 																				{
-																					 xtype: 'component',
-																					 cls : 'rev-review-content',
-																					  autoEl: {
-																						  tag: 'div',
-																						  html : this.data.content,
-																					  }
+																					xtype : 'component',
+																					cls : 'rev-review-content',
+																					autoEl : {
+																						tag : 'div',
+																						html : this.data.content,
+																					}
 																				} ]
 																	} ]
 														},
@@ -105,14 +105,14 @@ Ext.define(
 																				{
 																					xtype : 'image',
 																					name : 'userImage',
-																					src : 'img/empty.jpg',
+																					src : this.data.author.image,
 																					maxHeight : 120,
 																					maxWidth : 120,
 																				},
 																				{
 																					xtype : 'displayfield',
 																					name : 'firstName',
-																					value : this.data.author.userName,
+																					value : this.data.author.fullName,
 																				},
 																				{
 																					xtype : 'displayfield',
@@ -173,9 +173,10 @@ Ext.define(
 												flex : 1,
 											} ]
 								},
-								 {
-								 xtype : 'reviewcommentslist'
-								 },
+								{
+									xtype : 'reviewcommentslist',
+									data : this.data,
+								},
 								{
 									xtype : 'form',
 									layout : {

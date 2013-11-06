@@ -1,10 +1,12 @@
 package org.revcommunity.controller;
 
 import org.apache.log4j.Logger;
+import org.revcommunity.model.Comment;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.User;
 import org.revcommunity.repo.CategoryRepo;
+import org.revcommunity.repo.CommentRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
@@ -13,6 +15,7 @@ import org.revcommunity.service.ReviewService;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -30,6 +33,9 @@ public class TestDataController
     private static final Logger log = Logger.getLogger( TestDataController.class );
 
     @Autowired
+    private Neo4jTemplate tpl;
+    
+    @Autowired
     private CategoryService cs;
 
     @Autowired
@@ -43,6 +49,9 @@ public class TestDataController
 
     @Autowired
     private ReviewService rs;
+
+    @Autowired
+    private CommentRepo commentRepo;
 
     @Autowired
     private UserRepo ur;
@@ -100,6 +109,7 @@ public class TestDataController
 
     private void createReviews()
     {
+        commentRepo.deleteAll();
         rr.deleteAll();
         EndResult<Product> list = pr.findAll();
         String[] users = { "jkowalski", "anowak", "madamczyk" };
@@ -113,8 +123,15 @@ public class TestDataController
                     + " to wydajny laptop dla graczy, posiadający 17-calową matrycę. W przetestowanej konfiguracji znalazły się procesor Core i7-4800MQ, karta grafiki GeForce GTX 770M i dysk SSD Samsung 840 o pojemności 500 GB." );
                 r.setProduct( p );
                 r.setTitle( "Recenzja " + p.getName() );
-                r.addComment( p.getName() + ". " + p.getDescription() + ". Komentarz1" );
-                r.addComment( p.getName() + ". " + p.getDescription() + ". Komentarz2" );
+                for ( int j = 0; j < 2; j++ )
+                {
+                    String txt = p.getName() + ". " + p.getDescription() + ". Komentarz " + j + " - " + i;
+                    User u = ur.findByUserName( users[j] );
+
+                    Comment c = new Comment( txt, u );
+                    r.addComment( c );
+
+                }
                 r.setRank( i + 1 );
                 r.setUsefulness( i * 10 + 20 );
                 rs.save( r );

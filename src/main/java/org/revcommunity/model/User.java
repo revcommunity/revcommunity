@@ -30,6 +30,7 @@ public class User
     @RelatedTo( type = "WROTE", direction = Direction.OUTGOING )
     private Set<Review> reviews;
 
+    @RelatedTo( type = "WROTE_C", direction = Direction.OUTGOING )
     private Set<Comment> comments;
 
     private Set<ReviewRating> ratings;
@@ -146,6 +147,11 @@ public class User
     public void addReview( Review review )
     {
         getReviews().add( review );
+    }
+    
+    public void addComment( Comment comment )
+    {
+        getComments().add( comment );
     }
 
     public String getFullName()

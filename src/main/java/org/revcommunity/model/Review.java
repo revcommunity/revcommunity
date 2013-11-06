@@ -137,9 +137,9 @@ public class Review
         this.product = product;
     }
 
-    public void addComment( String comment )
+    public void addComment( Comment comment )
     {
-        getComments().add( new Comment( comment ) );
+        getComments().add( comment );
 
     }
 

@@ -31,7 +31,7 @@ var AppRouter = Backbone.Router.extend({
 				grid.getStore().load(
 						{
 							scope : this,
-							callback : function(records, operation, success) {
+							callback : function(records, operation, success) {								
 								thisRouter.calculateProductProperties(records,
 										product);
 								var wrapper = Ext.widget('productwrapper', {
