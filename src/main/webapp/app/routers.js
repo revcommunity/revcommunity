@@ -7,9 +7,9 @@ var AppRouter = Backbone.Router.extend({
 		'product/:id' : 'product',
 		'newReview' : 'newReview',
 		'addReview/:id' : 'addReview',
-		'myReviews' : 'myReviews',
+		'reviews/my' : 'myReviews',
 		'review/:id' : 'review',
-		'user/reviews/:userName':'userReviews'
+		'reviews/user/:userName':'userReviews'
 	},
 	home : function() {
 		console.log("home");
@@ -103,7 +103,6 @@ var AppRouter = Backbone.Router.extend({
 
 		for ( var r in records) {
 			if (records.hasOwnProperty(r)) {
-				console.log(records[r]);
 				count++;
 				sumOfMarks += records[r].data.rank;
 			}
@@ -117,14 +116,14 @@ var AppRouter = Backbone.Router.extend({
 	},
 	myReviews:function(){
 		this.clearPage();
-		var panel = Ext.widget('myreviewspanel',{
+		var panel = Ext.widget('userreviewspanel',{
 			mode:'myReviews'
 		});
 		Ext.getCmp('contentPanel').add(panel);
 	},
 	userReviews:function(userName){
 		this.clearPage();
-		var panel = Ext.widget('myreviewspanel',{
+		var panel = Ext.widget('userreviewspanel',{
 			userName:userName
 		});
 		Ext.getCmp('contentPanel').add(panel);

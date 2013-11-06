@@ -1,6 +1,6 @@
-Ext.define('RevCommunity.view.myReviews.MyReviewsPanel' ,{
+Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
     extend: 'Ext.Panel',
-    alias: 'widget.myreviewspanel',
+    alias: 'widget.userreviewspanel',
 	bodyPadding: 5,
 	width: 250,
 	layout: {
@@ -11,15 +11,12 @@ Ext.define('RevCommunity.view.myReviews.MyReviewsPanel' ,{
 	mode:'myReviews',
 	title:'Moje recenzje',
 	userName:null,
-	items:[
-	      
-	],
 	initComponent:function(){
 		var url=null;
 		if(this.mode=='myReviews'){
-			url='rest/reviews/myReviews';
+			url='rest/reviews/my';
 		}else{
-			url='rest/reviews/userReviews/'+this.userName;
+			url='rest/reviews/user/'+this.userName;
 		}
 		this.callParent(arguments);
 		this.add({
@@ -31,6 +28,7 @@ Ext.define('RevCommunity.view.myReviews.MyReviewsPanel' ,{
 		});
 		this.add({
 	    	   xtype:'reviewspanel',
+	    	   mode:'noUser',
 	    	   store:Ext.create('Ext.data.Store',{
 	    		    model:'RevCommunity.model.Review',
 	    		    autoLoad:true,

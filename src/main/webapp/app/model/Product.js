@@ -7,7 +7,10 @@ Ext.define('RevCommunity.model.Product', {
     		'productCode',
     		'category',
     		'priceAvg',
-    		'reviewCount',
+    		{
+    			name:'reviewCount',
+    			type:'integer'
+    		},
     		'description',
     		{
 	    		name:'mainImage',

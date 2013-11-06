@@ -10,4 +10,6 @@ public interface ReviewRepo
 {
 
     public Set<Review> findByProductNodeId( Long productId );
+
+    public Set<Review> findByAuthorUserName( String userName );
 }

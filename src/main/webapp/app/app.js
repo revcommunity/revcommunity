@@ -20,14 +20,14 @@ views:[
     	'product.ProductWrapper',
     	'product.ReviewsPanel',
     	'user.UserInfoPanel',
-    	'myReviews.MyReviewsPanel',		
     	'review.NewReviewForm',
     	'form.CategoryComboBoxSet',		
-    	'myReviews.MyReviewsPanel',
+    	'review.UserReviewsPanel',
     	'review.ReviewForm',
     	'review.EvaluationForm',
     	'review.CommentsList',
-    	'form.CategoryCombo'
+    	'form.CategoryCombo',
+    	'form.CategoryComboWithoutLeaf'
     	],
     models:['Product','Review','Category', 'Comment'],
     launch: function() {

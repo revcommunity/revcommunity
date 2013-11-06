@@ -98,7 +98,7 @@ public class ReviewController
         return new Message();
     }
 
-    @RequestMapping( method = RequestMethod.GET, value = "myReviews" )
+    @RequestMapping( method = RequestMethod.GET, value = "my" )
     @ResponseBody
     public Set<Review> getMyReviews()
         throws JsonParseException, JsonMappingException, IOException
@@ -107,14 +107,15 @@ public class ReviewController
         return getReviewsForUser( "jkowalski" );
     }
 
-    @RequestMapping( method = RequestMethod.GET, value = "userReviews" )
+    @RequestMapping( method = RequestMethod.GET, value = "/user/{userName}" )
     @ResponseBody
     public Set<Review> getReviewsForUser( @PathVariable String userName )
         throws JsonParseException, JsonMappingException, IOException
     {
-        User u = ur.findByUserName( userName );
-        tpl.fetch( u.getReviews() );
-        return u.getReviews();
+        // User u = ur.findByUserName( userName );
+        // tpl.fetch( u.getReviews() );
+        // return u.getReviews();
+        return rr.findByAuthorUserName( userName );
     }
 
 }

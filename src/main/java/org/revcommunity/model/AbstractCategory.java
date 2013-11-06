@@ -27,6 +27,8 @@ public abstract class AbstractCategory
 
     private Long nokautId;
 
+    private Long parentId;
+
     public Long getNokautId()
     {
         return nokautId;
@@ -108,6 +110,16 @@ public abstract class AbstractCategory
     public void setBaseCategory( boolean baseCategory )
     {
         this.baseCategory = baseCategory;
+    }
+
+    public Long getParentId()
+    {
+        return parentId;
+    }
+
+    public void setParentId( Long parentId )
+    {
+        this.parentId = parentId;
     }
 
 }

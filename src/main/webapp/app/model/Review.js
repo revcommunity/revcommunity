@@ -7,9 +7,9 @@ Ext.define('RevCommunity.model.Review', {
     		'rank',
     		'author',
     		'title',
-    		'reviewCount',
     		'product',
-    		{name:'comments',
+    		{
+    			name:'comments',
     			convert:function(v){
     				if(Ext.isEmpty(v)){
     					return null;
@@ -17,8 +17,8 @@ Ext.define('RevCommunity.model.Review', {
     				return v;
     			}
     		}
-    		],
-     proxy: {
+    ],
+    proxy: {
         type: 'rest',
         url : 'rest/reviews'
     }
