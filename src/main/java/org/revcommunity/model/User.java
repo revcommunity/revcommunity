@@ -109,6 +109,8 @@ public class User
 
     public Set<Comment> getComments()
     {
+        if ( comments == null )
+            comments = new HashSet<Comment>();
         return comments;
     }
 

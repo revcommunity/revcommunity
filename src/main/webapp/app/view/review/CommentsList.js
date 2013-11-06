@@ -15,11 +15,11 @@ Ext
 					columns : [
 							{
 								xtype : 'templatecolumn',
-								width : 100,
+								width : 120,
 								tpl : new Ext.XTemplate(
 										'<div class="rev-user-container">',
-										'<img src="img/empty.jpg" class="rev-comments-user-image" ></img>',
-										'<div class="rev-user-name">{nodeId}</div>',
+										'<img src={author.image} class="rev-comments-user-image" ></img>',
+										'<div class="rev-user-name-small">{author.fullName}</div>',
 										'</div>')
 							},
 							{
@@ -49,7 +49,5 @@ Ext
 						});
 						this.store = store;
 						this.callParent(arguments);
-
-						log(this.data);
 					}
 				});
