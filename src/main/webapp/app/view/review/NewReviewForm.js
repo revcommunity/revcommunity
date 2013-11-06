@@ -6,12 +6,15 @@ Ext.define('RevCommunity.view.review.NewReviewForm' ,{
 	layout: 'anchor',
 	url:'rest/reviews',
 	method:'POST',
+	productId:null,
     defaults: {
         anchor: '100%'
     },
     items: [
 	    	{
-				xtype:'categorycomboboxset'
+				xtype:'displayfield',
+				name:'category',
+				fieldLabel:'Kategoria'
 			},
 			{
 				xtype : 'fieldset',
@@ -92,5 +95,23 @@ Ext.define('RevCommunity.view.review.NewReviewForm' ,{
 		    	{
 		        	text: 'Opublikuj'
 		   		}
-	]
+	],
+	buildCategoryValue:function(product){
+		var category=product.category;
+		var value=category.name;
+		category=category.parent;
+		while(category!=null){
+			value=category.name+' -> '+value;
+			category=category.parent;
+		}
+		this.getForm().setValues({
+			category:value
+		});
+	},
+	initComponent:function(){
+		var product=ProductService.getProductCategories(this.productId);
+		
+		this.callParent(arguments);
+		this.buildCategoryValue(product);
+	}
 });

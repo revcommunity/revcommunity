@@ -6,9 +6,9 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 			'newproductform categorycombo' : {
 				select : this.selectCategory
 			},
-			'newcategoryform categorycombo' : {
-				select : this.selectCategoryForCategory
-			},
+//			'newcategoryform categorycombo' : {
+//				select : this.selectCategoryForCategory
+//			},
 			'newcategoryform categorycombowithoutleaf' : {
 				select : this.selectCategoryForCategory
 			}

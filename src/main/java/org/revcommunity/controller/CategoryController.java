@@ -156,4 +156,20 @@ public class CategoryController
         Category c = new Category( categoryId );
         return cr.getFilters( c );
     }
+
+    @RequestMapping( value = "/product" )
+    @ResponseBody
+    public Product getCategoriesForProduct( @RequestParam Long productId )
+    {
+        Product p = productRepo.findOne( productId );
+        tpl.fetch( p.getCategory() );
+        AbstractCategory c = p.getCategory();
+        while ( c != null )
+        {
+            tpl.fetch( c.getParent() );
+            c = c.getParent();
+        }
+        return p;
+    }
+
 }

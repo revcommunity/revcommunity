@@ -78,6 +78,7 @@ var AppRouter = Backbone.Router.extend({
 
 				// this.clearPage();
 				var form = Ext.widget('newreviewform', {
+					productId:product.data.nodeId
 				});
 				Ext.getCmp('contentPanel').add(form);
 				
@@ -92,6 +93,7 @@ var AppRouter = Backbone.Router.extend({
 				// form.getForm().findChildByElement('name=productImage');
 				image.setSrc(product.data.mainImage);
 				// form.getForm().setValues({productImage:product.data.mainImage});
+				
 			}
 		});
 	},
