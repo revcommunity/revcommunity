@@ -257,7 +257,7 @@ public class NokautConnector
                 }
             }
             
-            
+            product.setCategory( category );
             
             this.productRepo.save(product);
             logger.info(product);
