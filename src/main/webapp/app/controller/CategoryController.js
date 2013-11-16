@@ -18,8 +18,8 @@ Ext
 									'newcategoryform button[action=addValueOfParameter]' : {
 										click : this.addValueOfParameter
 									},
-									'newcategoryform basefieldset[name=radio_1] radiofield' : {
-										change : this.temp
+									'newcategoryform radiofield' : {
+										change : this.changeRadio
 									},
 									'newcategoryform button[action=saveCategory]' : {
 										click : this.saveCategory
@@ -45,11 +45,44 @@ Ext
 							fieldLabel : '',
 							name : 'param_field_' + global_nr_parameters
 						});
+						var fc2 = form.down('container[name=category_param]');
+						fc2.insert(1, {
+							xtype : 'basefieldset',
+							title : 'Typ',
+							fieldLabel : 'Typ',
+							defaultType : 'radiofield',
+							name : 'parametrs_types_' + global_nr_parameters,
+							layout : 'vbox',
+							items : [ {
+								boxLabel : 'Liczba',
+								name : 'param_type_' + global_nr_parameters,
+								inputValue : 'INTEGER',
+								id : 'radio1_' + global_nr_parameters,
+								checked : true
+
+							}, {
+								boxLabel : 'Data',
+								name : 'param_type_' + global_nr_parameters,
+								inputValue : 'DATE',
+								id : 'radio2_' + global_nr_parameters,
+							}, {
+								boxLabel : 'Tekst',
+								name : 'param_type_' + global_nr_parameters,
+								inputValue : 'STRING',
+								id : 'radio3_' + global_nr_parameters,
+							}, {
+								boxLabel : 'Lista',
+								name : 'param_type_' + global_nr_parameters,
+								inputValue : 'LIST',
+								id : 'radio4_' + global_nr_parameters,
+
+							} ]
+						});
 
 						var fc2 = form.down('container[name=category_param]');
 						global_nr_values++;
 						console.log('global_nr_values' + global_nr_values);
-						fc2.insert(1, {
+						fc2.insert(2, {
 
 							xtype : 'basefieldset',
 							name : 'paramText_' + global_nr_parameters,
@@ -73,6 +106,7 @@ Ext
 						});
 						global_active_parameters = global_nr_parameters;
 						hide_show(btn);
+						hide_param(btn);
 
 					},
 
@@ -91,14 +125,21 @@ Ext
 									+ global_active_parameters + '_'
 									+ global_nr_values
 
-						})
+						});
 
 					},
 
-					temp : function(radio) {
-						var form = radio.up('form');
-						var fc = form.down('basefieldset[name=radio_2]');
+					changeRadio : function(radio) {
+						if (Ext.getCmp('radio4_' + global_active_parameters)
+								.getValue()) {
+							hide_show(radio);
+
+						} else {
+							hide_param(radio);
+						}
+
 					},
+
 					saveCategory : function(btn) {
 						var form = btn.up('form');
 						var fr = form.getForm().getFieldValues();
@@ -109,11 +150,6 @@ Ext
 
 						arrayCategory['parentId'] = global_category_id_leaf;
 
-						var arrayParam = new Array();
-						arrayParam['name'] = 'nazwaParametru_666';
-						arrayParam['values'] = new Array('parametrA',
-								'ParametrB', 'ParametrC');
-						arrayCategory['filters'] = arrayParam;
 						var list = [];
 
 						for ( var i = 1; i <= global_nr_parameters; i++) {
@@ -124,22 +160,27 @@ Ext
 											+ '_' + j]);
 								}
 							}
+							if (fr['param_type_' + i] !== "LIST") {
+								valuesList = null;
+							}
 							list.push({
 								name : fr['param_field_' + i],
-								values : valuesList
+								values : valuesList,
+								type : fr['param_type_' + i]
+
 							});
 						}
-						
-						if(fr.lastcategoryfield){// is leaf
-						Ext.Ajax.request({
-							url : 'rest/categories/add_leaf',
-							jsonData : {
-								name : arrayCategory['name'],
-								parentId : arrayCategory['parentId'],
-								filters : list,
-							},
-							method : 'POST'
-						});
+
+						if (fr.lastcategoryfield) {// is leaf
+							Ext.Ajax.request({
+								url : 'rest/categories/add_leaf',
+								jsonData : {
+									name : arrayCategory['name'],
+									parentId : arrayCategory['parentId'],
+									filters : list,
+								},
+								method : 'POST'
+							});
 						} else {
 							Ext.Ajax.request({
 								url : 'rest/categories/add_group',
@@ -163,21 +204,14 @@ Ext
 							hide_show(panel);
 
 						}
+						if (Ext.getCmp('radio4_' + global_active_parameters)
+								.getValue() == false) {
+							hide_param(panel);
+						}
 
 					},
 
 					changeLastcategoryfield : function(panel) {
-						/*var nr = panel.getName();
-
-						var form = panel.up('form');
-						fc = form.down('container[name=panel_param]');
-						if (panel.getValue() == false
-								&& nr == "lastcategoryfield") {
-
-							fc.hide();
-						} else {
-							fc.show();
-						}*/
 					}
 
 				});
@@ -187,9 +221,38 @@ function hide_show(panel) {
 	var fc;
 	for (i = 1; i <= global_nr_parameters; i++) {
 		fc = form.down('container[name=paramText_' + i + ']');
-		fc.hide();
+		if (fc)
+			fc.hide();
+
+		fc = form.down('container[name=parametrs_types_' + i + ']');
+		if (fc)
+			fc.hide();
 	}
 	fc = form
 			.down('container[name=paramText_' + global_active_parameters + ']');
-	fc.show(); // aktywny
+	fc2 = form.down('container[name=parametrs_types_'
+			+ global_active_parameters + ']');
+
+	if (fc) {
+		fc.show(); // aktywny
+		fc2.show();
+		fc = form.down('button[action=addValueOfParameter]');
+		if (fc)
+			fc.show();
+	}
+}
+
+function hide_param(panel) {
+	var form = panel.up('form');
+	var fc;
+	for (i = 1; i <= global_nr_parameters; i++) {
+		fc = form.down('container[name=paramText_' + i + ']');
+		if (fc)
+			fc.hide();
+
+	}
+	fc = form.down('button[action=addValueOfParameter]');
+	if (fc)
+		fc.hide();
+
 }

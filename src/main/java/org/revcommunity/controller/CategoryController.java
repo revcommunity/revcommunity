@@ -76,11 +76,12 @@ public class CategoryController
             for ( CategoryFilter i : tpl.fetch( iterable_element.getFilters() ) )
             {
                 log.debug( "  param:" + i.getName() );
-                if ( i.getName() != null )
+                if ( i.getName() != null && i.getValues() != null )
                     for ( String s : i.getValues() )
                     {
                         log.debug( "    value:" + s );
                     }
+                log.debug( "    typ:" + i.getType() );
             }
         }
 
