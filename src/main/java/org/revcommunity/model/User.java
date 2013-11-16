@@ -35,6 +35,7 @@ public class User
     @RelatedTo( type = "WROTE_C", direction = Direction.OUTGOING )
     private Set<Comment> comments;
 
+    @RelatedTo( type = "GIVE", direction = Direction.OUTGOING )
     private Set<ReviewRating> ratings;
 
     public Long getNodeId()
@@ -123,12 +124,21 @@ public class User
 
     public Set<ReviewRating> getRatings()
     {
+        if ( ratings == null )
+        {
+            ratings = new HashSet<ReviewRating>();
+        }
         return ratings;
     }
 
     public void setRatings( Set<ReviewRating> ratings )
     {
         this.ratings = ratings;
+    }
+
+    public void addRating( ReviewRating rating )
+    {
+        getRatings().add( rating );
     }
 
     public void addRole( String roleName )

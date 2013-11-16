@@ -10,6 +10,7 @@ Ext
 					},
 					bodyPadding : 5,
 					initComponent : function() {
+						this.data.usefulness = Math.round(this.data.usefulness);
 						this.items = [
 								{
 									xtype : 'panel',
@@ -144,6 +145,7 @@ Ext
 																								xtype : 'component',
 																								tpl : '<div class=rev-review-usefulness>Przydatność: {usefulness}%</div>',
 																								data : this.data,
+																								id : 'usefulnessBar',
 																							},
 																							{
 																								xtype : 'container',
@@ -154,12 +156,14 @@ Ext
 																										{
 																											xtype : 'button',
 																											text : 'Nieprzydatne',
-																											flex : 1
+																											flex : 1,
+																											action : 'unlike'
 																										},
 																										{
 																											xtype : 'button',
 																											text : 'Przydatne',
-																											flex : 1
+																											flex : 1,
+																											action : 'like'
 																										} ]
 
 																							} ]
@@ -170,31 +174,43 @@ Ext
 														} ],
 												flex : 1,
 											} ]
-								},
-								{
+								}, {
 									xtype : 'reviewcommentslist',
-									data : this.data,
-								},
-								{
+									reviewNodeId : this.data.nodeId,
+								}, {
 									xtype : 'form',
 									layout : {
 										type : 'hbox'
 									},
 									cls : 'rev-comment-submit-form',
 									border : false,
-									items : [
-											{
-												xtype : 'textareafield',
-												flex : 1,
-												cls : 'rev-comment-textarea',
+									items : [ {
+										xtype : 'textareafield',
+										flex : 1,
+										cls : 'rev-comment-textarea',
+										name : 'text',
+									}, {
+										xtype : 'container',
+										layout : {
+											pack : 'center',
+											type : 'vbox'
+										},
+										width : 100,										
+										height : '100%',
+										items : [ {
+											xtype : 'button',
+											text : 'Opublikuj',												
+											margin : '0 10 0 0',
+											width : '100%',
+											action : 'saveComment'
+										} ],
 
-											},
-											{
-												xtype : 'container',
-												width : 150,
-												html : '<div id="commentSubmitButton" class="rev-box rev-box-button">Opublikuj</div>',
-
-											} ]
+									},{
+										xtype : 'hidden',
+										name : 'reviewNodeId',
+										id : 'reviewNodeId',
+										value : this.data.nodeId,
+									} ]
 								}
 
 						];
