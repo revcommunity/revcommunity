@@ -37,14 +37,14 @@ public class UserController
 
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
+    @RequestMapping(method = RequestMethod.POST )
     @ResponseBody
-    @RequestMapping( method = RequestMethod.POST )
     public Message save( @RequestBody User user )
     {
         /*
          * Zakldam że login oraz haslo to pola wymagane (walidacja na poziomie interfejsu)
          */
-        String password_encoded = passwordEncoder.encodePassword( user.getPassword(), SALT );
+        String password_encoded = passwordEncoder.encodePassword( user.getPassword(), user.getNodeId() );
 
         user.setPassword( password_encoded );
         user.addRole( "ROLE_USER" );

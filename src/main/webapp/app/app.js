@@ -3,7 +3,7 @@ Ext.application({
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
             'ReviewCommentsTestStore', 'ReviewEvaluationTestStore'
             ],
-controllers:['ProductController','ReviewController','CategoryController','ProductFormController'],    
+controllers:['ProductController','ReviewController','CategoryController','ProductFormController','LoginController'],    
 views:[
     	'form.BaseFieldSet',
     	'form.CategoryFieldSet',
@@ -27,9 +27,10 @@ views:[
     	'review.EvaluationForm',
     	'review.CommentsList',
     	'form.CategoryCombo',
-    	'form.CategoryComboWithoutLeaf'
+    	'form.CategoryComboWithoutLeaf',
+    	'login.LoginForm',
     	],
-    models:['Product','Review','Category', 'Comment'],
+    models:['Product','Review','Category', 'Comment','User'],
     launch: function() {
     	
     	var panel=Ext.widget('container',{    

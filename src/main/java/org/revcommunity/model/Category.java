@@ -24,10 +24,16 @@ public class Category
 
 	@Override
 	public String toString() {
-		return "Category [getNokautId()=" + getNokautId() + ", getFilters()="
+	    String parentName = "";
+        
+        if(getParent() != null){
+            parentName = getParent().getName();
+        }
+	    
+		return "Category [getRemoteId()=" + getRemoteId() + ", getFilters()="
 				+ getFilters() + ", getNodeId()=" + getNodeId()
-				+ ", getParent()=" + getParent() + ", getName()=" + getName()
-				+ ", getClass()=" + getClass() + "]";
+				+ ", getParentName()=" + parentName + ", getName()=" + getName()
+				+ "]";
 	}
 
     

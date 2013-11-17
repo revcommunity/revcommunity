@@ -28,6 +28,10 @@ public class User
 
     private String image = "img/empty.jpg";
 
+    public User()
+    {
+    }
+    
     @JsonIgnore
     @RelatedTo( type = "WROTE", direction = Direction.OUTGOING )
     private Set<Review> reviews;
@@ -45,16 +49,6 @@ public class User
     public void setNodeId( Long nodeId )
     {
         this.nodeId = nodeId;
-    }
-
-    public String getUserName()
-    {
-        return userName;
-    }
-
-    public void setUserName( String userName )
-    {
-        this.userName = userName;
     }
 
     public String getFirstName()
@@ -162,4 +156,15 @@ public class User
     {
         return ( getFirstName() + " " + getLastName() ).toString().trim();
     }
+
+    public String getUserName()
+    {
+        return userName;
+    }
+
+    public void setUserName( String userName )
+    {
+        this.userName = userName;
+    }
+
 }

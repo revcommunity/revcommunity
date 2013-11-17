@@ -24,6 +24,7 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		var values = form.getForm().getFieldValues();
 		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
 
+		
 //		//FIXME pozniej trzeb te nulle usunac, na razie nie mmay dostepu do tych obiektow
 		values.author = null;
 		//tutaj mam juz obciete, niepotrzebne pola

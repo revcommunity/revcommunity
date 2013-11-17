@@ -12,7 +12,7 @@ import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
 import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
-import org.revcommunity.nokaut.NokautConnector;
+import org.revcommunity.remote.service.nokaut.NokautService;
 import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
@@ -36,9 +36,6 @@ public class CategoryController
 
     @Autowired
     private ProductRepo productRepo;
-
-    @Autowired
-    private NokautConnector nokautConnector;
 
     @Autowired
     private Neo4jTemplate tpl;
@@ -174,7 +171,8 @@ public class CategoryController
         if ( parentId != null )
         {
             CategoryGroup parent = new CategoryGroup( parentId );
-            return cgr.getChildren( parent );
+            List<AbstractCategory> list = cgr.getChildren( parent );
+            return list;
         }
         else
         {

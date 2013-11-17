@@ -14,19 +14,19 @@
 		<intercept-url pattern="/auth/j_spring_security_check" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/auth/j_spring_security_logout" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<form-login login-page="/revcommunity/auth/login.jsp"
-			authentication-failure-url="/auth/login.jsp?login_error=true"
-			default-target-url="/user/userPage.jsp" />
+		<form-login login-page="/revcommunity/auth/login"
+			authentication-failure-url="/#auth/login?login_error=true"
+			default-target-url="/index.jsp" />
 		<logout logout-url="/j_spring_security_logout" logout-success-url="/index.jsp"
 			invalidate-session="true" />
 	</http>
 
+ 
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userAuthenticationService">
 			<password-encoder hash="sha-256">
-				<!-- http://www.javablog.eu/java/implementacja-uwierzytelniania-w-spring-security/ -->
-				<!-- <salt-source ref="saltSource" /> -->
-				<salt-source system-wide="cewuiqwzie" />
+				  <salt-source ref="saltSource" /> 
+			 	<!-- <salt-source system-wide="cewuiqwzie" /> -->
 			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>
@@ -37,9 +37,9 @@
 		class="org.revcommunity.util.AuthenticationServiceImpl">
 	</beans:bean>
 	
-	<!-- <beans:bean class="org.springframework.security.authentication.dao.ReflectionSaltSource" 
-		id="saltSource"> <beans:property name="userPropertyToUse" value="username"/> 
-		</beans:bean> -->
+	 <beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource"> 
+	 	<beans:property name="userPropertyToUse" value="nodeId"/> 
+	</beans:bean> 
 
 	<!-- 
 		<beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">

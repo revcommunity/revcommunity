@@ -7,6 +7,29 @@
 <title>Registration</title>
 </head>
 <body>
+<body>
+	<div id="main" class="main">
+	
+		<div id="nav" class="navigation-bar">
+			<p class="navigation-header">Nawigacja</p>
+			<ul class="navigation-list">
+				<li class="navigation-list-item"><a href="#newProduct" >Dodaj produkt</a></li>
+				<li class="navigation-list-item"><a href="#productList" >Lista produktów</a></li>
+				<li class="navigation-list-item"><a href="#newCategory" >Dodaj kategorię</a></li>
+				<li class="navigation-list-item"><a href="#reviews/my" >Moje recenzje</a></li>
+			</ul>
+		</div>
+		
+		<div id="content" class="content" ></div>
+	</div>
 
+	<div id="footer-bar" class="footer-bar">
+		<div id="contact" class="contact">
+			<p class="footer-header">Kontakt</p>
+			<p>kontakt@revcommunity.com</p>
+		</div>
+	</div>
+	<div id="bottom-bar" class="bottom-bar">Copyright 2013 by RevCommunity. All Rights Reserved.</div>
+</body>
 </body>
 </html>

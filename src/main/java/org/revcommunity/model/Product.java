@@ -32,9 +32,9 @@ public class Product
 
     private Double priceAvg;
 
-    private String nokautUrl;
+    private String remoteUrl;
 
-    private Long nokautId;
+    private Long remoteId;
 
     private String mainImage;
 
@@ -157,26 +157,6 @@ public class Product
         this.keys = keys;
     }
 
-    public String getNokautUrl()
-    {
-        return nokautUrl;
-    }
-
-    public void setNokautUrl( String nokautUrl )
-    {
-        this.nokautUrl = nokautUrl;
-    }
-
-    public Long getNokautId()
-    {
-        return nokautId;
-    }
-
-    public void setNokautId( Long nokautId )
-    {
-        this.nokautId = nokautId;
-    }
-
     public Double getPriceAvg()
     {
         return priceAvg;
@@ -207,11 +187,33 @@ public class Product
 		return "Product [nodeId=" + nodeId + ", name=" + name + ", producer="
 				+ producer + ", reviewCount=" + reviewCount + ", productCode="
 				+ productCode + ", description=" + description + ", images="
-				+ images + ", priceAvg=" + priceAvg + ", nokautUrl="
-				+ nokautUrl + ", nokautId=" + nokautId + ", mainImage="
+				+ images + ", priceAvg=" + priceAvg + ", remoteUrl="
+				+ remoteUrl + ", remoteId=" + remoteId + ", mainImage="
 				+ mainImage + ", keys=" + keys + ", properties=" + properties
 				+ ", category=" + category + "]";
 	}
+
+    
+
+    public String getRemoteUrl()
+    {
+        return remoteUrl;
+    }
+
+    public void setRemoteUrl( String remoteUrl )
+    {
+        this.remoteUrl = remoteUrl;
+    }
+
+    public Long getRemoteId()
+    {
+        return remoteId;
+    }
+
+    public void setRemoteId( Long remoteId )
+    {
+        this.remoteId = remoteId;
+    }
     
     
 
