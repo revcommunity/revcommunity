@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
-import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -32,7 +31,7 @@ public class Review
 
     private String title;
 
-    private Integer usefulness;
+    private Double usefulness;
 
     private Integer rank;
 
@@ -42,6 +41,7 @@ public class Review
     @RelatedTo( type = "HAS", direction = Direction.OUTGOING )
     private Set<Comment> comments;
 
+    @RelatedTo( type = "RATED_BY", direction = Direction.OUTGOING )
     private Set<ReviewRating> ratings;
 
     private Product product;
@@ -76,12 +76,12 @@ public class Review
         this.title = title;
     }
 
-    public Integer getUsefulness()
+    public Double getUsefulness()
     {
         return usefulness;
     }
 
-    public void setUsefulness( Integer usefulness )
+    public void setUsefulness( Double usefulness )
     {
         this.usefulness = usefulness;
     }
@@ -118,9 +118,19 @@ public class Review
         this.comments = comments;
     }
 
+    public void addReviewRating( ReviewRating rating )
+    {
+        this.getRatings().add( rating );
+    }
+
     public Set<ReviewRating> getRatings()
     {
+        if ( ratings == null )
+        {
+            ratings = new HashSet<ReviewRating>();
+        }
         return ratings;
+
     }
 
     public void setRatings( Set<ReviewRating> ratings )
@@ -141,7 +151,24 @@ public class Review
     public void addComment( Comment comment )
     {
         getComments().add( comment );
-
     }
 
+    public void recalculateUsefulness()
+    {
+        if ( getRatings().size() == 0 )
+        {
+            return;
+        }
+
+        int positiveCount = 0;
+        for ( ReviewRating rating : getRatings() )
+        {
+            if ( rating.getPositive() )
+            {
+                positiveCount++;
+            }
+        }
+        double valueToSet = (double) positiveCount * 100 / getRatings().size();
+        setUsefulness( valueToSet );
+    }
 }

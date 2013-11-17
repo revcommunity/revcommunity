@@ -1,7 +1,10 @@
 package org.revcommunity.service;
 
+import org.revcommunity.model.Comment;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
+import org.revcommunity.model.ReviewRating;
+import org.revcommunity.model.User;
 import org.revcommunity.repo.CommentRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.ReviewRepo;
@@ -24,7 +27,7 @@ public class ReviewService
 
     @Autowired
     private CommentRepo cr;
-
+    
     @Transactional
     public void save( Review review )
     {
@@ -40,4 +43,23 @@ public class ReviewService
     {
         // TODO
     }
+
+    @Transactional
+    public void addComment( Review review, Comment comment )
+    {
+        review.addComment( comment );
+    }
+
+    @Transactional
+    public void addReviewRating( Review review, ReviewRating rating )
+    {
+        review.addReviewRating( rating );
+        
+        //TODO: zamienic na zalogowanego usera
+        User u = ur.findByUserName( "jkowalski" );
+        u.addRating( rating );
+        ur.save( u );
+        
+    }
+
 }

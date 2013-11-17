@@ -7,13 +7,15 @@ import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
+import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.revcommunity.model.Comment;
 import org.revcommunity.model.Review;
-import org.revcommunity.model.User;
+import org.revcommunity.model.ReviewRating;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
+import org.revcommunity.service.ReviewService;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
@@ -44,6 +46,9 @@ public class ReviewController
     @Autowired
     private ReviewRepo rr;
 
+    @Autowired
+    private ReviewService rs;
+
     @RequestMapping( method = RequestMethod.GET )
     @ResponseBody
     public EndResult<Review> getAll()
@@ -58,6 +63,7 @@ public class ReviewController
         Review r = rr.findOne( id );
         tpl.fetch( r.getAuthor() );
         tpl.fetch( r.getProduct() );
+        tpl.fetch( r.getRatings() );
         for ( Comment c : tpl.fetch( r.getComments() ) )
         {
             tpl.fetch( c.getAuthor() );
@@ -94,7 +100,7 @@ public class ReviewController
         Review r = om.readValue( review, Review.class );
 
         rr.save( r );
-        log.debug( "Zapisano review: " + r.getNodeId() );
+        log.debug( "Zapisano recenzje: " + r.getNodeId() );
         return new Message();
     }
 
@@ -118,4 +124,24 @@ public class ReviewController
         return rr.findByAuthorUserName( userName );
     }
 
+    @RequestMapping( method = RequestMethod.POST, params = { "rating", "reviewNodeId" } )
+    @ResponseBody
+    public Message saveReviewRating( @RequestParam( value = "rating" ) String rating, @RequestParam( value = "reviewNodeId" ) Long reviewNodeId )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+        ObjectMapper om = new ObjectMapper();
+        ReviewRating reviewRating = om.readValue( rating, ReviewRating.class );
+        Review review = rr.findOne( new Long( reviewNodeId ) );
+        
+        tpl.fetch( review.getRatings() );
+        
+        rs.addReviewRating( review, reviewRating );
+
+        review.recalculateUsefulness();
+        
+        rr.save( review );
+
+        log.debug( "Dodano ReviewRating: " + reviewRating.getNodeId() + " do recenzji:" + review.getNodeId() );
+        return new Message(review.getUsefulness());
+    }
 }

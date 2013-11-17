@@ -1,7 +1,8 @@
 Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
-            'ReviewCommentsTestStore', 'ReviewEvaluationTestStore'
+            'ReviewEvaluationTestStore',
+            'CommentStore',
             ],
 controllers:['ProductController','ReviewController','CategoryController','ProductFormController','LoginController'],    
 views:[
@@ -27,11 +28,10 @@ views:[
     	'review.EvaluationForm',
     	'review.CommentsList',
     	'form.CategoryCombo',
-    	'form.CategoryComboWithoutLeaf',
+    	'form.CategoryComboWithoutLeaf'
     	'login.LoginForm',
     	],
-    models:['Product','Review','Category', 'Comment','User'],
-    launch: function() {
+    models:['Product','Review','Category', 'Comment','ReviewRating','User'],    launch: function() {
     	
     	var panel=Ext.widget('container',{    
 			id:'contentPanel',
