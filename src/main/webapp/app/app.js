@@ -28,8 +28,8 @@ views:[
     	'review.EvaluationForm',
     	'review.CommentsList',
     	'form.CategoryCombo',
-    	'form.CategoryComboWithoutLeaf'
-    	'login.LoginForm',
+    	'form.CategoryComboWithoutLeaf',
+    	'login.LoginForm'
     	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User'],    launch: function() {
     	
