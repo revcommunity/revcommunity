@@ -25,8 +25,8 @@
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userAuthenticationService">
 			<password-encoder hash="sha-256">
-				  <salt-source ref="saltSource" /> 
-			 	<!-- <salt-source system-wide="cewuiqwzie" /> -->
+				 <!--  <salt-source ref="saltSource" /> -->
+			 	 <salt-source system-wide="cewuiqwzie" />
 			</password-encoder>
 		</authentication-provider>
 	</authentication-manager>

@@ -31,7 +31,7 @@ public class User
     public User()
     {
     }
-    
+
     @JsonIgnore
     @RelatedTo( type = "WROTE", direction = Direction.OUTGOING )
     private Set<Review> reviews;
@@ -177,4 +177,10 @@ public class User
         this.userName = userName;
     }
 
+    @Override
+    public String toString()
+    {
+        return "User [nodeId=" + nodeId + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
+            + ", roles=" + roles + ", image=" + image + ", reviews=" + reviews + ", comments=" + comments + ", ratings=" + ratings + "]";
+    }
 }

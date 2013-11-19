@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Kontroler odpowiedzialny za operacje na użytkownikach
@@ -37,19 +38,21 @@ public class UserController
 
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
-    @RequestMapping(method = RequestMethod.POST )
+    @RequestMapping( method = RequestMethod.POST )
     @ResponseBody
-    public Message save( @RequestBody User user )
+    public ModelAndView save( User user )
     {
+        log.debug( user );
         /*
          * Zakldam że login oraz haslo to pola wymagane (walidacja na poziomie interfejsu)
          */
-        String password_encoded = passwordEncoder.encodePassword( user.getPassword(), user.getNodeId() );
+        String password_encoded = passwordEncoder.encodePassword( user.getPassword(), SALT );
 
         user.setPassword( password_encoded );
         user.addRole( "ROLE_USER" );
         userRepo.save( user );
-        return new Message();
+        // return new Message();
+        return new ModelAndView( "redirect:" + "/auth/login.jsp" );
     }
 
     /**
