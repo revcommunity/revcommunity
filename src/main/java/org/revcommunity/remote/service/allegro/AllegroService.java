@@ -35,23 +35,24 @@ import pl.allegro.webapi.service_php.ServicePort;
 import pl.allegro.webapi.service_php.ServiceServiceLocator;
 
 /**
- * 
  * @author Tomek Straszewski Nov 17, 2013
  */
-@Service("AllegroService")
-public class AllegroService implements RemoteService
+@Service( "AllegroService" )
+public class AllegroService
+    implements RemoteService
 {
 
     private static final Logger logger = Logger.getLogger( AllegroService.class );
-    
+
     @Autowired
     private AbstractCategoryRepo abstractCategoryRepo;
-    
+
     public ServicePort service = null;
+
     public AllegroService()
     {
         try
-        {   
+        {
             service = new ServiceServiceLocator().getservicePort();
         }
         catch ( ServiceException e )
@@ -59,23 +60,27 @@ public class AllegroService implements RemoteService
             e.printStackTrace();
         }
     }
-    
+
     @Transactional
     public void downloadAllCategories()
     {
-        try{
+        try
+        {
             List<CategoryGroup> cats = downloadMainCategories();
-            
-            for (CategoryGroup cat : cats) {
-                List<AbstractCategory> list =downloadCategoriesByParentId(cat.getRemoteId());
+
+            for ( CategoryGroup cat : cats )
+            {
+                List<AbstractCategory> list = downloadCategoriesByParentId( cat.getRemoteId() );
                 for ( AbstractCategory abstractCategory : list )
                 {
                     cat.addChild( abstractCategory );
                 }
-                
+
                 this.abstractCategoryRepo.save( cat );
             }
-        }catch(Exception ex){
+        }
+        catch ( Exception ex )
+        {
             ex.printStackTrace();
         }
     }
@@ -83,105 +88,125 @@ public class AllegroService implements RemoteService
     @Transactional
     public List<AbstractCategory> downloadCategoriesByParentId( Long parentId )
     {
-        
+
         List<AbstractCategory> categoriesToReturn = new ArrayList<AbstractCategory>();
-        
+
         DoShowCatRequest cr = new DoShowCatRequest();
         cr.setCatId( parentId.intValue() );
         cr.setSessionHandle( sessionId );
         cr.setCatItemsLimit( 1 );
-        
+
         try
         {
             DoShowCatResponse catResponse = service.doShowCat( cr );
-            
+
             InfoCatList[] categories = catResponse.getCatChildArray();
-            
+
             int length = categories.length;
-            if(length == 0){
-                if(logger.isDebugEnabled()){
+            if ( length == 0 )
+            {
+                if ( logger.isDebugEnabled() )
+                {
                     logger.debug( "Category : " + parentId + " is leaf" );
                 }
                 return categoriesToReturn;
             }
-            
+
             boolean exist = false;
-            for ( int i = 0; i < length ; i++ )
+            // FIXME
+            if ( length > 3 )
+                length = 3;
+            for ( int i = 0; i < length; i++ )
             {
-                
+
                 exist = false;
                 InfoCatList catInfo = categories[i];
-                try{
-                    //tutaj pobieramy szczegoly
-                    //oraz informacjee o tym czy np jest lisciem
-                    
+                try
+                {
+                    // tutaj pobieramy szczegoly
+                    // oraz informacjee o tym czy np jest lisciem
+
                     long categoryId = catInfo.getCatId();
-                    
-                    if( this.abstractCategoryRepo.findByRemoteId(new Long(categoryId)) != null){
-                        if(logger.isDebugEnabled()){
+
+                    AbstractCategory category = null;
+
+                    if ( ( category = this.abstractCategoryRepo.findByRemoteId( new Long( categoryId ) ) ) != null )
+                    {
+                        if ( logger.isDebugEnabled() )
+                        {
                             logger.debug( "Category already exist : " + catInfo.toString() );
                         }
                         exist = true;
                     }
-                    
-                    DoGetSellFormAttribsRequest ar = new DoGetSellFormAttribsRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION, (int)categoryId );
+
+                    DoGetSellFormAttribsRequest ar =
+                        new DoGetSellFormAttribsRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION,
+                                                         (int) categoryId );
                     DoGetSellFormAttribsResponse categoryDetail = service.doGetSellFormAttribs( ar );
                     SellFormType[] sellFormTypes = categoryDetail.getSellFormFields();
-                    
-                    AbstractCategory category = null;
-                    
-                    if( ! exist ){
-                        DoGetCategoryPathRequest cp = new DoGetCategoryPathRequest(this.sessionId,(int) categoryId);
+
+                    if ( !exist )
+                    {
+                        DoGetCategoryPathRequest cp = new DoGetCategoryPathRequest( this.sessionId, (int) categoryId );
                         DoGetCategoryPathResponse categoryPath = service.doGetCategoryPath( cp );
-                        
+
                         CategoryData[] categoriesData = categoryPath.getCategoryPath();
-                        
-                        //interesuje nas ostatni element na liscie
-                        int last = categoriesData.length - 1 ;
+
+                        // interesuje nas ostatni element na liscie
+                        int last = categoriesData.length - 1;
                         CategoryData categoryData = categoriesData[last];
-                        
+
                         CategoryGroup parent = (CategoryGroup) this.abstractCategoryRepo.findByRemoteId( parentId );
-                        
-                        if(categoryData.getCatIsLeaf() == AllegroConstans.LEAF){
+
+                        if ( categoryData.getCatIsLeaf() == AllegroConstans.LEAF )
+                        {
                             category = AllegroConstans.CategoryCreator( new Category(), categoryData, sellFormTypes );
                         }
-                        else{
+                        else
+                        {
                             category = AllegroConstans.CategoryCreator( new CategoryGroup(), categoryData, sellFormTypes );
                         }
-                        
+
                         category.setParent( parent );
-                        
+
                         this.abstractCategoryRepo.save( category );
-                        
-                        if(logger.isDebugEnabled()){
-                            logger.debug( "Category number : "+i+" saved : " + category.toString() );
+
+                        if ( logger.isDebugEnabled() )
+                        {
+                            logger.debug( "Category number : " + i + " saved : " + category.toString() );
                         }
                     }
-                    
-                    List<AbstractCategory> childs = downloadCategoriesByParentId(category.getRemoteId());
-                    for (AbstractCategory child : childs) {
-                        ((CategoryGroup)category).addChild(child);
+
+                    List<AbstractCategory> childs = downloadCategoriesByParentId( category.getRemoteId() );
+                    for ( AbstractCategory child : childs )
+                    {
+                        ( (CategoryGroup) category ).addChild( child );
                     }
-                    
-                    if(childs.size() > 0)
+
+                    if ( childs.size() > 0 )
                         this.abstractCategoryRepo.save( category );
-            
-                }catch(RemoteException e){
-                    
-                    if(e instanceof AxisFault){
+
+                }
+                catch ( RemoteException e )
+                {
+
+                    if ( e instanceof AxisFault )
+                    {
                         AxisFault af = (AxisFault) e;
-                        if(logger.isDebugEnabled()){
-                            logger.debug( "Exception code : " + af.getFaultCode());
+                        if ( logger.isDebugEnabled() )
+                        {
+                            logger.debug( "Exception code : " + af.getFaultCode() );
                         }
-                        
-                        if(af.getFaultCode().toString().equals( AllegroConstans.ERR_SESSION_EXPIRED )){
-                            //ticket wygasl, jest wazny tylko przez godzine
+
+                        if ( af.getFaultCode().toString().equals( AllegroConstans.ERR_SESSION_EXPIRED ) )
+                        {
+                            // ticket wygasl, jest wazny tylko przez godzine
                             login();
                             i--;
                             continue;
                         }
                     }
-                    
+
                     e.printStackTrace();
                     break;
                 }
@@ -189,14 +214,16 @@ public class AllegroService implements RemoteService
         }
         catch ( RemoteException e )
         {
-            if(logger.isDebugEnabled()){
-                if(e instanceof AxisFault){
+            if ( logger.isDebugEnabled() )
+            {
+                if ( e instanceof AxisFault )
+                {
                     AxisFault af = (AxisFault) e;
                     logger.debug( "Exception code : " + af.getFaultCode() );
                 }
             }
         }
-        
+
         return categoriesToReturn;
     }
 
@@ -204,54 +231,60 @@ public class AllegroService implements RemoteService
     public void downloadProductsByCategoryId( Category category, int limit )
     {
         // TODO Auto-generated method stub
-        
+
     }
 
     public List<CategoryGroup> downloadMainCategories()
     {
         login();
-        DoGetCatsDataRequest categoriesRequest = new DoGetCatsDataRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.LOCAL_VERSION, AllegroConstans.WEB_API_KEY );
+        DoGetCatsDataRequest categoriesRequest =
+            new DoGetCatsDataRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.LOCAL_VERSION, AllegroConstans.WEB_API_KEY );
         List<CategoryGroup> mainCategories = new ArrayList<CategoryGroup>();
         try
         {
             DoGetCatsDataResponse categoriesResponse = service.doGetCatsData( categoriesRequest );
-            
+
             CatInfoType[] categories = categoriesResponse.getCatsList();
             for ( CatInfoType catInfoType : categories )
             {
-                if(catInfoType.getCatParent() == 0)
+                if ( catInfoType.getCatParent() == 0 )
                 {
                     int categoryId = catInfoType.getCatId();
-                    
-                    if( this.abstractCategoryRepo.findByRemoteId( new Long(categoryId)) == null ){
-                        
-                        
+
+                    if ( this.abstractCategoryRepo.findByRemoteId( new Long( categoryId ) ) == null )
+                    {
+
                         CategoryGroup parent = null;
-                        
-                        DoGetCategoryPathRequest cp = new DoGetCategoryPathRequest(this.sessionId,(int) categoryId);
+
+                        DoGetCategoryPathRequest cp = new DoGetCategoryPathRequest( this.sessionId, (int) categoryId );
                         DoGetCategoryPathResponse categoryPath = service.doGetCategoryPath( cp );
-                        
+
                         CategoryData[] categoriesData = categoryPath.getCategoryPath();
-                        
-                        //interesuje nas ostatni element na liscie
-                        int last = categoriesData.length - 1 ;
+
+                        // interesuje nas ostatni element na liscie
+                        int last = categoriesData.length - 1;
                         CategoryData categoryData = categoriesData[last];
-                        
-                        DoGetSellFormAttribsRequest ar = new DoGetSellFormAttribsRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION, (int)categoryId );
+
+                        DoGetSellFormAttribsRequest ar =
+                            new DoGetSellFormAttribsRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION,
+                                                             (int) categoryId );
                         DoGetSellFormAttribsResponse categoryDetail = service.doGetSellFormAttribs( ar );
                         SellFormType[] sellFormTypes = categoryDetail.getSellFormFields();
-                        
+
                         CategoryGroup category = (CategoryGroup) AllegroConstans.CategoryCreator( new CategoryGroup(), categoryData, sellFormTypes );
-                        
+
                         mainCategories.add( category );
-                        
+
                         this.abstractCategoryRepo.save( category );
-                        
-                        if(logger.isDebugEnabled()){
+
+                        if ( logger.isDebugEnabled() )
+                        {
                             logger.debug( "Category saved : " + category.toString() );
                         }
-                        
-                    }else{
+
+                    }
+                    else
+                    {
                         continue;
                     }
                 }
@@ -263,42 +296,49 @@ public class AllegroService implements RemoteService
         }
         catch ( RemoteException e )
         {
-            if(logger.isDebugEnabled()){
-                if(e instanceof AxisFault){
+            if ( logger.isDebugEnabled() )
+            {
+                if ( e instanceof AxisFault )
+                {
                     AxisFault af = (AxisFault) e;
                     logger.debug( "Exception code : " + af.getFaultCode() );
                 }
             }
         }
-        
+
         return mainCategories;
     }
 
     private String sessionId;
-    
-    private void login(){
-        DoLoginRequest loginRequest = new DoLoginRequest( AllegroConstans.LOGIN, AllegroConstans.PASSWORD, AllegroConstans.COUNTRY_ID, 
-                                                          AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION );
-        
+
+    private void login()
+    {
+        DoLoginRequest loginRequest =
+            new DoLoginRequest( AllegroConstans.LOGIN, AllegroConstans.PASSWORD, AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY,
+                                AllegroConstans.LOCAL_VERSION );
+
         try
         {
             DoLoginResponse loginResponse = service.doLogin( loginRequest );
-            if(logger.isDebugEnabled()){
+            if ( logger.isDebugEnabled() )
+            {
                 logger.debug( loginResponse.getSessionHandlePart() );
             }
             this.sessionId = loginResponse.getSessionHandlePart();
         }
         catch ( RemoteException e )
         {
-            if(logger.isDebugEnabled()){
-                if(e instanceof AxisFault){
+            if ( logger.isDebugEnabled() )
+            {
+                if ( e instanceof AxisFault )
+                {
                     AxisFault af = (AxisFault) e;
                     logger.debug( "Exception code : " + af.getFaultCode() );
                 }
             }
-            
+
             e.printStackTrace();
         }
     }
-    
+
 }
