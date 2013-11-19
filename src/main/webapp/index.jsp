@@ -34,7 +34,7 @@
 	<div class="top-bar">
 		<div class="top-bar-item"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
 		<div class="top-bar-item"><a href="auth/register.jsp" >Zarejestruj</a></div>
-		<div class="top-bar-item"><a href="#auth/login" >Zaloguj</a></div>
+		<div class="top-bar-item"><a href="auth/login.jsp" >Zaloguj</a></div>
 	</div>
 	<div id="logo"  class="logo-bar" >
 		<div>RevCommunity</div>

@@ -14,8 +14,8 @@
 		<intercept-url pattern="/auth/j_spring_security_check" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/auth/j_spring_security_logout" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<form-login login-page="/revcommunity/auth/login"
-			authentication-failure-url="/#auth/login?login_error=true"
+		<form-login login-page="/revcommunity/auth/login.jsp"
+			authentication-failure-url="/auth/login.jsp?login_error=true"
 			default-target-url="/index.jsp" />
 		<logout logout-url="/j_spring_security_logout" logout-success-url="/index.jsp"
 			invalidate-session="true" />

@@ -23,11 +23,14 @@ import pl.allegro.webapi.service_php.DoGetCategoryPathRequest;
 import pl.allegro.webapi.service_php.DoGetCategoryPathResponse;
 import pl.allegro.webapi.service_php.DoGetCatsDataRequest;
 import pl.allegro.webapi.service_php.DoGetCatsDataResponse;
+import pl.allegro.webapi.service_php.DoGetSellFormAttribsRequest;
+import pl.allegro.webapi.service_php.DoGetSellFormAttribsResponse;
 import pl.allegro.webapi.service_php.DoLoginRequest;
 import pl.allegro.webapi.service_php.DoLoginResponse;
 import pl.allegro.webapi.service_php.DoShowCatRequest;
 import pl.allegro.webapi.service_php.DoShowCatResponse;
 import pl.allegro.webapi.service_php.InfoCatList;
+import pl.allegro.webapi.service_php.SellFormType;
 import pl.allegro.webapi.service_php.ServicePort;
 import pl.allegro.webapi.service_php.ServiceServiceLocator;
 
@@ -45,13 +48,11 @@ public class AllegroService implements RemoteService
     private AbstractCategoryRepo abstractCategoryRepo;
     
     public ServicePort service = null;
-    
     public AllegroService()
     {
         try
         {   
             service = new ServiceServiceLocator().getservicePort();
-            login();
         }
         catch ( ServiceException e )
         {
@@ -123,9 +124,9 @@ public class AllegroService implements RemoteService
                         exist = true;
                     }
                     
-//                    DoGetSellFormAttribsRequest ar = new DoGetSellFormAttribsRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION, categoryId );
-//                    DoGetSellFormAttribsResponse categoryDetail = service.doGetSellFormAttribs( ar );
-//                    SellFormType[] sellFormTypes = categoryDetail.getSellFormFields();
+                    DoGetSellFormAttribsRequest ar = new DoGetSellFormAttribsRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION, (int)categoryId );
+                    DoGetSellFormAttribsResponse categoryDetail = service.doGetSellFormAttribs( ar );
+                    SellFormType[] sellFormTypes = categoryDetail.getSellFormFields();
                     
                     AbstractCategory category = null;
                     
@@ -142,12 +143,10 @@ public class AllegroService implements RemoteService
                         CategoryGroup parent = (CategoryGroup) this.abstractCategoryRepo.findByRemoteId( parentId );
                         
                         if(categoryData.getCatIsLeaf() == AllegroConstans.LEAF){
-                            //FIXME DOdac filtry
-                            category = AllegroConstans.CategoryCreator( new Category(), categoryData, null);//sellFormTypes );
+                            category = AllegroConstans.CategoryCreator( new Category(), categoryData, sellFormTypes );
                         }
                         else{
-                          //FIXME DOdac filtry
-                            category = AllegroConstans.CategoryCreator( new CategoryGroup(), categoryData, null);//sellFormTypes );
+                            category = AllegroConstans.CategoryCreator( new CategoryGroup(), categoryData, sellFormTypes );
                         }
                         
                         category.setParent( parent );
@@ -210,6 +209,7 @@ public class AllegroService implements RemoteService
 
     public List<CategoryGroup> downloadMainCategories()
     {
+        login();
         DoGetCatsDataRequest categoriesRequest = new DoGetCatsDataRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.LOCAL_VERSION, AllegroConstans.WEB_API_KEY );
         List<CategoryGroup> mainCategories = new ArrayList<CategoryGroup>();
         try
@@ -237,9 +237,11 @@ public class AllegroService implements RemoteService
                         int last = categoriesData.length - 1 ;
                         CategoryData categoryData = categoriesData[last];
                         
+                        DoGetSellFormAttribsRequest ar = new DoGetSellFormAttribsRequest( AllegroConstans.COUNTRY_ID, AllegroConstans.WEB_API_KEY, AllegroConstans.LOCAL_VERSION, (int)categoryId );
+                        DoGetSellFormAttribsResponse categoryDetail = service.doGetSellFormAttribs( ar );
+                        SellFormType[] sellFormTypes = categoryDetail.getSellFormFields();
                         
-                        //FIXME DOdac filtry
-                        CategoryGroup category = (CategoryGroup) AllegroConstans.CategoryCreator( new CategoryGroup(), categoryData, null );
+                        CategoryGroup category = (CategoryGroup) AllegroConstans.CategoryCreator( new CategoryGroup(), categoryData, sellFormTypes );
                         
                         mainCategories.add( category );
                         
