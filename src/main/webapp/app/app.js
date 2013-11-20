@@ -3,7 +3,7 @@ Ext.application({
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
             'ReviewCommentsTestStore', 'ReviewEvaluationTestStore'
             ],
-controllers:['ProductController','ReviewController','CategoryController','ProductFormController'],    
+controllers:['ProductController','ReviewController','CategoryController','ProductFormController','RevHtmlEditorController'],    
 views:[
     	'form.BaseFieldSet',
     	'form.CategoryFieldSet',
@@ -27,7 +27,8 @@ views:[
     	'review.EvaluationForm',
     	'review.CommentsList',
     	'form.CategoryCombo',
-    	'form.CategoryComboWithoutLeaf'
+    	'form.CategoryComboWithoutLeaf',
+    	'components.RevHtmlEditor'
     	],
     models:['Product','Review','Category', 'Comment'],
     launch: function() {
