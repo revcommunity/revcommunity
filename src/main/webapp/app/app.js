@@ -1,9 +1,9 @@
 Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
-            'ReviewCommentsTestStore', 'ReviewEvaluationTestStore'
+             'ReviewEvaluationTestStore','CommentStore'
             ],
-controllers:['ProductController','ReviewController','CategoryController','ProductFormController','RevHtmlEditorController'],    
+controllers:['ProductController','ReviewController','CategoryController','ProductFormController','RevHtmlEditorController','LoginController'],    
 views:[
     	'form.BaseFieldSet',
     	'form.CategoryFieldSet',
@@ -30,7 +30,7 @@ views:[
     	'form.CategoryComboWithoutLeaf',
     	'components.RevHtmlEditor'
     	],
-    models:['Product','Review','Category', 'Comment'],
+    models:['Product','Review','Category', 'Comment','ReviewRating','User'],
     launch: function() {
     	
     	var panel=Ext.widget('container',{    
@@ -50,7 +50,50 @@ views:[
     		log('win resize');
     		panel.calculateWidth();
     	});
+    	
+    	checkIfUserAuthorized();
+    	
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();
     }
 });
+	var checkIfUserAuthorized = function(){
+		Ext.Ajax.request({
+			url : 'rest/users/session',
+			method : 'GET',
+			success : function(response) {
+				
+				var j = parseMessageResponse(response);
+				var username = j.username;
+				console.log(username);
+				console.log(ANONYMOUS_USER);
+				
+				var div = Ext.get('top-bar-user-ref');
+				
+				var login = Ext.get(LOGIN_REF_ID);
+				var reg = Ext.get(REGISTRATION_REF_ID);
+				var user  = Ext.get(USERNAME_REF_ID);
+				
+				if(username != ANONYMOUS_USER){
+					console.log('inny niz anonymous');
+					login.setHTML('');	
+					reg.setHTML('');
+					user.setHTML(username);
+				}
+				else{
+					console.log('anonymous');
+					login.setHTML('Zaloguj');
+					reg.setHTML('Zarejestruj');
+					user.setHTML('');
+				}
+				
+			}
+		});
+	};
+	
+	var parseMessageResponse = function(res){
+		var obj = Ext.decode(res.responseText);
+		var j = Ext.decode(obj.message);
+		return j;	
+	}
+	

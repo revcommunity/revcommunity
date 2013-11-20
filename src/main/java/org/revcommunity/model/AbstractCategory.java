@@ -25,19 +25,11 @@ public abstract class AbstractCategory
 
     public abstract boolean isLeaf();
 
-    private Long nokautId;
+    private Long remoteId;
 
     private Long parentId;
 
-    public Long getNokautId()
-    {
-        return nokautId;
-    }
-
-    public void setNokautId( Long nokautId )
-    {
-        this.nokautId = nokautId;
-    }
+    
 
     @GraphId
     private Long nodeId;
@@ -99,7 +91,7 @@ public abstract class AbstractCategory
     @Override
     public String toString()
     {
-        return "AbstractCategory [nodeId=" + nodeId + ", parent=" + parent + ", name=" + name + "]";
+        return "AbstractCategory [nodeId=" + nodeId + ", parent.name=" + parent.getName() + ", name=" + name + "]";
     }
 
     public boolean isBaseCategory()
@@ -120,6 +112,16 @@ public abstract class AbstractCategory
     public void setParentId( Long parentId )
     {
         this.parentId = parentId;
+    }
+
+    public Long getRemoteId()
+    {
+        return remoteId;
+    }
+
+    public void setRemoteId( Long remoteId )
+    {
+        this.remoteId = remoteId;
     }
 
 }

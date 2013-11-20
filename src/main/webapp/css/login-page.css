@@ -1,0 +1,119 @@
+.rev-login-div,.rev-registration-div {
+	padding: 20px 8px 20px 20px !important;
+	width: 400px;
+	height: 240px;
+	background: white;
+	background-position: right;
+	border-radius: 20px;
+	font-family: Open Sans, Arial, Helvetica, sans-serif;
+	box-shadow: 0.33px 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.rev-registration-div {
+	height: 460px;
+}
+
+.login-image {
+	background: white url("../img/logoLogin.png") no-repeat;
+	background-size: 180px;
+	width: 180px;
+	height: 180px;
+	position: relative;
+	background-position: right;
+	right: 0;
+	top: 0;
+	float: right;
+}
+
+.content_main,.content_main_registration {
+	width: 440px;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+
+.content_main_registration {
+	margin-top: 40px;
+}
+
+.foget_link {
+	width: 100%;
+	float: left;
+	text-align: center;
+	margin-top: 20px;
+}
+
+.rev-form-field input[type="text"],.rev-form-field input[type="password"]
+	{
+	border: 1px #ddd solid;
+	padding: 4px 2px;
+	box-shadow: 0.33px 2px 4px rgba(0, 0, 0, 0.3);
+	width: 200px;
+	margin-top: 10px;
+	border-radius: 4px;
+}
+
+.rev-form-field button,.rev-form-field-registration button {
+	background-color: #e7e7e7;
+	border: 1px #ddd solid;
+	border-radius: 6px;
+	width: 100px;
+	font-size: 16px;
+	height: 35px;
+	box-shadow: 0.33px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.rev-form-field-registration button {
+	width: 200px;
+}
+
+.rev-form-field button:HOVER,.rev-form-field-registration button:HOVER {
+	cursor: pointer;
+}
+
+.rev-form-field label {
+	font-size: 18px;
+	font-family: Helvetica, sans-serif;
+}
+
+.rev-login-form-div {
+	float: left;
+}
+
+.rev-login-form-content {
+	background-color: #FFFFFF;
+	border: 1px solid #CCCCCC;
+	border-radius: 16px;
+	box-shadow: 0.33px 2px 8px rgba(0, 0, 0, 0.3);
+	color: #333333;
+	font-family: Open Sans, Arial, Helvetica, sans-serif;
+	padding-left: 24px;
+}
+
+.rev-form-href {
+	text-decoration: none;
+	color: #333333;
+	font-family: Open Sans, Arial, Helvetica, sans-serif;
+}
+
+.rev-form-field {
+	margin: 20px 0;
+	font: 13px/1.231 Open Sans, arial, helvetica, clean, sans-serif;
+}
+
+.footer {
+	margin-top: 30px;
+	text-align: center;
+}
+
+.rev-submit-button {
+	color: #000000;
+	line-height: 2;
+	min-height: 2em;
+	padding: 0;
+	background-image: none;
+	background-color: rgba(0, 0, 0, 0);
+	cursor: pointer;
+	border: medium none;
+	display: block;
+	margin: 0;
+}

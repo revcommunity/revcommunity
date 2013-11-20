@@ -36,11 +36,18 @@ public class CategoryGroup
 
 	@Override
 	public String toString() {
+	    
+	    String parentName = "";
+	    
+	    if(getParent() != null){
+	        parentName = getParent().getName();
+	    }
+	    
 		return "CategoryGroup [children=" + children + ", getChildren()="
-				+ getChildren() + ", getNokautId()=" + getNokautId()
+				+ getChildren() + ", getRemoteId()=" + getRemoteId()
 				+ ", getFilters()=" + getFilters() + ", getNodeId()="
-				+ getNodeId() + ", getParent()=" + getParent() + ", getName()="
-				+ getName() + ", getClass()=" + getClass() + "]";
+				+ getNodeId() + ", getParentName()=" + parentName + ", getName()="
+				+ getName() +"]";
 	}
 
 	public void addCategoryFilter( CategoryFilter categoryFilter )

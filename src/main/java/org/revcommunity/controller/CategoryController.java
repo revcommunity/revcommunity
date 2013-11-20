@@ -12,7 +12,7 @@ import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
 import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
-import org.revcommunity.nokaut.NokautConnector;
+import org.revcommunity.remote.service.nokaut.NokautService;
 import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
@@ -38,9 +38,6 @@ public class CategoryController
     private ProductRepo productRepo;
 
     @Autowired
-    private NokautConnector nokautConnector;
-
-    @Autowired
     private Neo4jTemplate tpl;
 
     @Autowired
@@ -53,10 +50,18 @@ public class CategoryController
     public Message saveLeaf( @RequestBody Category cat )
         throws JsonParseException, JsonMappingException, IOException
     {
-        CategoryGroup catParent = cgr.findByNodeId( cat.getParentId() );
-        cat.setParent( catParent );
-        cr.save( cat );
-        catParent.addChild( cat );
+        if ( cat.getParentId() == null )
+        {
+            cat.setParent( null );
+            cr.save( cat );
+        }
+        else
+        {
+            CategoryGroup catParent = cgr.findByNodeId( cat.getParentId() );
+            cat.setParent( catParent );
+            cr.save( cat );
+            catParent.addChild( cat );
+        }
 
         for ( Category iterable_element : cr.findAll() )
         {
@@ -68,11 +73,12 @@ public class CategoryController
             for ( CategoryFilter i : tpl.fetch( iterable_element.getFilters() ) )
             {
                 log.debug( "  param:" + i.getName() );
-                if ( i.getName() != null )
+                if ( i.getName() != null && i.getValues() != null )
                     for ( String s : i.getValues() )
                     {
                         log.debug( "    value:" + s );
                     }
+                log.debug( "    typ:" + i.getType() );
             }
         }
 
@@ -166,7 +172,8 @@ public class CategoryController
         if ( parentId != null )
         {
             CategoryGroup parent = new CategoryGroup( parentId );
-            return cgr.getChildren( parent );
+            List<AbstractCategory> list = cgr.getChildren( parent );
+            return list;
         }
         else
         {

@@ -2,8 +2,8 @@ Ext
 		.define(
 				'RevCommunity.view.review.CommentsList',
 				{
-					data : null,
-					title : 'Komentarze',
+					reviewNodeId : null,
+					title : 'Komentarze do recenzji',
 					extend : 'Ext.grid.Panel',
 					xtype : 'reviewcommentslist',
 					hideHeaders : true,
@@ -34,20 +34,10 @@ Ext
 								tpl : new Ext.XTemplate(
 										'<div class="rev-box rev-box-button">ZGŁOŚ SPAM</div>')
 							} ],
+					store : 'CommentStore',
 					initComponent : function() {
-						var store = Ext.create('Ext.data.Store', {
-							autoLoad : true,
-							data : this.data,
-							model : 'RevCommunity.model.Comment',
-							proxy : {
-								type : 'memory',
-								reader : {
-									type : 'json',
-									root : 'comments'
-								}
-							}
-						});
-						this.store = store;
 						this.callParent(arguments);
+						this.store.setReviewNodeId(this.reviewNodeId);
+						this.store.load();
 					}
 				});

@@ -16,7 +16,7 @@ public interface CategoryRepo
     @Query( "START cat=node({0}) MATCH filters<-[:FILTERS]-parent-[:CONTAINS*]->cat RETURN filters" )
     public List<CategoryFilter> getFilters( AbstractCategory cat );
 
-    public AbstractCategory findByNokautId( Long id );
+    public AbstractCategory findByRemoteId( Long id );
 
     public Category findByName( String name );
 }

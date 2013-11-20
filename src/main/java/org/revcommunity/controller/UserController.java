@@ -5,18 +5,23 @@ import java.io.IOException;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.json.JSONObject;
 import org.revcommunity.model.User;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 /**
  * Kontroler odpowiedzialny za operacje na użytkownikach
@@ -37,10 +42,11 @@ public class UserController
 
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
-    @ResponseBody
     @RequestMapping( method = RequestMethod.POST )
-    public Message save( @RequestBody User user )
+    @ResponseBody
+    public ModelAndView save( User user )
     {
+        log.debug( user );
         /*
          * Zakldam że login oraz haslo to pola wymagane (walidacja na poziomie interfejsu)
          */
@@ -49,7 +55,8 @@ public class UserController
         user.setPassword( password_encoded );
         user.addRole( "ROLE_USER" );
         userRepo.save( user );
-        return new Message();
+        // return new Message();
+        return new ModelAndView( "redirect:" + "/auth/login.jsp" );
     }
 
     /**
@@ -91,5 +98,22 @@ public class UserController
             userRepo.delete( u );
         }
     }
+    
+    @RequestMapping(value = "/session",method = RequestMethod.GET)
+    @ResponseBody
+    public Message session() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        
+        String username  = auth.getName();
+        log.debug( "Nazwa uzytkownika : " + username );
+        
+        JSONObject j = new JSONObject();
+        j.put( "username", username );
+        
+        return new Message( j.toString() );
+        
+    }
+    
+    
 
 }

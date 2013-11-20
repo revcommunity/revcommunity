@@ -28,6 +28,10 @@ public class User
 
     private String image = "img/empty.jpg";
 
+    public User()
+    {
+    }
+
     @JsonIgnore
     @RelatedTo( type = "WROTE", direction = Direction.OUTGOING )
     private Set<Review> reviews;
@@ -35,6 +39,7 @@ public class User
     @RelatedTo( type = "WROTE_C", direction = Direction.OUTGOING )
     private Set<Comment> comments;
 
+    @RelatedTo( type = "GIVE", direction = Direction.OUTGOING )
     private Set<ReviewRating> ratings;
 
     public Long getNodeId()
@@ -45,16 +50,6 @@ public class User
     public void setNodeId( Long nodeId )
     {
         this.nodeId = nodeId;
-    }
-
-    public String getUserName()
-    {
-        return userName;
-    }
-
-    public void setUserName( String userName )
-    {
-        this.userName = userName;
     }
 
     public String getFirstName()
@@ -123,12 +118,21 @@ public class User
 
     public Set<ReviewRating> getRatings()
     {
+        if ( ratings == null )
+        {
+            ratings = new HashSet<ReviewRating>();
+        }
         return ratings;
     }
 
     public void setRatings( Set<ReviewRating> ratings )
     {
         this.ratings = ratings;
+    }
+
+    public void addRating( ReviewRating rating )
+    {
+        getRatings().add( rating );
     }
 
     public void addRole( String roleName )
@@ -161,5 +165,22 @@ public class User
     public String getFullName()
     {
         return ( getFirstName() + " " + getLastName() ).toString().trim();
+    }
+
+    public String getUserName()
+    {
+        return userName;
+    }
+
+    public void setUserName( String userName )
+    {
+        this.userName = userName;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "User [nodeId=" + nodeId + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
+            + ", roles=" + roles + ", image=" + image + ", reviews=" + reviews + ", comments=" + comments + ", ratings=" + ratings + "]";
     }
 }

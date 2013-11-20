@@ -12,7 +12,7 @@ import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
-import org.revcommunity.nokaut.NokautConnector;
+import org.revcommunity.remote.service.nokaut.NokautService;
 import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
@@ -35,7 +35,7 @@ public class APITest
     private CategoryRepo categoryRepo;
 
     @Autowired
-    private NokautConnector nokautConnctor;
+    private NokautService nokautConnctor;
     
     @Autowired
     private CategoryGroupRepo categoryGroupRepo;
@@ -113,21 +113,21 @@ public class APITest
     }
     
     // @Test
-    public void parserTest()
-    {
-        String s = NokautConnector.parse( "is_leaf" );
-
-        assertEquals( "isLeaf", s );
-
-        s = NokautConnector.parse( "is_leaf_and_leafek" );
-        assertEquals( "isLeafAndLeafek", s );
-
-        s = NokautConnector.parse( "is" );
-        assertEquals( "is", s );
-
-        s = NokautConnector.parse( "tree_name" );
-        assertEquals( "treeName", s );
-    }
+//    public void parserTest()
+//    {
+//        String s = NokautService.parse( "is_leaf" );
+//
+//        assertEquals( "isLeaf", s );
+//
+//        s = NokautService.parse( "is_leaf_and_leafek" );
+//        assertEquals( "isLeafAndLeafek", s );
+//
+//        s = NokautService.parse( "is" );
+//        assertEquals( "is", s );
+//
+//        s = NokautService.parse( "tree_name" );
+//        assertEquals( "treeName", s );
+//    }
 
     // @Test
     public void deleteAllProducts()

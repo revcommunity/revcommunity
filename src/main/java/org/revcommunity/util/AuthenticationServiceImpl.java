@@ -1,6 +1,8 @@
 package org.revcommunity.util;
 
+import org.apache.log4j.Logger;
 import org.revcommunity.authentication.UsernameAlreadyExistsException;
+import org.revcommunity.model.User;
 import org.revcommunity.model.UserAuth;
 import org.revcommunity.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AuthenticationServiceImpl
     implements AuthenticationService
 {
+    private static final Logger log = Logger.getLogger( AuthenticationServiceImpl.class );
 
     @Autowired
     private UserRepo userRepository;
@@ -25,14 +28,22 @@ public class AuthenticationServiceImpl
         throws UsernameNotFoundException
     {
 
+        log.debug( "Username : " + username );
         if ( username == null || username.length() == 0 )
             throw new UsernameNotFoundException( "User : " + username + " was not found" );
 
         // FIXME Klasa Rosola
-        // UserAuth user = userRepository.findByUsername( username );
+        User user = userRepository.findByUserName( username );
+
+        if ( user != null )
+        {
+            log.debug( user );
+        }
+
+        UserAuth ua = new UserAuth( user );
 
         // user.setAuthorities(roles);
-        return null;
+        return ua;
 
     }
 
