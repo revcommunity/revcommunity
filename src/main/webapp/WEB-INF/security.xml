@@ -17,10 +17,13 @@
 		<form-login login-page="/revcommunity/auth/login.jsp"
 			authentication-failure-url="/auth/login.jsp?login_error=true"
 			default-target-url="/index.jsp" />
-		<logout logout-url="/j_spring_security_logout" logout-success-url="/index.jsp"
-			invalidate-session="true" />
+		<logout logout-url="/j_spring_security_logout" logout-success-url="/index.jsp" delete-cookies="JSESSIONID" />
+		
+		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>
+		<session-management session-authentication-strategy-ref="sessionConfig"/>
 	</http>
-
+	
+	
  
 	<authentication-manager alias="authenticationManager">
 		<authentication-provider user-service-ref="userAuthenticationService">
@@ -40,6 +43,21 @@
 	 <beans:bean id="saltSource" class="org.springframework.security.authentication.dao.ReflectionSaltSource"> 
 	 	<beans:property name="userPropertyToUse" value="nodeId"/> 
 	</beans:bean> 
+
+	<beans:bean id="sessionConfig" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
+    	<beans:constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+    	<beans:property name="maximumSessions" value="2" />
+  	</beans:bean>
+
+	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+	<beans:bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">
+    	<beans:property name="sessionRegistry" ref="sessionRegistry" />
+    	<beans:property name="expiredUrl" value="/revcommunity/auth/login.jsp" />
+  	</beans:bean>
+
+<!--     	<beans:property name="invalid-session-url" value="" />
+    	<beans:property name="expired-url" value="" /> -->
 
 	<!-- 
 		<beans:bean id="roleHierarchy" class="org.springframework.security.access.hierarchicalroles.RoleHierarchyImpl">

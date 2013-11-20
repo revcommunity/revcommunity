@@ -29,12 +29,14 @@
 	<script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
 	
     <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/globals.js"></script>
 </head>
 <body>
 	<div class="top-bar">
-		<div class="top-bar-item"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
-		<div class="top-bar-item"><a href="auth/register.jsp" >Zarejestruj</a></div>
-		<div class="top-bar-item"><a href="auth/login.jsp" >Zaloguj</a></div>
+		<div class="top-bar-item" ><a id="top-bar-logout-ref" href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
+		<div class="top-bar-item" ><a id="top-bar-reg-ref" href="auth/register.jsp" >Zarejestruj</a></div>
+		<div class="top-bar-item" ><a id="top-bar-login-ref" href="auth/login.jsp" >Zaloguj</a></div>
+		<div class="top-bar-item" </div><a id="top-bar-user-ref" href="/revcommunity/user/panel"></a></div>
 	</div>
 	<div id="logo"  class="logo-bar" >
 		<div>RevCommunity</div>
