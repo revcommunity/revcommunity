@@ -4,6 +4,7 @@ import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
 import org.revcommunity.model.User;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
@@ -17,6 +18,7 @@ public class UserSubscription
     @RelatedTo( type = "HAS_SUBSCRIPTION", direction = Direction.INCOMING )
     private User observer;
 
+    @Fetch
     @RelatedTo( type = "SUBSCRIBE", direction = Direction.OUTGOING )
     private UserChannel channel;
 
@@ -27,8 +29,6 @@ public class UserSubscription
         super();
         this.newNotifications = 0;
     }
-
-    private Set<UserChannelNotification> notifications;
 
     public Long getNodeId()
     {
@@ -58,16 +58,6 @@ public class UserSubscription
     public void setChannel( UserChannel channel )
     {
         this.channel = channel;
-    }
-
-    public Set<UserChannelNotification> getNotifications()
-    {
-        return notifications;
-    }
-
-    public void setNotifications( Set<UserChannelNotification> notifications )
-    {
-        this.notifications = notifications;
     }
 
     public int getNewNotifications()

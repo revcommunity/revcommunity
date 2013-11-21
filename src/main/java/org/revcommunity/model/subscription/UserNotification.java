@@ -1,6 +1,7 @@
 package org.revcommunity.model.subscription;
 
 import org.springframework.data.neo4j.annotation.EndNode;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
@@ -17,6 +18,7 @@ public class UserNotification
     @StartNode
     private UserSubscription subscription;
 
+    @Fetch
     @EndNode
     private UserChannelNotification notification;
 

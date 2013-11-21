@@ -26,5 +26,7 @@ public interface SubscriptionService
 
     public List<UserNotification> getUserNotifications( UserSubscription userSubscription );
 
+    public void clean();
+
     // public List<ProductNotification> getProductNotifications( ProductSubscription productSubscription );
 }

@@ -2,6 +2,7 @@ package org.revcommunity.model.subscription;
 
 import java.util.Set;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -27,6 +28,7 @@ public abstract class AbstractChannel
         this.nodeId = nodeId;
     }
 
+    @JsonIgnore
     public Set<AbstractNotification> getNotifications()
     {
         return notifications;

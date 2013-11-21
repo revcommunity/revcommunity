@@ -12,6 +12,8 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="ext-4/ext-all-dev.js"></script>
     
+    <script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
+    
    	<script type="text/javascript" src="app/lib/jquery.min.js"></script>
 	<script type="text/javascript" src="app/lib/underscore.js"></script>
 	<script type="text/javascript" src="app/lib/backbone.js"></script>
@@ -26,7 +28,9 @@
 	<script type="text/javascript" src="app/service/ReviewService.js"></script>
 	<script type="text/javascript" src="app/service/UserService.js"></script>
 	<script type="text/javascript" src="app/service/CategoryService.js"></script>
-	<script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
+	<script type="text/javascript" src="app/service/SubscriptionService.js"></script>
+	
+	
 	
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/globals.js"></script>
@@ -52,7 +56,11 @@
 				<li class="navigation-list-item"><a href="#newCategory" >Dodaj kategorię</a></li>
 				<li class="navigation-list-item"><a href="#reviews/my" >Moje recenzje</a></li>
 			</ul>
+			<div id="user-subscrptions-div">
+				
+			</div>
 		</div>
+		
 		
 		<div id="content" class="content" ></div>
 	</div>

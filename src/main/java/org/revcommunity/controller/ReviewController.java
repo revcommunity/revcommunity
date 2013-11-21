@@ -7,12 +7,12 @@ import javax.servlet.ServletContext;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.DeserializationConfig;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.revcommunity.model.Comment;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
+import org.revcommunity.model.User;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.ReviewService;
@@ -98,8 +98,13 @@ public class ReviewController
     {
         ObjectMapper om = new ObjectMapper();
         Review r = om.readValue( review, Review.class );
-
-        rr.save( r );
+        if ( r.getAuthor() == null )
+        {
+            User logged = ur.findByUserName( "anowak" );
+            if ( logged != null )
+                r.setAuthor( logged );
+        }
+        rs.save( r );
         log.debug( "Zapisano recenzje: " + r.getNodeId() );
         return new Message();
     }
@@ -132,16 +137,16 @@ public class ReviewController
         ObjectMapper om = new ObjectMapper();
         ReviewRating reviewRating = om.readValue( rating, ReviewRating.class );
         Review review = rr.findOne( new Long( reviewNodeId ) );
-        
+
         tpl.fetch( review.getRatings() );
-        
+
         rs.addReviewRating( review, reviewRating );
 
         review.recalculateUsefulness();
-        
+
         rr.save( review );
 
         log.debug( "Dodano ReviewRating: " + reviewRating.getNodeId() + " do recenzji:" + review.getNodeId() );
-        return new Message(review.getUsefulness());
+        return new Message( review.getUsefulness() );
     }
 }

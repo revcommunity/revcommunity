@@ -95,14 +95,20 @@ public class SubscriptionServiceImpl
 
     public List<UserNotification> getUserNotifications( UserSubscription userSubscription )
     {
-        // TODO Auto-generated method stub
-        return null;
+        return unr.getUserNotifications( userSubscription );
     }
 
     public List<ProductNotification> getProductNotifications( ProductSubscription productSubscription )
     {
         // TODO Auto-generated method stub
         return null;
+    }
+
+    public void clean()
+    {
+        usr.deleteAll();
+        unr.deleteAll();
+
     }
 
 }
