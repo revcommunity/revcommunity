@@ -68,11 +68,11 @@ views:[
 				console.log(username);
 				console.log(ANONYMOUS_USER);
 				
-				var div = Ext.get('top-bar-user-ref');
-				
 				var login = Ext.get(LOGIN_REF_ID);
 				var reg = Ext.get(REGISTRATION_REF_ID);
 				var user  = Ext.get(USERNAME_REF_ID);
+				
+				//login.set({"title" : "tytul testowy"});
 				
 				if(username != ANONYMOUS_USER){
 					console.log('inny niz anonymous');
