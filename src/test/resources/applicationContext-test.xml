@@ -14,12 +14,14 @@
 	http://www.springframework.org/schema/context/spring-context-3.0.xsd">
 
  <context:annotation-config/>
+ <bean class="org.springframework.mock.web.MockServletContext"/>
  <context:spring-configured/>
  <context:component-scan base-package="org.revcommunity">
      <context:exclude-filter type="annotation" 
 	          expression="org.springframework.stereotype.Controller"/>
-	 <context:exclude-filter type="assignable" 
-	          expression="org.revcommunity.util.ImageService"/>
+	          
+	<!--  <context:exclude-filter type="assignable" 
+	          expression="org.revcommunity.util.ImageService"/> -->
  </context:component-scan>
 
   <neo4j:config storeDirectory="C:/temp/neo4j-db"/>

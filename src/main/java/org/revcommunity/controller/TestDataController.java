@@ -1,10 +1,18 @@
 package org.revcommunity.controller;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+
+import java.util.List;
+
 import org.apache.log4j.Logger;
 import org.revcommunity.model.Comment;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.User;
+import org.revcommunity.model.subscription.UserChannelNotification;
+import org.revcommunity.model.subscription.UserNotificationType;
+import org.revcommunity.model.subscription.UserSubscription;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.CommentRepo;
 import org.revcommunity.repo.ProductRepo;
@@ -12,6 +20,8 @@ import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.CategoryService;
 import org.revcommunity.service.ReviewService;
+import org.revcommunity.service.SubscriptionService;
+import org.revcommunity.service.UserService;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
@@ -56,6 +66,12 @@ public class TestDataController
     @Autowired
     private UserRepo ur;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private SubscriptionService ss;
+
     /**
      * Generuje testowe kategorie
      * 
@@ -77,8 +93,19 @@ public class TestDataController
         cs.createCategories();
         createProducts();
         createUsers();
+        createSubscription();
         createReviews();
         return new Message();
+    }
+
+    private void createSubscription()
+    {
+        ss.clean();
+        User observer = ur.findByUserName( "jkowalski" );
+        User channelOwner = ur.findByUserName( "anowak" );
+        User channelOwner2 = ur.findByUserName( "madamczyk" );
+        ss.addUserSubscription( observer, channelOwner );
+        ss.addUserSubscription( observer, channelOwner2 );
     }
 
     @RequestMapping( value = "clean" )
@@ -97,21 +124,21 @@ public class TestDataController
         u1.setLastName( "Kowalski" );
         u1.setUserName( "jkowalski" );
         u1.setImage( "img/u1.jpg" );
-        ur.save( u1 );
+        userService.createUser( u1 );
 
         User u2 = new User();
         u2.setFirstName( "Adam" );
         u2.setLastName( "Nowak" );
         u2.setUserName( "anowak" );
         u2.setImage( "img/u2.jpg" );
-        ur.save( u2 );
+        userService.createUser( u2 );
 
         User u3 = new User();
         u3.setFirstName( "Michał" );
         u3.setLastName( "Adamczyk" );
         u3.setUserName( "madamczyk" );
         u3.setImage( "img/u3.jpg" );
-        ur.save( u3 );
+        userService.createUser( u3 );
 
     }
 
@@ -141,7 +168,7 @@ public class TestDataController
 
                 }
                 r.setRank( i + 1 );
-                r.setUsefulness( new Integer(i * 10 + 20).doubleValue() );
+                r.setUsefulness( new Integer( i * 10 + 20 ).doubleValue() );
                 rs.save( r );
             }
         }

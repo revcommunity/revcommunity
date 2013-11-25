@@ -5,6 +5,7 @@ import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
 import org.revcommunity.model.User;
+import org.revcommunity.model.subscription.UserNotificationType;
 import org.revcommunity.repo.CommentRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.ReviewRepo;
@@ -27,16 +28,21 @@ public class ReviewService
 
     @Autowired
     private CommentRepo cr;
-    
+
+    @Autowired
+    private SubscriptionService ss;
+
     @Transactional
     public void save( Review review )
     {
         validate( review );
 
-        Product p = review.getProduct();
         rr.save( review );
+        Product p = pr.findOne( review.getProduct().getNodeId() );
         p.increaseReviewCount();
         pr.save( p );
+        review.setProduct( p );
+        ss.createUserChannelNotification( review.getAuthor(), UserNotificationType.NEW_REVIEW, review );
     }
 
     private void validate( Review review )
@@ -54,12 +60,12 @@ public class ReviewService
     public void addReviewRating( Review review, ReviewRating rating )
     {
         review.addReviewRating( rating );
-        
-        //TODO: zamienic na zalogowanego usera
+
+        // TODO: zamienic na zalogowanego usera
         User u = ur.findByUserName( "jkowalski" );
         u.addRating( rating );
         ur.save( u );
-        
+
     }
 
 }
