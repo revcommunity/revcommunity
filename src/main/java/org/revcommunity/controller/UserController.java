@@ -2,6 +2,8 @@ package org.revcommunity.controller;
 
 import java.io.IOException;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -20,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -78,6 +81,7 @@ public class UserController
     {
         String userName = SessionUtils.getLoggedUserName();
         User u = userRepo.findByUserName( userName );
+
         return u;
     }
 
@@ -85,8 +89,14 @@ public class UserController
     @ResponseBody
     public User getByName( @PathVariable String userName )
     {
-        // TODO zmienic na zalogowanego
         return userRepo.findByUserName( userName );
+    }
+
+    @RequestMapping( value = "roles" )
+    @ResponseBody
+    public boolean hasRole( @RequestParam String role, HttpServletRequest request )
+    {
+        return request.isUserInRole( role );
     }
 
     @RequestMapping( value = "clear" )

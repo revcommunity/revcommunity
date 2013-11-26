@@ -29,5 +29,10 @@ var UserService={
 		},
 		getByUserName:function(userName){
 			return UtilService.exec('users/name/'+userName);
+		},
+		hasRole:function(role){
+			return UtilService.exec('users/roles',{
+						role:role
+					});
 		}
 };

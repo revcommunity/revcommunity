@@ -18,7 +18,9 @@ var SubscriptionService={
 			list.getStore().load();
 		},
 		showSubscriptions:function(){
-			SubscriptionService.showUserSubscriptionsBar();
-	    	SubscriptionService.showProductSubscriptionsBar();
+			if(UserService.hasRole('ROLE_USER')){
+				SubscriptionService.showUserSubscriptionsBar();
+		    	SubscriptionService.showProductSubscriptionsBar();
+			}
 		}
 };
