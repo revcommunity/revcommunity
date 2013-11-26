@@ -16,5 +16,19 @@ productList:new Ext.XTemplate(
 '	<div class="rev-box rev-box-button" action="details">Szczegóły</div>',
 '	<div class="rev-box rev-box-button" action="addReview">Dodaj recenzję dla tego produktu</div>',
 '</div>'
+),
+userNotificationList:new Ext.XTemplate(
+'<tpl for=".">',
+'    <div class="rev-user-notification-item">',
+'      <span>{notification.message}</span>',
+'    </div>',
+'</tpl>'
+),
+userSubscriptionList:new Ext.XTemplate(
+'<tpl for=".">',
+'    <div class="rev-user-subscription-item">',
+'      <span>{channel.channelOwner.fullName} ({newNotifications})</span>',
+'    </div>',
+'</tpl>'
 )
 };

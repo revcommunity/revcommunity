@@ -12,6 +12,8 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="ext-4/ext-all-dev.js"></script>
     
+    <script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
+    
    	<script type="text/javascript" src="app/lib/jquery.min.js"></script>
 	<script type="text/javascript" src="app/lib/underscore.js"></script>
 	<script type="text/javascript" src="app/lib/backbone.js"></script>
@@ -26,15 +28,19 @@
 	<script type="text/javascript" src="app/service/ReviewService.js"></script>
 	<script type="text/javascript" src="app/service/UserService.js"></script>
 	<script type="text/javascript" src="app/service/CategoryService.js"></script>
-	<script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
+	<script type="text/javascript" src="app/service/SubscriptionService.js"></script>
+	
+	
 	
     <script type="text/javascript" src="app/app.js"></script>
+    <script type="text/javascript" src="app/globals.js"></script>
 </head>
 <body>
 	<div class="top-bar">
-		<div class="top-bar-item"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
-		<div class="top-bar-item"><a href="auth/register.jsp" >Zarejestruj</a></div>
-		<div class="top-bar-item"><a href="auth/login.jsp" >Zaloguj</a></div>
+		<div class="top-bar-item" ><a id="top-bar-logout-ref" href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
+		<div class="top-bar-item" ><a id="top-bar-reg-ref" href="auth/register.jsp" >Zarejestruj</a></div>
+		<div class="top-bar-item" ><a id="top-bar-login-ref" href="auth/login.jsp" >Zaloguj</a></div>
+		<div class="top-bar-item" </div><a id="top-bar-user-ref" href="/revcommunity/user/panel"></a></div>
 	</div>
 	<div id="logo"  class="logo-bar" >
 		<div>RevCommunity</div>
@@ -50,7 +56,11 @@
 				<li class="navigation-list-item"><a href="#newCategory" >Dodaj kategorię</a></li>
 				<li class="navigation-list-item"><a href="#reviews/my" >Moje recenzje</a></li>
 			</ul>
+			<div id="user-subscrptions-div">
+				
+			</div>
 		</div>
+		
 		
 		<div id="content" class="content" ></div>
 	</div>

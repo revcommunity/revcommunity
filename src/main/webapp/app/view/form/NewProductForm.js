@@ -47,9 +47,10 @@ Ext.define('RevCommunity.view.form.NewProductForm' ,{
 				]
 			},
 			{
-				xtype:'htmleditor',
+				xtype:'revhtmleditor',
 				labelAlign:'top',
 				name:'description',
+				height:500,
 				fieldLabel:'Opis produktu'
 			},{
 				xtype:'imagelist',
