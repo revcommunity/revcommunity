@@ -1,12 +1,12 @@
-Ext.define('RevCommunity.view.subscription.UserSubscriptionList', {
+Ext.define('RevCommunity.view.subscription.ProductSubscriptionList', {
 		extend:'Ext.view.View',
-	    xtype:'usersubscriptonlist',
-	    tpl:TemplateHolder.userSubscriptionList,
+	    xtype:'productsubscriptonlist',
+	    tpl:TemplateHolder.productSubscriptionList,
 	    itemSelector: 'div.rev-user-subscription-item',
 	    emptyText: 'Brak powiadomień',
 	    selectedItemCls:'rev-user-subscription-item-selected',
 	    initComponent:function(){
-	    	this.store=Ext.create('RevCommunity.store.UserSubscriptionStore');
+	    	this.store=Ext.create('RevCommunity.store.ProductSubscriptionStore');
 		    this.callParent(arguments);
 	    }
 });

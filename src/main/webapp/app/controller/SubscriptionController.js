@@ -4,16 +4,20 @@ Ext.define('RevCommunity.controller.SubscriptionController', {
 		this.control({
 				'usersubscriptonlist' : {
 					itemclick :this.userSubscriptionItemClick
+				},
+				'productsubscriptonlist' : {
+					itemclick :this.productSubscriptionItemClick
 				}
 		});
 	},
 	userSubscriptionItemClick:function(view,rec,item,idx){
 		log(rec.data);
-		Ext.getCmp('contentPanel').removeAll();
-		var list = Ext.widget('usernotificationlist', {
-		});
-		Ext.getCmp('contentPanel').add(list);
-		list.getStore().getProxy().setExtraParam('userSubscriptionId',rec.data.nodeId);
-		list.getStore().load();
+		var userSubscriptionId=rec.data.nodeId;
+		window.open('#subscriptions/users/notifications/'+userSubscriptionId,'_parent');
+	},
+	productSubscriptionItemClick:function(view,rec,item,idx){
+		log(rec.data);
+		var productSubscriptionId=rec.data.nodeId;
+		window.open('#subscriptions/products/notifications/'+productSubscriptionId,'_parent');
 	}
 });

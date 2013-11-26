@@ -49,7 +49,7 @@
 	<div id="main" class="main">
 	
 		<div id="nav" class="navigation-bar">
-			<p class="navigation-header">Nawigacja</p>
+			<p class="rev-header">Nawigacja</p>
 			<ul class="navigation-list">
 				<li class="navigation-list-item"><a href="#product/new" >Dodaj produkt</a></li>
 				<li class="navigation-list-item"><a href="#product/list" >Lista produktów</a></li>
@@ -57,6 +57,9 @@
 				<li class="navigation-list-item"><a href="#reviews/my" >Moje recenzje</a></li>
 			</ul>
 			<div id="user-subscrptions-div">
+				
+			</div>
+			<div id="product-subscrptions-div">
 				
 			</div>
 		</div>

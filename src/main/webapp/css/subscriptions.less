@@ -1,8 +1,55 @@
-
+@notificationTopMargin:20px;
 .rev-user-subscription-item{
-	background-color:white;
+	color: #555555;
+    font-size: 11px;
+    padding:5px;
+    span{
+    	margin-left:5px;
+    }
+    img{
+    	vertical-align: middle;
+    }
+   	&:hover{
+   		background-color:#555555;
+   		color: #FFFFFF;
+   	}
 }
 
 .rev-user-subscription-item-selected{
-	background-color:green;
+	 background-color:#1570A6;
+	 color: #FFFFFF;
+}
+
+.rev-hd-username{
+	font-size:16pt;	
+	font-family: "wf_SegoeUILight","wf_SegoeUI","Tahoma","Verdana","Arial","sans-serif";
+}
+.rev-usernotificationlist{
+	 margin:20px;
+	.rev-user-notification-item{
+		color: #1A1A1A;
+		border-color: #E0E0E0;
+	    border-style: solid;
+	    border-width: 1px;
+	    margin-top: 5px;
+	    padding: 10px;
+	    clear:both;
+	    height:150px;
+	}
+	.rev-notification-image{
+		width:100px;
+		height:100px;
+		margin:5px;
+		margin-top: ( @notificationTopMargin - 5);
+		float:left;
+	}
+	.rev-notification-desc{
+		margin:5px;
+		margin-top:@notificationTopMargin;
+	}
+	.rev-notification-title{
+		font-size:12pt;
+		border-style: none none solid none;
+    	border-width: 1px;
+	}
 }

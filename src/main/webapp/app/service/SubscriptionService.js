@@ -9,5 +9,16 @@ var SubscriptionService={
 			    renderTo: div
 			});
 			list.getStore().load();
+		},
+		showProductSubscriptionsBar:function(){
+			var div=Ext.get('product-subscrptions-div');
+			var list=Ext.widget('productsubscriptonlist', {
+			    renderTo: div
+			});
+			list.getStore().load();
+		},
+		showSubscriptions:function(){
+			SubscriptionService.showUserSubscriptionsBar();
+	    	SubscriptionService.showProductSubscriptionsBar();
 		}
 };

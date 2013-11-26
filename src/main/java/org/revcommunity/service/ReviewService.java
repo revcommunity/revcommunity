@@ -5,6 +5,7 @@ import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
 import org.revcommunity.model.User;
+import org.revcommunity.model.subscription.ProductNotificationType;
 import org.revcommunity.model.subscription.UserNotificationType;
 import org.revcommunity.repo.CommentRepo;
 import org.revcommunity.repo.ProductRepo;
@@ -43,6 +44,7 @@ public class ReviewService
         pr.save( p );
         review.setProduct( p );
         ss.createUserChannelNotification( review.getAuthor(), UserNotificationType.NEW_REVIEW, review );
+        ss.createProductChannelNotification( p, ProductNotificationType.NEW_REVIEW, review );
     }
 
     private void validate( Review review )

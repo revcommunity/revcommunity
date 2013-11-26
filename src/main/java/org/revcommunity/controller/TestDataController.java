@@ -1,8 +1,5 @@
 package org.revcommunity.controller;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -10,15 +7,13 @@ import org.revcommunity.model.Comment;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.User;
-import org.revcommunity.model.subscription.UserChannelNotification;
-import org.revcommunity.model.subscription.UserNotificationType;
-import org.revcommunity.model.subscription.UserSubscription;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.CommentRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.CategoryService;
+import org.revcommunity.service.ProductService;
 import org.revcommunity.service.ReviewService;
 import org.revcommunity.service.SubscriptionService;
 import org.revcommunity.service.UserService;
@@ -53,6 +48,9 @@ public class TestDataController
 
     @Autowired
     private ProductRepo pr;
+
+    @Autowired
+    private ProductService ps;
 
     @Autowired
     private ReviewRepo rr;
@@ -106,6 +104,12 @@ public class TestDataController
         User channelOwner2 = ur.findByUserName( "madamczyk" );
         ss.addUserSubscription( observer, channelOwner );
         ss.addUserSubscription( observer, channelOwner2 );
+
+        EndResult<Product> prods = pr.findAll();
+        for ( Product product : prods )
+        {
+            ss.addProductSubscription( observer, product );
+        }
     }
 
     @RequestMapping( value = "clean" )
@@ -124,6 +128,7 @@ public class TestDataController
         u1.setLastName( "Kowalski" );
         u1.setUserName( "jkowalski" );
         u1.setImage( "img/u1.jpg" );
+        u1.setPassword( "pass" );
         userService.createUser( u1 );
 
         User u2 = new User();
@@ -131,6 +136,7 @@ public class TestDataController
         u2.setLastName( "Nowak" );
         u2.setUserName( "anowak" );
         u2.setImage( "img/u2.jpg" );
+        u2.setPassword( "pass" );
         userService.createUser( u2 );
 
         User u3 = new User();
@@ -138,6 +144,7 @@ public class TestDataController
         u3.setLastName( "Adamczyk" );
         u3.setUserName( "madamczyk" );
         u3.setImage( "img/u3.jpg" );
+        u3.setPassword( "pass" );
         userService.createUser( u3 );
 
     }
@@ -187,7 +194,7 @@ public class TestDataController
         p.setProducer( "HP" );
         p.setProductCode( "000L300" );
 
-        pr.save( p );
+        ps.createProduct( p );
 
         p = new Product();
         p.setCategory( cr.findByName( "HP" ) );
@@ -198,7 +205,7 @@ public class TestDataController
         p.setProducer( "HP" );
         p.setProductCode( "000L500" );
 
-        pr.save( p );
+        ps.createProduct( p );
 
         p = new Product();
         p.setCategory( cr.findByName( "Dell" ) );
@@ -209,7 +216,7 @@ public class TestDataController
         p.setProducer( "DELL" );
         p.setProductCode( "EAAD200" );
 
-        pr.save( p );
+        ps.createProduct( p );
 
         p = new Product();
         p.setCategory( cr.findByName( "Dell" ) );
@@ -220,7 +227,7 @@ public class TestDataController
         p.setProducer( "DELL" );
         p.setProductCode( "TR0D500" );
 
-        pr.save( p );
+        ps.createProduct( p );
 
     }
 

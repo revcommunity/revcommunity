@@ -1,7 +1,8 @@
 Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
-             'ReviewEvaluationTestStore','CommentStore','UserSubscriptionStore','UserNotificationStore'
+             'ReviewEvaluationTestStore','CommentStore','UserSubscriptionStore','UserNotificationStore','ProductSubscriptionStore',
+             'ProductNotificationStore'
             ],
 controllers:['ProductController','ReviewController','CategoryController','ProductFormController','RevHtmlEditorController','LoginController','SubscriptionController'],    
 views:[
@@ -30,11 +31,17 @@ views:[
     	'form.CategoryComboWithoutLeaf',
     	'components.RevHtmlEditor',
     	'subscription.UserSubscriptionList',
-    	'subscription.UserNotificationList'
+    	'subscription.UserNotificationList',
+    	'subscription.ProductSubscriptionList',
+    	'subscription.ProductNotificationList'
     	],
-    models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification'],
+    models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
+            'ProductNotification'
+            ],
     launch: function() {
-    	
+    	Ext.Ajax.on('requestexception', function(conn, response, options, eOpts) {
+    	    UtilService.handleException(conn, response, options, eOpts);
+    	 });
     	var panel=Ext.widget('container',{    
 			id:'contentPanel',
 			renderTo:Ext.get('content'),
@@ -58,7 +65,8 @@ views:[
     	});
     	
     	checkIfUserAuthorized();
-    	SubscriptionService.showUserSubscriptionsBar();
+    	
+    	SubscriptionService.showSubscriptions();
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();
     }

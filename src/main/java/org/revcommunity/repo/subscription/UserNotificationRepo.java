@@ -11,7 +11,7 @@ public interface UserNotificationRepo
     extends GraphRepository<UserNotification>
 {
 
-    @Query( "START subscription=node({0}) MATCH subscription-[rel:READ]-noti RETURN rel" )
+    @Query( "START subscription=node({0}) MATCH subscription-[rel:READ_USER_NOTIF]-noti RETURN rel" )
     public List<UserNotification> getUserNotifications( UserSubscription subscription );
 
 }

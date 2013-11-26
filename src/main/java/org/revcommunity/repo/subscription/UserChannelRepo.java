@@ -13,6 +13,6 @@ public interface UserChannelRepo
 {
     public UserChannel findByChannelOwner( User channelOwner );
 
-    @Query( "START channel=node({0}) MATCH channel<-[:SUBSCRIBE]->observers RETURN observers" )
+    @Query( "START channel=node({0}) MATCH channel<-[:SUBSCRIBE_USER]->observers RETURN observers" )
     public List<UserSubscription> getAllObservers( UserChannel channel );
 }

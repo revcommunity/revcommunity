@@ -4,6 +4,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -44,6 +45,8 @@ public class Review
     @RelatedTo( type = "RATED_BY", direction = Direction.OUTGOING )
     private Set<ReviewRating> ratings;
 
+    @Fetch
+    @RelatedTo( type = "WRITTEN_FOR", direction = Direction.OUTGOING )
     private Product product;
 
     public Long getNodeId()
