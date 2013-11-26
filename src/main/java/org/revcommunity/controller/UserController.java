@@ -15,6 +15,7 @@ import org.revcommunity.util.Message;
 import org.revcommunity.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -108,11 +109,11 @@ public class UserController
             userRepo.delete( u );
         }
     }
+    
 
     @RequestMapping( value = "/session", method = RequestMethod.GET )
     @ResponseBody
-    public Message session()
-    {
+    public Message session()    {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         log.debug( "Nazwa uzytkownika : " + username );
@@ -120,5 +121,17 @@ public class UserController
         j.put( "username", username );
         return new Message( j.toString() );
     }
-
+    @RequestMapping(value="/redirect", method = RequestMethod.GET )
+    @ResponseBody
+    public ResponseEntity  redirectToLoginPage()
+    {
+        if(log.isDebugEnabled()){
+            log.debug( "Redirect to login page" );
+        }
+        
+        Message m = new Message();
+        m.setSuccess( false );
+        
+        return new ResponseEntity(org.springframework.http.HttpStatus.UNAUTHORIZED);
+    }
 }

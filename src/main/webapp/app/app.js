@@ -60,6 +60,10 @@ views:[
     		panel.calculateWidth();
     	});
     	
+    	Ext.Ajax.on('requestexception', function(conn, response, options, eOpts) {
+    		//window.open('auth/login.jsp','_parent');
+    	});
+    	
     	checkIfUserAuthorized();
     	
     	SubscriptionService.showSubscriptions();
@@ -74,6 +78,8 @@ views:[
 			success : function(response) {
 				
 				var j = parseMessageResponse(response);
+					
+				
 				var username = j.username;
 				console.log(username);
 				console.log(ANONYMOUS_USER);
@@ -97,6 +103,9 @@ views:[
 					user.setHTML('');
 				}
 				
+			},
+			failure: function(){
+				alert('failure');
 			}
 		});
 	};
