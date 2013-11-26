@@ -19,15 +19,22 @@ productList:new Ext.XTemplate(
 ),
 userNotificationList:new Ext.XTemplate(
 '<tpl for=".">',
-'    <div class="rev-user-notification-item">',
-'      <span>{notification.message}</span>',
-'    </div>',
+'<div class="rev-hd-username"><a href="#reviews/user/{user.userName}">{user.fullName}</a></div>',
+'	<tpl for="notification">',
+'	    <div class="rev-user-notification-item">',
+'	      <span class="rev-notification-title">{notification.message}</span>',
+'	      <br>',
+'	      <img src="{notification.review.product.mainImage}" class="rev-notification-image"/>',
+'	      <div class="rev-notification-desc">{notification.review.content}</div>',
+'	    </div>',
+'	</tpl>',
 '</tpl>'
 ),
 userSubscriptionList:new Ext.XTemplate(
+'<p class="rev-header">Subskrupcje</p>',
 '<tpl for=".">',
 '    <div class="rev-user-subscription-item">',
-'      <span>{channel.channelOwner.fullName} ({newNotifications})</span>',
+'      <img src="css/img/user-sub.jpg" width="18"/><span>{channel.channelOwner.fullName} ({newNotifications})</span>',
 '    </div>',
 '</tpl>'
 )

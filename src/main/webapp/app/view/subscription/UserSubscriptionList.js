@@ -4,7 +4,7 @@ Ext.define('RevCommunity.view.subscription.UserSubscriptionList', {
 	    tpl:TemplateHolder.userSubscriptionList,
 	    itemSelector: 'div.rev-user-subscription-item',
 	    emptyText: 'Brak powiadomień',
-	    overItemCls:'rev-user-subscription-item-selected',
+	    selectedItemCls:'rev-user-subscription-item-selected',
 	    initComponent:function(){
 	    	this.store=Ext.create('RevCommunity.store.UserSubscriptionStore');
 		    this.callParent(arguments);

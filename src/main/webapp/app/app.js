@@ -30,7 +30,8 @@ views:[
     	'form.CategoryComboWithoutLeaf',
     	'components.RevHtmlEditor',
     	'subscription.UserSubscriptionList',
-    	'subscription.UserNotificationList'
+    	'subscription.UserNotificationList',
+    	'subscription.UserNotificationPanel'
     	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification'],
     launch: function() {

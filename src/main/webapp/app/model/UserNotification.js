@@ -1,9 +1,9 @@
 Ext.define('RevCommunity.model.UserNotification', {
     extend: 'Ext.data.Model',
     fields: [
-         'nodeId',
-         'notification',
-         'readed'
+          'channel',
+          'notification',
+          {name:'user',mapping:'channel.channelOwner'}
          
     ],
     proxy: {

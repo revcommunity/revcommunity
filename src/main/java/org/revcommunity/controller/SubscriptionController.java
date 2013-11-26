@@ -6,6 +6,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.revcommunity.dto.SubscriptionDto;
 import org.revcommunity.model.User;
 import org.revcommunity.model.subscription.UserNotification;
 import org.revcommunity.model.subscription.UserSubscription;
@@ -48,12 +49,15 @@ public class SubscriptionController
 
     @RequestMapping( method = RequestMethod.GET, value = "/notifications" )
     @ResponseBody
-    public List<UserNotification> getUserNotifications( @RequestParam Long userSubscriptionId )
+    public SubscriptionDto getUserNotifications( @RequestParam Long userSubscriptionId )
         throws JsonParseException, JsonMappingException, IOException
     {
         UserSubscription us = usr.findOne( userSubscriptionId );
         List<UserNotification> list = ss.getUserNotifications( us );
-        return list;
+        SubscriptionDto dto = new SubscriptionDto();
+        dto.setChannel( us.getChannel() );
+        dto.setNotification( list );
+        return dto;
     }
 
 }

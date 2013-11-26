@@ -49,7 +49,7 @@
 	<div id="main" class="main">
 	
 		<div id="nav" class="navigation-bar">
-			<p class="navigation-header">Nawigacja</p>
+			<p class="rev-header">Nawigacja</p>
 			<ul class="navigation-list">
 				<li class="navigation-list-item"><a href="#newProduct" >Dodaj produkt</a></li>
 				<li class="navigation-list-item"><a href="#productList" >Lista produktów</a></li>

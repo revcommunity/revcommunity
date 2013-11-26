@@ -10,7 +10,8 @@ var AppRouter = Backbone.Router.extend({
 		'reviews/my' : 'myReviews',
 		'review/:id' : 'review',
 		'reviews/user/:userName':'userReviews',
-		'auth/login' : 'login'
+		'auth/login' : 'login',
+		'subscriptions/notifications/:userSubscriptionId':'userNotifications'
 	},
 	home : function() {
 		console.log("home");
@@ -147,5 +148,12 @@ var AppRouter = Backbone.Router.extend({
 		this.clearPage();
 		var panel = Ext.widget('loginform',{});
 		Ext.getCmp('contentPanel').add(panel);
+	},
+	userNotifications:function(userSubscriptionId){
+		Ext.getCmp('contentPanel').removeAll();
+		Ext.getCmp('contentPanel').add({
+			xtype:'usernotificationlist',
+			userSubscriptionId:userSubscriptionId
+		});
 	}
 });
