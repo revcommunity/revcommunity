@@ -39,7 +39,9 @@ views:[
             'ProductNotification'
             ],
     launch: function() {
-    	
+    	Ext.Ajax.on('requestexception', function(conn, response, options, eOpts) {
+    	    UtilService.handleException(conn, response, options, eOpts);
+    	 });
     	var panel=Ext.widget('container',{    
 			id:'contentPanel',
 			renderTo:Ext.get('content'),
@@ -59,8 +61,8 @@ views:[
     	});
     	
     	checkIfUserAuthorized();
-    	SubscriptionService.showUserSubscriptionsBar();
-    	SubscriptionService.showProductSubscriptionsBar();
+    	
+    	SubscriptionService.showSubscriptions();
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();
     }

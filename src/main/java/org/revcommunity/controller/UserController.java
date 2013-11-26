@@ -8,14 +8,14 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.json.JSONObject;
 import org.revcommunity.model.User;
 import org.revcommunity.repo.UserRepo;
+import org.revcommunity.service.UserService;
 import org.revcommunity.util.Message;
+import org.revcommunity.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -40,6 +40,9 @@ public class UserController
     @Autowired
     private UserRepo userRepo;
 
+    @Autowired
+    private UserService userService;
+
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
     @RequestMapping( method = RequestMethod.POST )
@@ -50,11 +53,7 @@ public class UserController
         /*
          * Zakldam że login oraz haslo to pola wymagane (walidacja na poziomie interfejsu)
          */
-        String password_encoded = passwordEncoder.encodePassword( user.getPassword(), SALT );
-
-        user.setPassword( password_encoded );
-        user.addRole( "ROLE_USER" );
-        userRepo.save( user );
+        userService.createUser( user );
         // return new Message();
         return new ModelAndView( "redirect:" + "/auth/login.jsp" );
     }
@@ -77,8 +76,9 @@ public class UserController
     @ResponseBody
     public User getLoggedUser()
     {
-        // TODO zmienic na zalogowanego
-        return userRepo.findByUserName( "jkowalski" );
+        String userName = SessionUtils.getLoggedUserName();
+        User u = userRepo.findByUserName( userName );
+        return u;
     }
 
     @RequestMapping( value = "name/{userName}", method = RequestMethod.GET )
@@ -98,22 +98,17 @@ public class UserController
             userRepo.delete( u );
         }
     }
-    
-    @RequestMapping(value = "/session",method = RequestMethod.GET)
+
+    @RequestMapping( value = "/session", method = RequestMethod.GET )
     @ResponseBody
-    public Message session() {
+    public Message session()
+    {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        
-        String username  = auth.getName();
+        String username = auth.getName();
         log.debug( "Nazwa uzytkownika : " + username );
-        
         JSONObject j = new JSONObject();
         j.put( "username", username );
-        
         return new Message( j.toString() );
-        
     }
-    
-    
 
 }

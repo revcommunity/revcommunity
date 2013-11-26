@@ -8,7 +8,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.revcommunity.dto.SubscriptionDto;
 import org.revcommunity.model.User;
-import org.revcommunity.model.subscription.ProductChannel;
 import org.revcommunity.model.subscription.ProductNotification;
 import org.revcommunity.model.subscription.ProductSubscription;
 import org.revcommunity.model.subscription.UserNotification;
@@ -18,6 +17,7 @@ import org.revcommunity.repo.subscription.ProductChannelRepo;
 import org.revcommunity.repo.subscription.ProductSubscriptionRepo;
 import org.revcommunity.repo.subscription.UserSubscriptionRepo;
 import org.revcommunity.service.SubscriptionService;
+import org.revcommunity.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,12 +52,7 @@ public class SubscriptionController
     public List<UserSubscription> getUserSubscriptions()
         throws JsonParseException, JsonMappingException, IOException
     {
-        for ( ProductChannel p : pcr.findAll() )
-        {
-            log.debug( p );
-        }
-        // TODO zastapic zalogowanym uzytkownikiem
-        User user = rr.findByUserName( "jkowalski" );
+        User user = rr.findByUserName( SessionUtils.getLoggedUserName() );
         List<UserSubscription> list = ss.getUserSubscriptions( user );
         return list;
     }
@@ -67,8 +62,7 @@ public class SubscriptionController
     public List<ProductSubscription> getProductSubscriptions()
         throws JsonParseException, JsonMappingException, IOException
     {
-        // TODO zastapic zalogowanym uzytkownikiem
-        User user = rr.findByUserName( "jkowalski" );
+        User user = rr.findByUserName( SessionUtils.getLoggedUserName() );
         List<ProductSubscription> list = ss.getProductSubscriptions( user );
         return list;
     }

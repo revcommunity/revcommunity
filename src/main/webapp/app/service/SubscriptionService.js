@@ -16,5 +16,9 @@ var SubscriptionService={
 			    renderTo: div
 			});
 			list.getStore().load();
+		},
+		showSubscriptions:function(){
+			SubscriptionService.showUserSubscriptionsBar();
+	    	SubscriptionService.showUserSubscriptionsBar();
 		}
 };

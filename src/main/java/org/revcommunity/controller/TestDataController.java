@@ -128,6 +128,7 @@ public class TestDataController
         u1.setLastName( "Kowalski" );
         u1.setUserName( "jkowalski" );
         u1.setImage( "img/u1.jpg" );
+        u1.setPassword( "pass" );
         userService.createUser( u1 );
 
         User u2 = new User();
@@ -135,6 +136,7 @@ public class TestDataController
         u2.setLastName( "Nowak" );
         u2.setUserName( "anowak" );
         u2.setImage( "img/u2.jpg" );
+        u2.setPassword( "pass" );
         userService.createUser( u2 );
 
         User u3 = new User();
@@ -142,6 +144,7 @@ public class TestDataController
         u3.setLastName( "Adamczyk" );
         u3.setUserName( "madamczyk" );
         u3.setImage( "img/u3.jpg" );
+        u3.setPassword( "pass" );
         userService.createUser( u3 );
 
     }

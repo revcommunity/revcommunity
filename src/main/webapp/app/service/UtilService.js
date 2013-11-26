@@ -17,5 +17,9 @@ var UtilService={
 		},
 		populateTestData:function(){
 			UtilService.exec('test/testData');
+		},
+		handleException:function(conn, response, options, eOpts){
+			var resp=Ext.decode(response.responseText);
+			log(resp);
 		}
 };
