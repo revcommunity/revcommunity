@@ -1,7 +1,8 @@
 Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
-             'ReviewEvaluationTestStore','CommentStore','UserSubscriptionStore','UserNotificationStore'
+             'ReviewEvaluationTestStore','CommentStore','UserSubscriptionStore','UserNotificationStore','ProductSubscriptionStore',
+             'ProductNotificationStore'
             ],
 controllers:['ProductController','ReviewController','CategoryController','ProductFormController','RevHtmlEditorController','LoginController','SubscriptionController'],    
 views:[
@@ -31,9 +32,12 @@ views:[
     	'components.RevHtmlEditor',
     	'subscription.UserSubscriptionList',
     	'subscription.UserNotificationList',
-    	'subscription.UserNotificationPanel'
+    	'subscription.ProductSubscriptionList',
+    	'subscription.ProductNotificationList'
     	],
-    models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification'],
+    models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
+            'ProductNotification'
+            ],
     launch: function() {
     	
     	var panel=Ext.widget('container',{    
@@ -56,6 +60,7 @@ views:[
     	
     	checkIfUserAuthorized();
     	SubscriptionService.showUserSubscriptionsBar();
+    	SubscriptionService.showProductSubscriptionsBar();
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();
     }

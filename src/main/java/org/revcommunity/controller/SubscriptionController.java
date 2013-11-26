@@ -8,9 +8,14 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.revcommunity.dto.SubscriptionDto;
 import org.revcommunity.model.User;
+import org.revcommunity.model.subscription.ProductChannel;
+import org.revcommunity.model.subscription.ProductNotification;
+import org.revcommunity.model.subscription.ProductSubscription;
 import org.revcommunity.model.subscription.UserNotification;
 import org.revcommunity.model.subscription.UserSubscription;
 import org.revcommunity.repo.UserRepo;
+import org.revcommunity.repo.subscription.ProductChannelRepo;
+import org.revcommunity.repo.subscription.ProductSubscriptionRepo;
 import org.revcommunity.repo.subscription.UserSubscriptionRepo;
 import org.revcommunity.service.SubscriptionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,26 +39,60 @@ public class SubscriptionController
     private UserSubscriptionRepo usr;
 
     @Autowired
+    private ProductSubscriptionRepo psr;
+
+    @Autowired
     private UserRepo rr;
 
-    @RequestMapping( method = RequestMethod.GET )
+    @Autowired
+    private ProductChannelRepo pcr;
+
+    @RequestMapping( method = RequestMethod.GET, value = "users" )
     @ResponseBody
     public List<UserSubscription> getUserSubscriptions()
         throws JsonParseException, JsonMappingException, IOException
     {
+        for ( ProductChannel p : pcr.findAll() )
+        {
+            log.debug( p );
+        }
         // TODO zastapic zalogowanym uzytkownikiem
         User user = rr.findByUserName( "jkowalski" );
         List<UserSubscription> list = ss.getUserSubscriptions( user );
         return list;
     }
 
-    @RequestMapping( method = RequestMethod.GET, value = "/notifications" )
+    @RequestMapping( method = RequestMethod.GET, value = "products" )
+    @ResponseBody
+    public List<ProductSubscription> getProductSubscriptions()
+        throws JsonParseException, JsonMappingException, IOException
+    {
+        // TODO zastapic zalogowanym uzytkownikiem
+        User user = rr.findByUserName( "jkowalski" );
+        List<ProductSubscription> list = ss.getProductSubscriptions( user );
+        return list;
+    }
+
+    @RequestMapping( method = RequestMethod.GET, value = "users/notifications" )
     @ResponseBody
     public SubscriptionDto getUserNotifications( @RequestParam Long userSubscriptionId )
         throws JsonParseException, JsonMappingException, IOException
     {
         UserSubscription us = usr.findOne( userSubscriptionId );
         List<UserNotification> list = ss.getUserNotifications( us );
+        SubscriptionDto dto = new SubscriptionDto();
+        dto.setChannel( us.getChannel() );
+        dto.setNotification( list );
+        return dto;
+    }
+
+    @RequestMapping( method = RequestMethod.GET, value = "products/notifications" )
+    @ResponseBody
+    public SubscriptionDto getProductNotifications( @RequestParam Long productSubscriptionId )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+        ProductSubscription us = psr.findOne( productSubscriptionId );
+        List<ProductNotification> list = ss.getProductNotifications( us );
         SubscriptionDto dto = new SubscriptionDto();
         dto.setChannel( us.getChannel() );
         dto.setNotification( list );

@@ -11,7 +11,8 @@ var AppRouter = Backbone.Router.extend({
 		'review/:id' : 'review',
 		'reviews/user/:userName':'userReviews',
 		'auth/login' : 'login',
-		'subscriptions/notifications/:userSubscriptionId':'userNotifications'
+		'subscriptions/users/notifications/:userSubscriptionId':'userNotifications',
+		'subscriptions/products/notifications/:productSubscriptionId':'productNotifications'
 	},
 	home : function() {
 		console.log("home");
@@ -154,6 +155,13 @@ var AppRouter = Backbone.Router.extend({
 		Ext.getCmp('contentPanel').add({
 			xtype:'usernotificationlist',
 			userSubscriptionId:userSubscriptionId
+		});
+	},
+	productNotifications:function(productSubscriptionId){
+		Ext.getCmp('contentPanel').removeAll();
+		Ext.getCmp('contentPanel').add({
+			xtype:'productnotificationlist',
+			productSubscriptionId:productSubscriptionId
 		});
 	}
 });

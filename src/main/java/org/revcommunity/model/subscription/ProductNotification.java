@@ -1,44 +1,77 @@
 package org.revcommunity.model.subscription;
 
-import org.revcommunity.model.subscription.exception.UnsupportedNotificationType;
-import org.springframework.data.neo4j.annotation.NodeEntity;
+import org.springframework.data.neo4j.annotation.EndNode;
+import org.springframework.data.neo4j.annotation.Fetch;
+import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.RelationshipEntity;
+import org.springframework.data.neo4j.annotation.StartNode;
 
-@NodeEntity
+@RelationshipEntity( type = "READ_PRODUCT_NOTIF" )
 public class ProductNotification
-    extends AbstractNotification
 {
+
+    @GraphId
+    private Long nodeId;
+
+    private boolean readed;
+
+    @StartNode
     private ProductSubscription subscription;
 
-    private ProductNotificationType type;
+    @Fetch
+    @EndNode
+    private ProductChannelNotification notification;
 
-    public ProductNotification( ProductSubscription subscription )
+    ProductNotification()
+    {
+    }
+
+    public ProductNotification( ProductSubscription subscription, ProductChannelNotification notification )
     {
         super();
         this.subscription = subscription;
+        this.notification = notification;
+        this.readed = false;
     }
 
-    public ProductNotificationType getType()
+    public Long getNodeId()
     {
-        return type;
+        return nodeId;
     }
 
-    public void setType( ProductNotificationType type )
+    public void setNodeId( Long nodeId )
     {
-        this.type = type;
+        this.nodeId = nodeId;
     }
 
-    @Override
-    protected String buildMessage()
+    public boolean isReaded()
     {
-        if ( getType() == ProductNotificationType.NEW_REVIEW )
-        {
-            StringBuilder sb = new StringBuilder( "Dodano nową recenzję dla produktu " );
-            sb.append( subscription.getSubscribed().getName() );
-            return sb.toString();
-        }
-        else
-        {
-            throw new UnsupportedNotificationType( "Unsupported notification type: " + getType() );
-        }
+        return readed;
     }
+
+    public void setReaded( boolean readed )
+    {
+        this.readed = readed;
+    }
+
+    public ProductSubscription getSubscription()
+    {
+        return subscription;
+    }
+
+    public void setSubscription( ProductSubscription subscription )
+    {
+        this.subscription = subscription;
+    }
+
+    public ProductChannelNotification getNotification()
+    {
+        return notification;
+    }
+
+    public void setNotification( ProductChannelNotification notification )
+    {
+        this.notification = notification;
+    }
+
 }

@@ -13,7 +13,7 @@ public class UserChannelNotification
 {
     private UserNotificationType type;
 
-    @RelatedTo( type = "HAS", direction = Direction.INCOMING )
+    @RelatedTo( type = "HAS_USER_CHANNEL", direction = Direction.INCOMING )
     private UserChannel channel;
 
     UserChannelNotification()

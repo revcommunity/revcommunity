@@ -3,10 +3,11 @@ Ext.define('RevCommunity.model.UserSubscription', {
     fields: [
          'nodeId',
          'channel',
-         'newNotifications'
+         'newNotifications',
+         {name:'user',mapping:'channel.channelOwner'}
     ],
     proxy: {
         type: 'rest',
-        url : 'rest/subscriptions'
+        url : 'rest/subscriptions/users'
     }
 });

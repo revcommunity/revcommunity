@@ -8,6 +8,6 @@ Ext.define('RevCommunity.model.UserNotification', {
     ],
     proxy: {
         type: 'rest',
-        url : 'rest/subscriptions/notifications'
+        url : 'rest/subscriptions/users/notifications'
     }
 });

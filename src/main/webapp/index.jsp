@@ -59,6 +59,9 @@
 			<div id="user-subscrptions-div">
 				
 			</div>
+			<div id="product-subscrptions-div">
+				
+			</div>
 		</div>
 		
 		

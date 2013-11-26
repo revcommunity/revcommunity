@@ -3,14 +3,14 @@ package org.revcommunity.dto;
 import java.util.List;
 
 import org.revcommunity.model.subscription.AbstractChannel;
-import org.revcommunity.model.subscription.UserNotification;
+import org.revcommunity.model.subscription.AbstractNotification;
 
 public class SubscriptionDto
 {
 
     private AbstractChannel channel;
 
-    private List<UserNotification> notification;
+    private List notification;
 
     public AbstractChannel getChannel()
     {
@@ -22,12 +22,12 @@ public class SubscriptionDto
         this.channel = channel;
     }
 
-    public List<UserNotification> getNotification()
+    public List getNotification()
     {
         return notification;
     }
 
-    public void setNotification( List<UserNotification> notification )
+    public void setNotification( List notification )
     {
         this.notification = notification;
     }
