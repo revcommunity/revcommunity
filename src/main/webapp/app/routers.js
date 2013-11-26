@@ -1,14 +1,14 @@
 var AppRouter = Backbone.Router.extend({
 	routes : {
 		'' : 'home',
-		'newProduct' : 'newProduct',
-		'newCategory' : 'newCategory',
-		'productList' : 'productList',
+		'category/new' : 'newCategory',
+		'product/new' : 'newProduct',
+		'product/list' : 'productList',
 		'product/:id' : 'product',
-		'newReview' : 'newReview',
-		'addReview/:id' : 'addReview',
+		'reviews/new' : 'newReview',
+		'reviews/add:id' : 'addReview',
 		'reviews/my' : 'myReviews',
-		'review/:id' : 'review',
+		'reviews/:id' : 'review',
 		'reviews/user/:userName':'userReviews',
 		'auth/login' : 'login'
 	},

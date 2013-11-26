@@ -2,6 +2,7 @@ package org.revcommunity.controller;
 
 import java.io.IOException;
 
+import org.apache.commons.httpclient.HttpStatus;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
@@ -11,11 +12,11 @@ import org.revcommunity.repo.UserRepo;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,5 +116,17 @@ public class UserController
     }
     
     
-
+    @RequestMapping(value="/redirect", method = RequestMethod.GET )
+    @ResponseBody
+    public ResponseEntity  redirectToLoginPage()
+    {
+        if(log.isDebugEnabled()){
+            log.debug( "Redirect to login page" );
+        }
+        
+        Message m = new Message();
+        m.setSuccess( false );
+        
+        return new ResponseEntity(org.springframework.http.HttpStatus.UNAUTHORIZED);
+    }
 }

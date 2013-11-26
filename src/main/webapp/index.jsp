@@ -51,9 +51,9 @@
 		<div id="nav" class="navigation-bar">
 			<p class="navigation-header">Nawigacja</p>
 			<ul class="navigation-list">
-				<li class="navigation-list-item"><a href="#newProduct" >Dodaj produkt</a></li>
-				<li class="navigation-list-item"><a href="#productList" >Lista produktów</a></li>
-				<li class="navigation-list-item"><a href="#newCategory" >Dodaj kategorię</a></li>
+				<li class="navigation-list-item"><a href="#product/new" >Dodaj produkt</a></li>
+				<li class="navigation-list-item"><a href="#product/list" >Lista produktów</a></li>
+				<li class="navigation-list-item"><a href="#category/new" >Dodaj kategorię</a></li>
 				<li class="navigation-list-item"><a href="#reviews/my" >Moje recenzje</a></li>
 			</ul>
 			<div id="user-subscrptions-div">

@@ -5,19 +5,38 @@
     http://www.springframework.org/schema/security
     http://www.springframework.org/schema/security/spring-security-3.1.xsd">
 
-	<http auto-config="true" access-denied-page="/auth/denied">
-		<intercept-url pattern="/admin/*" access="ROLE_ADMIN" />
-		<intercept-url pattern="/manage/*" access="ROLE_USER" />
-		<intercept-url pattern="/user/*" access="ROLE_USER, ROLE_ADMIN" />
-		<intercept-url pattern="/auth/login*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<intercept-url pattern="/auth/register*" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+	<http auto-config="false"><!-- access-denied-page="/auth/error.jsp">-->
+		<!--<intercept-url pattern="/#reviews/**" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/#user/*" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/#category/**" access="ROLE_ADMIN" />
+		<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/#product/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		
+		 <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />-->
+		
+		<intercept-url pattern="/app/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/ext-4/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/css/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/img/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/auth/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/auth/register.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/auth/error.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/auth/j_spring_security_check" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/auth/j_spring_security_logout" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-		<form-login login-page="/revcommunity/auth/login.jsp"
-			authentication-failure-url="/auth/login.jsp?login_error=true"
+		<!-- <intercept-url pattern="/auth/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
+		<intercept-url pattern="/index.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/rest/users/redirect" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/rest/users/session" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		
+		<intercept-url pattern="/**" access="ROLE_USER" />
+		
+		<!--  <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" /> -->
+		
+		<form-login login-page="/rest/users/redirect"
+			authentication-failure-url="/auth/error.jsp"
 			default-target-url="/index.jsp" />
-		<logout logout-url="/j_spring_security_logout" logout-success-url="/index.jsp" delete-cookies="JSESSIONID" />
+		<logout logout-url="/j_spring_security_logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		
 		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>
 		<session-management session-authentication-strategy-ref="sessionConfig"/>
