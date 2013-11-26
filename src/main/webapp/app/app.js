@@ -60,10 +60,6 @@ views:[
     		panel.calculateWidth();
     	});
     	
-    	Ext.Ajax.on('requestexception', function(conn, response, options, eOpts) {
-    		//window.open('auth/login.jsp','_parent');
-    	});
-    	
     	checkIfUserAuthorized();
     	
     	SubscriptionService.showSubscriptions();

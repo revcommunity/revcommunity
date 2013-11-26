@@ -28,13 +28,16 @@
 		<intercept-url pattern="/" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/users/redirect" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/users/session" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/rest/users/roles" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		
+		<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/#category/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
 		
 		<!--  <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" /> -->
 		
 		<form-login login-page="/rest/users/redirect"
-			authentication-failure-url="/auth/error.jsp"
+			authentication-failure-url="/auth/login.jsp?login_error=true"
 			default-target-url="/index.jsp" />
 		<logout logout-url="/j_spring_security_logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		

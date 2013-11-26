@@ -19,7 +19,13 @@ var UtilService={
 			UtilService.exec('test/testData');
 		},
 		handleException:function(conn, response, options, eOpts){
-			var resp=Ext.decode(response.responseText);
-			log(resp);
+			log(response.status);
+			if( response.status == 401){
+				window.open('auth/login.jsp','_parent');
+			}else{
+				var resp=Ext.decode(response.responseText);
+				log(resp);
+			}
+			
 		}
 };
