@@ -19,6 +19,6 @@ var SubscriptionService={
 		},
 		showSubscriptions:function(){
 			SubscriptionService.showUserSubscriptionsBar();
-	    	SubscriptionService.showUserSubscriptionsBar();
+	    	SubscriptionService.showProductSubscriptionsBar();
 		}
 };
