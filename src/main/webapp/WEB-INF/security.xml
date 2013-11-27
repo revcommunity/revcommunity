@@ -40,7 +40,7 @@
 		
 		<form-login login-page="/rest/users/redirect"
 			authentication-failure-url="/auth/login.jsp?login_error=true"
-			default-target-url="/index.jsp"
+			default-target-url="/"
 			always-use-default-target="true"  />
 		<logout logout-url="/j_spring_security_logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		

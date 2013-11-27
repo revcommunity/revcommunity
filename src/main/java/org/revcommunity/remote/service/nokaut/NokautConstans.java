@@ -8,15 +8,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
-import org.json.JSONObject;
-import org.revcommunity.model.AbstractCategory;
-import org.revcommunity.model.CategoryFilter;
 import org.revcommunity.model.CategoryFilterType;
-import org.revcommunity.repo.CategoryFilterRepo;
-import org.springframework.context.annotation.FilterType;
-
-import pl.allegro.webapi.service_php.CategoryData;
-import pl.allegro.webapi.service_php.SellFormType;
 
 public class NokautConstans {
     
