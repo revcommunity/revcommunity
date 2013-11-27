@@ -30,7 +30,8 @@
 		<intercept-url pattern="/rest/users/session" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/users/roles" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/users" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/rest/nokaut/download" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+				<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/#category/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
 		
@@ -38,7 +39,8 @@
 		
 		<form-login login-page="/rest/users/redirect"
 			authentication-failure-url="/auth/login.jsp?login_error=true"
-			default-target-url="/index.jsp" />
+			default-target-url="/"
+			always-use-default-target="true"  />
 		<logout logout-url="/j_spring_security_logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		
 		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>

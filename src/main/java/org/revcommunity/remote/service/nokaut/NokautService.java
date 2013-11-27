@@ -5,7 +5,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
@@ -14,23 +16,20 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
+import org.revcommunity.model.CategoryFilter;
+import org.revcommunity.model.CategoryFilterType;
 import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
 import org.revcommunity.repo.AbstractCategoryRepo;
-import org.revcommunity.repo.CategoryGroupRepo;
-import org.revcommunity.repo.CategoryRepo;
+import org.revcommunity.repo.CategoryFilterRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.RemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.neo4j.support.Neo4jTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
@@ -59,6 +58,8 @@ public class NokautService implements RemoteService
 
     private static GetMethod getMethod = new GetMethod();
 
+    @Autowired
+    private CategoryFilterRepo categoryFilterRepo;
     
     @Transactional
     public List<CategoryGroup> downloadMainCategories()
@@ -66,7 +67,7 @@ public class NokautService implements RemoteService
         Long nokautParentId = new Long(0);
         List<CategoryGroup> categories = new ArrayList<CategoryGroup>();
        try{
-           JSONObject j = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + nokautParentId.longValue() );
+           JSONObject j = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + nokautParentId.longValue(), false );
 
            if ( j == null ){
             return categories;//throw new Exception("Response is null");
@@ -94,6 +95,8 @@ public class NokautService implements RemoteService
                     exist = true;
                 
                 if(!exist){
+                    addFiltersToCategory( category);
+                    
                     logger.info(category);
                     category.setParent(parent);
                     this.abstractCategoryRepo.save(category);
@@ -139,7 +142,7 @@ public class NokautService implements RemoteService
                 return null;
 
             
-                JSONObject j = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + nokautParentId.longValue() );
+                JSONObject j = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + nokautParentId.longValue(), false );
 
                 if ( j == null ){
                     return categories;//throw new Exception("Response is null");
@@ -169,6 +172,9 @@ public class NokautService implements RemoteService
                             exist = true;
                         
                         if(!exist){
+                            
+                            addFiltersToCategory( category);
+                            
                             logger.info(category);
                             category.setParent(parent);
                             this.abstractCategoryRepo.save(category);
@@ -191,6 +197,9 @@ public class NokautService implements RemoteService
                             exist = true;
                         
                         if(!exist){
+                            
+                            addFiltersToCategory(category);
+                            
                             logger.info(category);
                             category.setParent(parent);
                             this.abstractCategoryRepo.save(category);
@@ -220,7 +229,7 @@ public class NokautService implements RemoteService
             if ( limit <= 0 )
                 limit = 100; // omyslna wartosc
 
-            JSONObject jsonObject = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_PRODUCT_GET_BY_CATEGORY + "&category=" + category.getRemoteId().longValue() + "&limit=" + limit );
+            JSONObject jsonObject = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_PRODUCT_GET_BY_CATEGORY + "&category=" + category.getRemoteId().longValue() + "&limit=" + limit, false );
 
             if ( jsonObject == null ){
                 return;//throw new Exception("Response is null");
@@ -271,7 +280,7 @@ public class NokautService implements RemoteService
         
     }
 
-    private static JSONObject getMethod( String URI )
+    private static JSONObject getMethod( String URI , boolean filters)
     {
         String res = null;
         JSONObject json = null;
@@ -286,7 +295,10 @@ public class NokautService implements RemoteService
                 JSONObject j = new JSONObject( res );
                 logger.debug(j);
                 try{
-                	json = j.getJSONObject( NokautConstans.SUCCESS ).getJSONObject( NokautConstans.ITEMS );
+                    if(filters)
+                        json = j.getJSONObject( NokautConstans.SUCCESS );
+                    else
+                        json = j.getJSONObject( NokautConstans.SUCCESS ).getJSONObject( NokautConstans.ITEMS );
                 }catch(Exception r){
                 	return null;
                 }
@@ -373,5 +385,123 @@ public class NokautService implements RemoteService
             e.printStackTrace();
         }
     	return null;
+    }
+    
+    private AbstractCategory addFiltersToCategory(AbstractCategory category){
+        JSONObject d = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_FILTERS + "&filters[category_id]=" + category.getRemoteId(), true);
+        if(! (d instanceof JSONObject))
+            return category;
+        
+        return applyFiltersToCategory( category, d );
+    }
+    
+    private AbstractCategory applyFiltersToCategory(AbstractCategory category, JSONObject data){
+        
+        
+        Set<String> keys = data.keySet();
+        for ( String key : keys )
+        {   
+            if(!NokautConstans.notAlowedFilters.contains( key )){
+                //mozemy pobrac
+                if(key.equals( NokautConstans.FILTR_PRODUCERS )){
+                    
+                    CategoryFilter producerCategory = new CategoryFilter();
+                    producerCategory.setName( NokautConstans.PRODUCER_LABEL );
+                    producerCategory.setType( CategoryFilterType.LIST );
+                    Set<String> producers = new HashSet<String>();
+                    JSONObject p = data.getJSONObject( key );
+                    
+                    Set<String> ps = p.keySet();
+                    
+                    for ( String pr : ps )
+                    {
+                        JSONObject prod = p.getJSONObject( pr );
+                        if(prod.has( NokautConstans.FILTER_TITLE )){
+                            String ri = (String) prod.get( NokautConstans.FILTER_TITLE );
+                            producers.add( ri );
+                        }
+                    }
+                    
+                    producerCategory.setValues( producers );
+                    category.addFilter( producerCategory );
+                    
+                }else{
+                    JSONObject jsonFilter = data.getJSONObject( key );
+                    if(jsonFilter.has( NokautConstans.FILTER_ID )){
+                        Long remoteId = Long.valueOf( jsonFilter.getString( NokautConstans.FILTER_ID ) );
+                        CategoryFilter filter = filterAlreadyExist(remoteId);
+                        
+                        if(filter != null){
+                            category.addFilter( filter );
+                            continue;
+                        }
+                        
+                        //nie ma jeszcze takiego filtru
+                        filter = new CategoryFilter();
+                        
+                        String name = jsonFilter.getString( NokautConstans.FILTER_TITLE );
+                        
+                        JSONObject val = jsonFilter.getJSONObject( NokautConstans.FILTER_VALUES );
+                        String type = jsonFilter.getString( NokautConstans.FILTER_TYPE );
+                        String unit = null;
+                        Object o_ = jsonFilter.get( NokautConstans.FILTER_UNIT );
+                        if(o_ instanceof String){
+                            //FIXME obsluga obiektu ktory nie jest stringiem
+                            unit = (String)o_;
+                        }
+                            
+                        
+                        filter.setName( name );
+                        filter.setSymbol( unit );
+                        if(logger.isDebugEnabled()){
+                            //decimal
+                            //integer
+                            logger.debug( "Typ filtru : " + type );
+                        }
+                        filter.setType( NokautConstans.filterTypeMapper.get( type ) );
+                        
+                        Set<String> values = new HashSet<String>();
+                        
+                        Set<String> vv = val.keySet();
+                        for ( String v : vv )
+                        {
+                            Object o = val.get( v );
+                            if(!( o instanceof String )){
+                                //FIXME nie continue tylko obsluga tego
+                                continue;
+                            }
+                                
+                            
+                            values.add( val.getString( v ) );
+                        }
+                        
+                        if(logger.isDebugEnabled() ){
+                            logger.debug( values.toString() );
+                        }
+                        
+                        if(values.size() > 0 ){
+                            filter.setValues( values );
+                            category.addFilter( filter );
+                            this.categoryFilterRepo.save( filter );
+                        }
+                            
+                    }
+                }
+            }
+            
+        }
+        
+        return category;
+    }
+    
+    
+    private CategoryFilter filterAlreadyExist(Long remoteId){
+        
+        CategoryFilter cf = this.categoryFilterRepo.findByRemoteId( remoteId );
+        
+        if(cf != null)
+            return cf;
+        
+        return null;
     }
 }
