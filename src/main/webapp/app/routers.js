@@ -3,7 +3,6 @@ var AppRouter = Backbone.Router.extend({
 		'' : 'home',
 		'category/new' : 'newCategory',
 		'product/new' : 'newProduct',
-		'products' : 'productList',
 		'products/categories/:categoryId' : 'productList',
 		'product/:id' : 'product',
 		'reviews/new' : 'newReview',
