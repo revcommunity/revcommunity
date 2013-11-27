@@ -16,8 +16,6 @@ import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 import org.revcommunity.model.AbstractCategory;
@@ -28,19 +26,13 @@ import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
 import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.CategoryFilterRepo;
-import org.revcommunity.repo.CategoryGroupRepo;
-import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.RemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.neo4j.support.Neo4jTemplate;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-
-import pl.allegro.webapi.service_php.SellFormType;
 
 /**
  * @author Tomek Straszewski Nov 17, 2013
@@ -487,8 +479,12 @@ public class NokautService implements RemoteService
                             logger.debug( values.toString() );
                         }
                         
-                        if(values.size() > 0 )
+                        if(values.size() > 0 ){
                             filter.setValues( values );
+                            category.addFilter( filter );
+                            this.categoryFilterRepo.save( filter );
+                        }
+                            
                     }
                 }
             }

@@ -107,7 +107,6 @@ public abstract class AbstractCategory
         this.baseCategory = baseCategory;
     }
 
-    @JsonIgnore
     public Long getParentId()
     {
         return parentId;
