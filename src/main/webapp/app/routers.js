@@ -3,7 +3,8 @@ var AppRouter = Backbone.Router.extend({
 		'' : 'home',
 		'category/new' : 'newCategory',
 		'product/new' : 'newProduct',
-		'product/list' : 'productList',
+		'products' : 'productList',
+		'products/categories/:categoryId' : 'productList',
 		'product/:id' : 'product',
 		'reviews/new' : 'newReview',
 		'reviews/add:id' : 'addReview',
@@ -58,12 +59,18 @@ var AppRouter = Backbone.Router.extend({
 		});
 		Ext.getCmp('contentPanel').add(form);
 	},
-	productList : function() {
-		this.clearPage();
-		var list = Ext.widget('productlist', {
+	productList : function(categoryId) {
+		var pl=Ext.getCmp('contentPanel').down('productlist');
+		if(Ext.isEmpty(pl)){
+			this.clearPage();
+			pl = Ext.widget('productlist');
+			Ext.getCmp('contentPanel').add(pl);
+		}
+		pl.getStore().load({
+			params:{
+				categoryId:categoryId
+			}
 		});
-		Ext.getCmp('contentPanel').add(list);
-		list.getStore().load();
 	},
 	clearPage : function() {
 		Ext.getCmp('contentPanel').removeAll();

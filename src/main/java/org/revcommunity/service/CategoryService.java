@@ -1,5 +1,8 @@
 package org.revcommunity.service;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import org.apache.log4j.Logger;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
@@ -56,9 +59,27 @@ public class CategoryService
 
         Category c2 = new Category();
         c2.setName( "HP" );
+        CategoryFilter fi = new CategoryFilter( "xxx", CategoryFilterType.INTEGER );
+        Set<CategoryFilter> ff = new HashSet<CategoryFilter>();
+        ff.add( fi );
+        c2.setFilters( ff );
         c2.setParent( cg2 );
         tpl.save( c2 );
         log.debug( c2 );
+
+        CategoryGroup tel = new CategoryGroup();
+        tel.setName( "Telewizory" );
+        tel.addCategoryFilter( new CategoryFilter( "Przekątna", CategoryFilterType.INTEGER ) );
+        tel.setParent( cg1 );
+        tpl.save( tel );
+
+        CategoryGroup sp = new CategoryGroup();
+        sp.setName( "Sport" );
+        tpl.save( sp );
+
+        CategoryGroup dom = new CategoryGroup();
+        dom.setName( "Dom" );
+        tpl.save( dom );
 
     }
 
