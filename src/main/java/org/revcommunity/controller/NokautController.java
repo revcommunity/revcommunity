@@ -41,18 +41,18 @@ public class NokautController {
 
 		try {
 			
-			//nokautConnector.downloadMainCategories();
-			//nokautConnector.downloadCategoriesByParentId(new Long(126));
+		    nokautConnector.downloadMainCategories();
+			nokautConnector.downloadCategoriesByParentId(new Long(126));
 //			EndResult<Category> p = this.categoryRepo.findAll();
 //			for (Category c : p) {
 //				logger.info(c);
 //				nokautConnector.downloadProductsByCategoryId(c, 1);
 //			}
 		    
-		    allegroConnector.downloadMainCategories();
+		   // nokautConnector.downloadMainCategories();
 		    
 		    //komputery
-		    allegroConnector.downloadCategoriesByParentId( new Long(2) );
+		   // nokautConnector.downloadCategoriesByParentId( new Long(2) );
 		    
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

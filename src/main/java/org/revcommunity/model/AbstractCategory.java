@@ -39,7 +39,7 @@ public abstract class AbstractCategory
     private boolean baseCategory = true;
 
     @RelatedTo( type = "FILTERS", direction = Direction.OUTGOING )
-    private Set<CategoryFilter> filters;
+    private Set<CategoryFilter> filters = new HashSet<CategoryFilter>(5);
 
     public Set<CategoryFilter> getFilters()
     {
@@ -53,6 +53,10 @@ public abstract class AbstractCategory
         this.filters = filters;
     }
 
+    public void addFilter(CategoryFilter cf){
+        this.filters.add( cf );
+    }
+    
     private String name;
 
     public Long getNodeId()

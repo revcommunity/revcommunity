@@ -16,6 +16,8 @@ public class CategoryFilter
 
     private String symbol;
 
+    private Long remoteId;
+    
     private CategoryFilterType type;
 
     private Set<String> values;
@@ -91,6 +93,16 @@ public class CategoryFilter
     public String toString()
     {
         return "CategoryFilter [name=" + name + ", symbol=" + symbol + ", type=" + type + "]";
+    }
+
+    public Long getRemoteId()
+    {
+        return remoteId;
+    }
+
+    public void setRemoteId( Long remoteId )
+    {
+        this.remoteId = remoteId;
     }
 
 }
