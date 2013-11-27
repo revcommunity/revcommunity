@@ -29,6 +29,8 @@
 		<intercept-url pattern="/rest/users/redirect" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/users/session" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/users/roles" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/rest/users" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/rest/nokaut/download" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		
 		<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/#category/new" access="ROLE_USER, ROLE_ADMIN" />
