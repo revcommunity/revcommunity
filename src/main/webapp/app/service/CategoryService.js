@@ -14,5 +14,12 @@ var CategoryService={
 			return UtilService.exec('categories/getFilters',{
 				categoryId:categoryId
 			});
+		},
+		showCategoryTree:function(){
+			var div=Ext.get('category-tree-div');
+			var tree=Ext.widget('categorytree', {
+			    renderTo: div
+			});
 		}
+		
 };

@@ -13,7 +13,7 @@ public interface CategoryRepo
     extends GraphRepository<Category>
 {
 
-    @Query( "START cat=node({0}) MATCH filters<-[:FILTERS]-parent-[:CONTAINS*]->cat RETURN filters" )
+    @Query( "START cat=node({0}) MATCH cat-[?:FILTERS]->filters<-[?:FILTERS]-parent-[:CONTAINS*]->cat RETURN distinct filters" )
     public List<CategoryFilter> getFilters( AbstractCategory cat );
 
     public AbstractCategory findByRemoteId( Long id );

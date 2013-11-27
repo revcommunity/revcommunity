@@ -50,6 +50,9 @@
 	
 		<div id="nav" class="navigation-bar">
 			<p class="rev-header">Nawigacja</p>
+			<div id="category-tree-div">
+				
+			</div>
 			<ul class="navigation-list">
 				<li class="navigation-list-item"><a href="#product/new" >Dodaj produkt</a></li>
 				<li class="navigation-list-item"><a href="#product/list" >Lista produktów</a></li>
