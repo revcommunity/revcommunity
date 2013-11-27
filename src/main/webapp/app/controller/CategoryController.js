@@ -179,7 +179,19 @@ Ext
 									parentId : arrayCategory['parentId'],
 									filters : list,
 								},
-								method : 'POST'
+								method : 'POST',
+								success: function(response) 
+							    {
+									alert('Dodano pomyślnie nową kategorię');
+									window.location.reload();
+									
+
+							    },
+							    failure: function(response) 
+							    {
+							        alert("Błąd przy dodawaniu nowej kategori");
+							        window.location.reload();
+							    }
 							});
 						} else {
 							Ext.Ajax.request({
