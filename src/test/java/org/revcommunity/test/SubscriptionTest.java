@@ -18,6 +18,7 @@ import org.revcommunity.repo.UserRepo;
 import org.revcommunity.repo.subscription.UserChannelNotificationRepo;
 import org.revcommunity.repo.subscription.UserChannelRepo;
 import org.revcommunity.service.SubscriptionService;
+import org.revcommunity.util.TestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.test.context.ContextConfiguration;

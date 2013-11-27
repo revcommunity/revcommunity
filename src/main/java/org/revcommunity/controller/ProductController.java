@@ -11,7 +11,11 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.revcommunity.model.AbstractCategory;
+import org.revcommunity.model.Category;
+import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
+import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.service.ProductService;
 import org.revcommunity.util.ImageService;
@@ -46,6 +50,9 @@ public class ProductController
 
     @Autowired
     private ProductService ps;
+
+    @Autowired
+    private AbstractCategoryRepo acr;
 
     @Autowired
     private ImageService imageService;
@@ -100,5 +107,21 @@ public class ProductController
     public Product get( @PathVariable Long id )
     {
         return pr.findOne( id );
+    }
+
+    /**
+     * Pobiera jeden produkt na posdstawie id
+     * 
+     * @param id Id produktu
+     * @return Obiekt produktu
+     * @author Paweł Rosolak 20 paź 2013
+     */
+    @RequestMapping( value = "categories", method = RequestMethod.GET )
+    @ResponseBody
+    public List<Product> findByCategory( @RequestParam Long categoryId )
+    {
+        AbstractCategory c = acr.findOne( categoryId );
+        List<Product> prods = pr.findByCategory( c );
+        return prods;
     }
 }

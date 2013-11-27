@@ -3,6 +3,7 @@ package org.revcommunity.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
@@ -28,8 +29,6 @@ public abstract class AbstractCategory
     private Long remoteId;
 
     private Long parentId;
-
-    
 
     @GraphId
     private Long nodeId;
@@ -108,6 +107,7 @@ public abstract class AbstractCategory
         this.baseCategory = baseCategory;
     }
 
+    @JsonIgnore
     public Long getParentId()
     {
         return parentId;
