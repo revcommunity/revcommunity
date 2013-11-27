@@ -1,7 +1,7 @@
-Ext.define('RevCommunity.view.subscription.UserNotificationList', {
+Ext.define('RevCommunity.view.subscription.ProductNotificationList', {
 		extend:'Ext.view.View',
-	    xtype:'usernotificationlist',
-	    tpl:TemplateHolder.userNotificationList,
+	    xtype:'productnotificationlist',
+	    tpl:TemplateHolder.productNotificationList,
 	    itemSelector: 'rev-user-subscription-item',
 	    emptyText: 'Brak powiadomień',
 	    selectedItemCls:'rev-user-subscription-item-selected',
@@ -9,8 +9,8 @@ Ext.define('RevCommunity.view.subscription.UserNotificationList', {
 	    cls:'rev-usernotificationlist',
 	    singleSelect : true,
 	    initComponent:function(){
-	    	this.store=Ext.create('RevCommunity.store.UserNotificationStore');
-	    	this.store.getProxy().setExtraParam('userSubscriptionId',this.userSubscriptionId);
+	    	this.store=Ext.create('RevCommunity.store.ProductNotificationStore');
+	    	this.store.getProxy().setExtraParam('productSubscriptionId',this.productSubscriptionId);
 	    	this.store.load();
 		    this.callParent(arguments);
 	    }

@@ -6,7 +6,7 @@ import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.RelationshipEntity;
 import org.springframework.data.neo4j.annotation.StartNode;
 
-@RelationshipEntity( type = "READ" )
+@RelationshipEntity( type = "READ_USER_NOTIF" )
 public class UserNotification
 {
 

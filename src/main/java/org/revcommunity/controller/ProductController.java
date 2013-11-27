@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.revcommunity.model.Product;
 import org.revcommunity.repo.ProductRepo;
+import org.revcommunity.service.ProductService;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +45,9 @@ public class ProductController
     private ProductRepo pr;
 
     @Autowired
+    private ProductService ps;
+
+    @Autowired
     private ImageService imageService;
 
     /**
@@ -66,7 +70,7 @@ public class ProductController
         {
             p.addImage( ImageService.imgDirName + "/" + file.getName() );
         }
-        pr.save( p );
+        ps.createProduct( p );
         log.debug( "Zapisano nowy produkt: " + p );
         return new Message();
     }

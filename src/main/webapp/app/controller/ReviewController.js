@@ -27,7 +27,7 @@ Ext.define('RevCommunity.controller.ReviewController', {
 	// location.href = '#addReview';
 	// },
 	showNewProductForm : function() {
-		location.href = '#newProduct';
+		location.href = '#product/new';
 	},
 	saveReview : function(btn) {
 		var form = btn.up('form');

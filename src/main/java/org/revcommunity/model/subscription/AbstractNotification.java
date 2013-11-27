@@ -20,6 +20,7 @@ public abstract class AbstractNotification
 
     private String message;
 
+    @Fetch
     @RelatedTo( type = "ABOUT", direction = Direction.OUTGOING )
     private Review review;
 

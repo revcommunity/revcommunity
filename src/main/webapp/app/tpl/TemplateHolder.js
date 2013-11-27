@@ -17,17 +17,45 @@ productList:new Ext.XTemplate(
 '	<div class="rev-box rev-box-button" action="addReview">Dodaj recenzję dla tego produktu</div>',
 '</div>'
 ),
-userNotificationList:new Ext.XTemplate(
+productNotificationList:new Ext.XTemplate(
 '<tpl for=".">',
-'    <div class="rev-user-notification-item">',
-'      <span>{notification.message}</span>',
+'<div class="rev-hd-username"><a href="#products/{product.nodeId}">{product.Name}</a></div>',
+'	<tpl for="notification">',
+'	    <div class="rev-user-notification-item">',
+'	      <span class="rev-notification-title">{notification.message}</span>',
+'	      <br>',
+'	      <img src="{notification.review.product.mainImage}" class="rev-notification-image"/>',
+'	      <div class="rev-notification-desc">{notification.review.content}</div>',
+'	    </div>',
+'	</tpl>',
+'</tpl>'
+),
+productSubscriptionList:new Ext.XTemplate(
+'<p class="rev-header">Obserwowane produkty</p>',
+'<tpl for=".">',
+'    <div class="rev-user-subscription-item">',
+'      <img src="{product.mainImage}" width="18"/><span>{channel.channelProduct.name} ({newNotifications})</span>',
 '    </div>',
 '</tpl>'
 ),
+userNotificationList:new Ext.XTemplate(
+'<tpl for=".">',
+'<div class="rev-hd-username"><a href="#reviews/user/{user.userName}">{user.fullName}</a></div>',
+'	<tpl for="notification">',
+'	    <div class="rev-user-notification-item">',
+'	      <span class="rev-notification-title">{notification.message}</span>',
+'	      <br>',
+'	      <img src="{notification.review.product.mainImage}" class="rev-notification-image"/>',
+'	      <div class="rev-notification-desc">{notification.review.content}</div>',
+'	    </div>',
+'	</tpl>',
+'</tpl>'
+),
 userSubscriptionList:new Ext.XTemplate(
+'<p class="rev-header">Subskrupcje</p>',
 '<tpl for=".">',
 '    <div class="rev-user-subscription-item">',
-'      <span>{channel.channelOwner.fullName} ({newNotifications})</span>',
+'      <img src="{user.image}" width="18"/><span>{user.fullName} ({newNotifications})</span>',
 '    </div>',
 '</tpl>'
 )

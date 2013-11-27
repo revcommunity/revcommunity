@@ -1,16 +1,18 @@
 var AppRouter = Backbone.Router.extend({
 	routes : {
 		'' : 'home',
-		'newProduct' : 'newProduct',
-		'newCategory' : 'newCategory',
-		'productList' : 'productList',
+		'category/new' : 'newCategory',
+		'product/new' : 'newProduct',
+		'product/list' : 'productList',
 		'product/:id' : 'product',
-		'newReview' : 'newReview',
-		'addReview/:id' : 'addReview',
+		'reviews/new' : 'newReview',
+		'reviews/add:id' : 'addReview',
 		'reviews/my' : 'myReviews',
-		'review/:id' : 'review',
+		'reviews/:id' : 'review',
 		'reviews/user/:userName':'userReviews',
-		'auth/login' : 'login'
+		'auth/login' : 'login',
+		'subscriptions/users/notifications/:userSubscriptionId':'userNotifications',
+		'subscriptions/products/notifications/:productSubscriptionId':'productNotifications'
 	},
 	home : function() {
 		console.log("home");
@@ -147,5 +149,19 @@ var AppRouter = Backbone.Router.extend({
 		this.clearPage();
 		var panel = Ext.widget('loginform',{});
 		Ext.getCmp('contentPanel').add(panel);
+	},
+	userNotifications:function(userSubscriptionId){
+		Ext.getCmp('contentPanel').removeAll();
+		Ext.getCmp('contentPanel').add({
+			xtype:'usernotificationlist',
+			userSubscriptionId:userSubscriptionId
+		});
+	},
+	productNotifications:function(productSubscriptionId){
+		Ext.getCmp('contentPanel').removeAll();
+		Ext.getCmp('contentPanel').add({
+			xtype:'productnotificationlist',
+			productSubscriptionId:productSubscriptionId
+		});
 	}
 });

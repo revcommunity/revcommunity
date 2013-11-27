@@ -38,6 +38,6 @@ Ext.define('RevCommunity.controller.ProductController', {
 	},
 	addReview : function(record) {
 		var id = record.data.nodeId;
-		location.href = '#addReview/' + id;
+		location.href = '#reviews/add' + id;
 	}
 });

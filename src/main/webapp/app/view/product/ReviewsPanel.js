@@ -23,7 +23,7 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 	    listeners : {
 	        itemdblclick: function(dv, record, item, index, e) {
 	    		var id = record.data.nodeId;
-	    		location.href = '#review/' + id;
+	    		location.href = '#reviews/' + id;
 	        }
 	    },
 	    initComponent:function(){

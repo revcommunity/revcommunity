@@ -21,10 +21,18 @@ var UserService={
 			};
 			UtilService.execJson('users',user);
 		},
+		me:null,
 		getLoggedUser:function(){
-			return UtilService.exec('users/me');
+			if(this.me==null)
+				this.me=UtilService.exec('users/me');
+			return this.me;
 		},
 		getByUserName:function(userName){
 			return UtilService.exec('users/name/'+userName);
+		},
+		hasRole:function(role){
+			return UtilService.exec('users/roles',{
+						role:role
+					});
 		}
 };

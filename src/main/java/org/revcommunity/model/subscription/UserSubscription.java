@@ -1,7 +1,5 @@
 package org.revcommunity.model.subscription;
 
-import java.util.Set;
-
 import org.neo4j.graphdb.Direction;
 import org.revcommunity.model.User;
 import org.springframework.data.neo4j.annotation.Fetch;
@@ -15,11 +13,11 @@ public class UserSubscription
     @GraphId
     private Long nodeId;
 
-    @RelatedTo( type = "HAS_SUBSCRIPTION", direction = Direction.INCOMING )
+    @RelatedTo( type = "HAS_USER_SUBSCRIPTION", direction = Direction.INCOMING )
     private User observer;
 
     @Fetch
-    @RelatedTo( type = "SUBSCRIBE", direction = Direction.OUTGOING )
+    @RelatedTo( type = "SUBSCRIBE_USER", direction = Direction.OUTGOING )
     private UserChannel channel;
 
     private int newNotifications;

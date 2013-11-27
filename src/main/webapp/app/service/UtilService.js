@@ -17,5 +17,15 @@ var UtilService={
 		},
 		populateTestData:function(){
 			UtilService.exec('test/testData');
+		},
+		handleException:function(conn, response, options, eOpts){
+			log(response.status);
+			if( response.status == 401){
+				window.open('auth/login.jsp','_parent');
+			}else{
+				var resp=Ext.decode(response.responseText);
+				log(resp);
+			}
+			
 		}
 };
