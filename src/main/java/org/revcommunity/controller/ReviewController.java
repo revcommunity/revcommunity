@@ -79,6 +79,7 @@ public class ReviewController
         for ( Review r : reviews )
         {
             tpl.fetch( r.getAuthor() );
+            tpl.fetch( r.getRatings() );
         }
         return reviews;
     }
@@ -141,8 +142,6 @@ public class ReviewController
         tpl.fetch( review.getRatings() );
 
         rs.addReviewRating( review, reviewRating );
-
-        review.recalculateUsefulness();
 
         rr.save( review );
 
