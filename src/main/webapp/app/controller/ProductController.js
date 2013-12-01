@@ -29,7 +29,19 @@ Ext.define('RevCommunity.controller.ProductController', {
 		form.submit({
 			params : {
 				product : Ext.encode(product)
-			}
+			},
+			success: function(response) 
+		    {
+				alert('Dodano pomyślnie nowy produkt');
+				window.location.reload();
+				
+
+		    },
+		    failure: function(response) 
+		    {
+		        alert("Błąd przy dodawaniu nowego produktu");
+		        window.location.reload();
+		    }
 		});
 	},
 	showDetails : function(record) {

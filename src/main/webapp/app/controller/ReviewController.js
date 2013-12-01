@@ -48,7 +48,19 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			method : 'POST',
 			params : {
 				review : encoded
-			}
+			},
+			success: function(response) 
+		    {
+				alert('Dodano pomyślnie nową recenzję');
+				window.location.reload();
+				
+
+		    },
+		    failure: function(response) 
+		    {
+		        alert("Błąd przy dodawaniu nowej recenzji");
+		        window.location.reload();
+		    }
 		});
 	},
 	saveComment : function(btn) {
