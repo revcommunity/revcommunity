@@ -1,5 +1,6 @@
 package org.revcommunity.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,6 +23,30 @@ public class Review
 
     public Review()
     {
+    }
+
+    private Date dateAdded;
+
+    private Date lastModification;
+
+    public Date getDateAdded()
+    {
+        return dateAdded;
+    }
+
+    public void setDateAdded( Date dateAdded )
+    {
+        this.dateAdded = dateAdded;
+    }
+
+    public Date getLastModification()
+    {
+        return lastModification;
+    }
+
+    public void setLastModification( Date lastModification )
+    {
+        this.lastModification = lastModification;
     }
 
     @GraphId

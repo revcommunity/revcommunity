@@ -106,7 +106,17 @@ public class ProductController
     @ResponseBody
     public Product get( @PathVariable Long id )
     {
-        return pr.findOne( id );
+        try
+        {
+            Product p = pr.findOne( id );
+            return p;
+        }
+        catch ( Exception e )
+        {
+            log.error( e, e );
+        }
+        return null;
+
     }
 
     /**

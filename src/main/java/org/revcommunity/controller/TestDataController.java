@@ -177,7 +177,7 @@ public class TestDataController
 
                 }
                 r.setRank( i + 1 );
-                rs.save( r );
+                rs.createReview( r );
             }
         }
 

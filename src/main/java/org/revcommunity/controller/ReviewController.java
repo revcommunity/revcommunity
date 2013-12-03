@@ -105,7 +105,7 @@ public class ReviewController
             if ( logged != null )
                 r.setAuthor( logged );
         }
-        rs.save( r );
+        rs.createReview( r );
         log.debug( "Zapisano recenzje: " + r.getNodeId() );
         return new Message();
     }

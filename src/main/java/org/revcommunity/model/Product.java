@@ -1,6 +1,7 @@
 package org.revcommunity.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -18,6 +19,11 @@ public class Product
     @GraphId
     private Long nodeId;
 
+    public Product()
+    {
+        super();
+    }
+
     private String name;
 
     private String producer;
@@ -29,6 +35,42 @@ public class Product
     private String description;
 
     private List<String> images;
+
+    private Date dateAdded;
+
+    private Date lastModification;
+
+    private User lastEditUser;
+
+    public Date getDateAdded()
+    {
+        return dateAdded;
+    }
+
+    public void setDateAdded( Date dateAdded )
+    {
+        this.dateAdded = dateAdded;
+    }
+
+    public Date getLastModification()
+    {
+        return lastModification;
+    }
+
+    public void setLastModification( Date lastModification )
+    {
+        this.lastModification = lastModification;
+    }
+
+    public User getLastEditUser()
+    {
+        return lastEditUser;
+    }
+
+    public void setLastEditUser( User lastEditUser )
+    {
+        this.lastEditUser = lastEditUser;
+    }
 
     private Double priceAvg;
 
@@ -182,18 +224,14 @@ public class Product
         reviewCount++;
     }
 
-	@Override
-	public String toString() {
-		return "Product [nodeId=" + nodeId + ", name=" + name + ", producer="
-				+ producer + ", reviewCount=" + reviewCount + ", productCode="
-				+ productCode + ", description=" + description + ", images="
-				+ images + ", priceAvg=" + priceAvg + ", remoteUrl="
-				+ remoteUrl + ", remoteId=" + remoteId + ", mainImage="
-				+ mainImage + ", keys=" + keys + ", properties=" + properties
-				+ ", category=" + category + "]";
-	}
-
-    
+    @Override
+    public String toString()
+    {
+        return "Product [nodeId=" + nodeId + ", name=" + name + ", producer=" + producer + ", reviewCount=" + reviewCount + ", productCode="
+            + productCode + ", description=" + description + ", images=" + images + ", priceAvg=" + priceAvg + ", remoteUrl=" + remoteUrl
+            + ", remoteId=" + remoteId + ", mainImage=" + mainImage + ", keys=" + keys + ", properties=" + properties + ", category=" + category
+            + "]";
+    }
 
     public String getRemoteUrl()
     {
@@ -214,7 +252,5 @@ public class Product
     {
         this.remoteId = remoteId;
     }
-    
-    
 
 }
