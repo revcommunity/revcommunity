@@ -79,6 +79,7 @@ public class ReviewController
         for ( Review r : reviews )
         {
             tpl.fetch( r.getAuthor() );
+            tpl.fetch( r.getRatings() );
         }
         return reviews;
     }
@@ -104,7 +105,7 @@ public class ReviewController
             if ( logged != null )
                 r.setAuthor( logged );
         }
-        rs.save( r );
+        rs.createReview( r );
         log.debug( "Zapisano recenzje: " + r.getNodeId() );
         return new Message();
     }
@@ -141,8 +142,6 @@ public class ReviewController
         tpl.fetch( review.getRatings() );
 
         rs.addReviewRating( review, reviewRating );
-
-        review.recalculateUsefulness();
 
         rr.save( review );
 

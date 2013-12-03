@@ -55,7 +55,6 @@
 			</div>
 			<ul class="navigation-list">
 				<li class="navigation-list-item"><a href="#product/new" >Dodaj produkt</a></li>
-				<li class="navigation-list-item"><a href="#product/list" >Lista produktów</a></li>
 				<li class="navigation-list-item"><a href="#category/new" >Dodaj kategorię</a></li>
 				<li class="navigation-list-item"><a href="#reviews/my" >Moje recenzje</a></li>
 			</ul>

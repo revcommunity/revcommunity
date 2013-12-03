@@ -1,5 +1,6 @@
 package org.revcommunity.model;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -24,6 +25,30 @@ public class Review
     {
     }
 
+    private Date dateAdded;
+
+    private Date lastModification;
+
+    public Date getDateAdded()
+    {
+        return dateAdded;
+    }
+
+    public void setDateAdded( Date dateAdded )
+    {
+        this.dateAdded = dateAdded;
+    }
+
+    public Date getLastModification()
+    {
+        return lastModification;
+    }
+
+    public void setLastModification( Date lastModification )
+    {
+        this.lastModification = lastModification;
+    }
+
     @GraphId
     private Long nodeId;
 
@@ -31,8 +56,6 @@ public class Review
     private String content;
 
     private String title;
-
-    private Double usefulness;
 
     private Integer rank;
 
@@ -79,16 +102,6 @@ public class Review
         this.title = title;
     }
 
-    public Double getUsefulness()
-    {
-        return usefulness;
-    }
-
-    public void setUsefulness( Double usefulness )
-    {
-        this.usefulness = usefulness;
-    }
-
     public Integer getRank()
     {
         return rank;
@@ -133,7 +146,6 @@ public class Review
             ratings = new HashSet<ReviewRating>();
         }
         return ratings;
-
     }
 
     public void setRatings( Set<ReviewRating> ratings )
@@ -156,22 +168,36 @@ public class Review
         getComments().add( comment );
     }
 
-    public void recalculateUsefulness()
+    public Double getUsefulness()
     {
-        if ( getRatings().size() == 0 )
-        {
-            return;
-        }
+        // TODO: set proper weights and defaultReviewUsefulness
+        double defaultReviewWeight = 1;
+        double votesWeight = 1;
+        double authorWeight = 1;
 
-        int positiveCount = 0;
+        double defaultReviewUsefulness = 0.5;
+
+        double numerator = defaultReviewWeight * defaultReviewUsefulness;
+        numerator += votesWeight * countPositiveRatings();
+        numerator += authorWeight * author.countPositiveReviewRatings();
+
+        double denominator = defaultReviewWeight;
+        denominator += votesWeight * getRatings().size();
+        denominator += authorWeight * author.countReviewRatings();
+
+        return numerator * 100.0 / denominator;
+    }
+
+    public int countPositiveRatings()
+    {
+        int result = 0;
         for ( ReviewRating rating : getRatings() )
         {
             if ( rating.getPositive() )
             {
-                positiveCount++;
+                result++;
             }
         }
-        double valueToSet = (double) positiveCount * 100 / getRatings().size();
-        setUsefulness( valueToSet );
+        return result;
     }
 }

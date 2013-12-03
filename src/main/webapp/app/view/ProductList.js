@@ -17,8 +17,12 @@ Ext.define('RevCommunity.view.ProductList', {
 			       		tpl:   TemplateHolder.productList
 			       	}
 			    ];
-		    	this.store=Ext.create('RevCommunity.store.ProductStore');
-		    	this.store.getProxy().url='rest/products/categories';
+		    	this.store=Ext.create('RevCommunity.store.ProductStore',{
+		    		proxy:Ext.create('Ext.data.proxy.Ajax',{
+		    			  type: 'rest',
+		    		      url : 'rest/products/categories'
+		    		})
+		    	});
 			    this.callParent(arguments);
 		    }
 });

@@ -177,6 +177,30 @@ public class User
         this.userName = userName;
     }
 
+    public int countPositiveReviewRatings()
+    {
+        int result = 0;
+
+        for ( Review r : getReviews() )
+        {
+            result += r.countPositiveRatings();
+        }
+
+        return result;
+    }
+
+    public int countReviewRatings()
+    {
+        int result = 0;
+
+        for ( Review r : getReviews() )
+        {
+            result += r.getRatings().size();
+        }
+
+        return result;
+    }
+
     @Override
     public String toString()
     {

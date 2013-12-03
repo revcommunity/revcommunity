@@ -177,8 +177,7 @@ public class TestDataController
 
                 }
                 r.setRank( i + 1 );
-                r.setUsefulness( new Integer( i * 10 + 20 ).doubleValue() );
-                rs.save( r );
+                rs.createReview( r );
             }
         }
 
