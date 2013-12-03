@@ -182,6 +182,10 @@ public class Product
         return properties;
     }
 
+    public void addProperties(String key, Object value){
+        properties.setProperty( key, value );
+    }
+    
     public void setProperties( DynamicProperties properties )
     {
         this.properties = properties;
