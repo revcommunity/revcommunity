@@ -15,22 +15,32 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 			
 		});
 	},
+	removeNextCategoryCombo:function(cmb){//usuwa wszystkie combo za podanym
+		var nextCmb=cmb.next('categorycombo');
+		while(nextCmb!=null){
+			var tmp=nextCmb.next('categorycombo');
+			nextCmb.destroy();
+			nextCmb=tmp;
+		}
+	},
 	selectCategory:function(cmb,recs){
+		this.removeNextCategoryCombo(cmb);
+		
 		var category=recs[0].data;
 		var categoryId=cmb.getValue();
-	
+		var specFs=cmb.up('form').down('specificationfieldset');
 		if( category.leaf==true ){
 			var filters=CategoryService.getFilters(categoryId);
-			var specFs=cmb.up('form').down('specificationfieldset');
 			specFs.setFilters(filters);
 			return;
+		}else{
+			specFs.removeAll();
 		}
 		cmb.ownerCt.add({
 			xtype:'categorycombo',
 			parentId:categoryId
 		});
 	},
-	
 	selectCategoryForCategory:function(cmb,recs){	
 		var category=recs[0].data;
 		var categoryId=cmb.getValue();
