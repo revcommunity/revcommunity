@@ -37,8 +37,6 @@ var AppRouter = Backbone.Router.extend({
 						{
 							scope : this,
 							callback : function(records, operation, success) {								
-								thisRouter.calculateProductProperties(records,
-										product);
 								var wrapper = Ext.widget('productwrapper', {
 									items : [ grid, panel ]
 								});
@@ -114,25 +112,6 @@ var AppRouter = Backbone.Router.extend({
 				// form.getForm().setValues({productImage:product.data.mainImage});
 				
 			}
-		});
-	},
-	calculateProductProperties : function(records, product) {
-
-		var count = 0;
-		var averageMark;
-		var sumOfMarks = 0;
-
-		for ( var r in records) {
-			if (records.hasOwnProperty(r)) {
-				count++;
-				sumOfMarks += records[r].data.rank;
-			}
-		}
-
-		averageMark = (sumOfMarks / count).toFixed(2);
-		Ext.apply(product.data, {
-			averageMark : averageMark,
-			reviewCount : count
 		});
 	},
 	myReviews:function(){

@@ -1,4 +1,4 @@
 Ext.define('RevCommunity.store.ReviewStore', {
-	extend:'Ext.data.Store',
-	model:'RevCommunity.model.Review',
+	extend : 'Ext.data.Store',
+	model : 'RevCommunity.model.Review',
 });
