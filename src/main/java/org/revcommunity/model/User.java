@@ -4,15 +4,17 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class User
 {
-
     @GraphId
     private Long nodeId;
 
@@ -33,6 +35,7 @@ public class User
     }
 
     @JsonIgnore
+    @Fetch
     @RelatedTo( type = "WROTE", direction = Direction.OUTGOING )
     private Set<Review> reviews;
 
@@ -199,6 +202,35 @@ public class User
         }
 
         return result;
+    }
+
+    public String getRank()
+    {
+        // TODO: update const values and verify method
+        double defaultRank = 0.5;
+        double defaultRankWeight = 1;
+        double reviewRatingsWeight = 1;
+
+        double numerator = defaultRank * defaultRankWeight;
+        numerator += countPositiveReviewRatings() * reviewRatingsWeight;
+
+        double denominator = defaultRankWeight;
+        denominator += reviewRatingsWeight * countReviewRatings();
+
+        double result = numerator * 100.0 / denominator;
+
+        if ( result <= 30.0 )
+        {
+            return "Hejter!";
+        }
+        else if ( result <= 50.0 )
+        {
+            return "Amator";
+        }
+        else
+        {
+            return "Ekspert";
+        }
     }
 
     @Override

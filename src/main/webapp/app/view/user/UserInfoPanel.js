@@ -32,12 +32,8 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 				    	   name:'fullName'
 				       },
 				       {
-				    	   xtype:'label',
-				    	   style:{
-				    		 color:'red',
-				    		 fontWeight:'bold'
-				    	   },
-				    	   text:'Ekspert'
+				    	   xtype:'displayfield',
+				    	   name : 'rank',
 				       },
 				       {
 				    	   xtype:'button',
@@ -64,7 +60,7 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 	    		    align : 'stretch',
 	    		    pack  : 'start',
 	    	   },
-	    	   title:'Subskrybcje',
+	    	   title:'Subskrypcje',
 	    	   items:[ 
 	    	           {
 				    	   xtype:'label',

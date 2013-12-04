@@ -35,7 +35,11 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 				    proxy: {
 				        type: 'rest',
 				        url : url
-				    }
+				    },
+					sorters : [ {
+						property : 'usefulness',
+						direction : 'DESC',
+					} ],
 	    	   })
 	       });
 	}

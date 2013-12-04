@@ -116,7 +116,7 @@ Ext
 																				{
 																					xtype : 'displayfield',
 																					name : 'userRank',
-																					value : 'Amator',
+																					value : this.data.author.rank,
 																				} ]
 
 																	},

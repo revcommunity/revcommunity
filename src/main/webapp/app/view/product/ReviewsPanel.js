@@ -57,10 +57,25 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 			        			'<div class="rev-user-container">',
 			        				'<img src={author.image} class="rev-user-small-image" ></img>',
 			        				'<div class="rev-user-name">{author.fullName}</div>',
-			        				'<div class="rev-user-rank">Amator</div>',
+			        				'<div class="rev-user-rank">{author.rank}</div>',
 			        			'</div>'
 			        	)
 		              });
+	    	}
+	    	if(this.mode=='newest'){
+	    		this.store=Ext.create('RevCommunity.store.ProductReviewsStore',{
+	    			pageSize:5,
+	    			proxy: {
+	    		        type: 'rest',
+	    		        url : 'rest/reviews/find',
+	    		        reader:{
+	 		                   root: 'content',
+	 		                   totalProperty: 'totalElements'
+	 		            }
+	    		    }
+	    		});
+	    	}else{
+//	    		this.store=Ext.create('RevCommunity.store.ProductReviewsStore');
 	    	}
 	    	this.callParent(arguments);
 	    }

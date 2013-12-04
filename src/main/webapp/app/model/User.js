@@ -3,6 +3,7 @@ Ext.define('RevCommunity.model.User', {
     fields: [
     		'userName',
     		'password',
+    		'rank',
     		{
     			name:'nodeId',
     			convert:function(v){
