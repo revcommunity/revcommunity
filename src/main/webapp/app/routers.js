@@ -3,6 +3,7 @@ var AppRouter = Backbone.Router.extend({
 		'' : 'home',
 		'category/new' : 'newCategory',
 		'product/new' : 'newProduct',
+		'product/edit/:id' : 'editProduct',
 		'products/categories/:categoryId' : 'productList',
 		'product/:id' : 'product',
 		'reviews/new' : 'newReview',
@@ -49,7 +50,15 @@ var AppRouter = Backbone.Router.extend({
 	},
 	newProduct : function() {
 		this.clearPage();
-		var form = Ext.widget('newproductform');
+		var form = Ext.widget('productform');
+		Ext.getCmp('contentPanel').add(form);
+	},
+	editProduct : function(id) {
+		this.clearPage();
+		var form = Ext.widget('productform',{
+			mode:'edit',
+			productId:id
+		});
 		Ext.getCmp('contentPanel').add(form);
 	},
 	newCategory : function() {

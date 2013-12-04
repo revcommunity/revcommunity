@@ -54,6 +54,10 @@ public class CategoryService
         Category c1 = new Category();
         c1.setName( "Dell" );
         c1.setParent( cg2 );
+        CategoryFilter cf1 = new CategoryFilter();
+        cf1.setName( "Procesor" );
+        cf1.setType( CategoryFilterType.STRING );
+        c1.addFilter( cf1 );
         tpl.save( c1 );
         log.debug( c1 );
 

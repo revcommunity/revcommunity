@@ -109,7 +109,7 @@ Ext.define('RevCommunity.view.review.NewReviewForm' ,{
 		});
 	},
 	initComponent:function(){
-		var product=ProductService.getProductCategories(this.productId);
+		var product=ProductService.get(this.productId);
 		
 		this.callParent(arguments);
 		this.buildCategoryValue(product);

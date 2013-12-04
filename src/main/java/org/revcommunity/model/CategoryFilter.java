@@ -17,7 +17,7 @@ public class CategoryFilter
     private String symbol;
 
     private Long remoteId;
-    
+
     private CategoryFilterType type;
 
     private Set<String> values;
@@ -57,6 +57,7 @@ public class CategoryFilter
     public void setName( String name )
     {
         this.name = name;
+        this.symbol = generateSymbol( name );
     }
 
     public String getSymbol()
@@ -64,10 +65,10 @@ public class CategoryFilter
         return symbol;
     }
 
-    public void setSymbol( String symbol )
-    {
-        this.symbol = symbol;
-    }
+    // public void setSymbol( String symbol )
+    // {
+    // this.symbol = symbol;
+    // }
 
     public CategoryFilterType getType()
     {

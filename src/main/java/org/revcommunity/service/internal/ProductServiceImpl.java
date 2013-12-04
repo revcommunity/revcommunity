@@ -30,6 +30,7 @@ public class ProductServiceImpl
 
     public Product createProduct( Product product )
     {
+        product.buildProperites();
         product.setDateAdded( new Date() );
         pr.save( product );
         ProductChannel pc = new ProductChannel();
@@ -40,6 +41,7 @@ public class ProductServiceImpl
 
     public void updateProduct( Product product )
     {
+        product.buildProperites();
         String userName = SessionUtils.getLoggedUserName();
         User modificationUser = ur.findByUserName( userName );
         product.setLastEditUser( modificationUser );

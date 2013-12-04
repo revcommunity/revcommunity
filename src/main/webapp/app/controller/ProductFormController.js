@@ -3,13 +3,13 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 
 	init : function() {
 		this.control({
-			'newproductform categorycombo' : {
+			'productform categorycombo' : {
 				select : this.selectCategory
 			},
-			'newcategoryform categorycombo' : {
+			'categoryform categorycombo' : {
 				select : this.selectCategoryForCategory
 			},
-			'newcategoryform categorycombowithoutleaf' : {
+			'categoryform categorycombowithoutleaf' : {
 				select : this.selectCategoryForCategory
 			}
 			
@@ -29,12 +29,11 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 		var category=recs[0].data;
 		var categoryId=cmb.getValue();
 		var specFs=cmb.up('form').down('specificationfieldset');
+		specFs.removeAll();
 		if( category.leaf==true ){
 			var filters=CategoryService.getFilters(categoryId);
 			specFs.setFilters(filters);
 			return;
-		}else{
-			specFs.removeAll();
 		}
 		cmb.ownerCt.add({
 			xtype:'categorycombo',

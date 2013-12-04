@@ -56,4 +56,14 @@ public class ImageService
         }
         return savedFiles;
     }
+
+    public void remove( List<String> removedImages )
+    {
+        for ( String img : removedImages )
+        {
+            File file = new File( servletContext.getRealPath( "/" ) + File.separator + img );
+            file.delete();
+        }
+
+    }
 }

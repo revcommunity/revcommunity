@@ -3,10 +3,8 @@ var ProductService={
 			var products=UtilService.exec('products');
 			return products;
 		},
-		getProductCategories:function(productId){
-			var product=UtilService.exec('categories/product',{
-				productId:productId
-			});
+		get:function(id){
+			var product=UtilService.exec('products/'+id);
 			return product;
 		}
 };

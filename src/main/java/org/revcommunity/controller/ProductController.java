@@ -11,9 +11,8 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.revcommunity.dto.ProductDto;
 import org.revcommunity.model.AbstractCategory;
-import org.revcommunity.model.Category;
-import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
 import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.ProductRepo;
@@ -22,8 +21,11 @@ import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
+import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -49,6 +51,9 @@ public class ProductController
     private ProductRepo pr;
 
     @Autowired
+    private Neo4jTemplate tpl;
+
+    @Autowired
     private ProductService ps;
 
     @Autowired
@@ -67,19 +72,27 @@ public class ProductController
      */
     @RequestMapping( method = RequestMethod.POST )
     @ResponseBody
-    public Message save( @RequestParam String product, @RequestParam ArrayList<MultipartFile> images )
+    public Message save( @RequestParam String product, @RequestParam List<String> removedImages, @RequestParam ArrayList<MultipartFile> images )
         throws JsonParseException, JsonMappingException, IOException
     {
         ObjectMapper om = new ObjectMapper();
         Product p = om.readValue( product, Product.class );
         List<File> files = imageService.save( images );
+        imageService.remove( removedImages );
         for ( File file : files )
         {
             p.addImage( ImageService.imgDirName + "/" + file.getName() );
         }
-        ps.createProduct( p );
+        if ( p.getNodeId() == null )
+        {
+            ps.createProduct( p );
+        }
+        else
+        {
+            ps.updateProduct( p );
+        }
         log.debug( "Zapisano nowy produkt: " + p );
-        return new Message();
+        return new Message( p );
     }
 
     /**
@@ -106,17 +119,21 @@ public class ProductController
     @ResponseBody
     public Product get( @PathVariable Long id )
     {
-        try
+        Product p = pr.findOne( id );
+        DynamicProperties dp = p.getProperties();
+        for ( String key : dp.getPropertyKeys() )
         {
-            Product p = pr.findOne( id );
-            return p;
+            log.debug( key + " = " + dp.getProperty( key ) );
+            p.getKeys().put( key, dp.getProperty( key ) );
         }
-        catch ( Exception e )
+        tpl.fetch( p.getCategory() );
+        AbstractCategory c = p.getCategory();
+        while ( c != null )
         {
-            log.error( e, e );
+            tpl.fetch( c.getParent() );
+            c = c.getParent();
         }
-        return null;
-
+        return p;
     }
 
     /**
@@ -134,4 +151,5 @@ public class ProductController
         List<Product> prods = pr.findByCategory( c );
         return prods;
     }
+
 }

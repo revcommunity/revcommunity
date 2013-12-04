@@ -44,12 +44,14 @@ public class ProductTest
         p.setImages( Arrays.asList( "img1", "img2" ) );
         p.setProducer( "testProd" );
         p.setProductCode( "testCode" );
+        p.addProperties( "prop1", 221 );
         p = tpl.save( p );
 
         Product savedProd = tpl.findOne( p.getNodeId(), Product.class );
         assertEquals( "id equals", p.getNodeId(), savedProd.getNodeId() );
         assertEquals( "images size ok", 2, savedProd.getImages().size() );
         assertEquals( "testName", savedProd.getName() );
+        assertEquals( (Integer) 221, (Integer) p.getProperties().getProperty( "prop1" ) );
     }
 
     @Autowired

@@ -9,25 +9,65 @@ Ext.define('RevCommunity.view.ImageList' ,{
 			reader.readAsDataURL(file);
 			var panel=this;
 			reader.onload = function (oFREvent) {
-				  dv.getStore().add({img:oFREvent.target.result});
+				  dv.getStore().add({img:oFREvent.target.result,saved:false});
 				  field.hide();
 				  if(dv.isHidden()){
-    					panel.setTitle('Zdjęcia');
-    					dv.show();
+					  	panel.showPhotoPanel();
 				  }
 				  panel.addFileField();
-			}
+			};
     },
+    getSavedImages:function(){
+    	var images=[];
+    	var st=this.down('dataview').getStore();
+    	for(var i=0;i<st.getCount();i++){
+    		var rec=st.getAt(i).data;
+    		if(rec.saved==true){
+    			images.push(rec.img);
+    		}
+    	}
+    	return images;
+    },
+    removedImages:[],
+    getRemovedImages:function(){
+    	return this.removedImages;
+    },
+    setImages:function(images){
+    	if( Ext.isEmpty(images))
+    		return;
+    	var dv=this.down('dataview');
+    	var imgs=[];
+    	for(var i=0;i<images.length;i++){
+    		imgs.push({
+    			img:images[i],
+    			saved:true
+    		});
+    	}
+    	dv.getStore().loadData(imgs);
+    	this.showPhotoPanel();
+    },
+    showPhotoPanel:function(){
+    	var panel=this;
+    	panel.setTitle('Zdjęcia');
+		if( panel.getHeader()!=null){
+			panel.getHeader().show();
+		}
+		this.down('dataview').show();
+	},
+    hidePhotoPanel:function(){
+    	var panel=this;
+		if( panel.getHeader()!=null){
+			panel.getHeader().hide();
+		}
+		panel.down('dataview').hide();
+		panel.setBorder(false);
+	},
 	initComponent:function(){
 		var store=Ext.create('Ext.data.Store',{
-			fields:['img'],
+			fields:['img','saved'],
 			data:[]
 		});
-		
-		var f=Ext.applyIf({
-			xtype:'fileuploadfield'
-		},this.initialConfig);
-		
+		var me=this;
 		this.items=[
 			{
 				xtype:'dataview',
@@ -52,10 +92,20 @@ Ext.define('RevCommunity.view.ImageList' ,{
 			    	itemclick:function(grid, record, item, index, e, eOpts ){
 	            		
 	            		if( e.target.getAttribute("action")=="delete" ){
+	            			
 	            			grid.getStore().removeAt(index);
-	            			var p=grid.up('panel');
-	            			var cmp=p.getComponent(index+1);
-	            			p.remove(cmp);
+	            			
+	            			if(record.data.saved){
+	            				me.removedImages.push(record.data.img);
+	            			}
+	            			else{
+		            			var p=grid.up('panel');
+		            			var cmp=p.getComponent(index+1);
+		            			p.remove(cmp);
+	            			}
+	            			if(grid.getStore().getCount()==0){
+	            				grid.up('panel').hidePhotoPanel();
+	            			}
 	            		}
 	            	}
 			    }

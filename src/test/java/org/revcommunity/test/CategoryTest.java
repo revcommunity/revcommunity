@@ -71,7 +71,6 @@ public class CategoryTest
         Set<CategoryFilter> scf1 = new HashSet<CategoryFilter>();
         CategoryFilter cf1 = new CategoryFilter();
         cf1.setName( "Prcesor" );
-        cf1.setSymbol( "procesor" );
         cf1.setType( CategoryFilterType.INTEGER );
         scf1.add( cf1 );
         cg1.setFilters( scf1 );
@@ -84,7 +83,6 @@ public class CategoryTest
         Set<CategoryFilter> scf = new HashSet<CategoryFilter>();
         CategoryFilter cf = new CategoryFilter();
         cf.setName( "Pamięć RAM" );
-        cf.setSymbol( "ram" );
         cf.setType( CategoryFilterType.INTEGER );
         scf.add( cf );
         cg2.setFilters( scf );
