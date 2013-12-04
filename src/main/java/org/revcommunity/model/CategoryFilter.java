@@ -15,6 +15,8 @@ public class CategoryFilter
     private String name;
 
     private String symbol;
+    
+    private String unit;
 
     private Long remoteId;
     
@@ -36,7 +38,12 @@ public class CategoryFilter
 
     public String generateSymbol( String name )
     {
+        if(name == null)
+            return null;
+        
+        
         return name.replaceAll( "\\W", "" ).toLowerCase();
+        
     }
 
     public Long getNodeId()
@@ -66,7 +73,7 @@ public class CategoryFilter
 
     public void setSymbol( String symbol )
     {
-        this.symbol = symbol;
+        this.symbol = generateSymbol( symbol );
     }
 
     public CategoryFilterType getType()
@@ -103,6 +110,16 @@ public class CategoryFilter
     public void setRemoteId( Long remoteId )
     {
         this.remoteId = remoteId;
+    }
+
+    public String getUnit()
+    {
+        return unit;
+    }
+
+    public void setUnit( String unit )
+    {
+        this.unit = unit;
     }
 
 }

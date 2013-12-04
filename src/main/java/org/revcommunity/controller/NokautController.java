@@ -42,12 +42,13 @@ public class NokautController {
 		try {
 			
 		    nokautConnector.downloadMainCategories();
+		    //nokautConnector.downloadAllCategories();
 			nokautConnector.downloadCategoriesByParentId(new Long(126));
-//			EndResult<Category> p = this.categoryRepo.findAll();
-//			for (Category c : p) {
-//				logger.info(c);
-//				nokautConnector.downloadProductsByCategoryId(c, 1);
-//			}
+			EndResult<Category> p = this.categoryRepo.findAll();
+			for (Category c : p) {
+				logger.debug(c);
+				nokautConnector.downloadProductsByCategoryId(c, 2);
+			}
 		    
 		   // nokautConnector.downloadMainCategories();
 		    

@@ -19,6 +19,7 @@ import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.service.CategoryService;
 import org.revcommunity.service.ProductService;
+import org.revcommunity.util.FilterSet;
 import org.revcommunity.util.TestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
@@ -68,7 +69,7 @@ public class CategoryTest
         CategoryGroup cg1 = new CategoryGroup();
         cg1.setName( "Elektronika" );
 
-        Set<CategoryFilter> scf1 = new HashSet<CategoryFilter>();
+        FilterSet<CategoryFilter> scf1 = new FilterSet<CategoryFilter>();
         CategoryFilter cf1 = new CategoryFilter();
         cf1.setName( "Prcesor" );
         cf1.setSymbol( "procesor" );
@@ -81,7 +82,7 @@ public class CategoryTest
 
         CategoryGroup cg2 = new CategoryGroup();
         cg2.setName( "Laptopy" );
-        Set<CategoryFilter> scf = new HashSet<CategoryFilter>();
+        FilterSet<CategoryFilter> scf = new FilterSet<CategoryFilter>();
         CategoryFilter cf = new CategoryFilter();
         cf.setName( "Pamięć RAM" );
         cf.setSymbol( "ram" );

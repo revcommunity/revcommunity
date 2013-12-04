@@ -4,7 +4,7 @@ import org.codehaus.jackson.annotate.JsonValue;
 
 public enum CategoryFilterType {
 
-	STRING("string"), INTEGER("integer"), DATE("date"), LIST("list");
+	STRING("string"), INTEGER("integer"), DATE("date"), LIST("list"), FLOAT("float");
 
 	private String value;
 

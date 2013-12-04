@@ -49,6 +49,13 @@ public class NokautConstans {
     protected static final String FILTER_VALUES = "values";
     protected static final String FILTER_TYPE = "type";
     protected static final String FILTER_UNIT = "unit_short";
+    protected static final String FILTER_TYPE_STRING_SELECT = "string_select";
+    
+    public static final String PRODUCT_DESCRIPTION_POSTFIX = "#opis";
+    
+    protected static final String HTML_PARAMETERS_REGEX = ".wideTable tbody tr";
+    protected static final String HTML_DESCRIPTION_REGEX = ".ShopOfferDescription";
+    
     
 	public static final Map<String,String> productFieldsMapper = new HashMap<String , String>() {{
 	    put("url",    "remoteUrl");
@@ -67,6 +74,8 @@ public class NokautConstans {
 	
 	public static final Map<String,CategoryFilterType> filterTypeMapper = new HashMap<String , CategoryFilterType>() {{
         put("string_select", CategoryFilterType.LIST);
+        put("decimal", CategoryFilterType.FLOAT);
+        put("integer", CategoryFilterType.INTEGER);
     }};
 	
 	public static final List<String> categoryFields = 
@@ -80,5 +89,7 @@ public class NokautConstans {
     }};
 
    
-    
+    public static final Set<String> specialFilters = new HashSet<String>() {{
+        add("System operacyjny"); //tego nie ma w filtrach, wydaje mi się, że jest on istotny
+    }};
 }

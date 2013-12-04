@@ -1,11 +1,17 @@
 package org.revcommunity.test;
 
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.List;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.nodes.Node;
 import org.jsoup.select.Elements;
 import org.junit.Test;
+import org.revcommunity.remote.service.nokaut.NokautConstans;
 
 public class NokautHTML
 {
@@ -13,14 +19,18 @@ public class NokautHTML
     @Test
     public void try_(){
         
-        Document doc;
+        Connection connection = Jsoup.connect("http://www.nokaut.pl/laptopy/samsung-770z7e-s01pl.html"+NokautConstans.PRODUCT_DESCRIPTION_POSTFIX);
+        
         try
         {
-            doc = Jsoup.connect("http://www.nokaut.pl/laptopy/hp-h5e72ea.html").get();
+            Document doc =  connection.get();
+            Elements properties = doc.select(".ShopOfferDescription");
+            for ( Element element : properties )
+            {
+                System.out.println(element);
+            }
             
             
-            Elements newsHeadlines = doc.select(".Properties li");
-            System.out.println(newsHeadlines);
         }
         catch ( IOException e )
         {
