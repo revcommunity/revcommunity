@@ -2,6 +2,7 @@ package org.revcommunity.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -182,24 +183,25 @@ public class Product
         return properties;
     }
 
-    public void addProperties(String key, Object value){
+    public void addProperties( String key, Object value )
+    {
         properties.setProperty( key, value );
     }
-    
-    public void setProperties( DynamicProperties properties )
-    {
-        this.properties = properties;
-    }
+
+    // public void setProperties( DynamicProperties properties )
+    // {
+    // this.properties = properties;
+    // }
 
     public Map<String, Object> getKeys()
     {
+        if ( keys == null && properties != null )
+            keys = properties.asMap();
         return keys;
     }
 
     public void setKeys( Map<String, Object> keys )
     {
-        if ( keys != null )
-            properties.createFrom( keys );
         this.keys = keys;
     }
 
@@ -255,6 +257,19 @@ public class Product
     public void setRemoteId( Long remoteId )
     {
         this.remoteId = remoteId;
+    }
+
+    public void buildProperites()
+    {
+        if ( keys != null )
+        {
+            for ( String key : keys.keySet() )
+            {
+                Object value = keys.get( key );
+                if ( value != null )
+                    properties.setProperty( key, value );
+            }
+        }
     }
 
 }

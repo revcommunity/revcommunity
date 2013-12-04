@@ -20,8 +20,8 @@
      <context:exclude-filter type="annotation" 
 	          expression="org.springframework.stereotype.Controller"/>
 	          
-	<!--  <context:exclude-filter type="assignable" 
-	          expression="org.revcommunity.util.ImageService"/> -->
+	 <context:exclude-filter type="assignable" 
+	          expression="org.revcommunity.remote.service.allegro.AllegroService"/> 
  </context:component-scan>
 
   <neo4j:config storeDirectory="C:/temp/neo4j-db"/>

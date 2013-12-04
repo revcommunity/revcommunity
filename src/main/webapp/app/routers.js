@@ -3,10 +3,12 @@ var AppRouter = Backbone.Router.extend({
 		'' : 'home',
 		'category/new' : 'newCategory',
 		'product/new' : 'newProduct',
+		'product/edit/:id' : 'editProduct',
 		'products/categories/:categoryId' : 'productList',
 		'product/:id' : 'product',
 		'reviews/new' : 'newReview',
 		'reviews/add:id' : 'addReview',
+		'reviews/edit:id' : 'editReview',
 		'reviews/my' : 'myReviews',
 		'reviews/:id' : 'review',
 		'reviews/user/:userName':'userReviews',
@@ -49,7 +51,15 @@ var AppRouter = Backbone.Router.extend({
 	},
 	newProduct : function() {
 		this.clearPage();
-		var form = Ext.widget('newproductform');
+		var form = Ext.widget('productform');
+		Ext.getCmp('contentPanel').add(form);
+	},
+	editProduct : function(id) {
+		this.clearPage();
+		var form = Ext.widget('productform',{
+			mode:'edit',
+			productId:id
+		});
 		Ext.getCmp('contentPanel').add(form);
 	},
 	newCategory : function() {
@@ -168,6 +178,59 @@ var AppRouter = Backbone.Router.extend({
 		Ext.getCmp('contentPanel').add({
 			xtype:'productnotificationlist',
 			productSubscriptionId:productSubscriptionId
+		});
+	},
+	editReview : function(id) {
+		this.clearPage();
+
+		var review = Ext.ModelManager
+				.getModel('RevCommunity.model.Review');
+		review.load(id, {
+			success : function(review) {
+				var idProduct = review.data.product.nodeId;
+
+				var product = Ext.ModelManager
+						.getModel('RevCommunity.model.Product');
+				var thisRouter = this;
+				product.load(idProduct, {
+					success : function(product) {
+
+						var panel = Ext.widget('productpanel', {
+							data : product.data
+						});
+
+						var form = Ext.widget('newreviewform', {
+							productId : product.data.nodeId
+						});
+						Ext.getCmp('contentPanel').add(form);
+
+						form.getForm().setValues({
+							productName : product.data.name
+						});
+						form.getForm().setValues({
+							productId : product.data.nodeId
+						});
+						form.getForm().setValues({
+							title : review.data.title
+						});
+						form.getForm().setValues({
+							content : review.data.content
+						});
+						form.getForm().setValues({
+							reviewId : review.data.nodeId
+						});
+						var b = Ext.getCmp('saveeditreview');
+						b.show();
+						b = Ext.getCmp('savereview');
+						b.hide();
+
+						var image = form.down('image');
+						image.setSrc(product.data.mainImage);
+
+					}
+				});
+
+			}
 		});
 	}
 });

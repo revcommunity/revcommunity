@@ -34,5 +34,8 @@ var UserService={
 			return UtilService.exec('users/roles',{
 						role:role
 					});
+		},
+		isAdmin:function(){
+			return true;
 		}
 };

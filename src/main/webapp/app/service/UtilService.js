@@ -27,5 +27,14 @@ var UtilService={
 				log(resp);
 			}
 			
+		},
+		showInfo:function(msg,cfg){
+			Ext.Msg.show(Ext.apply({
+				title: 'Informacja',
+			    msg: msg,
+			    width: 300,
+			    buttons: Ext.Msg.OK,
+			    icon: Ext.Msg.INFO
+		    },cfg));
 		}
 };

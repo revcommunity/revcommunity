@@ -4,6 +4,10 @@ Ext.define('RevCommunity.view.form.ProductInfoFieldSet' ,{
 	title:'Informacje o produkcie',
 	layout: 'anchor',
 	items:[
+	       	{
+	       		xtype:'hidden',
+	       		name:'nodeId'
+	       	},
 			{
 				fieldLabel:'Nazwa produktu',
 				name:'name'

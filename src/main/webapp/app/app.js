@@ -12,7 +12,7 @@ Ext.application({
 	    	'form.CategoryFieldSet',
 	    	'form.ProductInfoFieldSet',
 	    	'form.SpecificationFieldSet',
-	    	'form.NewProductForm',
+	    	'product.ProductForm',
 	    	'ImageList',
 	    	'ProductList',
 	    	'product.ProductPanel',

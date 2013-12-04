@@ -264,12 +264,16 @@ public class NokautService implements RemoteService
                 
                 Long prId = product.getRemoteId();
                 //sprawdzam czy obiekt nie istnieje juz bazie
+                if( this.productRepo.findByRemoteId(prId) != null)
+                //sprawdzam czy obiekt nie istnieje juz bazie
                 if( this.productRepo.findByRemoteId(prId) != null){
                     
                     if(logger.isDebugEnabled()){
                         logger.debug( "POMIJAM, OBIEKT JUZ ISTNIEJE" );
                     }
                     continue;
+                
+                String imageUrl  = p.getString(NokautConstans.IMAGE);
                 }
                    
                 
@@ -306,6 +310,7 @@ public class NokautService implements RemoteService
         
     }
 
+    private static JSONObject getMethod( String URI , boolean filters)
     
     private Product getProductDetails(Product p, Category c){
         
@@ -365,10 +370,10 @@ public class NokautService implements RemoteService
                 /*
                  *   <article class="ShopOfferDescription"> 
                          <header> 
-                                 <h4><a onmousedown="clickWrapper(this,'http://www.nokaut.pl/Click/Offer/?click=aCyc*yFMVWnP0RgenwCnN1Xsw1y9htVk4ywQZjNOFYErpZuoUJ1oP6QYQvLF4mWrWSdnZvOqWylOPUXCzm2Q1wwWgZTdreyAZka9q0A8XIE_P._0_0_PictureBrowser_', 0, {o: '1921e586179e428ae424e494482016e1', s: '258', t: 'Samsung Series 7 Chronos (NP770Z7E-S01PL) /Darmowa dostawa wpisz kod 6E9E1X / Warszawa, Poznań, Katowice, Ł&oacute;dź, Gdynia, Krak&oacute;w - ODBI&Oacute;R OSOBISTY GRATIS!', wspolczynnik_dostawy: '0.3', cena: '4798', productId: '51934e952da47c2f07000033'})" href="http://www.nokaut.pl/goClick/?click=aHR0cDovL3d3dy5hZ2l0by5wbC9sYXB0b3Atc2Ftc3VuZy1zZXJpZXMtNy1jaHJvbm9zLW5wNzcwejdlLXMwMXBsLTIyNTEtODU4OTk2Lmh0bWw*dXRtX21lZGl1bT1GZWVkJmFtcDt1dG1fc291cmNlPW5va2F1dC5wbCZhbXA7dXRtX2NhbXBhaWduPXdzenlzdGtpZSZhbXA7dXRtX2NvbnRlbnQ9ODU4OTk2" data-click-type="cpc" data-place="descriptionsFromShops" class="GoToShop" target="_blank"> Agito.pl</a>: Opis Samsung Series 7 Chronos (NP770Z7E-S01PL) /Darmowa dostawa wpisz kod 6E9E1X / Warszawa, Poznań, Katowice, Ł&oacute;dź, Gdynia, Krak&oacute;w - ODBI&Oacute;R OSOBISTY GRATIS!</h4> 
+                                 <h4><a onmousedown="clickWrapper(this,'http://www.nokaut.pl/Click/Offer/?click=aCyc*yFMVWnP0RgenwCnN1Xsw1y9htVk4ywQZjNOFYErpZuoUJ1oP6QYQvLF4mWrWSdnZvOqWylOPUXCzm2Q1wwWgZTdreyAZka9q0A8XIE_P._0_0_PictureBrowser_', 0, {o: '1921e586179e428ae424e494482016e1', s: '258', t: 'Samsung Series 7 Chronos (NP770Z7E-S01PL) /Darmowa dostawa wpisz kod 6E9E1X / Warszawa, Poznan, Katowice, L&oacute;dz, Gdynia, Krak&oacute;w - ODBI&Oacute;R OSOBISTY GRATIS!', wspolczynnik_dostawy: '0.3', cena: '4798', productId: '51934e952da47c2f07000033'})" href="http://www.nokaut.pl/goClick/?click=aHR0cDovL3d3dy5hZ2l0by5wbC9sYXB0b3Atc2Ftc3VuZy1zZXJpZXMtNy1jaHJvbm9zLW5wNzcwejdlLXMwMXBsLTIyNTEtODU4OTk2Lmh0bWw*dXRtX21lZGl1bT1GZWVkJmFtcDt1dG1fc291cmNlPW5va2F1dC5wbCZhbXA7dXRtX2NhbXBhaWduPXdzenlzdGtpZSZhbXA7dXRtX2NvbnRlbnQ9ODU4OTk2" data-click-type="cpc" data-place="descriptionsFromShops" class="GoToShop" target="_blank"> Agito.pl</a>: Opis Samsung Series 7 Chronos (NP770Z7E-S01PL) /Darmowa dostawa wpisz kod 6E9E1X / Warszawa, Poznan, Katowice, L&oacute;dz, Gdynia, Krak&oacute;w - ODBI&Oacute;R OSOBISTY GRATIS!</h4> 
                          </header> 
-                         <p> Elegancki i stylowy laptop o doskonałych parametrach. Został stworzony z myślą o multimedialnym zastosowaniu. Charakteryzuje się ekranem o przekątnej 17.3&quot; o rozdzielczości 1920x1080. Za płynność i stabilność działań odpowiada procesor Intel Core i7 trzeciej generacji oraz pamięć operacyjna RAM 8GB.Duży dysk twardy jest idealnym rozwiązaniem do magazynowania dużych plik&oacute;w, takich jak zdjęcia, filmy, dokumenty.</p> 
-                         <p>Do dyspozycji pozostaje także wygodna, podświetlana klawiatura wyspowa z blokiem numerycznym, kamera internetowa 720p i niezbędne złącza, dzięki kt&oacute;rym można podłączyć dodatkowe akcesoria. Zainstalowany system operacyjny to Windows 8.</p> 
+                         <p> Elegancki i stylowy laptop o doskonalych parametrach. Zostal stworzony z mysla o multimedialnym zastosowaniu. Charakteryzuje sie ekranem o przekatnej 17.3&quot; o rozdzielczosci 1920x1080. Za plynnosc i stabilnosc dzialan odpowiada procesor Intel Core i7 trzeciej generacji oraz pamiec operacyjna RAM 8GB.Duzy dysk twardy jest idealnym rozwiazaniem do magazynowania duzych plik&oacute;w, takich jak zdjecia, filmy, dokumenty.</p> 
+                         <p>Do dyspozycji pozostaje takze wygodna, podswietlana klawiatura wyspowa z blokiem numerycznym, kamera internetowa 720p i niezbedne zlacza, dzieki kt&oacute;rym mozna podlaczyc dodatkowe akcesoria. Zainstalowany system operacyjny to Windows 8.</p> 
                     </article>
                  */
                 StringBuilder sb = new StringBuilder();
@@ -551,8 +556,26 @@ public class NokautService implements RemoteService
                 }else{
                     JSONObject jsonFilter = data.getJSONObject( key );
                     if(jsonFilter.has( NokautConstans.FILTER_ID )){
+                        Long remoteId = Long.valueOf( jsonFilter.getString( NokautConstans.FILTER_ID ) );
+                        CategoryFilter filter = filterAlreadyExist(remoteId);
+                        
+                        if(filter != null){
+                            category.addFilter( filter );
+                            continue;
+                        }
                         
                         //nie ma jeszcze takiego filtru
+                        
+                        //nie ma jeszcze takiego filtru
+
+
+
+
+
+
+
+
+                        filter = new CategoryFilter();
                         CategoryFilter filter = new CategoryFilter();
                         
                         String name = jsonFilter.getString( NokautConstans.FILTER_TITLE );
@@ -576,6 +599,10 @@ public class NokautService implements RemoteService
                             
                         
                         filter.setName( name );
+                        filter.setSymbol( unit );
+                        if(logger.isDebugEnabled()){
+                            //decimal
+                            //integer
                         filter.setSymbol( name );
                         filter.setUnit( unit );
                         if(logger.isDebugEnabled()){
@@ -586,6 +613,15 @@ public class NokautService implements RemoteService
                         
                         filter.setType( NokautConstans.filterTypeMapper.get( type ) );
                         
+                        Set<String> values = new HashSet<String>();
+                        
+                        Set<String> vv = val.keySet();
+                        for ( String v : vv )
+                        {
+                            Object o = val.get( v );
+                            if(!( o instanceof String )){
+                                //FIXME nie continue tylko obsluga tego
+                                continue;
                         if(type.equals( NokautConstans.FILTER_TYPE_STRING_SELECT )){
                             Set<String> values = new HashSet<String>();
                             
@@ -601,7 +637,10 @@ public class NokautService implements RemoteService
                                 
                                 values.add( val.getString( v ) );
                             }
+                                
                             
+                            
+                            values.add( val.getString( v ) );
                             if(logger.isDebugEnabled() ){
                                 logger.debug( values.toString() );
                             }
@@ -611,7 +650,27 @@ public class NokautService implements RemoteService
                             }
                         }
                         
+                        if(logger.isDebugEnabled() ){
+                            logger.debug( values.toString() );
+                        }
+                        
+                        if(values.size() > 0 ){
+                            filter.setValues( values );
+                            category.addFilter( filter );
+                            this.categoryFilterRepo.save( filter );
+                        }
+                        
                         category.addFilter( filter );
+
+
+
+
+
+
+
+
+
+
                             
                     }
                 }

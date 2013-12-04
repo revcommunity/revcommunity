@@ -1,9 +1,99 @@
 package org.revcommunity.service;
 
+import java.util.Date;
+
+import org.apache.log4j.Logger;
+import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Product;
+import org.revcommunity.model.User;
+import org.revcommunity.model.subscription.ProductChannel;
+import org.revcommunity.repo.ProductRepo;
+import org.revcommunity.repo.UserRepo;
+import org.revcommunity.repo.subscription.ProductChannelRepo;
+import org.revcommunity.util.SessionUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-public interface ProductService
+@Service
+@Transactional
+public class ProductService
 {
+    @Autowired
+    private ProductRepo pr;
 
-    public Product createProduct( Product product );
+    @Autowired
+    private ProductChannelRepo pcr;
+
+    @Autowired
+    private UserRepo ur;
+
+    @Autowired
+    private Neo4jTemplate tpl;
+
+    private static final Logger log = Logger.getLogger( ProductService.class );
+
+    /**
+     * Tworzy obiekt produktu.
+     * 
+     * @param product Definicja produktu
+     * @return Utworzony produkt
+     * @author Paweł Rosolak 4 gru 2013
+     */
+    public Product createProduct( Product product )
+    {
+        product.buildProperites();
+        product.setDateAdded( new Date() );
+        pr.save( product );
+        ProductChannel pc = new ProductChannel();
+        pc.setChannelProduct( product );
+        pcr.save( pc );
+        return product;
+    }
+
+    /**
+     * Edytuje produkt
+     * 
+     * @param product Definicja produktu
+     * @author Paweł Rosolak 4 gru 2013
+     */
+    public void updateProduct( Product product )
+    {
+        product.buildProperites();
+        String userName = SessionUtils.getLoggedUserName();
+        User modificationUser = ur.findByUserName( userName );
+        product.setLastEditUser( modificationUser );
+        product.setLastModification( new Date() );
+        pr.save( product );
+    }
+
+    /**
+     * Pobiera produkt po id. Odpowiednio konwertuje mapę keys z DynamicProperties. Dołącza drzewo kategorii dla
+     * produktu.
+     * 
+     * @param nodeId Id produktu
+     * @return Obiekt produktu
+     * @author Paweł Rosolak 4 gru 2013
+     */
+    public Product getProduct( Long nodeId )
+    {
+        Product p = pr.findOne( nodeId );
+        DynamicProperties dp = p.getProperties();
+        for ( String key : dp.getPropertyKeys() )
+        {
+            log.debug( key + " = " + dp.getProperty( key ) );
+            p.getKeys().put( key, dp.getProperty( key ) );
+        }
+        tpl.fetch( p.getCategory() );
+        AbstractCategory c = p.getCategory();
+        while ( c != null )
+        {
+            tpl.fetch( c.getParent() );
+            c = c.getParent();
+        }
+        return p;
+    }
+
 }

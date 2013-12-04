@@ -11,6 +11,9 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			'newreviewform button[action=saveReview]' : {
 				click : this.saveReview
 			},
+			'newreviewform button[action=saveEditReview]' : {
+				click : this.saveEditReview
+			},
 			'reviewform button[action=saveComment]' : {
 				click : this.saveComment
 			},
@@ -20,7 +23,9 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			'reviewform button[action=unlike]' : {
 				click : this.saveReviewRating
 			},
-
+			'reviewform button[action=saveEditReviewLink]' : {
+				click : this.saveEditReviewLink
+			},
 		});
 	},
 	// addReviewForm : function() {
@@ -30,6 +35,7 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		location.href = '#product/new';
 	},
 	saveReview : function(btn) {
+
 		var form = btn.up('form');
 		var values = form.getForm().getFieldValues();
 		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
@@ -49,18 +55,47 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			params : {
 				review : encoded
 			},
-			success: function(response) 
-		    {
+			success : function(response) {
 				alert('Dodano pomyślnie nową recenzję');
 				window.location.reload();
-				
 
-		    },
-		    failure: function(response) 
-		    {
-		        alert("Błąd przy dodawaniu nowej recenzji");
-		        window.location.reload();
-		    }
+			},
+			failure : function(response) {
+				alert("Błąd przy dodawaniu nowej recenzji");
+				window.location.reload();
+			}
+		});
+	},
+	saveEditReview : function(btn) {
+
+		var form = btn.up('form');
+		var values = form.getForm().getFieldValues();
+		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
+
+		values.author = null;
+		var review = new RevCommunity.model.Review(values);
+		var r = review.data;
+		r.product = {
+			nodeId : values.productId
+		};
+		r.nodeId = values.reviewId;
+
+		var encoded = Ext.encode(r);
+		Ext.Ajax.request({
+			url : 'rest/reviews/edit',
+			method : 'POST',
+			params : {
+				review : encoded
+			},
+			success : function(response) {
+				alert('Pomyślnie edytowano recenzję');
+				window.location.reload();
+
+			},
+			failure : function(response) {
+				alert("Błąd przy edycji recenzji");
+				window.location.reload();
+			}
 		});
 	},
 	saveComment : function(btn) {
@@ -111,6 +146,11 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				Ext.getCmp('usefulnessBar').update(dataToSet);
 			}
 		});
+
+	},
+	saveEditReviewLink : function(btn) {
+		var reviewNodeId = Ext.getCmp('reviewNodeId').value;
+		location.href = '#reviews/edit' + reviewNodeId;
 
 	},
 });
