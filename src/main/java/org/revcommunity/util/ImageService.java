@@ -26,6 +26,13 @@ public class ImageService
     @Autowired
     private ServletContext servletContext;
 
+    /**
+     * Zapisuje pliki na serwerze
+     * 
+     * @param images Lista dodawanych plików
+     * @return Lista zapisanych plików
+     * @author Paweł Rosolak 4 gru 2013
+     */
     public List<File> save( List<MultipartFile> images )
     {
         File dir = new File( servletContext.getRealPath( "/" ) + File.separator + imgDirName );
@@ -57,6 +64,12 @@ public class ImageService
         return savedFiles;
     }
 
+    /**
+     * Usuwa obrazy z serwera
+     * 
+     * @param removedImages Ścieżeki do obrazów
+     * @author Paweł Rosolak 4 gru 2013
+     */
     public void remove( List<String> removedImages )
     {
         for ( String img : removedImages )
