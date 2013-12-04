@@ -33,6 +33,7 @@ import org.revcommunity.model.Product;
 import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.CategoryFilterRepo;
 import org.revcommunity.repo.ProductRepo;
+import org.revcommunity.service.ProductService;
 import org.revcommunity.util.FilterSet;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.RemoteService;
@@ -51,8 +52,13 @@ public class NokautService implements RemoteService
 
     private static final Logger logger = Logger.getLogger( NokautService.class );
 
+    private static final int NOKAUT_CONNECTION_TIMEOUT = 5000;
+    
     @Autowired
     private AbstractCategoryRepo abstractCategoryRepo;
+    
+    @Autowired
+    ProductService productService;
     
     @Autowired
     private ProductRepo productRepo;
@@ -72,6 +78,11 @@ public class NokautService implements RemoteService
     @Autowired
     private Neo4jTemplate tpl;
     
+    public NokautService()
+    {
+        httpClient.setTimeout( NOKAUT_CONNECTION_TIMEOUT );
+    }
+    
     @Transactional
     public List<CategoryGroup> downloadMainCategories()
     {
@@ -81,7 +92,7 @@ public class NokautService implements RemoteService
            JSONObject j = getMethod( NokautConstans.URI + NokautConstans.NOKAUT_CATEGORY_GET_BY_PARENT_ID + "&parent_id=" + nokautParentId.longValue(), false );
 
            if ( j == null ){
-            return categories;//throw new Exception("Response is null");
+            return categories;
            }
            
            CategoryGroup parent = null;
@@ -297,7 +308,7 @@ public class NokautService implements RemoteService
                 
                 product.setCategory( category );
                 
-                this.productRepo.save(product);
+                this.productService.createProduct( product );
                 logger.info(product);
             }
         }catch(Exception ex){
@@ -565,19 +576,20 @@ public class NokautService implements RemoteService
                         String unit = null;
                         Object o_ = jsonFilter.get( NokautConstans.FILTER_UNIT );
                         if(o_ instanceof String){
-                            //FIXME obsluga obiektu ktory nie jest stringiem
                             unit = (String)o_;
+                            name += " (" + unit + ")";
                         }else{
                             unit = o_.toString();
                             if(!unit.equals( "null" )){
                                 System.out.println();
                             }
                         }
-                            
                         
                         filter.setName( name );
+                        if(logger.isDebugEnabled()){
+                            logger.debug( "Nazwa filtru : " + name );
+                        }
                         filter.setSymbol( name );
-                        filter.setUnit( unit );
                         if(logger.isDebugEnabled()){
                             //decimal
                             //integer
