@@ -205,20 +205,13 @@ var AppRouter = Backbone.Router.extend({
 						Ext.getCmp('contentPanel').add(form);
 
 						form.getForm().setValues({
-							productName : product.data.name
-						});
-						form.getForm().setValues({
-							productId : product.data.nodeId
-						});
-						form.getForm().setValues({
-							title : review.data.title
-						});
-						form.getForm().setValues({
-							content : review.data.content
-						});
-						form.getForm().setValues({
+							productName : product.data.name,
+							productId : product.data.nodeId,
+							title : review.data.title,
+							content : review.data.content,
 							reviewId : review.data.nodeId
 						});
+						
 						var b = Ext.getCmp('saveeditreview');
 						b.show();
 						b = Ext.getCmp('savereview');
