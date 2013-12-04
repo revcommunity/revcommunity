@@ -4,6 +4,8 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
@@ -12,8 +14,10 @@ import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 
 @NodeEntity
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class Review
 {
+    private static final Logger log = Logger.getLogger( Review.class );
 
     @Override
     public String toString()
@@ -65,6 +69,7 @@ public class Review
     @RelatedTo( type = "HAS", direction = Direction.OUTGOING )
     private Set<Comment> comments;
 
+    @Fetch
     @RelatedTo( type = "RATED_BY", direction = Direction.OUTGOING )
     private Set<ReviewRating> ratings;
 
@@ -170,22 +175,31 @@ public class Review
 
     public Double getUsefulness()
     {
-        // TODO: set proper weights and defaultReviewUsefulness
-        double defaultReviewWeight = 1;
-        double votesWeight = 1;
-        double authorWeight = 1;
+        double result = 0;
+        try
+        {
+            // TODO: set proper weights and defaultReviewUsefulness
+            double defaultReviewWeight = 1;
+            double votesWeight = 1;
+            double authorWeight = 1;
 
-        double defaultReviewUsefulness = 0.5;
+            double defaultReviewUsefulness = 0.5;
 
-        double numerator = defaultReviewWeight * defaultReviewUsefulness;
-        numerator += votesWeight * countPositiveRatings();
-        numerator += authorWeight * author.countPositiveReviewRatings();
+            double numerator = defaultReviewWeight * defaultReviewUsefulness;
+            numerator += votesWeight * countPositiveRatings();
+            numerator += authorWeight * author.countPositiveReviewRatings();
 
-        double denominator = defaultReviewWeight;
-        denominator += votesWeight * getRatings().size();
-        denominator += authorWeight * author.countReviewRatings();
+            double denominator = defaultReviewWeight;
+            denominator += votesWeight * getRatings().size();
+            denominator += authorWeight * author.countReviewRatings();
 
-        return numerator * 100.0 / denominator;
+            result = numerator * 100.0 / denominator;
+        }
+        catch ( Exception e )
+        {
+            log.error( e.getMessage() );
+        }
+        return result;
     }
 
     public int countPositiveRatings()

@@ -2,10 +2,14 @@ package org.revcommunity.model;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
@@ -15,8 +19,11 @@ import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
 import org.springframework.data.neo4j.fieldaccess.DynamicPropertiesContainer;
 
 @NodeEntity
+@JsonIgnoreProperties( ignoreUnknown = true )
 public class Product
 {
+    private static final Logger log = Logger.getLogger( Product.class );
+
     @GraphId
     private Long nodeId;
 
@@ -88,6 +95,11 @@ public class Product
     @Fetch
     @RelatedTo( type = "BELONGS_TO", direction = Direction.OUTGOING )
     private Category category;
+
+    @JsonIgnore
+    @Fetch
+    @RelatedTo( type = "WRITTEN_FOR", direction = Direction.INCOMING )
+    private Set<Review> reviews;
 
     public Long getNodeId()
     {
@@ -271,5 +283,46 @@ public class Product
             }
         }
     }
+    
+    public Set<Review> getReviews()
+    {
+        if ( reviews == null )
+            reviews = new HashSet<Review>();
+        return reviews;
+    }
 
+    public void setReviews( Set<Review> reviews )
+    {
+        this.reviews = reviews;
+    }
+
+    public void addReview( Review review )
+    {
+        getReviews().add( review );
+    }
+
+    public Double getRating()
+    {
+        double total = 0;
+        double weights = 0;
+        try
+        {
+            for ( Review r : getReviews() )
+            {
+                weights += r.getUsefulness();
+                total += r.getUsefulness() * r.getRank();
+            }
+
+            if ( weights != 0 )
+            {
+                double value = total / weights;
+                return Math.round( value * 10.0 ) / 10.0;
+            }
+        }
+        catch ( Exception e )
+        {
+            log.error( e.getMessage() );
+        }
+        return (double) -1;
+    }
 }
