@@ -186,7 +186,9 @@ public class CategoryController
     public List<CategoryFilter> getFilters( @RequestParam Long categoryId )
     {
         Category c = new Category( categoryId );
-        return cr.getFilters( c );
+        List<CategoryFilter> lc = cr.getFilters( c );
+        log.debug( lc );
+        return lc;
     }
 
 }

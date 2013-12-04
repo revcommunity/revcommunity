@@ -1,8 +1,5 @@
 package org.revcommunity.service;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import org.apache.log4j.Logger;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
@@ -10,6 +7,7 @@ import org.revcommunity.model.CategoryFilterType;
 import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
+import org.revcommunity.util.FilterSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
@@ -64,7 +62,7 @@ public class CategoryService
         Category c2 = new Category();
         c2.setName( "HP" );
         CategoryFilter fi = new CategoryFilter( "xxx", CategoryFilterType.INTEGER );
-        Set<CategoryFilter> ff = new HashSet<CategoryFilter>();
+        FilterSet<CategoryFilter> ff = new FilterSet<CategoryFilter>();
         ff.add( fi );
         c2.setFilters( ff );
         c2.setParent( cg2 );

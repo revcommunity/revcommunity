@@ -79,6 +79,10 @@ Ext
                                                                                                         }, {
                                                                                                                 xtype : 'hidden',
                                                                                                                 name : 'productId'
+                                                                                                        },{
+                                                                                                            	xtype : 'hidden',
+                                                                                                            	name : 'rank',
+                                                                                                            	value : 4,
                                                                                                         } ]
                                                                                 },
 

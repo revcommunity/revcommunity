@@ -1,23 +1,15 @@
 package org.revcommunity.controller;
 
-import java.io.IOException;
-
 import org.apache.log4j.Logger;
-import org.codehaus.jackson.JsonParseException;
-import org.codehaus.jackson.map.JsonMappingException;
 import org.revcommunity.model.Category;
-import org.revcommunity.model.User;
-import org.revcommunity.remote.service.nokaut.NokautService;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.util.RemoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.neo4j.conversion.EndResult;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/nokaut")
@@ -42,12 +34,13 @@ public class NokautController {
 		try {
 			
 		    nokautConnector.downloadMainCategories();
+		    //nokautConnector.downloadAllCategories();
 			nokautConnector.downloadCategoriesByParentId(new Long(126));
-//			EndResult<Category> p = this.categoryRepo.findAll();
-//			for (Category c : p) {
-//				logger.info(c);
-//				nokautConnector.downloadProductsByCategoryId(c, 1);
-//			}
+			EndResult<Category> p = this.categoryRepo.findAll();
+			for (Category c : p) {
+				logger.debug(c);
+				nokautConnector.downloadProductsByCategoryId(c, 2);
+			}
 		    
 		   // nokautConnector.downloadMainCategories();
 		    

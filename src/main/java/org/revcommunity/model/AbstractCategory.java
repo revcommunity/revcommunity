@@ -5,6 +5,7 @@ import java.util.Set;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Direction;
+import org.revcommunity.util.FilterSet;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
@@ -39,16 +40,16 @@ public abstract class AbstractCategory
     private boolean baseCategory = true;
 
     @RelatedTo( type = "FILTERS", direction = Direction.OUTGOING )
-    private Set<CategoryFilter> filters = new HashSet<CategoryFilter>(5);
+    private FilterSet<CategoryFilter> filters = new FilterSet<CategoryFilter>();
 
-    public Set<CategoryFilter> getFilters()
+    public FilterSet<CategoryFilter> getFilters()
     {
         if ( filters == null )
-            filters = new HashSet<CategoryFilter>();
+            filters = new FilterSet<CategoryFilter>();
         return filters;
     }
 
-    public void setFilters( Set<CategoryFilter> filters )
+    public void setFilters( FilterSet<CategoryFilter> filters )
     {
         this.filters = filters;
     }

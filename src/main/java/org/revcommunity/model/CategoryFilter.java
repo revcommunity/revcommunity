@@ -36,7 +36,12 @@ public class CategoryFilter
 
     public String generateSymbol( String name )
     {
+        if(name == null)
+            return null;
+        
+        
         return name.replaceAll( "\\W", "" ).toLowerCase();
+        
     }
 
     public Long getNodeId()
@@ -65,11 +70,10 @@ public class CategoryFilter
         return symbol;
     }
 
-    // public void setSymbol( String symbol )
-    // {
-    // this.symbol = symbol;
-    // }
-
+        public void setSymbol( String symbol )
+    {
+        this.symbol = generateSymbol( symbol );
+    }
     public CategoryFilterType getType()
     {
         return type;

@@ -39,8 +39,6 @@ var AppRouter = Backbone.Router.extend({
 						{
 							scope : this,
 							callback : function(records, operation, success) {								
-								thisRouter.calculateProductProperties(records,
-										product);
 								var wrapper = Ext.widget('productwrapper', {
 									items : [ grid, panel ]
 								});
@@ -118,25 +116,6 @@ var AppRouter = Backbone.Router.extend({
 			}
 		});
 	},
-	calculateProductProperties : function(records, product) {
-
-		var count = 0;
-		var averageMark;
-		var sumOfMarks = 0;
-
-		for ( var r in records) {
-			if (records.hasOwnProperty(r)) {
-				count++;
-				sumOfMarks += records[r].data.rank;
-			}
-		}
-
-		averageMark = (sumOfMarks / count).toFixed(2);
-		Ext.apply(product.data, {
-			averageMark : averageMark,
-			reviewCount : count
-		});
-	},
 	myReviews:function(){
 		this.clearPage();
 		var panel = Ext.widget('userreviewspanel',{
@@ -207,20 +186,13 @@ var AppRouter = Backbone.Router.extend({
 						Ext.getCmp('contentPanel').add(form);
 
 						form.getForm().setValues({
-							productName : product.data.name
-						});
-						form.getForm().setValues({
-							productId : product.data.nodeId
-						});
-						form.getForm().setValues({
-							title : review.data.title
-						});
-						form.getForm().setValues({
-							content : review.data.content
-						});
-						form.getForm().setValues({
+							productName : product.data.name,
+							productId : product.data.nodeId,
+							title : review.data.title,
+							content : review.data.content,
 							reviewId : review.data.nodeId
 						});
+						
 						var b = Ext.getCmp('saveeditreview');
 						b.show();
 						b = Ext.getCmp('savereview');
