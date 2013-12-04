@@ -63,12 +63,16 @@ public class ProductController
     private ImageService imageService;
 
     /**
+     * Metoda tworzy nowy produkt lub edytuje istniejący
+     * 
      * @param product Product w formacie JSON
+     * @param removedImages Zdjęcia które usunięto z produktu(w trybie edycji)
      * @param images Zdjęcia produktu z formularza
-     * @return Wiadomość zakończenia powodzeniem.
+     * @return Wiadomość zawierająca zapisany obiekt
      * @throws JsonParseException
      * @throws JsonMappingException
      * @throws IOException
+     * @author Paweł Rosolak 4 gru 2013
      */
     @RequestMapping( method = RequestMethod.POST )
     @ResponseBody
@@ -119,25 +123,11 @@ public class ProductController
     @ResponseBody
     public Product get( @PathVariable Long id )
     {
-        Product p = pr.findOne( id );
-        DynamicProperties dp = p.getProperties();
-        for ( String key : dp.getPropertyKeys() )
-        {
-            log.debug( key + " = " + dp.getProperty( key ) );
-            p.getKeys().put( key, dp.getProperty( key ) );
-        }
-        tpl.fetch( p.getCategory() );
-        AbstractCategory c = p.getCategory();
-        while ( c != null )
-        {
-            tpl.fetch( c.getParent() );
-            c = c.getParent();
-        }
-        return p;
+        return ps.getProduct( id );
     }
 
     /**
-     * Pobiera jeden produkt na posdstawie id
+     * Pobiera jeden produkt na podstawie id
      * 
      * @param id Id produktu
      * @return Obiekt produktu
