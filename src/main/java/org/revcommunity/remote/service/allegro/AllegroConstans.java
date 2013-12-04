@@ -9,6 +9,7 @@ import org.apache.log4j.Logger;
 import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.CategoryFilter;
 import org.revcommunity.model.CategoryFilterType;
+import org.revcommunity.util.FilterSet;
 
 import pl.allegro.webapi.service_php.CategoryData;
 import pl.allegro.webapi.service_php.SellFormType;
@@ -40,7 +41,7 @@ public class AllegroConstans
         category.setRemoteId( new Long( data.getCatId() ) );
 
         // tutaj dodajemy filtry
-        Set<CategoryFilter> filters = new HashSet<CategoryFilter>();
+        FilterSet<CategoryFilter> filters = new FilterSet<CategoryFilter>();
         for ( SellFormType type : filters_ )
         {
             int typeId = type.getSellFormType();
