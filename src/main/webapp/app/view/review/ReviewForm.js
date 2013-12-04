@@ -173,7 +173,12 @@ Ext
 
 														} ],
 												flex : 1,
-											} ]
+											} ],
+									buttons : [ {
+
+										text : 'Edytuj recenzję',
+										action : 'saveEditReviewLink'
+									} ],
 								}, {
 									xtype : 'reviewcommentslist',
 									reviewNodeId : this.data.nodeId,
@@ -195,17 +200,17 @@ Ext
 											pack : 'center',
 											type : 'vbox'
 										},
-										width : 100,										
+										width : 100,
 										height : '100%',
 										items : [ {
 											xtype : 'button',
-											text : 'Opublikuj',												
+											text : 'Opublikuj',
 											margin : '0 10 0 0',
 											width : '100%',
 											action : 'saveComment'
 										} ],
 
-									},{
+									}, {
 										xtype : 'hidden',
 										name : 'reviewNodeId',
 										id : 'reviewNodeId',

@@ -3,7 +3,7 @@ Ext.define('RevCommunity.model.Review', {
     fields: [
     		'nodeId',
     		'content',
-    		'usefulness',
+    	//	'usefulness',
     		'rank',
     		'author',
     		'title',

@@ -84,6 +84,23 @@ public class ReviewController
         return reviews;
     }
 
+    @RequestMapping( value = "/edit", method = RequestMethod.POST )
+    @ResponseBody
+    public Message saveEdit( @RequestParam String review )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+
+        ObjectMapper om = new ObjectMapper();
+        Review r = om.readValue( review, Review.class );
+        Review reviewTemp = rr.findByNodeId( r.getNodeId() );
+        reviewTemp.setContent( r.getContent() );
+        reviewTemp.setTitle( r.getTitle() );
+
+        rs.createReview( reviewTemp );
+        log.debug( "Edytowano recenzje: " + reviewTemp.getNodeId() );
+        return new Message();
+    }
+
     /**
      * @param review
      * @param images
