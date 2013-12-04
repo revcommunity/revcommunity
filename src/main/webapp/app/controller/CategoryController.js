@@ -36,8 +36,7 @@ Ext
 					},
 					addParameter : function(btn) {
 						global_nr_parameters++;
-						console.log('global_nr_parameters'
-								+ global_nr_parameters);
+					
 						var form = btn.up('form');
 						var fc = form.down('basefieldset[name=radio_1]');
 						fc.add({
@@ -81,7 +80,7 @@ Ext
 
 						var fc2 = form.down('container[name=category_param]');
 						global_nr_values++;
-						console.log('global_nr_values' + global_nr_values);
+					
 						fc2.insert(2, {
 
 							xtype : 'basefieldset',
@@ -112,7 +111,7 @@ Ext
 
 					addValueOfParameter : function(btn) {
 						global_nr_values++;
-						console.log('global_nr_values' + global_nr_values);
+						
 
 						var form = btn.up('form');
 						var fc = form.down('container[name=paramText_'
@@ -143,7 +142,7 @@ Ext
 					saveCategory : function(btn) {
 						var form = btn.up('form');
 						var fr = form.getForm().getFieldValues();
-						console.log(fr);
+						
 						var arrayCategory = new Array();
 
 						arrayCategory['name'] = fr.name;
@@ -208,6 +207,7 @@ Ext
 					},
 
 					changeTextField : function(panel) {
+						
 						var nr = panel.getName();
 						nr = nr.replace("param_field_", "");
 
@@ -215,7 +215,7 @@ Ext
 							global_active_parameters = nr;
 							hide_show(panel);
 
-						}
+						} else return;
 						if (Ext.getCmp('radio4_' + global_active_parameters)
 								.getValue() == false) {
 							hide_param(panel);
