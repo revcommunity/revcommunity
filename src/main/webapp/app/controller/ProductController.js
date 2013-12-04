@@ -38,10 +38,9 @@ Ext.define('RevCommunity.controller.ProductController', {
 			},
 			success: function(f,action) 
 		    {
-				var prod=Ext.decode(action.response.responseText).message;
-				form.down('imagelist').setImages(prod.images);
+				var prod=Ext.decode(action.response.responseText).message;//zapisany obiekt
 				UtilService.showInfo('Produkt został zapisany pomyślnie.',{
-					fn:function(){
+					fn:function(){//przekierowanie do widoku produktu
 						location.href = '#product/' + prod.nodeId;
 					}
 				});
