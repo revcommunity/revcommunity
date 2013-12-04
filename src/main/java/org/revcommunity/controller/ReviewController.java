@@ -176,8 +176,7 @@ public class ReviewController
 
     @RequestMapping( value = "find", method = RequestMethod.GET )
     @ResponseBody
-    public Page<Review> find( @RequestParam( required = false ) List<Sorter> sort, @RequestParam( required = false ) Integer start,
-                              @RequestParam( required = false ) Integer limit )
+    public Page<Review> find( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
     {
         PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
         Page<Review> prods = rr.find( page );

@@ -147,8 +147,7 @@ public class ProductController
 
     @RequestMapping( value = "find", method = RequestMethod.GET )
     @ResponseBody
-    public Page<Product> find( @RequestParam( required = false ) List<Sorter> sort, @RequestParam( required = false ) Integer start,
-                               @RequestParam( required = false ) Integer limit )
+    public Page<Product> find( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
     {
         PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
         Page<Product> prods = pr.find( page );
