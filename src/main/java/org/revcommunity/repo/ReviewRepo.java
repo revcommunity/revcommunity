@@ -2,7 +2,11 @@ package org.revcommunity.repo;
 
 import java.util.Set;
 
+import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.GraphRepository;
 
 public interface ReviewRepo
@@ -14,4 +18,7 @@ public interface ReviewRepo
     public Set<Review> findByAuthorUserName( String userName );
 
     public Review findByNodeId( Long nodeId );
+
+    @Query( "start n=node:__types__(className='org.revcommunity.model.Review') where ID(n)>0  return n" )
+    public Page<Review> find( Pageable pagable );
 }

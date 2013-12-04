@@ -8,6 +8,7 @@ Ext.define('RevCommunity.view.ProductList', {
 		    	 overItemCls:'',
 		    	 enableTextSelection: true
 		    },
+		    mode:'categories',
 		    hideHeaders:true,
 		    initComponent:function(){
 		    	this.columns=[
@@ -17,12 +18,31 @@ Ext.define('RevCommunity.view.ProductList', {
 			       		tpl:   TemplateHolder.productList
 			       	}
 			    ];
-		    	this.store=Ext.create('RevCommunity.store.ProductStore',{
-		    		proxy:Ext.create('Ext.data.proxy.Ajax',{
-		    			  type: 'rest',
-		    		      url : 'rest/products/categories'
-		    		})
-		    	});
+		    	var url='rest/products/categories';
+		    	if(this.mode=='all'){
+		    		url='rest/products';
+		    	}else if(this.mode=='newest'){
+		    		url='rest/products/find';
+		            this.store=Ext.create('RevCommunity.store.ProductStore',{
+			    		pageSize:3,
+			    		proxy:Ext.create('Ext.data.proxy.Ajax',{
+			    			  type: 'rest',
+			    		      url : url,
+			    		      reader:{
+				                   root: 'content',
+				                   totalProperty: 'totalElements'
+				            }
+			    		})
+			    	});
+		    	}else{
+		    		this.store=Ext.create('RevCommunity.store.ProductStore',{
+			    		proxy:Ext.create('Ext.data.proxy.Ajax',{
+			    			  type: 'rest',
+			    		      url : url
+			    		})
+			    	});
+		    	}
+		    	
 			    this.callParent(arguments);
 		    }
 });

@@ -17,7 +17,9 @@ var AppRouter = Backbone.Router.extend({
 		'subscriptions/products/notifications/:productSubscriptionId':'productNotifications'
 	},
 	home : function() {
-		console.log("home");
+		this.clearPage();
+		var panel = Ext.widget('startpanel');
+		Ext.getCmp('contentPanel').add(panel);
 	},
 	product : function(id) {
 		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
@@ -69,7 +71,7 @@ var AppRouter = Backbone.Router.extend({
 		Ext.getCmp('contentPanel').add(form);
 	},
 	productList : function(categoryId) {
-		var pl=Ext.getCmp('contentPanel').down('productlist');
+		var pl=Ext.getCmp('contentPanel').down('productlist[mode=categories]');
 		if(Ext.isEmpty(pl)){
 			this.clearPage();
 			pl = Ext.widget('productlist');

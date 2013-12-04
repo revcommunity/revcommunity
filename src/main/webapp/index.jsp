@@ -43,7 +43,8 @@
 		<div class="top-bar-item" </div><a id="top-bar-user-ref" href="/revcommunity/user/panel"></a></div>
 	</div>
 	<div id="logo"  class="logo-bar" >
-		<div>RevCommunity</div>
+	
+		<a href="#"><img class="rev-logo" src="img/logoLogin.png"></img></a>
 	</div>
 
 	<div id="main" class="main">

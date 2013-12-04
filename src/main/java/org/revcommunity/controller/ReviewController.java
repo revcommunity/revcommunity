@@ -1,6 +1,7 @@
 package org.revcommunity.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -10,6 +11,7 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.revcommunity.model.Comment;
+import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
 import org.revcommunity.model.User;
@@ -17,7 +19,13 @@ import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.ReviewService;
 import org.revcommunity.util.Message;
+import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
@@ -164,5 +172,15 @@ public class ReviewController
 
         log.debug( "Dodano ReviewRating: " + reviewRating.getNodeId() + " do recenzji:" + review.getNodeId() );
         return new Message( review.getUsefulness() );
+    }
+
+    @RequestMapping( value = "find", method = RequestMethod.GET )
+    @ResponseBody
+    public Page<Review> find( @RequestParam( required = false ) List<Sorter> sort, @RequestParam( required = false ) Integer start,
+                              @RequestParam( required = false ) Integer limit )
+    {
+        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
+        Page<Review> prods = rr.find( page );
+        return prods;
     }
 }

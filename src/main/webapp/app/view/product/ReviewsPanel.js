@@ -62,6 +62,21 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 			        	)
 		              });
 	    	}
+	    	if(this.mode=='newest'){
+	    		this.store=Ext.create('RevCommunity.store.ProductReviewsStore',{
+	    			pageSize:5,
+	    			proxy: {
+	    		        type: 'rest',
+	    		        url : 'rest/reviews/find',
+	    		        reader:{
+	 		                   root: 'content',
+	 		                   totalProperty: 'totalElements'
+	 		            }
+	    		    }
+	    		});
+	    	}else{
+//	    		this.store=Ext.create('RevCommunity.store.ProductReviewsStore');
+	    	}
 	    	this.callParent(arguments);
 	    }
 });
