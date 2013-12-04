@@ -19,6 +19,11 @@ import org.revcommunity.model.Review;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.ReviewRepo;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.test.context.ContextConfiguration;
@@ -108,6 +113,20 @@ public class ProductTest
         for ( Product product : p )
         {
             pr.delete( product );
+        }
+    }
+
+    @Test
+    public void sort()
+    {
+        PageRequest page = new PageRequest( 0, 2 );
+
+        // PageRequest page = new PageRequest( 0, 2 );
+        Page<Product> pp = pr.find( page );
+        log.debug( pp.getSize() );
+        for ( Product product : pp )
+        {
+            log.debug( product );
         }
     }
 

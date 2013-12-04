@@ -11,7 +11,6 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.revcommunity.dto.ProductDto;
 import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Product;
 import org.revcommunity.repo.AbstractCategoryRepo;
@@ -19,13 +18,17 @@ import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.service.ProductService;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
+import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.neo4j.conversion.EndResult;
-import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -139,6 +142,15 @@ public class ProductController
     {
         AbstractCategory c = acr.findOne( categoryId );
         List<Product> prods = pr.findByCategory( c );
+        return prods;
+    }
+
+    @RequestMapping( value = "find", method = RequestMethod.GET )
+    @ResponseBody
+    public Page<Product> find( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
+    {
+        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
+        Page<Product> prods = pr.find( page );
         return prods;
     }
 

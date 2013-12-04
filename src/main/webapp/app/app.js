@@ -36,7 +36,8 @@ Ext.application({
 	    	'subscription.UserNotificationList',
 	    	'subscription.ProductSubscriptionList',
 	    	'subscription.ProductNotificationList',
-	    	'RevCommunity.view.category.CategoryTree'
+	    	'RevCommunity.view.category.CategoryTree',
+	    	'start.StartPanel'
 	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
             'ProductNotification'
@@ -55,6 +56,11 @@ Ext.application({
 				var contentX=nav.getX()+nav.getWidth();
 				var width=winWidth-contentX-Ext.get('content').getMargin().right-1;
 				this.setWidth(width);
+			},
+			listeners:{
+				afterrender:function(){
+					
+				}
 			}
 		});
     	panel.calculateWidth();
@@ -67,8 +73,10 @@ Ext.application({
     	
     	SubscriptionService.showSubscriptions();
     	CategoryService.showCategoryTree();
+    	
     	var appRouter = new AppRouter(); // Router initialization 
 		Backbone.history.start();
+    	
     }
 });
 	var checkIfUserAuthorized = function(){
