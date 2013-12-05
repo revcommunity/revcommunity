@@ -181,15 +181,16 @@ Ext
 								method : 'POST',
 								success: function(response) 
 							    {
-									alert('Dodano pomyślnie nową kategorię');
-									window.location.reload();
+									UtilService.showInfo('Dodano pomyślnie nową kategorię');
+									location.href = '#category/new';
 									
 
 							    },
 							    failure: function(response) 
 							    {
-							        alert("Błąd przy dodawaniu nowej kategori");
-							        window.location.reload();
+							    	UtilService.showInfo("Błąd przy dodawaniu nowej kategori");
+							    	location.href = '#category/new';
+							       
 							    }
 							});
 						} else {
