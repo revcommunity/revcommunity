@@ -1,6 +1,7 @@
 package org.revcommunity.service;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.revcommunity.model.AbstractCategory;
@@ -11,7 +12,14 @@ import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.repo.subscription.ProductChannelRepo;
 import org.revcommunity.util.SessionUtils;
+import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
@@ -80,13 +88,7 @@ public class ProductService
     public Product getProduct( Long nodeId )
     {
         Product p = pr.findOne( nodeId );
-        DynamicProperties dp = p.getProperties();
-        for ( String key : dp.getPropertyKeys() )
-        {
-            log.debug( key + " = " + dp.getProperty( key ) );
-            p.getKeys().put( key, dp.getProperty( key ) );
-        }
-        tpl.fetch( p.getCategory() );
+        p.buildKeys();
         AbstractCategory c = p.getCategory();
         while ( c != null )
         {
@@ -96,4 +98,24 @@ public class ProductService
         return p;
     }
 
+    public Page<Product> find( Pageable pagable )
+    {
+        Page<Product> prods = pr.find( pagable );
+        for ( Product product : prods )
+        {
+            product.buildKeys();
+        }
+        return prods;
+
+    }
+
+    public List<Product> findByCategory( AbstractCategory c )
+    {
+        List<Product> prods = pr.findByCategory( c );
+        for ( Product product : prods )
+        {
+            product.buildKeys();
+        }
+        return prods;
+    }
 }

@@ -2,6 +2,7 @@ package org.revcommunity.model;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -207,8 +208,6 @@ public class Product
 
     public Map<String, Object> getKeys()
     {
-        if ( keys == null && properties != null )
-            keys = properties.asMap();
         return keys;
     }
 
@@ -273,17 +272,28 @@ public class Product
 
     public void buildProperites()
     {
-        if ( keys != null )
+        if ( keys == null )
+            return;
+        for ( String key : keys.keySet() )
         {
-            for ( String key : keys.keySet() )
+            Object value = keys.get( key );
+            if ( value != null )
             {
-                Object value = keys.get( key );
-                if ( value != null )
-                    properties.setProperty( key, value );
+                properties.setProperty( key, value );
             }
         }
     }
-    
+
+    public void buildKeys()
+    {
+        if ( keys == null )
+            keys = new HashMap<String, Object>();
+        for ( String key : properties.getPropertyKeys() )
+        {
+            keys.put( key, properties.getProperty( key ) );
+        }
+    }
+
     public Set<Review> getReviews()
     {
         if ( reviews == null )

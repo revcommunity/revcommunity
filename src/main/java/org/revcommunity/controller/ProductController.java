@@ -15,10 +15,11 @@ import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Product;
 import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.ProductRepo;
+import org.revcommunity.service.CategoryService;
 import org.revcommunity.service.ProductService;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
-import org.revcommunity.util.search.Sorter;
+import org.revcommunity.util.TestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -141,16 +142,22 @@ public class ProductController
     public List<Product> findByCategory( @RequestParam Long categoryId )
     {
         AbstractCategory c = acr.findOne( categoryId );
-        List<Product> prods = pr.findByCategory( c );
+        List<Product> prods = ps.findByCategory( c );
         return prods;
     }
+
+    @Autowired
+    private TestHelper th;
+
+    @Autowired
+    private CategoryService cs;
 
     @RequestMapping( value = "find", method = RequestMethod.GET )
     @ResponseBody
     public Page<Product> find( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
     {
-        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
-        Page<Product> prods = pr.find( page );
+        PageRequest page = new PageRequest( start, 66, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
+        Page<Product> prods = ps.find( page );
         return prods;
     }
 

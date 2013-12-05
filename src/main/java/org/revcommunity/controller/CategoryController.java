@@ -11,11 +11,10 @@ import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
 import org.revcommunity.model.CategoryGroup;
-import org.revcommunity.model.Product;
-import org.revcommunity.remote.service.nokaut.NokautService;
 import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
+import org.revcommunity.util.FilterSet;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
@@ -183,10 +182,10 @@ public class CategoryController
 
     @RequestMapping( value = "/getFilters" )
     @ResponseBody
-    public List<CategoryFilter> getFilters( @RequestParam Long categoryId )
+    public FilterSet<CategoryFilter> getFilters( @RequestParam Long categoryId )
     {
-        Category c = new Category( categoryId );
-        List<CategoryFilter> lc = cr.getFilters( c );
+        Category c = cr.findOne( categoryId );
+        FilterSet<CategoryFilter> lc = c.getFilters();
         log.debug( lc );
         return lc;
     }

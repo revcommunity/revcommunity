@@ -1,11 +1,8 @@
 package org.revcommunity.model;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import org.codehaus.jackson.annotate.JsonIgnore;
 import org.neo4j.graphdb.Direction;
 import org.revcommunity.util.FilterSet;
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
@@ -39,6 +36,7 @@ public abstract class AbstractCategory
 
     private boolean baseCategory = true;
 
+    @Fetch
     @RelatedTo( type = "FILTERS", direction = Direction.OUTGOING )
     private FilterSet<CategoryFilter> filters = new FilterSet<CategoryFilter>();
 
@@ -54,10 +52,11 @@ public abstract class AbstractCategory
         this.filters = filters;
     }
 
-    public void addFilter(CategoryFilter cf){
+    public void addFilter( CategoryFilter cf )
+    {
         this.filters.add( cf );
     }
-    
+
     private String name;
 
     public Long getNodeId()

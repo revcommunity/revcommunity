@@ -56,6 +56,8 @@ public class CategoryService
         cf1.setName( "Procesor" );
         cf1.setType( CategoryFilterType.STRING );
         c1.addFilter( cf1 );
+        c1.addFilter( new CategoryFilter( "Gwarancja", CategoryFilterType.INTEGER ) );
+        c1.addFilter( new CategoryFilter( "Pamięć RAM", CategoryFilterType.INTEGER ) );
         tpl.save( c1 );
         log.debug( c1 );
 
@@ -66,6 +68,8 @@ public class CategoryService
         ff.add( fi );
         c2.setFilters( ff );
         c2.setParent( cg2 );
+        c2.addFilter( new CategoryFilter( "Gwarancja", CategoryFilterType.INTEGER ) );
+        c2.addFilter( new CategoryFilter( "Pamięć RAM", CategoryFilterType.INTEGER ) );
         tpl.save( c2 );
         log.debug( c2 );
 

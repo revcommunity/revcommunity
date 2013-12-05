@@ -8,6 +8,7 @@ Ext.define('RevCommunity.model.Product', {
     		'category',
     		'priceAvg',
     		'rating',
+    		'keys',
     		{
     			name:'reviewCount',
     			type:'integer'
@@ -22,6 +23,29 @@ Ext.define('RevCommunity.model.Product', {
 	    			else 
 	    				return v;
 	    		}
+    		},
+    		{
+    			name:'filters',
+    			convert:function(v,model){
+    				try{
+	    				var filters=model.data.category.filters;
+	    				var keys=model.data.keys;
+	    				var values=[];
+	    				for(var i=0;i<filters.length;i++){
+	    					var name=filters[i].name;
+	    					var symbol=filters[i].symbol;
+	    					var value=keys[symbol];
+	    					values.push({
+	    						name:name,
+	    						value:value
+	    					});
+	    				}
+	    				return values;
+    				}catch(e){
+    					log('error'+e);
+    					return [];
+    				}
+    			}
     		}
     	],
      proxy: {

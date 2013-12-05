@@ -74,6 +74,7 @@ public class TestHelper
         p.setPriceAvg( 3000.0 );
         p.setProducer( "HP" );
         p.setProductCode( "000L300" );
+        p.addProperties( "xxx", 1 );
 
         ps.createProduct( p );
 
