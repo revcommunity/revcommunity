@@ -21,7 +21,7 @@ public class RestExceptionHandler
         Message m = new Message();
         m.setMessage( "unknown-error" );
         m.setSuccess( false );
-        log.error( ex );
+        log.error( ex, ex );
         return m;
     }
 }
