@@ -56,13 +56,13 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				review : encoded
 			},
 			success : function(response) {
-				alert('Dodano pomyślnie nową recenzję');
-				window.location.reload();
+				UtilService.showInfo('Dodano pomyślnie nową recenzję');
+				location.href = '#reviews/my';
 
 			},
 			failure : function(response) {
-				alert("Błąd przy dodawaniu nowej recenzji");
-				window.location.reload();
+				UtilService.showInfo("Błąd przy dodawaniu nowej recenzji");
+				location.href = '#reviews/my';
 			}
 		});
 	},
