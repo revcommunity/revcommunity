@@ -31,11 +31,17 @@ var UserService={
 			return UtilService.exec('users/name/'+userName);
 		},
 		hasRole:function(role){
-			return UtilService.exec('users/roles',{
-						role:role
-					});
+			return this.getLoggedUser().roles.indexOf(role)!=-1;
 		},
 		isAdmin:function(){
-			return true;
+			return this.hasRole('ROLE_ADMIN');
+		},
+		isUser:function(){
+			return this.hasRole('ROLE_USER');
+		},
+		isAnonymous:function(){
+			if(this.getLoggedUser().userName=='anonymousUser')
+				return true;
+			return false;
 		}
 };

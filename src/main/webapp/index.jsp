@@ -29,7 +29,7 @@
 	<script type="text/javascript" src="app/service/UserService.js"></script>
 	<script type="text/javascript" src="app/service/CategoryService.js"></script>
 	<script type="text/javascript" src="app/service/SubscriptionService.js"></script>
-	
+	<script type="text/javascript" src="app/service/ViewService.js"></script>
 	
 	
     <script type="text/javascript" src="app/app.js"></script>
@@ -37,10 +37,13 @@
 </head>
 <body>
 	<div class="top-bar">
-		<div class="top-bar-item" ><a id="top-bar-logout-ref" href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
-		<div class="top-bar-item" ><a id="top-bar-reg-ref" href="auth/register.jsp" >Zarejestruj</a></div>
-		<div class="top-bar-item" ><a id="top-bar-login-ref" href="auth/login.jsp" >Zaloguj</a></div>
-		<div class="top-bar-item" </div><a id="top-bar-user-ref" href="/revcommunity/user/panel"></a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-logout-ref"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-register-ref"><a href="auth/register.jsp" >Zarejestruj</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-login-ref"><a href="auth/login.jsp" >Zaloguj</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-user-panel-ref"><a href="/revcommunity/user/me">Moje konto</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-add-product-ref"><a href="#product/new">Dodaj produkt</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-add-category-ref"><a href="#category/new">Dodaj kategorię</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-my-reviews-ref"><a href="#reviews/my">Moje recenzje</a></div>
 	</div>
 	<div id="logo"  class="logo-bar" >
 	
@@ -54,11 +57,6 @@
 			<div id="category-tree-div">
 				
 			</div>
-			<ul class="navigation-list">
-				<li class="navigation-list-item"><a href="#product/new" >Dodaj produkt</a></li>
-				<li class="navigation-list-item"><a href="#category/new" >Dodaj kategorię</a></li>
-				<li class="navigation-list-item"><a href="#reviews/my" >Moje recenzje</a></li>
-			</ul>
 			<div id="user-subscrptions-div">
 				
 			</div>

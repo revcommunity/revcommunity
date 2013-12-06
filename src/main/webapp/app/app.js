@@ -43,9 +43,22 @@ Ext.application({
             'ProductNotification'
             ],
     launch: function() {
+    	
+    	this.initExceptionHandler();
+    	this.initContentPanel();
+    	ViewService.showTopMenu();
+    	SubscriptionService.showSubscriptions();
+    	CategoryService.showCategoryTree();
+    	
+    	new AppRouter(); // Router initialization 
+		Backbone.history.start();
+    },
+    initExceptionHandler:function(){//dodaje listener na zdarzeniu wystąpienia błędu podczas zapytania Ajax
     	Ext.Ajax.on('requestexception', function(conn, response, options, eOpts) {
     	    UtilService.handleException(conn, response, options, eOpts);
-    	 });
+    	});
+    },
+    initContentPanel:function(){//Tworzy komponent Ext.Panel w którym będą renderowane wszystkie widoki
     	var panel=Ext.widget('container',{    
 			id:'contentPanel',
 			renderTo:Ext.get('content'),
@@ -56,27 +69,13 @@ Ext.application({
 				var contentX=nav.getX()+nav.getWidth();
 				var width=winWidth-contentX-Ext.get('content').getMargin().right-1;
 				this.setWidth(width);
-			},
-			listeners:{
-				afterrender:function(){
-					
-				}
 			}
 		});
-    	panel.calculateWidth();
+    	panel.calculateWidth();//obliczanie szerokości komponentu tak aby dostosowywał się do szerokości okna
     	Ext.EventManager.onWindowResize(function(w, h){
     		log('win resize');
     		panel.calculateWidth();
     	});
-    	
-    	checkIfUserAuthorized();
-    	
-    	SubscriptionService.showSubscriptions();
-    	CategoryService.showCategoryTree();
-    	
-    	var appRouter = new AppRouter(); // Router initialization 
-		Backbone.history.start();
-    	
     }
 });
 	var checkIfUserAuthorized = function(){

@@ -1,6 +1,7 @@
 package org.revcommunity.controller;
 
 import java.io.IOException;
+import java.util.HashSet;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -81,8 +82,14 @@ public class UserController
     public User getLoggedUser()
     {
         String userName = SessionUtils.getLoggedUserName();
+        if ( userName.equals( "anonymousUser" ) )
+        {
+            User u = new User();
+            u.setUserName( userName );
+            u.setRoles( new HashSet<String>() );
+            return u;
+        }
         User u = userRepo.findByUserName( userName );
-
         return u;
     }
 
@@ -109,11 +116,11 @@ public class UserController
             userRepo.delete( u );
         }
     }
-    
 
     @RequestMapping( value = "/session", method = RequestMethod.GET )
     @ResponseBody
-    public Message session()    {
+    public Message session()
+    {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         String username = auth.getName();
         log.debug( "Nazwa uzytkownika : " + username );
@@ -121,17 +128,19 @@ public class UserController
         j.put( "username", username );
         return new Message( j.toString() );
     }
-    @RequestMapping(value="/redirect", method = RequestMethod.GET )
+
+    @RequestMapping( value = "/redirect", method = RequestMethod.GET )
     @ResponseBody
-    public ResponseEntity  redirectToLoginPage()
+    public ResponseEntity redirectToLoginPage()
     {
-        if(log.isDebugEnabled()){
+        if ( log.isDebugEnabled() )
+        {
             log.debug( "Redirect to login page" );
         }
-        
+
         Message m = new Message();
         m.setSuccess( false );
-        
-        return new ResponseEntity(org.springframework.http.HttpStatus.UNAUTHORIZED);
+
+        return new ResponseEntity( org.springframework.http.HttpStatus.UNAUTHORIZED );
     }
 }
