@@ -3,6 +3,7 @@ package org.revcommunity.test;
 import static org.junit.Assert.assertEquals;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -79,7 +80,7 @@ public class ProductTest
         assertEquals( "id equals", p.getNodeId(), savedProd.getNodeId() );
         assertEquals( "images size ok", 2, savedProd.getImages().size() );
         assertEquals( "testName", savedProd.getName() );
-        assertEquals( (Integer) 221, (Integer) p.getKeys().get( "prop1" ) );
+        assertEquals( (Integer) 221, (Integer) p.getFilterValue( "prop1" ) );
     }
 
     @Autowired
@@ -120,7 +121,7 @@ public class ProductTest
         p = tpl.save( p );
 
         Product savedProd = tpl.findOne( p.getNodeId(), Product.class );
-        log.debug( savedProd.getKeys().get( "xx" ) );
+        log.debug( savedProd.getFilterValue( "xx" ) );
         ObjectMapper om = new ObjectMapper();
         String s = om.writeValueAsString( savedProd );
         log.debug( s );
@@ -140,15 +141,26 @@ public class ProductTest
     }
 
     @Test
+    @Transactional
+    @Rollback
     public void sort()
     {
-        PageRequest page = new PageRequest( 0, 2 );
-        Page<Product> pp = pr.find( page );
-        log.debug( pp.getSize() );
-        for ( Product product : pp )
+        Product p = new Product();
+        p.setCategory( cr.findByName( "HP" ) );
+        p.setName( "OOOOOOOOOOOOo" );
+        ps.createProduct( p );
+
+        String q = "start n=node:__types__(className='Product') return n order by n.dateAdded desc ";
+        Map<String, Object> params = new HashMap<String, Object>();
+        EndResult<Product> res = tpl.query( q, params ).to( Product.class );
+        log.debug( "wypisuje" );
+        SimpleDateFormat sdf = new SimpleDateFormat( "yyyy-MM-dd HH:mm:SS" );
+        log.debug( sdf.format( p.getDateAdded() ) );
+        for ( Product map : res )
         {
-            log.debug( product );
+            log.debug( sdf.format( map.getDateAdded() ) );
         }
+        log.debug( "KONIEC" );
     }
 
     @Test
@@ -159,9 +171,9 @@ public class ProductTest
         EndResult<Product> pp = pr.findAll();
         for ( Product product : pp )
         {
-            for ( String s : product.getKeys().keySet() )
+            for ( FilterValue s : product.getFilters() )
             {
-                log.debug( s + "= " + product.getKeys().get( s ) );
+                log.debug( s.getSymbol() + "= " + s.getValue() );
             }
         }
     }
@@ -180,9 +192,7 @@ public class ProductTest
         p.setProducer( "HP" );
         p.setProductCode( "000L300" );
 
-        Map<String, Object> filterValues = new HashMap<String, Object>();
-        filterValues.put( "xxx", 9999 );
-        p.setKeys( filterValues );
+        p.addFilterValue( "xxx", 9999 );
         ps.createProduct( p );
         Product saved = pr.findOne( p.getNodeId() );
         log.debug( saved );
@@ -211,43 +221,8 @@ public class ProductTest
     @Test
     @Transactional
     @Rollback
-    public void findProperties()
-    {
-        th.createProducts();
-        log.debug( "all-------------" );
-        for ( Product p : pr.findAll() )
-        {
-            p.buildKeys();
-            log.debug( p.getName() + " props: " + printKeys( p.getKeys() ) );
-        }
-        log.debug( "finded-------------" );
-        // PageRequest req = new PageRequest( 0, 2, new Sort( Direction.ASC, "product.description" ) );
-        for ( Product p : pr.findAllByPropertyValue( "properties-xxx", 1 ) )
-        {
-            log.debug( p.getName() );
-        }
-        log.debug( "END" );
-    }
-
-    private String printKeys( Map<String, Object> keys )
-    {
-        StringBuilder sb = new StringBuilder();
-        for ( String key : keys.keySet() )
-        {
-            sb.append( key );
-            sb.append( " = " );
-            sb.append( keys.get( key ) );
-            sb.append( " || " );
-        }
-        return sb.toString();
-    }
-
-    @Test
-    @Transactional
-    @Rollback
     public void saveProperties()
     {
-        Long id = cr.findByName( "HP" ).getNodeId();
         Product p = new Product();
         p.setCategory( cr.findByName( "HP" ) );
         p.setDescription( "dasd" );
@@ -287,7 +262,6 @@ public class ProductTest
     @Rollback
     public void saveProperties2()
     {
-        Long id = cr.findByName( "HP" ).getNodeId();
         Product p = new Product();
         p.setCategory( cr.findByName( "HP" ) );
         p.setDescription( "dasd" );
@@ -319,6 +293,23 @@ public class ProductTest
             log.debug( map );
         }
         log.debug( "KONIEC" );
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void addFilterTest()
+    {
+        Product p = new Product();
+        p.setCategory( cr.findByName( "HP" ) );
+        p.setName( "HP h300" );
+        p.addFilterValue( "sym1", "wartosc" );
+        ps.createProduct( p );
+
+        p = ps.getProduct( p.getNodeId() );
+        assertEquals( 1, p.getFilters().size() );
+        assertEquals( "wartosc", p.getFilterValue( "sym1" ) );
 
     }
 }

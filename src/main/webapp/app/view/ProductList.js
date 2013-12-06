@@ -24,7 +24,8 @@ Ext.define('RevCommunity.view.ProductList', {
 		    	}else if(this.mode=='newest'){
 		    		url='rest/products/newest';
 		            this.store=Ext.create('RevCommunity.store.ProductStore',{
-			    		pageSize:3,
+			    		pageSize:33,
+			    		sorters:[],
 			    		proxy:Ext.create('Ext.data.proxy.Ajax',{
 			    			  type: 'rest',
 			    		      url : url,

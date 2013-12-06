@@ -81,6 +81,7 @@ public class TestHelper
         p.addFilterValue( "xxx", 1 );
 
         ps.createProduct( p );
+        p = ps.getProduct( p.getNodeId() );
 
         p = new Product();
         p.setCategory( cr.findByName( "HP" ) );

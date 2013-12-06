@@ -2,7 +2,8 @@
 <div class="rev-col-wrap">
 	<img src="{mainImage}" class="rev-img-small rev-col" ></img>
 	<div class="rev-border rev-container">
-			<tpl for="filters">
+			{dateAddedString}
+			<tpl for="filterValues">
 		   		<p>{name}: {value}</p>
 			</tpl>
 	</div>

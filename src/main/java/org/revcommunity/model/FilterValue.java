@@ -14,6 +14,18 @@ public class FilterValue
 
     private String symbol;
 
+    public FilterValue()
+    {
+        super();
+    }
+
+    public FilterValue( String symbol, Object value )
+    {
+        super();
+        this.value = value;
+        this.symbol = symbol;
+    }
+
     public Long getNodeId()
     {
         return nodeId;

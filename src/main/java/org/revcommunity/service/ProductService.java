@@ -21,6 +21,7 @@ import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -52,7 +53,6 @@ public class ProductService
      */
     public Product createProduct( Product product )
     {
-        product.buildProperites();
         product.setDateAdded( new Date() );
         pr.save( product );
         ProductChannel pc = new ProductChannel();
@@ -69,7 +69,6 @@ public class ProductService
      */
     public void updateProduct( Product product )
     {
-        product.buildProperites();
         String userName = SessionUtils.getLoggedUserName();
         User modificationUser = ur.findByUserName( userName );
         product.setLastEditUser( modificationUser );
@@ -88,7 +87,6 @@ public class ProductService
     public Product getProduct( Long nodeId )
     {
         Product p = pr.findOne( nodeId );
-        p.buildKeys();
         AbstractCategory c = p.getCategory();
         while ( c != null )
         {
@@ -98,14 +96,12 @@ public class ProductService
         return p;
     }
 
-    public Page<Product> find( Pageable pagable )
+    public Page<Product> findNewest( Pageable pagable )
     {
-        Page<Product> prods = pr.find( pagable );
-        for ( Product product : prods )
-        {
-            product.buildKeys();
-        }
-        return prods;
+        String q = "start n=node:__types__(className='Product') return n order by n.dateAdded desc ";
+        Map<String, Object> params = new HashMap<String, Object>();
+        Page<Product> res = tpl.query( q, params ).to( Product.class ).as( Page.class );
+        return res;
 
     }
 
@@ -118,10 +114,6 @@ public class ProductService
     public List<Product> findByCategory( AbstractCategory c )
     {
         List<Product> prods = pr.findByCategory( c );
-        for ( Product product : prods )
-        {
-            product.buildKeys();
-        }
         return prods;
     }
 
