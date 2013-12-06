@@ -335,4 +335,14 @@ public class Product
         }
         return (double) -1;
     }
+
+    public void addFilterValue( String sym, String value )
+    {
+        if ( this.keys == null )
+        {
+            keys = new HashMap<String, Object>();
+        }
+        keys.put( sym, value );
+
+    }
 }

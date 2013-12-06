@@ -14,12 +14,14 @@ import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
+import org.revcommunity.service.CategoryService;
 import org.revcommunity.util.FilterSet;
 import org.revcommunity.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -38,6 +40,9 @@ public class CategoryController
 
     @Autowired
     private Neo4jTemplate tpl;
+
+    @Autowired
+    private CategoryService cs;
 
     @Autowired
     private CategoryGroupRepo cgr;
@@ -188,6 +193,14 @@ public class CategoryController
         FilterSet<CategoryFilter> lc = c.getFilters();
         log.debug( lc );
         return lc;
+    }
+
+    @RequestMapping( method = RequestMethod.DELETE, value = "{categoryId}" )
+    @ResponseBody
+    public Message delete( @PathVariable Long categoryId )
+    {
+        cs.delete( categoryId );
+        return new Message();
     }
 
 }

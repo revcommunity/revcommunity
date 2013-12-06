@@ -6,5 +6,12 @@ var ProductService={
 		get:function(id){
 			var product=UtilService.exec('products/'+id);
 			return product;
+		},
+		deleteProduct:function(id){
+			UtilService.exec('products/'+id,null,
+				{
+					method:'DELETE'
+				}
+			);
 		}
 };

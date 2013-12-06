@@ -20,6 +20,13 @@ var CategoryService={
 			var tree=Ext.widget('categorytree', {
 			    renderTo: div
 			});
+		},
+		deleteCategory:function(id){
+			UtilService.exec('categories/'+id,null,
+				{
+					method:'DELETE'
+				}
+			);
 		}
 		
 };

@@ -1,10 +1,10 @@
 var UtilService={
-		exec:function(path,params){
-			var resp=Ext.Ajax.request({
+		exec:function(path,params,cfg){
+			var resp=Ext.Ajax.request(Ext.apply({
 				url:'rest/'+path,
 				async:false,
 				params:params
-			}).responseText;
+			},cfg)).responseText;
 			return Ext.decode(resp);
 		},
 		execJson:function(path,params){
@@ -17,6 +17,9 @@ var UtilService={
 		},
 		populateTestData:function(){
 			UtilService.exec('test/testData');
+		},
+		cleanDB:function(){
+			UtilService.exec('test/clean');
 		},
 		handleException:function(conn, response, options, eOpts){
 			log(response.status);
@@ -36,5 +39,10 @@ var UtilService={
 			    buttons: Ext.Msg.OK,
 			    icon: Ext.Msg.INFO
 		    },cfg));
+		},
+		download:function(){
+			Ext.Ajax.request({
+			    url:'rest/nokaut/download'
+			});
 		}
 };
