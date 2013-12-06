@@ -49,6 +49,12 @@ public class ProductTest
     @Autowired
     private CategoryService cs;
 
+    @Autowired
+    private ProductService ps;
+
+    @Autowired
+    private CategoryRepo cr;
+
     @Test
     @Transactional
     public void test()
@@ -59,14 +65,14 @@ public class ProductTest
         p.setImages( Arrays.asList( "img1", "img2" ) );
         p.setProducer( "testProd" );
         p.setProductCode( "testCode" );
-        p.addProperties( "prop1", 221 );
+        p.addFilterValue( "prop1", 221 );
         p = tpl.save( p );
 
-        Product savedProd = tpl.findOne( p.getNodeId(), Product.class );
+        Product savedProd = ps.getProduct( p.getNodeId() );
         assertEquals( "id equals", p.getNodeId(), savedProd.getNodeId() );
         assertEquals( "images size ok", 2, savedProd.getImages().size() );
         assertEquals( "testName", savedProd.getName() );
-        assertEquals( (Integer) 221, (Integer) p.getProperties().getProperty( "prop1" ) );
+        assertEquals( (Integer) 221, (Integer) p.getKeys().get( "prop1" ) );
     }
 
     @Autowired
@@ -103,11 +109,11 @@ public class ProductTest
         p.setImages( Arrays.asList( "img1", "img2" ) );
         p.setProducer( "testProd" );
         p.setProductCode( "testCode" );
-        p.getProperties().setProperty( "xx", 33 );
+        p.addFilterValue( "xx", 33 );
         p = tpl.save( p );
 
         Product savedProd = tpl.findOne( p.getNodeId(), Product.class );
-        log.debug( savedProd.getProperties().getProperty( "xx" ) );
+        log.debug( savedProd.getKeys().get( "xx" ) );
         ObjectMapper om = new ObjectMapper();
         String s = om.writeValueAsString( savedProd );
         log.debug( s );
@@ -146,18 +152,12 @@ public class ProductTest
         EndResult<Product> pp = pr.findAll();
         for ( Product product : pp )
         {
-            for ( String s : product.getProperties().getPropertyKeys() )
+            for ( String s : product.getKeys().keySet() )
             {
-                log.debug( s + "= " + product.getProperties().getProperty( s ) );
+                log.debug( s + "= " + product.getKeys().get( s ) );
             }
         }
     }
-
-    @Autowired
-    private CategoryRepo cr;
-
-    @Autowired
-    private ProductService ps;
 
     @Test
     @Transactional
