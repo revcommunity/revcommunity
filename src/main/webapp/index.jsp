@@ -54,6 +54,9 @@
 	
 		<div id="nav" class="navigation-bar">
 			<p class="rev-header">Nawigacja</p>
+			<div id="searchfield-div">
+				
+			</div>
 			<div id="category-tree-div">
 				
 			</div>

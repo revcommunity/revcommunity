@@ -125,7 +125,10 @@ public class TestDataController
 
     private void createUsers()
     {
-        ur.deleteAll();
+        for ( User u : ur.findAll() )
+        {
+            ur.delete( u );
+        }
         User u1 = new User();
         u1.setFirstName( "Jan" );
         u1.setLastName( "Kowalski" );

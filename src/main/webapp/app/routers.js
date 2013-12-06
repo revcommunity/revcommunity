@@ -3,6 +3,7 @@ var AppRouter = Backbone.Router.extend({
 		'' : 'home',
 		'users/me':'userPanel',
 		'category/new' : 'newCategory',
+		'products/find/:query' : 'findProducts',
 		'product/new' : 'newProduct',
 		'product/edit/:id' : 'editProduct',
 		'products/categories/:categoryId' : 'productList',
@@ -198,5 +199,22 @@ var AppRouter = Backbone.Router.extend({
 		this.clearPage();
 		var panel = Ext.widget('userpanel',{});
 		Ext.getCmp('contentPanel').add(panel);
+	},
+	findProducts:function(query){
+		if(Ext.isEmpty(query))
+			return;
+		var pl=Ext.getCmp('contentPanel').down('productlist[mode=find]');
+		if(Ext.isEmpty(pl)){
+			this.clearPage();
+			pl = Ext.widget('productlist',{
+				mode:'find'
+			});
+			Ext.getCmp('contentPanel').add(pl);
+		}
+		pl.getStore().load({
+			params:{
+				query:query
+			}
+		});
 	}
 });

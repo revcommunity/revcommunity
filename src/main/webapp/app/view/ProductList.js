@@ -22,6 +22,19 @@ Ext.define('RevCommunity.view.ProductList', {
 		    	if(this.mode=='all'){
 		    		url='rest/products';
 		    	}else if(this.mode=='newest'){
+		    		url='rest/products/newest';
+		            this.store=Ext.create('RevCommunity.store.ProductStore',{
+			    		pageSize:3,
+			    		proxy:Ext.create('Ext.data.proxy.Ajax',{
+			    			  type: 'rest',
+			    		      url : url,
+			    		      reader:{
+				                   root: 'content',
+				                   totalProperty: 'totalElements'
+				            }
+			    		})
+			    	});
+		    	}else if(this.mode=='find'){
 		    		url='rest/products/find';
 		            this.store=Ext.create('RevCommunity.store.ProductStore',{
 			    		pageSize:3,

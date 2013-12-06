@@ -20,6 +20,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
@@ -107,6 +108,12 @@ public class ProductService
         }
         return prods;
 
+    }
+
+    public Page<Product> findAllByDescription( String query, Pageable pagable )
+    {
+        Page<Product> prods = pr.findAllByDescriptionLike( query, pagable );
+        return prods;
     }
 
     public List<Product> findByCategory( AbstractCategory c )

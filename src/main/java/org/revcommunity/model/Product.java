@@ -14,10 +14,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
 import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
 import org.springframework.data.neo4j.fieldaccess.DynamicPropertiesContainer;
+import org.springframework.data.neo4j.support.index.IndexType;
 
 @NodeEntity
 @JsonIgnoreProperties( ignoreUnknown = true )
@@ -33,6 +35,7 @@ public class Product
         super();
     }
 
+    @Indexed( indexName = "product-search", indexType = IndexType.FULLTEXT )
     private String name;
 
     private String producer;
@@ -41,6 +44,7 @@ public class Product
 
     private String productCode;
 
+    @Indexed( indexName = "product-search", indexType = IndexType.FULLTEXT )
     private String description;
 
     private List<String> images;

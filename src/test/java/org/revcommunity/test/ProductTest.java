@@ -27,6 +27,8 @@ import org.revcommunity.util.TestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.test.annotation.Rollback;
@@ -183,4 +185,23 @@ public class ProductTest
 
     }
 
+    @Test
+    @Transactional
+    @Rollback
+    public void find()
+    {
+        th.createProducts();
+        log.debug( "all-------------" );
+        for ( Product p : pr.findAll() )
+        {
+            log.debug( p.getName() );
+        }
+        log.debug( "finded-------------" );
+        PageRequest req = new PageRequest( 0, 2, new Sort( Direction.ASC, "product.description" ) );
+        for ( Product p : ps.findAllByDescription( "*DELL*", req ) )
+        {
+            log.debug( p.getName() );
+        }
+        log.debug( "END" );
+    }
 }

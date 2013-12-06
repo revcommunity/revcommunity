@@ -152,12 +152,22 @@ public class ProductController
     @Autowired
     private CategoryService cs;
 
-    @RequestMapping( value = "find", method = RequestMethod.GET )
+    @RequestMapping( value = "newest", method = RequestMethod.GET )
     @ResponseBody
-    public Page<Product> find( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
+    public Page<Product> findNewest( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
     {
         PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
         Page<Product> prods = ps.find( page );
+        return prods;
+    }
+
+    @RequestMapping( value = "find", method = RequestMethod.GET )
+    @ResponseBody
+    public Page<Product> find( @RequestParam String query, @RequestParam( required = false ) Integer start,
+                               @RequestParam( required = false ) Integer limit )
+    {
+        PageRequest page = new PageRequest( start, limit );
+        Page<Product> prods = ps.findAllByDescription( query, page );
         return prods;
     }
 
