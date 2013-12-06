@@ -26,7 +26,7 @@ Ext.define('RevCommunity.view.product.ProductWrapper', {
 			xtype : 'reviewspanel',
 			mode : 'full',
 			tools : [ {
-				type : 'add',
+				type : 'plus',
 				tooltip : 'Dodaj recenzję',
 				handler : function(event, toolEl, panel) {
 					var id = this.up('productwrapper').productData.nodeId;

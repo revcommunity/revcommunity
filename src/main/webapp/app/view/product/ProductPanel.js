@@ -20,6 +20,9 @@ Ext.define('RevCommunity.view.product.ProductPanel' ,{
 			  '<div class="rev-product-spec rev-border">',
 			  	'<p>Producent: {producer}</p>',
 			  	'<p>Kod produktu: {productCode}</p>',
+			  	'<tpl for="filters">',
+			  		'<p>{name}: {value}</p>',
+			  	'</tpl>',
 			  '</div>'	  
 	)
 });
