@@ -23,6 +23,7 @@
 	font-size: 13px;
 	font-weight: bold;
 	line-height: 15px;
+	text-align: center;
 }
 
 .rev-box-button {
@@ -32,29 +33,6 @@
 
 .rev-img-list {
 	height: 200px;
-}
-
-.rev-img-details {
-	height: 200px;
-	max-width: 240px;
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
-}
-
-.rev-boxes {
-	display: block;
-	clear: both;
-	padding-top: 10px;
-}
-
-.rev-product-spec {
-	
-}
-
-.rev-product-boxes {
-	margin-bottom: 10px;
-	display: inline-block;
 }
 
 .rev-review-mark {
