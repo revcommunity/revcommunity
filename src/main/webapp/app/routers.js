@@ -1,6 +1,7 @@
 var AppRouter = Backbone.Router.extend({
 	routes : {
 		'' : 'home',
+		'users/me':'userPanel',
 		'category/new' : 'newCategory',
 		'product/new' : 'newProduct',
 		'product/edit/:id' : 'editProduct',
@@ -192,5 +193,10 @@ var AppRouter = Backbone.Router.extend({
 
 			}
 		});
+	},
+	userPanel:function(){
+		this.clearPage();
+		var panel = Ext.widget('userpanel',{});
+		Ext.getCmp('contentPanel').add(panel);
 	}
 });

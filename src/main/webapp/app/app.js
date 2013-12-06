@@ -37,7 +37,8 @@ Ext.application({
 	    	'subscription.ProductSubscriptionList',
 	    	'subscription.ProductNotificationList',
 	    	'RevCommunity.view.category.CategoryTree',
-	    	'start.StartPanel'
+	    	'start.StartPanel',
+	    	'user.UserPanel'
 	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
             'ProductNotification'

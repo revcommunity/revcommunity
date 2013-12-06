@@ -52,46 +52,7 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 				    	   text:'Ustawienia konta'
 				       }
 			   ]
-	       },
-	       {
-	    	   xtype:'basefieldset',
-	    	   layout: {
-	    		    type: 'vbox',
-	    		    align : 'stretch',
-	    		    pack  : 'start',
-	    	   },
-	    	   title:'Subskrypcje',
-	    	   items:[ 
-	    	           {
-				    	   xtype:'label',
-				    	   text:'anowak'
-				       },
-				       {
-				    	   xtype:'label',
-				    	   text:'madamczyk'
-				       }
-			   ]
-	       },
-	       {
-	    	   xtype:'basefieldset',
-	    	   layout: {
-	    		    type: 'vbox',
-	    		    align : 'stretch',
-	    		    pack  : 'start',
-	    	   },
-	    	   title:'Obserwowane produkty',
-	    	   items:[ 
-	    	           {
-				    	   xtype:'label',
-				    	   text:'Asus'
-				       },
-				       {
-				    	   xtype:'label',
-				    	   text:'Galaxy'
-				       }
-			   ]
 	       }
-	      
 	],
 	initComponent:function(){
 		var user=null;

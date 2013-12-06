@@ -40,7 +40,7 @@
 		<div class="top-bar-item" hidden="true" id="top-bar-logout-ref"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-register-ref"><a href="auth/register.jsp" >Zarejestruj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-login-ref"><a href="auth/login.jsp" >Zaloguj</a></div>
-		<div class="top-bar-item" hidden="true" id="top-bar-user-panel-ref"><a href="/revcommunity/user/me">Moje konto</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-user-panel-ref"><a href="#users/me">Moje konto</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-add-product-ref"><a href="#product/new">Dodaj produkt</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-add-category-ref"><a href="#category/new">Dodaj kategorię</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-my-reviews-ref"><a href="#reviews/my">Moje recenzje</a></div>
