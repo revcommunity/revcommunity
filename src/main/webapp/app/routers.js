@@ -27,25 +27,11 @@ var AppRouter = Backbone.Router.extend({
 		product.load(id, {
 			success : function(product) {
 				thisRouter.clearPage();
-
-				var panel = Ext.widget('productpanel', {
-					data : product.data
+				var wrapper = Ext.widget('productwrapper',{
+					productData : product.data,
 				});
-
-				var grid = Ext.widget('reviewspanel');
-
-				grid.getStore().setProductId(id);
-				grid.getStore().load(
-						{
-							scope : this,
-							callback : function(records, operation, success) {								
-								var wrapper = Ext.widget('productwrapper', {
-									items : [ grid, panel ]
-								});
-								Ext.getCmp('contentPanel').add(wrapper);
-							}
-						});
-
+				
+				Ext.getCmp('contentPanel').add(wrapper);
 			}
 		});
 	},
