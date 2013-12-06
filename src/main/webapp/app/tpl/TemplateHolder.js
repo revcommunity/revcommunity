@@ -4,8 +4,6 @@ productList:new Ext.XTemplate(
 '<div class="rev-col-wrap">',
 '	<img src="{mainImage}" class="rev-img-small rev-col" ></img>',
 '	<div class="rev-border rev-container">',
-'			<p>Producent: {producer}</p>',
-'			<p>Kod produktu: {productCode}</p>',
 '			<tpl for="filters">',
 '		   		<p>{name}: {value}</p>',
 '			</tpl>',
@@ -19,6 +17,7 @@ productList:new Ext.XTemplate(
 '	<div class="rev-box rev-box-button" action="addReview">Dodaj recenzję</div>',
 ' 	<tpl if="UserService.isAdmin()">',
 '        <div class="rev-box rev-box-button" action="edit">Edytuj</div>',
+'        <div class="rev-box rev-box-button" action="delete">Usuń</div>',
 '    </tpl>',
 '</div>'
 ),

@@ -118,7 +118,8 @@ public class TestDataController
     @ResponseBody
     public Message clean()
     {
-        commentRepo.deleteAll();
+
+        th.clean();
         return new Message();
     }
 

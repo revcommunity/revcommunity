@@ -156,9 +156,17 @@ public class ProductController
     @ResponseBody
     public Page<Product> find( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
     {
-        PageRequest page = new PageRequest( start, 66, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
+        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
         Page<Product> prods = ps.find( page );
         return prods;
+    }
+
+    @RequestMapping( method = RequestMethod.DELETE, value = "{productId}" )
+    @ResponseBody
+    public Message delete( @PathVariable Long productId )
+    {
+        ps.delete( productId );
+        return new Message();
     }
 
 }

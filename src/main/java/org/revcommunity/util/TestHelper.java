@@ -6,6 +6,7 @@ import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.User;
 import org.revcommunity.repo.CategoryRepo;
+import org.revcommunity.repo.CommentRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.service.CategoryService;
 import org.revcommunity.service.ProductService;
@@ -35,6 +36,9 @@ public class TestHelper
 
     @Autowired
     private ProductService ps;
+
+    @Autowired
+    private CommentRepo commentRepo;
 
     @Transactional
     public User createUser( String userName )
@@ -110,6 +114,13 @@ public class TestHelper
         p.setProductCode( "TR0D500" );
 
         ps.createProduct( p );
+    }
+
+    public void clean()
+    {
+        cs.clean();
+        pr.deleteAll();
+        commentRepo.deleteAll();
     }
 
 }

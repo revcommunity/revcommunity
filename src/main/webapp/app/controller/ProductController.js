@@ -20,7 +20,14 @@ Ext.define('RevCommunity.controller.ProductController', {
 			this.addReview(record);
 		}else if (e.target.getAttribute("action") == "edit") {
 			this.showEditForm(record.data);
+		}else if (e.target.getAttribute("action") == "delete") {
+			this.deleteProduct(grid,record.data);
 		}
+	},
+	deleteProduct:function(grid,product){
+		var id=product.nodeId;
+		ProductService.deleteProduct(id);
+		grid.getStore().load();
 	},
 	showEditForm:function(product){
 		var id=product.nodeId;

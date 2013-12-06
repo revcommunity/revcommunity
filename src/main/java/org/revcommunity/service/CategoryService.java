@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class CategoryService
 {
     private static final Logger log = Logger.getLogger( CategoryService.class );
@@ -89,10 +90,15 @@ public class CategoryService
 
     }
 
-    private void clean()
+    public void clean()
     {
         cr.deleteAll();
         cgr.deleteAll();
         log.debug( "Usunietao wszystkie kategorie" );
+    }
+
+    public void delete( Long categoryId )
+    {
+        cr.delete( categoryId );
     }
 }

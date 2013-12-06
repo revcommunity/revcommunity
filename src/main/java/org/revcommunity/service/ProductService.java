@@ -118,4 +118,9 @@ public class ProductService
         }
         return prods;
     }
+
+    public void delete( Long productId )
+    {
+        pr.delete( productId );
+    }
 }
