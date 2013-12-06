@@ -191,15 +191,15 @@ public class Product
         this.category = category;
     }
 
-    public DynamicProperties getProperties()
-    {
-        return properties;
-    }
+    // private DynamicProperties getProperties()
+    // {
+    // return properties;
+    // }
 
-    public void addProperties( String key, Object value )
-    {
-        properties.setProperty( key, value );
-    }
+    // public void addProperties( String key, Object value )
+    // {
+    // properties.setProperty( key, value );
+    // }
 
     // public void setProperties( DynamicProperties properties )
     // {
@@ -336,7 +336,7 @@ public class Product
         return (double) -1;
     }
 
-    public void addFilterValue( String sym, String value )
+    public void addFilterValue( String sym, Object value )
     {
         if ( this.keys == null )
         {
