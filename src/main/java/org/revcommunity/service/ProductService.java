@@ -1,27 +1,26 @@
 package org.revcommunity.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.revcommunity.model.AbstractCategory;
+import org.revcommunity.model.FilterValue;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.User;
 import org.revcommunity.model.subscription.ProductChannel;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.repo.subscription.ProductChannelRepo;
+import org.revcommunity.search.CypherQueryBuilder;
 import org.revcommunity.util.SessionUtils;
 import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.neo4j.conversion.EndResult;
-import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -124,6 +123,32 @@ public class ProductService
             product.buildKeys();
         }
         return prods;
+    }
+
+    @SuppressWarnings( "unchecked" )
+    public Page<Product> findByFilters( Long categoryId, Iterable<FilterValue> filters, List<Sorter> sorters, Integer start, Integer limit )
+    {
+        log.debug( "Rozpoczynam generowanie zapytania" );
+        log.debug( "categoryId: " + categoryId );
+        Map<String, Object> params = new HashMap<String, Object>();
+        StringBuilder sb = new StringBuilder();
+        sb.append( "start category=node({categoryId}) match category<-[:BELONGS_TO]-product-[:HAS_FILTERS]-filter " );
+        sb.append( "where " );
+        CypherQueryBuilder.buildCategoryFilters( sb, filters, params );
+        sb.append( " return product " );
+        CypherQueryBuilder.buildSort( sb, sorters );
+        CypherQueryBuilder.buildPaging( sb, params, start, limit );
+        String query = sb.toString();
+        log.debug( "Wygenerowane zapytanie: " + query );
+
+        if ( categoryId != null )
+            params.put( "categoryId", categoryId );
+        else
+            params.put( "categoryId", "*" );
+
+        Page<Product> result = tpl.query( query, params ).to( Product.class ).as( Page.class );
+        return result;
+
     }
 
     public void delete( Long productId )

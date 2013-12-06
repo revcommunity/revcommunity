@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.Indexed;
@@ -23,6 +24,7 @@ import org.springframework.data.neo4j.support.index.IndexType;
 
 @NodeEntity
 @JsonIgnoreProperties( ignoreUnknown = true )
+@TypeAlias( "Product" )
 public class Product
 {
     private static final Logger log = Logger.getLogger( Product.class );
@@ -94,6 +96,20 @@ public class Product
     private String mainImage;
 
     private Map<String, Object> keys;
+
+    @Fetch
+    @RelatedTo( type = "HAS_FILTERS" )
+    private Set<FilterValue> filters;
+
+    public Set<FilterValue> getFilters()
+    {
+        return filters;
+    }
+
+    public void setFilters( Set<FilterValue> filters )
+    {
+        this.filters = filters;
+    }
 
     private DynamicProperties properties = new DynamicPropertiesContainer();
 

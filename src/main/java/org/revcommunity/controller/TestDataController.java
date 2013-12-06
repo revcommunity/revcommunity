@@ -127,7 +127,8 @@ public class TestDataController
     {
         for ( User u : ur.findAll() )
         {
-            ur.delete( u );
+            if ( !u.getUserName().equalsIgnoreCase( "admin" ) )
+                ur.delete( u );
         }
         User u1 = new User();
         u1.setFirstName( "Jan" );
