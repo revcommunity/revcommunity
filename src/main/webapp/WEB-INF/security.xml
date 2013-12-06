@@ -31,9 +31,11 @@
 		<intercept-url pattern="/rest/users/roles" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/users" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/nokaut/download" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-				<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
+		<intercept-url pattern="/rest/categories/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/#category/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
+		<intercept-url pattern="/**" access="ROLE_ADMIN" />
 		
 		<!--  <intercept-url pattern="/**" access="IS_AUTHENTICATED_ANONYMOUSLY" /> -->
 		

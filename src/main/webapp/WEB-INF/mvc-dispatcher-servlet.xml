@@ -18,6 +18,11 @@
 	
 	
 	<mvc:annotation-driven/>
+	
+	<mvc:interceptors>
+	  <bean class="org.revcommunity.web.ControllerInterceptor" />
+	</mvc:interceptors> 
+
 	<context:component-scan base-package="org.revcommunity.controller" />
 	
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">

@@ -19,7 +19,7 @@ public class AuthenticationServiceImpl
     implements AuthenticationService
 {
     private static final Logger log = Logger.getLogger( AuthenticationServiceImpl.class );
-    
+
     private String adminPass = "admin";
 
     @Autowired
@@ -29,20 +29,6 @@ public class AuthenticationServiceImpl
 
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
-    @PostConstruct
-    public void init(){
-        
-        User user = userRepository.findByUserName( "admin" );
-        if(user == null){
-            user = new User();
-            user.setUserName( "admin" );
-            //ROLE_USER
-            //user.setRoles( new HashSet<String>({ put("ROLE_USER"); });
-            user.setPassword( adminPass );
-            userRepository.save( user );
-        }
-    }
-    
     @Transactional
     public UserDetails loadUserByUsername( String username )
         throws UsernameNotFoundException
