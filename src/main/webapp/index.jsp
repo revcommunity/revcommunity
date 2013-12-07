@@ -30,7 +30,7 @@
 	<script type="text/javascript" src="app/service/CategoryService.js"></script>
 	<script type="text/javascript" src="app/service/SubscriptionService.js"></script>
 	<script type="text/javascript" src="app/service/ViewService.js"></script>
-	
+	<script type="text/javascript" src="app/service/FilterService.js"></script>
 	
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/globals.js"></script>
@@ -41,13 +41,13 @@
 		<div class="top-bar-item" hidden="true" id="top-bar-register-ref"><a href="auth/register.jsp" >Zarejestruj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-login-ref"><a href="auth/login.jsp" >Zaloguj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-user-panel-ref"><a href="#users/me">Moje konto</a></div>
-		<div class="top-bar-item" hidden="true" id="top-bar-add-product-ref"><a href="#product/new">Dodaj produkt</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-add-product-ref"><a href="#products/new">Dodaj produkt</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-add-category-ref"><a href="#category/new">Dodaj kategorię</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-my-reviews-ref"><a href="#reviews/my">Moje recenzje</a></div>
 	</div>
 	<div id="logo"  class="logo-bar" >
 	
-		<a href="#"><img class="rev-logo" src="img/logoLogin.png"></img></a>
+		<a href="#" onclick="Backbone.history.loadUrl('#');"><img class="rev-logo" src="img/logoLogin.png"></img></a>
 	</div>
 
 	<div id="main" class="main">
@@ -59,6 +59,9 @@
 			</div>
 			<div id="category-tree-div">
 				
+			</div>
+			<div id="filters-div" hidden="true">
+				<p class="rev-header">Filtry</p>
 			</div>
 			<div id="user-subscrptions-div">
 				

@@ -1,5 +1,7 @@
 package org.revcommunity.service;
 
+import java.util.HashSet;
+
 import org.apache.log4j.Logger;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
@@ -12,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import scala.actors.threadpool.Arrays;
 
 @Service
 @Transactional
@@ -35,17 +39,24 @@ public class CategoryService
         create();
     }
 
+    private CategoryFilter buildFilter( String name, String... values )
+    {
+        CategoryFilter cf = new CategoryFilter( name, CategoryFilterType.LIST );
+        cf.setValues( new HashSet<String>( Arrays.asList( values ) ) );
+        return cf;
+    }
+
     private void create()
     {
         CategoryGroup cg1 = new CategoryGroup();
         cg1.setName( "Elektronika" );
-        cg1.addCategoryFilter( new CategoryFilter( "Gwarancja", CategoryFilterType.INTEGER ) );
+        cg1.addCategoryFilter( buildFilter( "Producent", "Samsung", "Apple", "HP", "DELL", "TOSHIBA", "BOSH" ) );
         tpl.save( cg1 );
         log.debug( cg1 );
 
         CategoryGroup cg2 = new CategoryGroup();
         cg2.setName( "Laptopy" );
-        cg2.addCategoryFilter( new CategoryFilter( "Pamięć RAM", CategoryFilterType.INTEGER ) );
+        cg2.addCategoryFilter( buildFilter( "Producent", "HP", "DELL", "TOSHIBA" ) );
         cg2.setParent( cg1 );
         tpl.save( cg2 );
         log.debug( cg2 );
@@ -53,10 +64,7 @@ public class CategoryService
         Category c1 = new Category();
         c1.setName( "Dell" );
         c1.setParent( cg2 );
-        CategoryFilter cf1 = new CategoryFilter();
-        cf1.setName( "Procesor" );
-        cf1.setType( CategoryFilterType.STRING );
-        c1.addFilter( cf1 );
+        c1.addFilter( buildFilter( "Producent", "DELL" ) );
         c1.addFilter( new CategoryFilter( "Gwarancja", CategoryFilterType.INTEGER ) );
         c1.addFilter( new CategoryFilter( "Pamięć RAM", CategoryFilterType.INTEGER ) );
         tpl.save( c1 );
@@ -64,11 +72,8 @@ public class CategoryService
 
         Category c2 = new Category();
         c2.setName( "HP" );
-        CategoryFilter fi = new CategoryFilter( "xxx", CategoryFilterType.INTEGER );
-        FilterSet<CategoryFilter> ff = new FilterSet<CategoryFilter>();
-        ff.add( fi );
-        c2.setFilters( ff );
         c2.setParent( cg2 );
+        c2.addFilter( buildFilter( "Producent", "HP" ) );
         c2.addFilter( new CategoryFilter( "Gwarancja", CategoryFilterType.INTEGER ) );
         c2.addFilter( new CategoryFilter( "Pamięć RAM", CategoryFilterType.INTEGER ) );
         tpl.save( c2 );

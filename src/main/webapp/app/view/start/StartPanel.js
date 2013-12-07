@@ -22,9 +22,11 @@ Ext.define('RevCommunity.view.start.StartPanel' ,{
 	    	  mode:'newest'
 	      }
 	],
+	load:function(){
+		this.down('productlist').getStore().sort('dateAdded','DESC');
+		this.down('reviewspanel').getStore().sort('dateAdded','DESC');
+	},
 	initComponent:function(){
 		this.callParent(arguments);
-		this.down('productlist').getStore().load();
-		this.down('reviewspanel').getStore().load();
 	}
 });

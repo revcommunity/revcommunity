@@ -15,7 +15,8 @@ Ext.define('RevCommunity.view.product.ProductForm' ,{
 		var product= new RevCommunity.model.Product(values).data;
     	var categoryCombo=form.down('categorycombo:last');
 		var specFs=form.down('specificationfieldset');
-		product.keys=specFs.getFieldValues();
+		var values=specFs.getFieldValues();
+		product.filters=FilterService.readFilters(values);
 		product.category={
 				nodeId:categoryCombo.getValue()
 		};

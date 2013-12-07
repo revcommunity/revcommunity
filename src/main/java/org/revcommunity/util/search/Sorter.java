@@ -7,6 +7,17 @@ public class Sorter
 
     private SortDirection direction;
 
+    Sorter()
+    {
+        super();
+    }
+
+    public Sorter( SortDirection direction, String property )
+    {
+        this.direction = direction;
+        this.property = property;
+    }
+
     public String getProperty()
     {
         return property;

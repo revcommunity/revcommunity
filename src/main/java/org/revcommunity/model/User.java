@@ -3,6 +3,7 @@ package org.revcommunity.model;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
@@ -167,7 +168,7 @@ public class User
 
     public String getFullName()
     {
-        return ( getFirstName() + " " + getLastName() ).toString().trim();
+        return StringUtils.join( getFirstName(), " ", getLastName() ).trim();
     }
 
     public String getUserName()

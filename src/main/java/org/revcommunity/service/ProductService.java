@@ -26,6 +26,8 @@ import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sun.swing.StringUIClientPropertyKey;
+
 @Service
 @Transactional
 public class ProductService
@@ -118,27 +120,47 @@ public class ProductService
     }
 
     @SuppressWarnings( "unchecked" )
-    public Page<Product> findByFilters( Long categoryId, Iterable<FilterValue> filters, List<Sorter> sorters, Integer start, Integer limit )
+    public Page<Product> findByFilters( Long categoryId, String query, List<FilterValue> filters, List<Sorter> sorters, Integer start, Integer limit )
     {
         log.debug( "Rozpoczynam generowanie zapytania" );
         log.debug( "categoryId: " + categoryId );
         Map<String, Object> params = new HashMap<String, Object>();
         StringBuilder sb = new StringBuilder();
-        sb.append( "start category=node({categoryId}) match category<-[:BELONGS_TO]-product-[:HAS_FILTERS]-filter " );
-        sb.append( "where " );
-        CypherQueryBuilder.buildCategoryFilters( sb, filters, params );
-        sb.append( " return product " );
+        String catIdParam = "*";
+        if ( categoryId != null )
+        {
+            catIdParam = "{categoryId}";
+            params.put( "categoryId", categoryId );
+        }
+        sb.append( StringUtils.join( "start category=node(", catIdParam, ") " ) );
+        sb.append( " match category-[?:CONTAINS*]->leafCategory<-[?:BELONGS_TO]-product-[?:BELONGS_TO]->category " );
+        if ( filters != null && !filters.isEmpty() )
+        {
+            sb.append( ", product-[?:HAS_FILTERS]-filter " );
+            sb.append( " where product IS NOT NULL and " );
+            CypherQueryBuilder.buildCategoryFilters( sb, filters, params );
+        }
+        else
+        {
+            sb.append( " where product IS NOT NULL " );
+        }
+        if ( StringUtils.isNotBlank( query ) )
+        {
+            sb.append( " and ( product.description?=~ {query}  or product.name?=~ {query} ) " );
+            params.put( "query", "(?i).*" + query + ".*" );
+        }
+        sb.append( " return distinct product " );
         CypherQueryBuilder.buildSort( sb, sorters );
         CypherQueryBuilder.buildPaging( sb, params, start, limit );
-        String query = sb.toString();
-        log.debug( "Wygenerowane zapytanie: " + query );
+        String cypherQuery = sb.toString();
+        log.debug( "Wygenerowane zapytanie: " + cypherQuery );
 
         if ( categoryId != null )
             params.put( "categoryId", categoryId );
         else
             params.put( "categoryId", "*" );
 
-        Page<Product> result = tpl.query( query, params ).to( Product.class ).as( Page.class );
+        Page<Product> result = tpl.query( cypherQuery, params ).to( Product.class ).as( Page.class );
         return result;
 
     }

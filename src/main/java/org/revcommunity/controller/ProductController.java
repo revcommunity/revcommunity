@@ -7,11 +7,13 @@ import java.util.List;
 
 import javax.servlet.ServletContext;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
-import org.revcommunity.model.AbstractCategory;
+import org.codehaus.jackson.type.TypeReference;
+import org.revcommunity.model.FilterValue;
 import org.revcommunity.model.Product;
 import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.ProductRepo;
@@ -20,6 +22,8 @@ import org.revcommunity.service.ProductService;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
 import org.revcommunity.util.TestHelper;
+import org.revcommunity.util.search.SortDirection;
+import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -66,6 +70,8 @@ public class ProductController
     @Autowired
     private ImageService imageService;
 
+    private ObjectMapper om = new ObjectMapper();
+
     /**
      * Metoda tworzy nowy produkt lub edytuje istniejący
      * 
@@ -104,19 +110,6 @@ public class ProductController
     }
 
     /**
-     * Pobiera listę wszystkich produktów
-     * 
-     * @return Lista produktów
-     * @author Paweł Rosolak 20 paź 2013
-     */
-    @RequestMapping( method = RequestMethod.GET )
-    @ResponseBody
-    public EndResult<Product> getAll()
-    {
-        return pr.findAll();
-    }
-
-    /**
      * Pobiera jeden produkt na posdstawie id
      * 
      * @param id Id produktu
@@ -130,45 +123,46 @@ public class ProductController
         return ps.getProduct( id );
     }
 
-    /**
-     * Pobiera jeden produkt na podstawie id
-     * 
-     * @param id Id produktu
-     * @return Obiekt produktu
-     * @author Paweł Rosolak 20 paź 2013
-     */
-    @RequestMapping( value = "categories", method = RequestMethod.GET )
-    @ResponseBody
-    public List<Product> findByCategory( @RequestParam Long categoryId )
-    {
-        AbstractCategory c = acr.findOne( categoryId );
-        List<Product> prods = ps.findByCategory( c );
-        return prods;
-    }
-
     @Autowired
     private TestHelper th;
 
     @Autowired
     private CategoryService cs;
 
-    @RequestMapping( value = "newest", method = RequestMethod.GET )
+    @RequestMapping( method = RequestMethod.GET )
     @ResponseBody
-    public Page<Product> findNewest( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
+    public Page<Product> filter( @RequestParam( required = false ) Long categoryId, @RequestParam( required = false ) String query,
+                                 @RequestParam( value = "filters", required = false ) String sFilters,
+                                 @RequestParam( value = "sort", required = false ) String sSorters, @RequestParam Integer start,
+                                 @RequestParam Integer limit )
+        throws JsonParseException, JsonMappingException, IOException
     {
-        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
-        Page<Product> prods = pr.find( page );
+        List<FilterValue> filters = readFilters( sFilters );
+        List<Sorter> sorters = readSorters( sSorters );
+        Page<Product> prods = ps.findByFilters( categoryId, query, filters, sorters, start, limit );
         return prods;
     }
 
-    @RequestMapping( value = "find", method = RequestMethod.GET )
-    @ResponseBody
-    public Page<Product> find( @RequestParam String query, @RequestParam( required = false ) Integer start,
-                               @RequestParam( required = false ) Integer limit )
+    private List<FilterValue> readFilters( String sFilters )
+        throws JsonParseException, JsonMappingException, IOException
     {
-        PageRequest page = new PageRequest( start, limit );
-        Page<Product> prods = ps.findAllByDescription( query, page );
-        return prods;
+        if ( StringUtils.isBlank( sFilters ) )
+            return null;
+        List<FilterValue> filters = om.readValue( sFilters, new TypeReference<List<FilterValue>>()
+        {
+        } );
+        return filters;
+    }
+
+    private List<Sorter> readSorters( String sSorters )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+        if ( StringUtils.isBlank( sSorters ) )
+            return null;
+        List<Sorter> sorters = om.readValue( sSorters, new TypeReference<List<Sorter>>()
+        {
+        } );
+        return sorters;
     }
 
     @RequestMapping( method = RequestMethod.DELETE, value = "{productId}" )

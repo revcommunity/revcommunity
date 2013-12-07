@@ -78,7 +78,7 @@ public class TestHelper
         p.setPriceAvg( 3000.0 );
         p.setProducer( "HP" );
         p.setProductCode( "000L300" );
-        p.addFilterValue( "xxx", 1 );
+        p.addFilterValue( "producent", "HP" );
 
         ps.createProduct( p );
         p = ps.getProduct( p.getNodeId() );
@@ -91,6 +91,7 @@ public class TestHelper
         p.setPriceAvg( 3550.0 );
         p.setProducer( "HP" );
         p.setProductCode( "000L500" );
+        p.addFilterValue( "producent", "HP" );
 
         ps.createProduct( p );
 
@@ -100,8 +101,7 @@ public class TestHelper
         p.addImage( "img/dell1.jpg" );
         p.setName( "DELL D200" );
         p.setPriceAvg( 2800.0 );
-        p.setProducer( "DELL" );
-        p.setProductCode( "EAAD200" );
+        p.addFilterValue( "producent", "DELL" );
 
         ps.createProduct( p );
 
@@ -111,8 +111,7 @@ public class TestHelper
         p.addImage( "img/dell2.jpg" );
         p.setName( "DELL D600" );
         p.setPriceAvg( 4550.0 );
-        p.setProducer( "DELL" );
-        p.setProductCode( "TR0D500" );
+        p.addFilterValue( "producent", "DELL" );
 
         ps.createProduct( p );
     }

@@ -11,7 +11,8 @@ Ext.define('RevCommunity.controller.SearchController', {
 	},
 	search:function(field){//usuwa wszystkie combo za podanym
 		var value=field.getValue();
-		window.open('#products/find/'+value,'_parent');
+		log(value);
+		FilterService.filter();
 	},
 	searchKeyUp:function(field,e){//usuwa wszystkie combo za podanym
 		if (e.getKey() == e.ENTER) {

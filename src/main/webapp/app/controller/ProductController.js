@@ -31,7 +31,7 @@ Ext.define('RevCommunity.controller.ProductController', {
 	},
 	showEditForm:function(product){
 		var id=product.nodeId;
-		location.href = '#product/edit/' + id;
+		location.href = '#products/edit/' + id;
 	},
 	save:function(btn){
 		var form = btn.up('form');
@@ -48,7 +48,7 @@ Ext.define('RevCommunity.controller.ProductController', {
 				var prod=Ext.decode(action.response.responseText).message;//zapisany obiekt
 				UtilService.showInfo('Produkt został zapisany pomyślnie.',{
 					fn:function(){//przekierowanie do widoku produktu
-						location.href = '#product/' + prod.nodeId;
+						location.href = '#products/' + prod.nodeId;
 					}
 				});
 		    },
@@ -60,7 +60,7 @@ Ext.define('RevCommunity.controller.ProductController', {
 	},
 	showDetails : function(record) {
 		var id = record.data.nodeId;
-		location.href = '#product/' + id;
+		location.href = '#products/' + id;
 	},
 	addReview : function(record) {
 		var id = record.data.nodeId;

@@ -18,6 +18,7 @@ import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.revcommunity.model.Category;
 import org.revcommunity.model.Comment;
 import org.revcommunity.model.FilterValue;
 import org.revcommunity.model.Product;
@@ -241,12 +242,12 @@ public class ProductTest
         Product pp = pr.findOne( p.getNodeId() );
         log.debug( pp );
         String q =
-            "start c=node({catId}) match c<-[:BELONGS_TO]-n-[:HAS_FILTERS]-f where ( f.symbol={symbol_x} and f.value={value} ) return n order by n.dateAdded? desc ";
+            "start c=node({catId}) match c<-[:BELONGS_TO]-n-[:HAS_FILTERS]-f where ( f.symbol={symbol_x} and f.value?={value} ) return n order by n.dateAdded? desc ";
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put( "symbol_x", "p1" );
         params.put( "value", 1 );
-        params.put( "catId", 4915 );
+        params.put( "catId", cr.findByName( "HP" ).getNodeId() );
         EndResult<Product> res = tpl.query( q, params ).to( Product.class );
         log.debug( "wypisuje" );
         for ( Product map : res )
@@ -280,13 +281,11 @@ public class ProductTest
         Product pp = pr.findOne( p.getNodeId() );
         log.debug( pp );
 
-        Long cId = 4915L;
+        Long cId = cr.findByName( "HP" ).getNodeId();
         List<Sorter> sorters = new ArrayList<Sorter>();
-        Sorter ss = new Sorter();
-        ss.setDirection( SortDirection.ASC );
-        ss.setProperty( "dateAdded" );
+        Sorter ss = new Sorter( SortDirection.ASC, "dateAdded" );
         sorters.add( ss );
-        Page<Product> res = ps.findByFilters( cId, filters, sorters, 0, 10 );
+        Page<Product> res = ps.findByFilters( cId, null, new ArrayList<FilterValue>( filters ), sorters, 0, 10 );
         log.debug( "wypisuje" );
         for ( Product map : res )
         {
@@ -310,6 +309,35 @@ public class ProductTest
         p = ps.getProduct( p.getNodeId() );
         assertEquals( 1, p.getFilters().size() );
         assertEquals( "wartosc", p.getFilterValue( "sym1" ) );
+
+    }
+
+    @Test
+    @Transactional
+    @Rollback
+    public void search()
+    {
+        Category c = cr.findByName( "HP" );
+
+        Page<Product> prods = ps.findByFilters( c.getNodeId(), null, null, null, 0, 10 );
+        log.debug( "Wypisuje wszystkie" );
+        for ( Product product : prods )
+        {
+            log.debug( product.getName() );
+        }
+        log.debug( "Koniec" );
+        StringBuilder sb = new StringBuilder();
+        sb.append( "START product=node:productsearch(name:{query}) RETURN product " );
+        // sb.append( " where product.description?=~ '.*HP.*'  and product is not null " );
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put( "query", "*HP*" );
+        EndResult<Product> res = tpl.query( sb.toString(), params ).to( Product.class );
+        log.debug( "Wypisuje wszyszukane" );
+        for ( Product product : res )
+        {
+            log.debug( product.getName() );
+        }
+        log.debug( "Koniec" );
 
     }
 }

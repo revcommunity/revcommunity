@@ -54,7 +54,9 @@ public class CypherQueryBuilder
             sb.append( " ( " );
             sb.append( StringUtils.join( " filter.symbol = {sym_", filter.getSymbol(), "} " ) );
             sb.append( " and " );
-            sb.append( StringUtils.join( " filter.value = {val_", filter.getSymbol(), "} " ) );
+            sb.append( StringUtils.join( " filter.value is not null " ) );
+            sb.append( " and " );
+            sb.append( StringUtils.join( " filter.value? = {val_", filter.getSymbol(), "} " ) );
             sb.append( " ) " );
             sb.append( endSeparator );
         }

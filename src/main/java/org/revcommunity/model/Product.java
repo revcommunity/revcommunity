@@ -34,7 +34,7 @@ public class Product
         super();
     }
 
-    @Indexed( indexName = "product-search", indexType = IndexType.FULLTEXT )
+    @Indexed( indexName = "productsearch", indexType = IndexType.FULLTEXT )
     private String name;
 
     private String producer;
@@ -43,7 +43,7 @@ public class Product
 
     private String productCode;
 
-    @Indexed( indexName = "product-search", indexType = IndexType.FULLTEXT )
+    @Indexed( indexName = "productsearch", indexType = IndexType.FULLTEXT )
     private String description;
 
     private List<String> images;

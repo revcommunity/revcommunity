@@ -18,7 +18,6 @@ Ext.define('RevCommunity.model.Product', {
     				if(Ext.isEmpty(date))
     					return "";
     				var d=Ext.Date.format(new Date(date),UtilService.dateFormat);
-    				log(d);
     				return d;
     			}
     		},
