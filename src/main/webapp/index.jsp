@@ -6,7 +6,7 @@
     <link rel="stylesheet" type="text/css" href="ext-4/resources/css/ext-all-neptune.css">
     
     <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
-    
+    <link rel="stylesheet/less" type="text/css" href="css/ratingWidget.less" />
     <script src="app/lib/less-1.4.2.min.js" type="text/javascript"></script>
     
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -30,7 +30,8 @@
 	<script type="text/javascript" src="app/service/CategoryService.js"></script>
 	<script type="text/javascript" src="app/service/SubscriptionService.js"></script>
 	<script type="text/javascript" src="app/service/ViewService.js"></script>
-	
+	<script type="text/javascript" src="app/service/FilterService.js"></script>
+	<script type="text/javascript" src="app/rating/RatingUtil.js"></script>
 	
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/globals.js"></script>
@@ -40,22 +41,28 @@
 		<div class="top-bar-item" hidden="true" id="top-bar-logout-ref"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-register-ref"><a href="auth/register.jsp" >Zarejestruj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-login-ref"><a href="auth/login.jsp" >Zaloguj</a></div>
-		<div class="top-bar-item" hidden="true" id="top-bar-user-panel-ref"><a href="/revcommunity/user/me">Moje konto</a></div>
-		<div class="top-bar-item" hidden="true" id="top-bar-add-product-ref"><a href="#product/new">Dodaj produkt</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-user-panel-ref"><a href="#users/me">Moje konto</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-add-product-ref"><a href="#products/new">Dodaj produkt</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-add-category-ref"><a href="#category/new">Dodaj kategorię</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-my-reviews-ref"><a href="#reviews/my">Moje recenzje</a></div>
 	</div>
 	<div id="logo"  class="logo-bar" >
 	
-		<a href="#"><img class="rev-logo" src="img/logoLogin.png"></img></a>
+		<a href="#" onclick="Backbone.history.loadUrl('#');"><img class="rev-logo" src="img/logoLogin.png"></img></a>
 	</div>
 
 	<div id="main" class="main">
 	
 		<div id="nav" class="navigation-bar">
 			<p class="rev-header">Nawigacja</p>
+			<div id="searchfield-div">
+				
+			</div>
 			<div id="category-tree-div">
 				
+			</div>
+			<div id="filters-div" hidden="true">
+				<p class="rev-header">Filtry</p>
 			</div>
 			<div id="user-subscrptions-div">
 				
