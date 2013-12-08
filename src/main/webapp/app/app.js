@@ -6,7 +6,8 @@ Ext.application({
             ],
 	controllers:['ProductController','ReviewController','CategoryController',
 	             'ProductFormController','RevHtmlEditorController','LoginController',
-	             'SubscriptionController','CategoryTreeController'],    
+	             'SubscriptionController','CategoryTreeController',
+	             'SearchController','FilterController'],    
 	views:[
 	    	'form.BaseFieldSet',
 	    	'form.CategoryFieldSet',
@@ -37,7 +38,9 @@ Ext.application({
 	    	'subscription.ProductSubscriptionList',
 	    	'subscription.ProductNotificationList',
 	    	'RevCommunity.view.category.CategoryTree',
-	    	'start.StartPanel'
+	    	'start.StartPanel',
+	    	'user.UserPanel',
+	    	'search.FilterForm'
 	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
             'ProductNotification'
@@ -45,6 +48,7 @@ Ext.application({
     launch: function() {
     	
     	this.initExceptionHandler();
+    	this.initSearchField();
     	this.initContentPanel();
     	ViewService.showTopMenu();
     	SubscriptionService.showSubscriptions();
@@ -76,50 +80,27 @@ Ext.application({
     		log('win resize');
     		panel.calculateWidth();
     	});
+    },
+    initSearchField:function(){
+    	var panel=Ext.widget('container',{    
+			renderTo:Ext.get('searchfield-div'),
+			id:'searchPanel',
+			layout:'fit',
+			cls:'rev-search-panel',
+			items:[
+				{   
+					xtype:'triggerfield',
+					id:'searchField',
+					enableKeyEvents :true,
+					emptyText:'Szukaj...',
+					triggerCls:'x-form-search-trigger',
+					onTriggerClick:function(e){
+						var me = this;
+						me.fireEvent("triggerclick", me, e);
+					}
+				}
+			]
+		});
     }
 });
-	var checkIfUserAuthorized = function(){
-		Ext.Ajax.request({
-			url : 'rest/users/session',
-			method : 'GET',
-			success : function(response) {
-				
-				var j = parseMessageResponse(response);
-					
-				
-				var username = j.username;
-				console.log(username);
-				console.log(ANONYMOUS_USER);
-				
-				var login = Ext.get(LOGIN_REF_ID);
-				var reg = Ext.get(REGISTRATION_REF_ID);
-				var user  = Ext.get(USERNAME_REF_ID);
-				
-				//login.set({"title" : "tytul testowy"});
-				
-				if(username != ANONYMOUS_USER){
-					console.log('inny niz anonymous');
-					login.setHTML('');	
-					reg.setHTML('');
-					user.setHTML(username);
-				}
-				else{
-					console.log('anonymous');
-					login.setHTML('Zaloguj');
-					reg.setHTML('Zarejestruj');
-					user.setHTML('');
-				}
-				
-			},
-			failure: function(){
-				alert('failure');
-			}
-		});
-	};
-	
-	var parseMessageResponse = function(res){
-		var obj = Ext.decode(res.responseText);
-		var j = Ext.decode(obj.message);
-		return j;	
-	}
 	

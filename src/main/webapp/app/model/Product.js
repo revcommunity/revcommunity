@@ -8,7 +8,18 @@ Ext.define('RevCommunity.model.Product', {
     		'category',
     		'priceAvg',
     		'rating',
-    		'keys',
+    		'dateAdded',
+    		{
+    			name:'dateAddedString',
+    			persist:false,
+    			convert:function(v,model){
+    				var date=model.data.dateAdded;
+    				if(Ext.isEmpty(date))
+    					return "";
+    				var d=Ext.Date.format(new Date(date),UtilService.dateFormat);
+    				return d;
+    			}
+    		},
     		{
     			name:'reviewCount',
     			type:'integer'
@@ -25,16 +36,16 @@ Ext.define('RevCommunity.model.Product', {
 	    		}
     		},
     		{
-    			name:'filters',
+    			name:'filterValues',
     			convert:function(v,model){
     				try{
 	    				var filters=model.data.category.filters;
-	    				var keys=model.data.keys;
+	    				var filterValues=model.data.filters;
 	    				var values=[];
 	    				for(var i=0;i<filters.length;i++){
 	    					var name=filters[i].name;
 	    					var symbol=filters[i].symbol;
-	    					var value=keys[symbol];
+	    					var value=this.getFilterValue(filterValues,symbol);
 	    					values.push({
 	    						name:name,
 	    						value:value
@@ -45,6 +56,13 @@ Ext.define('RevCommunity.model.Product', {
     					log('error'+e);
     					return [];
     				}
+    			},
+    			getFilterValue:function(filterValues,sym){
+    				for(var i=0;i<filterValues.length;i++){
+    					if(filterValues[i].symbol==sym)
+    						return filterValues[i].value;
+    				}
+    				return null;
     			}
     		}
     	],

@@ -3,13 +3,14 @@ Ext.define('RevCommunity.controller.CategoryTreeController', {
 	init : function() {
 		this.control({
 			'categorytree' : {
-				select : this.categorySelect
+				itemclick : this.categorySelect
 			}
 		});
 	},
 	categorySelect:function(tree,rec){
 		var category=rec.data;
 		log(category);
-		window.open('#products/categories/'+category.nodeId,'_parent');
+		FilterService.filter();
+		FilterService.loadFilters(category);
 	}
 });

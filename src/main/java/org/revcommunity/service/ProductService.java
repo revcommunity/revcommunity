@@ -1,29 +1,32 @@
 package org.revcommunity.service;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.revcommunity.model.AbstractCategory;
+import org.revcommunity.model.FilterValue;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.User;
 import org.revcommunity.model.subscription.ProductChannel;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.repo.subscription.ProductChannelRepo;
+import org.revcommunity.search.CypherQueryBuilder;
 import org.revcommunity.util.SessionUtils;
 import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
+import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import sun.swing.StringUIClientPropertyKey;
 
 @Service
 @Transactional
@@ -52,7 +55,6 @@ public class ProductService
      */
     public Product createProduct( Product product )
     {
-        product.buildProperites();
         product.setDateAdded( new Date() );
         pr.save( product );
         ProductChannel pc = new ProductChannel();
@@ -69,7 +71,6 @@ public class ProductService
      */
     public void updateProduct( Product product )
     {
-        product.buildProperites();
         String userName = SessionUtils.getLoggedUserName();
         User modificationUser = ur.findByUserName( userName );
         product.setLastEditUser( modificationUser );
@@ -88,7 +89,6 @@ public class ProductService
     public Product getProduct( Long nodeId )
     {
         Product p = pr.findOne( nodeId );
-        p.buildKeys();
         AbstractCategory c = p.getCategory();
         while ( c != null )
         {
@@ -98,25 +98,71 @@ public class ProductService
         return p;
     }
 
-    public Page<Product> find( Pageable pagable )
+    public Page<Product> findNewest( Pageable pagable )
     {
-        Page<Product> prods = pr.find( pagable );
-        for ( Product product : prods )
-        {
-            product.buildKeys();
-        }
-        return prods;
+        String q = "start n=node:__types__(className='Product') return n order by n.dateAdded desc ";
+        Map<String, Object> params = new HashMap<String, Object>();
+        Page<Product> res = tpl.query( q, params ).to( Product.class ).as( Page.class );
+        return res;
 
+    }
+
+    public Page<Product> findAllByDescription( String query, Pageable pagable )
+    {
+        Page<Product> prods = pr.findAllByDescriptionLike( query, pagable );
+        return prods;
     }
 
     public List<Product> findByCategory( AbstractCategory c )
     {
         List<Product> prods = pr.findByCategory( c );
-        for ( Product product : prods )
-        {
-            product.buildKeys();
-        }
         return prods;
+    }
+
+    @SuppressWarnings( "unchecked" )
+    public Page<Product> findByFilters( Long categoryId, String query, List<FilterValue> filters, List<Sorter> sorters, Integer start, Integer limit )
+    {
+        log.debug( "Rozpoczynam generowanie zapytania" );
+        log.debug( "categoryId: " + categoryId );
+        Map<String, Object> params = new HashMap<String, Object>();
+        StringBuilder sb = new StringBuilder();
+        String catIdParam = "*";
+        if ( categoryId != null )
+        {
+            catIdParam = "{categoryId}";
+            params.put( "categoryId", categoryId );
+        }
+        sb.append( StringUtils.join( "start category=node(", catIdParam, ") " ) );
+        sb.append( " match category-[?:CONTAINS*]->leafCategory<-[?:BELONGS_TO]-product-[?:BELONGS_TO]->category " );
+        if ( filters != null && !filters.isEmpty() )
+        {
+            sb.append( ", product-[?:HAS_FILTERS]-filter " );
+            sb.append( " where product IS NOT NULL and " );
+            CypherQueryBuilder.buildCategoryFilters( sb, filters, params );
+        }
+        else
+        {
+            sb.append( " where product IS NOT NULL " );
+        }
+        if ( StringUtils.isNotBlank( query ) )
+        {
+            sb.append( " and ( product.description?=~ {query}  or product.name?=~ {query} ) " );
+            params.put( "query", "(?i).*" + query + ".*" );
+        }
+        sb.append( " return distinct product " );
+        CypherQueryBuilder.buildSort( sb, sorters );
+        CypherQueryBuilder.buildPaging( sb, params, start, limit );
+        String cypherQuery = sb.toString();
+        log.debug( "Wygenerowane zapytanie: " + cypherQuery );
+
+        if ( categoryId != null )
+            params.put( "categoryId", categoryId );
+        else
+            params.put( "categoryId", "*" );
+
+        Page<Product> result = tpl.query( cypherQuery, params ).to( Product.class ).as( Page.class );
+        return result;
+
     }
 
     public void delete( Long productId )

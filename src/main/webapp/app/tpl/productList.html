@@ -1,8 +1,8 @@
-<div class="rev-list-header"><span>{name}</span></div>
+<div class="rev-list-header"><span>{name}</span><span style=text-align="right">(Dodano: {dateAddedString})</span></div>
 <div class="rev-col-wrap">
 	<img src="{mainImage}" class="rev-img-small rev-col" ></img>
 	<div class="rev-border rev-container">
-			<tpl for="filters">
+			<tpl for="filterValues">
 		   		<p>{name}: {value}</p>
 			</tpl>
 	</div>

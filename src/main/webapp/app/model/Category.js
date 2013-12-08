@@ -3,6 +3,7 @@ Ext.define('RevCommunity.model.Category', {
     fields: [
 		'name',
 		'nodeId',
+		'filters',
 		{name:'text',mapping:'name'}
 	 ],
      idProperty:'nodeId',

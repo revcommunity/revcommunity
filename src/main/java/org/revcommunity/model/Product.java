@@ -1,26 +1,27 @@
 package org.revcommunity.model;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
+import org.springframework.data.annotation.TypeAlias;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
+import org.springframework.data.neo4j.annotation.Indexed;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 import org.springframework.data.neo4j.annotation.RelatedTo;
-import org.springframework.data.neo4j.fieldaccess.DynamicProperties;
-import org.springframework.data.neo4j.fieldaccess.DynamicPropertiesContainer;
+import org.springframework.data.neo4j.support.index.IndexType;
 
 @NodeEntity
 @JsonIgnoreProperties( ignoreUnknown = true )
+@TypeAlias( "Product" )
 public class Product
 {
     private static final Logger log = Logger.getLogger( Product.class );
@@ -33,6 +34,7 @@ public class Product
         super();
     }
 
+    @Indexed( indexName = "productsearch", indexType = IndexType.FULLTEXT )
     private String name;
 
     private String producer;
@@ -41,6 +43,7 @@ public class Product
 
     private String productCode;
 
+    @Indexed( indexName = "productsearch", indexType = IndexType.FULLTEXT )
     private String description;
 
     private List<String> images;
@@ -89,9 +92,19 @@ public class Product
 
     private String mainImage;
 
-    private Map<String, Object> keys;
+    @Fetch
+    @RelatedTo( type = "HAS_FILTERS" )
+    private Set<FilterValue> filters;
 
-    private DynamicProperties properties = new DynamicPropertiesContainer();
+    public Set<FilterValue> getFilters()
+    {
+        return filters;
+    }
+
+    public void setFilters( Set<FilterValue> filters )
+    {
+        this.filters = filters;
+    }
 
     @Fetch
     @RelatedTo( type = "BELONGS_TO", direction = Direction.OUTGOING )
@@ -191,31 +204,6 @@ public class Product
         this.category = category;
     }
 
-    // private DynamicProperties getProperties()
-    // {
-    // return properties;
-    // }
-
-    // public void addProperties( String key, Object value )
-    // {
-    // properties.setProperty( key, value );
-    // }
-
-    // public void setProperties( DynamicProperties properties )
-    // {
-    // this.properties = properties;
-    // }
-
-    public Map<String, Object> getKeys()
-    {
-        return keys;
-    }
-
-    public void setKeys( Map<String, Object> keys )
-    {
-        this.keys = keys;
-    }
-
     public Double getPriceAvg()
     {
         return priceAvg;
@@ -241,15 +229,6 @@ public class Product
         reviewCount++;
     }
 
-    @Override
-    public String toString()
-    {
-        return "Product [nodeId=" + nodeId + ", name=" + name + ", producer=" + producer + ", reviewCount=" + reviewCount + ", productCode="
-            + productCode + ", description=" + description + ", images=" + images + ", priceAvg=" + priceAvg + ", remoteUrl=" + remoteUrl
-            + ", remoteId=" + remoteId + ", mainImage=" + mainImage + ", keys=" + keys + ", properties=" + properties + ", category=" + category
-            + "]";
-    }
-
     public String getRemoteUrl()
     {
         return remoteUrl;
@@ -268,30 +247,6 @@ public class Product
     public void setRemoteId( Long remoteId )
     {
         this.remoteId = remoteId;
-    }
-
-    public void buildProperites()
-    {
-        if ( keys == null )
-            return;
-        for ( String key : keys.keySet() )
-        {
-            Object value = keys.get( key );
-            if ( value != null )
-            {
-                properties.setProperty( key, value );
-            }
-        }
-    }
-
-    public void buildKeys()
-    {
-        if ( keys == null )
-            keys = new HashMap<String, Object>();
-        for ( String key : properties.getPropertyKeys() )
-        {
-            keys.put( key, properties.getProperty( key ) );
-        }
     }
 
     public Set<Review> getReviews()
@@ -338,11 +293,26 @@ public class Product
 
     public void addFilterValue( String sym, Object value )
     {
-        if ( this.keys == null )
+        if ( this.filters == null )
         {
-            keys = new HashMap<String, Object>();
+            filters = new HashSet<FilterValue>();
         }
-        keys.put( sym, value );
+        filters.add( new FilterValue( sym, value ) );
 
     }
+
+    @JsonIgnore
+    @Transient
+    public Object getFilterValue( String filterSymbol )
+    {
+        if ( filters == null )
+            return null;
+        for ( FilterValue filter : filters )
+        {
+            if ( filter.getSymbol().equals( filterSymbol ) )
+                return filter.getValue();
+        }
+        return null;
+    }
+
 }

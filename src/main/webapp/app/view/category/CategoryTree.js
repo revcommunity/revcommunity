@@ -2,6 +2,7 @@ Ext.define('RevCommunity.view.category.CategoryTree', {
     extend: 'Ext.tree.Panel',
     xtype: 'categorytree',
     rootVisible:false,
+    id:'categoryTree',
     cls:'rev-category-tree',
     initComponent: function() {
     	this.store=Ext.create('Ext.data.TreeStore',{

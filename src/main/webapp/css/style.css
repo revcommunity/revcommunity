@@ -24,6 +24,11 @@
 	font-weight: bold;
 	line-height: 15px;
 	text-align: center;
+	display: table;
+}
+.rev-box > span{
+    display: table-cell;
+    vertical-align: middle;
 }
 
 .rev-box-button {

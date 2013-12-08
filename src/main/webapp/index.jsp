@@ -32,7 +32,7 @@
 	<script type="text/javascript" src="app/service/ViewService.js"></script>
 	<script type="text/javascript" src="app/service/FilterService.js"></script>
 	<script type="text/javascript" src="app/rating/RatingUtil.js"></script>
-	
+
     <script type="text/javascript" src="app/app.js"></script>
     <script type="text/javascript" src="app/globals.js"></script>
 </head>

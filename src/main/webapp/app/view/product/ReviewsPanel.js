@@ -63,7 +63,7 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 		              });
 	    	}
 	    	if(this.mode=='newest'){
-	    		this.store=Ext.create('RevCommunity.store.ProductReviewsStore',{
+	    		this.store=Ext.create('RevCommunity.store.ReviewStore',{
 	    			pageSize:5,
 	    			proxy: {
 	    		        type: 'rest',

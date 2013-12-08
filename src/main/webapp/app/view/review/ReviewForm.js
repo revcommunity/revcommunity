@@ -28,7 +28,9 @@ Ext
 															border : false,
 															width : 200,
 															tpl : '<div class="rev-overal-mark-out">'
-																	+ '<div class="rev-overal-mark-in">{rank}</div>'
+																	+ '<div class="rev-overal-mark-in">{rank}'
+																	+    '<div>' + RatingUtil.getRatingWidget('overal',this.data.rank,true) + '</div>'
+																	+  '</div>'
 																	+ '</div>',
 															data : this.data,
 
@@ -217,9 +219,7 @@ Ext
 										value : this.data.nodeId,
 									} ]
 								}
-
 						];
-
 						this.callParent();
 					}
 				});

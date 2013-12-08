@@ -5,7 +5,7 @@ public class LinkBuilder
 
     public static String buildReviewUrl( Long reviewId )
     {
-        StringBuilder sb = new StringBuilder( "#review/" );
+        StringBuilder sb = new StringBuilder( "#reviews/" );
         sb.append( reviewId );
         return sb.toString();
     }
@@ -39,7 +39,7 @@ public class LinkBuilder
 
     public static String buildProductUrl( Long productId )
     {
-        StringBuilder sb = new StringBuilder( "#product/" );
+        StringBuilder sb = new StringBuilder( "#products/" );
         sb.append( productId );
         return sb.toString();
     }

@@ -11,8 +11,9 @@ Ext.define('RevCommunity.view.review.EvaluationForm', {
 	columns : [ {
 		xtype : 'templatecolumn',
 		width : 200,
-		tpl : new Ext.XTemplate(
-				'<div class="rev-box rev-evaluation-box">{key}: {value}</div>')
-	} ]
-
+		tpl : new Ext.XTemplate(		
+				'<div class="rev-box rev-evaluation-box">{key}: {value} </br>'
+				+'{[RatingUtil.getRatingWidget(values.key,values.value,true)]}</div>'
+				)
+	} ],
 });

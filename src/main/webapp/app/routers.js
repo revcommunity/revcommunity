@@ -1,11 +1,12 @@
 var AppRouter = Backbone.Router.extend({
 	routes : {
 		'' : 'home',
+		'users/me':'userPanel',
 		'category/new' : 'newCategory',
-		'product/new' : 'newProduct',
-		'product/edit/:id' : 'editProduct',
-		'products/categories/:categoryId' : 'productList',
-		'product/:id' : 'product',
+		'products/filter' : 'filterProducts',
+		'products/new' : 'newProduct',
+		'products/edit/:id' : 'editProduct',
+		'products/:id' : 'product',
 		'reviews/new' : 'newReview',
 		'reviews/add:id' : 'addReview',
 		'reviews/edit:id' : 'editReview',
@@ -20,20 +21,15 @@ var AppRouter = Backbone.Router.extend({
 		this.clearPage();
 		var panel = Ext.widget('startpanel');
 		Ext.getCmp('contentPanel').add(panel);
+		panel.load();
 	},
 	product : function(id) {
-		var product = Ext.ModelManager.getModel('RevCommunity.model.Product');
-		var thisRouter = this;
-		product.load(id, {
-			success : function(product) {
-				thisRouter.clearPage();
-				var wrapper = Ext.widget('productwrapper',{
-					productData : product.data,
-				});
-				
-				Ext.getCmp('contentPanel').add(wrapper);
-			}
+		this.clearPage();
+		var product=ProductService.get(id);
+		var form = Ext.widget('productwrapper',{
+			productData : product,
 		});
+		Ext.getCmp('contentPanel').add(form);
 	},
 	newProduct : function() {
 		this.clearPage();
@@ -53,19 +49,6 @@ var AppRouter = Backbone.Router.extend({
 		var form = Ext.widget('newcategoryform', {
 		});
 		Ext.getCmp('contentPanel').add(form);
-	},
-	productList : function(categoryId) {
-		var pl=Ext.getCmp('contentPanel').down('productlist[mode=categories]');
-		if(Ext.isEmpty(pl)){
-			this.clearPage();
-			pl = Ext.widget('productlist');
-			Ext.getCmp('contentPanel').add(pl);
-		}
-		pl.getStore().load({
-			params:{
-				categoryId:categoryId
-			}
-		});
 	},
 	clearPage : function() {
 		Ext.getCmp('contentPanel').removeAll();
@@ -192,5 +175,20 @@ var AppRouter = Backbone.Router.extend({
 
 			}
 		});
+	},
+	userPanel:function(){
+		this.clearPage();
+		var panel = Ext.widget('userpanel',{});
+		Ext.getCmp('contentPanel').add(panel);
+	},
+	filterProducts:function(){
+		var pl=Ext.getCmp('contentPanel').down('productlist[mode=filter]');
+		if(Ext.isEmpty(pl)){
+			this.clearPage();
+			pl = Ext.widget('productlist',{
+				mode:'filter'
+			});
+			Ext.getCmp('contentPanel').add(pl);
+		}
 	}
 });

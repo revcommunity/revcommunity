@@ -1,4 +1,5 @@
 var UtilService={
+		dateFormat:'Y-m-d H:i:s',
 		exec:function(path,params,cfg){
 			var resp=Ext.Ajax.request(Ext.apply({
 				url:'rest/'+path,
