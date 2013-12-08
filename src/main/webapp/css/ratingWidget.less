@@ -1,0 +1,42 @@
+@starImgUrl: url("../img/star.png");
+@highlightedStarPosition: 0 0;
+@mutedStarPosition: 0 -16px;
+
+.rating-disabled,
+.rating {
+	overflow: hidden;
+	display: inline-block;
+}
+
+.rating-input {
+	position: absolute;
+	left: 0;
+	top: -50px;
+	//display:none;
+}
+
+.rating-disabled .rating-input:unchecked .rating-star:hover
+{
+	 background-position: @mutedStarPosition !important;
+}
+.rating:hover .rating-star:hover,
+.rating:hover .rating-star:hover ~ .rating-star,
+.rating-input:checked ~ .rating-star,
+.rating:hover .rating-star:hover ~ .rating-star
+{
+	background-position: @highlightedStarPosition;
+}
+
+.rating-star,.rating:hover .rating-star {
+	float: right;
+	display: block;
+	width: 16px;
+	height: 16px;
+	background: @starImgUrl @mutedStarPosition;
+}
+
+.ratingLabel
+{
+	font-size: 11px;
+	margin-top : 2px;
+}
