@@ -69,11 +69,6 @@ public class CategoryFilter
         return symbol;
     }
 
-    public void setSymbol( String symbol )
-    {
-        this.symbol = generateSymbol( symbol );
-    }
-
     public CategoryFilterType getType()
     {
         return type;

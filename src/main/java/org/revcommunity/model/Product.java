@@ -43,7 +43,7 @@ public class Product
 
     private String productCode;
 
-    @Indexed( indexName = "productsearch", indexType = IndexType.FULLTEXT )
+    @Indexed( indexName = "product-desc-search", indexType = IndexType.FULLTEXT )
     private String description;
 
     private List<String> images;
