@@ -383,8 +383,19 @@ public class NokautService
                     {
                         logger.debug( "Product parameter : " + paramName + " value : " + value );
                     }
-                    String sym = CategoryFilter.generateSymbol( paramName );
-                    p.addFilterValue( sym, value );
+                    
+                    FilterSet<CategoryFilter> fs = c.getFilters();
+                    
+                    for ( CategoryFilter cf : fs )
+                    {
+                        if(cf.getName().startsWith( paramName ))
+                        {
+                            p.addFilterValue( cf.getSymbol(), value );
+                            break;
+                        }
+                    }
+                    
+                    
 
                     if ( NokautConstans.specialFilters.contains( paramName ) )
                     {
@@ -650,7 +661,7 @@ public class NokautService
                         {
                             logger.debug( "Nazwa filtru : " + name );
                         }
-                        filter.setSymbol( name );
+                        
                         if ( logger.isDebugEnabled() )
                         {
                             // decimal
