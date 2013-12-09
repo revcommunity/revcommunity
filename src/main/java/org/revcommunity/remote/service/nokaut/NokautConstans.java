@@ -55,7 +55,7 @@ public class NokautConstans {
     
     protected static final String HTML_PARAMETERS_REGEX = ".wideTable tbody tr";
     protected static final String HTML_DESCRIPTION_REGEX = ".ShopOfferDescription";
-    
+    protected static final String HTML_PRODUCER_REGEX = ".PathNavigation nav ul li";
     
 	public static final Map<String,String> productFieldsMapper = new HashMap<String , String>() {{
 	    put("url",    "remoteUrl");
