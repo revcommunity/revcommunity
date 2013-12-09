@@ -38,7 +38,7 @@ var FilterService={
 			return field;
 		},
 		getFilterXType:function(filter){
-			if(filter.type=='integer'){
+			if(filter.type=='integer' || filter.type=='float'){
 				return 'numberfield';
 			}
 			else if(filter.type=='date'){
@@ -50,7 +50,7 @@ var FilterService={
 			else if(filter.type=='string'){
 				return 'textfield';
 			}else{
-				throw 'Błąd - nieobsługiwany typ filtra: '+filter.type;
+				throw 'Blad - nieobsługiwany typ filtra: '+filter.type;
 			}
 		},
 		readFilters:function(values){

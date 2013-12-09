@@ -9,6 +9,7 @@ Ext.define('RevCommunity.model.Product', {
     		'priceAvg',
     		'rating',
     		'dateAdded',
+    		'filters',
     		{
     			name:'dateAddedString',
     			persist:false,
