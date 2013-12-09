@@ -31,35 +31,19 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 			      {  
 	            	xtype: 'templatecolumn', 
 			       	flex:1,
-			        tpl : new Ext.XTemplate(
-			        				'<div class="rev-list-header"><span>{title}</span></div>',
-			        				'<div class="rev-reviewList-content">{content}</div>', 
-			        				'<div>',
-			        				    '<div class="rev-usefulness-progressbar">',
-			        						'<div style="width: {usefulness}%" class="rev-usefulness-inner"></div>',
-			        					'</div>',
-			        				'</div>'
-			        )
+			        tpl :TemplateHolder.reviewsPanelColumn2,
 			       },
 			       {  
 			       		xtype: 'templatecolumn', 
 			       		width: 110, //(90px + 20px padding (left & right))
-			        	tpl : new Ext.XTemplate( 			   
-			        			   	'<div class="rev-review-mark">{rank}</div>'
-			        	)
+			        	tpl : TemplateHolder.reviewsPanelColumn3,
 			       }
 			];
 	    	if(this.mode=='full'){
 	    		 this.columns.unshift({
 		            	xtype: 'templatecolumn', 
 		            	width: 200,
-		            	tpl : new Ext.XTemplate(
-			        			'<div class="rev-user-container">',
-			        				'<img src={author.image} class="rev-user-small-image" ></img>',
-			        				'<div class="rev-user-name">{author.fullName}</div>',
-			        				'<div class="rev-user-rank">{author.rank}</div>',
-			        			'</div>'
-			        	)
+		            	tpl : TemplateHolder.reviewsPanelColumn1,
 		              });
 	    	}
 	    	if(this.mode=='newest'){

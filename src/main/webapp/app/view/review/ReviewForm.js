@@ -145,9 +145,12 @@ Ext
 																					items : [
 																							{
 																								xtype : 'component',
-																								tpl : '<div class=rev-review-usefulness>Przydatność: {usefulness}%</div>',
-																								data : this.data,
 																								id : 'usefulnessBar',
+																								autoEl : {
+																									tag : 'div',
+																									cls : 'rev-review-usefulness',
+																									html : 'Przydatność:' + this.data.usefulness + '%',
+																								}
 																							},
 																							{
 																								xtype : 'container',
