@@ -372,6 +372,34 @@ public class NokautService
             
            // String producerSymbol = null;
             
+            if( producer.size() > 0){
+                
+                String producerConnectedWithCategory = producer.get( producer.size()-1 ).text();
+                if(logger.isDebugEnabled()){
+                    logger.debug( "Pobrana nazwa producenta :  " + producerConnectedWithCategory );
+                }
+                
+                String catName = c.getName().toLowerCase();
+                if(producerConnectedWithCategory.toLowerCase().contains( catName )){
+                    
+                    //obliczam index
+                    int idx = producerConnectedWithCategory.toLowerCase().indexOf( catName );
+                    idx += c.getName().toLowerCase().length();
+                    
+                    String prod = producerConnectedWithCategory.substring( catName.length()  );
+                    
+                    if(prod.length() < 2){
+                        //mniejsze od 2 jakby to byly jakies smieci
+                        //zazwyczaj bd to pusty string
+                        //nie pobieram tego
+                        return null;
+                    }
+                    
+                    p.addFilterValue( "producent", prod );
+                }
+            }
+            
+            
             if ( descriptions.size() > 0 )
             {
 
@@ -436,25 +464,7 @@ public class NokautService
 //                    }
                 }
 
-                if( producer.size() > 0){
-                    
-                    String producerConnectedWithCategory = producer.get( producer.size()-1 ).text();
-                    if(logger.isDebugEnabled()){
-                        logger.debug( "Pobrana nazwa producenta :  " + producerConnectedWithCategory );
-                    }
-                    
-                    String catName = c.getName().toLowerCase();
-                    if(producerConnectedWithCategory.toLowerCase().contains( catName )){
-                        
-                        //obliczam index
-                        int idx = producerConnectedWithCategory.toLowerCase().indexOf( catName );
-                        idx += c.getName().toLowerCase().length();
-                        
-                        String prod = producerConnectedWithCategory.substring( catName.length()  );
-                        
-                        p.addFilterValue( "producent", prod );
-                    }
-                }
+                
                 
                 
                 // FIXME przykladowy opis to : (tak moze byc?)
