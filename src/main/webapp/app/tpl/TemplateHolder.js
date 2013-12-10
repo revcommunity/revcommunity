@@ -90,7 +90,8 @@ reviewsPanelColumn2:new Ext.XTemplate(
 '</div>'
 ),
 reviewsPanelColumn3:new Ext.XTemplate(
-'<div class="rev-review-mark">{rank}</div>'
+'<div class="rev-review-mark">{rank}</div>',
+'<div style="text-align:center; padding-top:5px">{[RatingUtil.getRatingWidget(values.nodeId,values.rank,true)]}</div>'
 ),
 userNotificationList:new Ext.XTemplate(
 '<tpl for=".">',
