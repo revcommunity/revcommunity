@@ -7,6 +7,8 @@ Ext.define('RevCommunity.view.review.EvaluationForm', {
 		enableTextSelection : true,
 		overItemCls : ''
 	},
+	cls: 'rev-no-border-grid',
+	border: 0,
 	store : 'ReviewEvaluationTestStore',
 	columns : [ {
 		xtype : 'templatecolumn',
