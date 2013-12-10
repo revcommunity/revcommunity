@@ -43,7 +43,10 @@ Ext
 											},
 											{
 												xtype : 'panel',
-												bodyPadding : {top:10, right:10},
+												bodyPadding : {
+													top : 10,
+													right : 10
+												},
 												layout : 'anchor',
 												defaults : {
 													anchor : '100%'
@@ -76,8 +79,21 @@ Ext
 																					xtype : 'component',
 																					cls : 'rev-list-header',
 																					autoEl : {
-																						tag : 'span',
-																						html : this.data.title,
+																						tag : 'div',
+																						children : [
+																								{
+
+																									tag : 'span',
+																									html : this.data.title,
+																									style : {'float':'left'},
+
+																								},
+																								{
+																									tag : 'span',
+																									html : this.data.dateAddedString,
+																									style : {'float':'right'}
+																								}, ]
+
 																					}
 																				},
 																				{
@@ -149,7 +165,9 @@ Ext
 																								autoEl : {
 																									tag : 'div',
 																									cls : 'rev-review-usefulness',
-																									html : 'Przydatność: ' + this.data.usefulness + '%',
+																									html : 'Przydatność: '
+																											+ this.data.usefulness
+																											+ '%',
 																								}
 																							},
 																							{
@@ -163,18 +181,22 @@ Ext
 																											text : 'Nieprzydatne',
 																											flex : 1,
 																											action : 'unlike',
-																											scale   : 'large',
+																											scale : 'large',
 																											cls : 'rev-red-button',
-																											margins: {right:1},
+																											margins : {
+																												right : 1
+																											},
 																										},
 																										{
 																											xtype : 'button',
 																											text : 'Przydatne',
 																											flex : 1,
 																											action : 'like',
-																											scale   : 'large',
+																											scale : 'large',
 																											cls : 'rev-green-button',
-																											margins: {left:1},
+																											margins : {
+																												left : 1
+																											},
 																										} ]
 
 																							} ]
@@ -227,8 +249,7 @@ Ext
 										id : 'reviewNodeId',
 										value : this.data.nodeId,
 									} ]
-								}
-						];
+								} ];
 						this.callParent();
 					}
 				});
