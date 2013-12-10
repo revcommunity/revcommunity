@@ -80,7 +80,8 @@ reviewsPanelColumn1:new Ext.XTemplate(
 ),
 reviewsPanelColumn2:new Ext.XTemplate(
 '<div class="rev-list-header">',
-'	<span>{title}</span>',
+'	<div style="float:left">{title}</div>',
+'	<div style="float:right">{dateAddedString}</div>',
 '</div>',
 '<div class="rev-reviewList-content">{content}</div> ',
 '<div>',
