@@ -25,9 +25,9 @@ var AppRouter = Backbone.Router.extend({
 	},
 	product : function(id) {
 		this.clearPage();
-		var product=ProductService.get(id);
+		var p=Ext.create('RevCommunity.model.Product', ProductService.get(id));
 		var form = Ext.widget('productwrapper',{
-			productData : product,
+			productData : p.data,
 		});
 		Ext.getCmp('contentPanel').add(form);
 	},

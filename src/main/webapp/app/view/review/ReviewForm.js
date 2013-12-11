@@ -8,24 +8,24 @@ Ext
 						type : 'vbox',
 						align : 'stretch'
 					},
-					bodyPadding : 5,
 					initComponent : function() {
 						this.data.usefulness = Math.round(this.data.usefulness);
 						this.items = [
 								{
 									xtype : 'panel',
 									layout : {
-										type : 'hbox'
+										type : 'hbox',
+										align : 'stretch',
 									},
 									title : 'Recenzja produktu',
-									bodyPadding : 5,
 									items : [
 											{
 												xtype : 'panel',
+												border : 0,
 												items : [
 														{
-															xtype : 'panel',
-															border : false,
+															xtype : 'container',
+															border : 0,
 															width : 200,
 															tpl : '<div class="rev-overal-mark-out">'
 																	+ '<div class="rev-overal-mark-in">{rank}'
@@ -43,11 +43,15 @@ Ext
 											},
 											{
 												xtype : 'panel',
-												bodyPadding : 5,
+												bodyPadding : {
+													top : 10,
+													right : 10
+												},
 												layout : 'anchor',
 												defaults : {
 													anchor : '100%'
 												},
+												border : 0,
 												items : [
 														{
 															xtype : 'container',
@@ -61,7 +65,6 @@ Ext
 																		src : this.data.product.mainImage,
 																		maxHeight : 200,
 																		maxWidth : 200,
-
 																	},
 																	{
 																		xtype : 'form',
@@ -76,8 +79,21 @@ Ext
 																					xtype : 'component',
 																					cls : 'rev-list-header',
 																					autoEl : {
-																						tag : 'span',
-																						html : this.data.title,
+																						tag : 'div',
+																						children : [
+																								{
+
+																									tag : 'span',
+																									html : this.data.title,
+																									style : {'float':'left'},
+
+																								},
+																								{
+																									tag : 'span',
+																									html : this.data.dateAddedString,
+																									style : {'float':'right'}
+																								}, ]
+
 																					}
 																				},
 																				{
@@ -145,9 +161,14 @@ Ext
 																					items : [
 																							{
 																								xtype : 'component',
-																								tpl : '<div class=rev-review-usefulness>Przydatność: {usefulness}%</div>',
-																								data : this.data,
 																								id : 'usefulnessBar',
+																								autoEl : {
+																									tag : 'div',
+																									cls : 'rev-review-usefulness',
+																									html : 'Przydatność: '
+																											+ this.data.usefulness
+																											+ '%',
+																								}
 																							},
 																							{
 																								xtype : 'container',
@@ -159,13 +180,23 @@ Ext
 																											xtype : 'button',
 																											text : 'Nieprzydatne',
 																											flex : 1,
-																											action : 'unlike'
+																											action : 'unlike',
+																											scale : 'large',
+																											cls : 'rev-red-button',
+																											margins : {
+																												right : 1
+																											},
 																										},
 																										{
 																											xtype : 'button',
 																											text : 'Przydatne',
 																											flex : 1,
-																											action : 'like'
+																											action : 'like',
+																											scale : 'large',
+																											cls : 'rev-green-button',
+																											margins : {
+																												left : 1
+																											},
 																										} ]
 
 																							} ]
@@ -218,8 +249,7 @@ Ext
 										id : 'reviewNodeId',
 										value : this.data.nodeId,
 									} ]
-								}
-						];
+								} ];
 						this.callParent();
 					}
 				});

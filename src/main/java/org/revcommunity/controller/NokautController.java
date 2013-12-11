@@ -57,6 +57,25 @@ public class NokautController
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+		try {
+			
+		    nokautConnector.downloadMainCategories();
+		    //nokautConnector.downloadAllCategories();
+			nokautConnector.downloadCategoriesByParentId(new Long(126));
+			EndResult<Category> p = this.categoryRepo.findAll();
+			for (Category c : p) {
+				nokautConnector.downloadProductsByCategoryId(c, 1);
+			}
+		    
+		   // nokautConnector.downloadMainCategories();
+		    
+		    //komputery
+		   // nokautConnector.downloadCategoriesByParentId( new Long(2) );
+		    
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
     }
 

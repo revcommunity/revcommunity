@@ -6,7 +6,6 @@
     <link rel="stylesheet" type="text/css" href="ext-4/resources/css/ext-all-neptune.css">
     
     <link rel="stylesheet/less" type="text/css" href="css/styles.less" />
-    <link rel="stylesheet/less" type="text/css" href="css/ratingWidget.less" />
     <script src="app/lib/less-1.4.2.min.js" type="text/javascript"></script>
     
 	<link rel="stylesheet" type="text/css" href="css/style.css" />

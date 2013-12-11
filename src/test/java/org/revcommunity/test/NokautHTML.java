@@ -24,7 +24,7 @@ public class NokautHTML
         try
         {
             Document doc =  connection.get();
-            Elements properties = doc.select(".ShopOfferDescription");
+            Elements properties = doc.select(".PathNavigation nav ul li");
             for ( Element element : properties )
             {
                 System.out.println(element);

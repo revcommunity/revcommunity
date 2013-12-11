@@ -1,0 +1,42 @@
+
+.rev-green-button,
+.rev-red-button{
+	border: none;
+}
+
+a.rev-green-button,
+a.rev-red-button{
+	text-decoration: none;
+}
+
+@greenColorA: #9dce2c;
+@greenColorB: #8cb82b;
+.rev-green-button{
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, @greenColorA), color-stop(1, @greenColorB) );
+	background:-moz-linear-gradient( center top, @greenColorA 5%, @greenColorB 100% );
+	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{greenColorA}', endColorstr='@{greenColorB}')";
+	background-color:@greenColorA;
+}
+
+.rev-green-button:hover{
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, @greenColorB), color-stop(1, @greenColorA) );
+	background:-moz-linear-gradient( center top, @greenColorB 5%, @greenColorA 100% );
+	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{greenColorB}', endColorstr='@{greenColorA}')";
+	background-color:@greenColorB;
+}
+
+@redColorA: #d63428;
+@redColorB: #f24437;
+.rev-red-button{
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, @redColorB), color-stop(1, @redColorA) );
+	background:-moz-linear-gradient( center top, @redColorB 5%, @redColorA 100% );
+	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{redColorB}', endColorstr='@{redColorA}')";
+	background-color:@redColorB;
+}
+
+.rev-red-button:hover{
+	background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, @redColorA), color-stop(1, @redColorB) );
+	background:-moz-linear-gradient( center top, @redColorA 5%, @redColorB 100% );
+	filter: ~"progid:DXImageTransform.Microsoft.gradient(startColorstr='@{redColorA}', endColorstr='@{redColorB}')";
+	background-color:@redColorA;
+}
