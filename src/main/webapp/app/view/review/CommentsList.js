@@ -16,11 +16,7 @@ Ext
 							{
 								xtype : 'templatecolumn',
 								width : 120,
-								tpl : new Ext.XTemplate(
-										'<div class="rev-user-container">',
-										'<img src={author.image} class="rev-comments-user-image" ></img>',
-										'<div class="rev-user-name-small">{author.fullName}</div>',
-										'</div>')
+								tpl : TemplateHolder.commentsList,
 							},
 							{
 								xtype : 'templatecolumn',

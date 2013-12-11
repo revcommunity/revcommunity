@@ -34,16 +34,16 @@ public class Product
         super();
     }
 
-    @Indexed( indexName = "productsearch", indexType = IndexType.FULLTEXT )
+    @Indexed( indexName = "productsearch_name", indexType = IndexType.FULLTEXT )
     private String name;
 
-    private String producer;
+    private String producer = "";
 
     private int reviewCount = 0;
 
-    private String productCode;
+    private String productCode = "";
 
-    @Indexed( indexName = "productsearch", indexType = IndexType.FULLTEXT )
+    @Indexed( indexName = "productsearch_desc", indexType = IndexType.FULLTEXT )
     private String description;
 
     private List<String> images;

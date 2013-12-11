@@ -4,14 +4,17 @@ Ext.define('RevCommunity.view.form.CategoryCombo' ,{
     displayField:'name',
     valueField:'nodeId',
     triggerAction: 'all',
+    mode:'all',
     parentId:null,
 	initComponent:function(){
-		
+		var url='rest/categories/getByParent';
+		if(this.mode=='onlyParents')
+			url='rest/categories/getByParentWithoutLeaf';
 		this.store=Ext.create('Ext.data.Store',{
 			model:'RevCommunity.model.Category',
 			proxy: {
 		        type: 'ajax',
-		        url : 'rest/categories/getByParent'
+		        url : url
 		    }
 		});
 		if(!Ext.isEmpty(this.parentId)){

@@ -9,7 +9,6 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 		RatingUtil.addRatingLabel(this.data.rating, this.data.reviewCount);
 	},
 	initComponent : function() {
-		log(this.data);
 		this.items = [ {
 			xtype : 'component',
 			cls : 'rev-list-header',

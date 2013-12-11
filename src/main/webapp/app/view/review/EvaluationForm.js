@@ -7,13 +7,12 @@ Ext.define('RevCommunity.view.review.EvaluationForm', {
 		enableTextSelection : true,
 		overItemCls : ''
 	},
+	cls: 'rev-no-border-grid',
+	border: 0,
 	store : 'ReviewEvaluationTestStore',
 	columns : [ {
 		xtype : 'templatecolumn',
 		width : 200,
-		tpl : new Ext.XTemplate(		
-				'<div class="rev-box rev-evaluation-box">{key}: {value} </br>'
-				+'{[RatingUtil.getRatingWidget(values.key,values.value,true)]}</div>'
-				)
+		tpl : TemplateHolder.evaluationForm,
 	} ],
 });
