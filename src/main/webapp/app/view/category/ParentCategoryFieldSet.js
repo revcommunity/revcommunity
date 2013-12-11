@@ -18,7 +18,8 @@ Ext.define('RevCommunity.view.category.ParentCategoryFieldSet', {
 
 	items : [ {
 		fieldLabel:'Wybierz kategorie',
-		xtype:'categorycombo'
+		xtype:'categorycombo',
+		mode:'onlyParents'
 	},/*{
 		xtype : 'container',
 		defaultType : 'checkboxfield',

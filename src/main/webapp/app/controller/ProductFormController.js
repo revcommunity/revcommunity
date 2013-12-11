@@ -6,11 +6,8 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 			'productform categorycombo' : {
 				select : this.selectCategory
 			},
-			'categoryform categorycombo' : {
-				select : this.selectCategoryForCategory
-			},
-			'categoryform categorycombowithoutleaf' : {
-				select : this.selectCategoryForCategory
+			'newcategoryform categorycombo' : {
+				select : this.selectCategory
 			}
 			
 		});
@@ -29,7 +26,8 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 		var category=recs[0].data;
 		var categoryId=cmb.getValue();
 		var specFs=cmb.up('form').down('specificationfieldset');
-		specFs.removeAll();
+		if(specFs!=null)
+			specFs.removeAll();
 		if( category.leaf==true ){
 			var filters=CategoryService.getFilters(categoryId);
 			specFs.setFilters(filters);
@@ -37,20 +35,8 @@ Ext.define('RevCommunity.controller.ProductFormController', {
 		}
 		cmb.ownerCt.add({
 			xtype:'categorycombo',
-			parentId:categoryId
-		});
-	},
-	selectCategoryForCategory:function(cmb,recs){	
-		var category=recs[0].data;
-		var categoryId=cmb.getValue();
-
-		global_category_id_leaf = category.nodeId;
-		if( category.leaf==true ){			
-			return;
-		}
-		cmb.ownerCt.add({
-			xtype:'categorycombowithoutleaf',
-			parentId:categoryId
+			parentId:categoryId,
+			mode:cmb.mode
 		});
 	}
 });
