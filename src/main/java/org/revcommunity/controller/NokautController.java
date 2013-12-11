@@ -12,46 +12,51 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping("/nokaut")
-public class NokautController {
+@RequestMapping( "/nokaut" )
+public class NokautController
+{
 
-	private static final Logger logger = Logger.getLogger(NokautController.class);
-	
-	@Autowired
-	@Qualifier("NokautService")
-	RemoteService nokautConnector;
-	
-	@Autowired
-    @Qualifier("AllegroService")
+    private static final Logger logger = Logger.getLogger( NokautController.class );
+
+    @Autowired
+    @Qualifier( "NokautService" )
+    RemoteService nokautConnector;
+
+    @Autowired
+    @Qualifier( "AllegroService" )
     RemoteService allegroConnector;
-	
-	@Autowired
+
+    @Autowired
     private CategoryRepo categoryRepo;
 
-	@RequestMapping(value = "/download",method = RequestMethod.GET)
-	public void download() {
+    @RequestMapping( value = "/download", method = RequestMethod.GET )
+    public void download()
+    {
 
-		try {
-			
-		    nokautConnector.downloadMainCategories();
-		    //nokautConnector.downloadAllCategories();
-			nokautConnector.downloadCategoriesByParentId(new Long(126));
-			EndResult<Category> p = this.categoryRepo.findAll();
-			for (Category c : p) {
-				nokautConnector.downloadProductsByCategoryId(c, 1);
-			}
-		    
-		   // nokautConnector.downloadMainCategories();
-		    
-		    //komputery
-		   // nokautConnector.downloadCategoriesByParentId( new Long(2) );
-		    
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+        try
+        {
 
-		
-	}
+            nokautConnector.downloadMainCategories();
+            // nokautConnector.downloadAllCategories();
+            nokautConnector.downloadCategoriesByParentId( new Long( 126 ) );
+            EndResult<Category> p = this.categoryRepo.findAll();
+            for ( Category c : p )
+            {
+                nokautConnector.downloadProductsByCategoryId( c, 4 );
+            }
+
+            // nokautConnector.downloadMainCategories();
+
+            // komputery
+            // nokautConnector.downloadCategoriesByParentId( new Long(2) );
+
+        }
+        catch ( Exception e )
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+    }
 
 }

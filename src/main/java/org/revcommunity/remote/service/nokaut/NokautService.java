@@ -368,38 +368,41 @@ public class NokautService
             Document doc = connection.get();
             Elements properties = doc.select( NokautConstans.HTML_PARAMETERS_REGEX );
             Elements descriptions = doc.select( NokautConstans.HTML_DESCRIPTION_REGEX );
-            Elements producer = doc.select(NokautConstans.HTML_PRODUCER_REGEX);
-            
-           // String producerSymbol = null;
-            
-            if( producer.size() > 0){
-                
-                String producerConnectedWithCategory = producer.get( producer.size()-1 ).text();
-                if(logger.isDebugEnabled()){
+            Elements producer = doc.select( NokautConstans.HTML_PRODUCER_REGEX );
+
+            // String producerSymbol = null;
+
+            if ( producer.size() > 0 )
+            {
+
+                String producerConnectedWithCategory = producer.get( producer.size() - 1 ).text();
+                if ( logger.isDebugEnabled() )
+                {
                     logger.debug( "Pobrana nazwa producenta :  " + producerConnectedWithCategory );
                 }
-                
+
                 String catName = c.getName().toLowerCase();
-                if(producerConnectedWithCategory.toLowerCase().contains( catName )){
-                    
-                    //obliczam index
+                if ( producerConnectedWithCategory.toLowerCase().contains( catName ) )
+                {
+
+                    // obliczam index
                     int idx = producerConnectedWithCategory.toLowerCase().indexOf( catName );
                     idx += c.getName().toLowerCase().length();
-                    
-                    String prod = producerConnectedWithCategory.substring( catName.length()  );
-                    
-                    if(prod.length() < 2){
-                        //mniejsze od 2 jakby to byly jakies smieci
-                        //zazwyczaj bd to pusty string
-                        //nie pobieram tego
+
+                    String prod = producerConnectedWithCategory.substring( catName.length()+1 );
+
+                    if ( prod.length() < 2 )
+                    {
+                        // mniejsze od 2 jakby to byly jakies smieci
+                        // zazwyczaj bd to pusty string
+                        // nie pobieram tego
                         return null;
                     }
-                    
+
                     p.addFilterValue( "producent", prod );
                 }
             }
-            
-            
+
             if ( descriptions.size() > 0 )
             {
 
@@ -413,60 +416,55 @@ public class NokautService
                     {
                         logger.debug( "Product parameter : " + paramName + " value : " + value );
                     }
-                    
+
                     FilterSet<CategoryFilter> fs = c.getFilters();
-                    
-//                    boolean prod_ = false;
-//                    boolean prop_ = false;
-                    
+
+                    // boolean prod_ = false;
+                    // boolean prop_ = false;
+
                     for ( CategoryFilter cf : fs )
                     {
-                        if(cf.getName().startsWith( paramName ))
+                        if ( cf.getName().startsWith( paramName ) )
                         {
                             p.addFilterValue( cf.getSymbol(), value );
-                            //prop_ = true;
+                            // prop_ = true;
                             break;
                         }
-                        
-//                        if(cf.getName().equals( "Producent" )){
-//                            producerSymbol = cf.getSymbol();
-//                            prod_ = true;
-//                        }
-                        
-//                        if(prod_ && prop_)
-//                            break;
-                    }
-                    
-                    
 
-//                    if ( NokautConstans.specialFilters.contains( paramName ) )
-//                    {
-//                        // np. System operacyjny
-//
-//                        if ( logger.isDebugEnabled() )
-//                        {
-//                            logger.debug( "*************************  Special filter : " + paramName );
-//                        }
-//
-//                        CategoryFilter cat = new CategoryFilter( paramName, CategoryFilterType.STRING );
-//                        
-//                        p.addFilterValue( cat.getSymbol(), value );
-//                        
-//                        FilterSet<CategoryFilter> filters = tpl.fetch( c.getFilters() );
-//
-//                        // sprawdzam jeszcze czy moze tego filtru nie ma juz na liscie
-//                        if ( !filters.contains( cat ) )
-//                        {
-//                            c.addFilter( cat );
-//                            categoryChanged = true;
-//                        }
-//
-//                    }
+                        // if(cf.getName().equals( "Producent" )){
+                        // producerSymbol = cf.getSymbol();
+                        // prod_ = true;
+                        // }
+
+                        // if(prod_ && prop_)
+                        // break;
+                    }
+
+                    // if ( NokautConstans.specialFilters.contains( paramName ) )
+                    // {
+                    // // np. System operacyjny
+                    //
+                    // if ( logger.isDebugEnabled() )
+                    // {
+                    // logger.debug( "*************************  Special filter : " + paramName );
+                    // }
+                    //
+                    // CategoryFilter cat = new CategoryFilter( paramName, CategoryFilterType.STRING );
+                    //
+                    // p.addFilterValue( cat.getSymbol(), value );
+                    //
+                    // FilterSet<CategoryFilter> filters = tpl.fetch( c.getFilters() );
+                    //
+                    // // sprawdzam jeszcze czy moze tego filtru nie ma juz na liscie
+                    // if ( !filters.contains( cat ) )
+                    // {
+                    // c.addFilter( cat );
+                    // categoryChanged = true;
+                    // }
+                    //
+                    // }
                 }
 
-                
-                
-                
                 // FIXME przykladowy opis to : (tak moze byc?)
                 /*
                  * <article class="ShopOfferDescription"> <header> <h4><a onmousedown=
@@ -708,7 +706,7 @@ public class NokautService
                         {
                             logger.debug( "Nazwa filtru : " + name );
                         }
-                        
+
                         if ( logger.isDebugEnabled() )
                         {
                             // decimal
