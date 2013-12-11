@@ -132,8 +132,8 @@ public class ProductService
             catIdParam = "{categoryId}";
             params.put( "categoryId", categoryId );
         }
-        sb.append( "start product=node:__types__(className='Product')" );
-        // sb.append( " match product-() " );
+        sb.append( StringUtils.join( "start category=node(", catIdParam, ") " ) );
+        sb.append( " match category-[?:CONTAINS*]->leafCategory<-[?:BELONGS_TO]-product-[?:BELONGS_TO]->category " );
         if ( filters != null && !filters.isEmpty() )
         {
             sb.append( ", product-[?:HAS_FILTERS]-filter " );
@@ -146,12 +146,10 @@ public class ProductService
         }
         if ( StringUtils.isNotBlank( query ) )
         {
-            // sb.append( " and ( product.description?=~ {query}  or product.name?=~ {query} ) " );
-            sb.append( " and product.description is not null and product.description=~ '.*dupa.*' " );
-
-            // params.put( "query", "(?i).*" + query + ".*" );
+            sb.append( " and ( product.description?=~ {query}  or product.name?=~ {query} ) " );
+            params.put( "query", "(?i).*" + query + ".*" );
         }
-        sb.append( " return product " );
+        sb.append( " return distinct product " );
         CypherQueryBuilder.buildSort( sb, sorters );
         CypherQueryBuilder.buildPaging( sb, params, start, limit );
         String cypherQuery = sb.toString();
