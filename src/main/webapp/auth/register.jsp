@@ -10,6 +10,9 @@
 	
 	<script type="text/javascript" src="../ext-4/ext-all-dev.js"></script>
 	
+	<script type="text/javascript" src="../ext-4/jquery.js"></script>
+	<script type="text/javascript" src="../ext-4/verify.js"></script>
+	
 	<script type="text/javascript">
     
 			var form = Ext.getElementById('registration-form');
@@ -35,28 +38,33 @@
 				<div class="rev-form-field">
 						<label>Imie</label>
 						<br>
-						<input type="text" value="" maxlength="255" name="firstName">
+						<input type="text" value="" maxlength="255" name="firstName" data-validate="required,alphaNumeric,revMin(3),revMax(15)"/>
 					</div>
 					<div class="rev-form-field">
 						<label>Nazwisko</label>
 						<br>
-						<input type="text" value="" maxlength="255" name="lastName">
+						<input type="text" value="" maxlength="255" name="lastName" data-validate="required,alphaNumeric,revMin(3),revMax(20)"/>
+					</div>
+					<div class="rev-form-field">
+						<label>E-mail</label>
+						<br>
+						<input type="text" value="" maxlength="255" name="email" data-validate="required,email">
 					</div>
 					<div class="rev-form-field">
 						<label>Login</label>
 						<br>
-						<input type="text" value="" maxlength="255" name="userName">
+						<input type="text" value="" maxlength="255" name="userName" data-validate="required,alphaNumeric,revMin(5),revMax(15)">
 					</div>
 					<div class="rev-form-field">
 						<label>Haslo</label>
 						<br>
-						<input type="password" value="" maxlength="255" name="password">
+						<input type="password" id="pass" value="" maxlength="255" name="password" data-validate="required,revMin(6),revMax(15)">
 					</div>
-					<!-- 					<div class="rev-form-field">
+					<div class="rev-form-field">
 						<label>Powtorz haslo</label>
 						<br>
-						<input type="password" value="" maxlength="255" name="password1"> 
-					</div>-->
+						<input type="password" value="" maxlength="255" name="password1" data-validate="myRule"> 
+					</div>
 					<div class="rev-form-field-registration rev-submit-button">
 						<button type="submit" tabindex="0">Zarejestruj sie</button>
 					</div>
