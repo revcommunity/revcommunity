@@ -3,6 +3,7 @@ var AppRouter = Backbone.Router.extend({
 		'' : 'home',
 		'users/me':'userPanel',
 		'category/new' : 'newCategory',
+		'products/filter/:categoryId' : 'filterProducts',
 		'products/filter' : 'filterProducts',
 		'products/new' : 'newProduct',
 		'products/edit/:id' : 'editProduct',
@@ -22,6 +23,7 @@ var AppRouter = Backbone.Router.extend({
 		var panel = Ext.widget('startpanel');
 		Ext.getCmp('contentPanel').add(panel);
 		panel.load();
+		Ext.getCmp('categoryTree').loadBase();
 	},
 	product : function(id) {
 		this.clearPage();
@@ -181,14 +183,9 @@ var AppRouter = Backbone.Router.extend({
 		var panel = Ext.widget('userpanel',{});
 		Ext.getCmp('contentPanel').add(panel);
 	},
-	filterProducts:function(){
-		var pl=Ext.getCmp('contentPanel').down('productlist[mode=filter]');
-		if(Ext.isEmpty(pl)){
-			this.clearPage();
-			pl = Ext.widget('productlist',{
-				mode:'filter'
-			});
-			Ext.getCmp('contentPanel').add(pl);
-		}
+	filterProducts:function(categoryId){
+		ProductService.showProductList();
+		CategoryService.selectCategory(categoryId);
+		FilterService.filter();
 	}
 });

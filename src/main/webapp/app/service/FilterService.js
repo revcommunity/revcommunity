@@ -25,12 +25,14 @@ var FilterService={
 			for(var i=0;i<filters.length;i++){
 				form.add(this.buildFilterField(filters[i]));
 			}
+			this.validateActiveFilters(filters);
 		},
 		buildFilterField:function(filter){
 			var field={
 				fieldLabel:filter.name,
 				name:filter.symbol,
-				xtype:this.getFilterXType(filter)
+				xtype:this.getFilterXType(filter),
+				filter:filter
 			};
 			if(filter.type=='list'){
 				field.store=filter.values;
@@ -90,7 +92,16 @@ var FilterService={
 			var filters=this.getFilterValues();
 			var query=this.getSearchFieldValue();
 			var categoryId=this.getSelectedCategoryId();
-			Backbone.history.loadUrl('#products/filter');
+			var url='#products/filter/'+categoryId;
+			//Backbone.history.loadUrl(url);
+//			if(Backbone.history.fragment==url){
+//				log('przeladowuje'+url);
+//				Backbone.history.loadUrl(url);
+//			}
+//			else{
+//				log('zmieniam link '+url);
+//				Backbone.history.navigate(url);
+//			}
 			var pl=Ext.getCmp('contentPanel').down('productlist[mode=filter]');
 			pl.getStore().load({
 				params:{
@@ -100,5 +111,48 @@ var FilterService={
 					sort:Ext.encode([])
 				}
 			});
+			this.showActiveFilters();
+		},
+		getActiveFilterFields:function(){//pobiera aktywne pola filtrowania czyli takie które są uzupełnione(niepuste)
+			var form=Ext.getCmp('filterForm');
+			var activeFields=[];
+			if(form!=null){
+				var fields=form.getForm().getFields().items;
+				
+				for(var i=0;i<fields.length;i++){
+					if( !Ext.isEmpty( fields[i].getValue() ) ){
+						activeFields.push(fields[i]);
+					}
+				}
+			}
+			return activeFields;
+		},
+		showActiveFilters:function(){//wyświetla aktywne pola filtrowania czyli takie które są uzupełnione(niepuste) na listą produktów
+			var activeFields=this.getActiveFilterFields();
+			if( Ext.isEmpty(activeFields))
+				return;
+			this.buildActiveFiltersPanel(activeFields);
+		},
+		buildActiveFiltersPanel:function(activeFields){
+			var cp=Ext.getCmp('contentPanel');
+			var afp=cp.down('activefilterspanel');
+			if(afp!=null)
+				cp.remove(afp);
+			cp.insert(0,{
+				xtype:'activefilterspanel',
+				fields:activeFields
+			});
+		},
+		validateActiveFilters:function(filters){
+			var cp=Ext.getCmp('contentPanel');
+			var afp=cp.down('activefilterspanel');
+			if(afp!=null)
+				afp.destroy();
+			//TODO Sprzwdzić czy ustawione filtry są w wybranej kategorii
+//			var afp=Ext.ComponentQuery.query('activefilterspanel')[0];
+//			var afpFields=afp.query('field');
+//			var invalidFields=[];
+//			for(var i=0;i<afpFields.length;i++){
+//			}
 		}
 };

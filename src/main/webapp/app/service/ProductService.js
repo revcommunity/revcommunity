@@ -13,5 +13,15 @@ var ProductService={
 					method:'DELETE'
 				}
 			);
+		},
+		showProductList:function(){//dodaje do głównego panelu liste produktów jeżeli nie jest już wyświetlona
+			var pl=Ext.getCmp('contentPanel').down('productlist[mode=filter]');
+			if(Ext.isEmpty(pl)){
+				AppRouter.prototype.clearPage();
+				pl = Ext.widget('productlist',{
+					mode:'filter'
+				});
+				Ext.getCmp('contentPanel').add(pl);
+			}
 		}
 };
