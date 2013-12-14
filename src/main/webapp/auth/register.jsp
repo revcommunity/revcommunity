@@ -25,6 +25,9 @@
 					params : {
 						user : vals
 					}
+					,failure: function(form, action) {
+						console.log("blad podczas rejestracji");
+				    }
 				});
             })
  
