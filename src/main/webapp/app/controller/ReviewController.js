@@ -26,7 +26,7 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			'reviewform button[action=saveEditReviewLink]' : {
 				click : this.saveEditReviewLink
 			},
-			'reviewcommentslist' : {
+			'reviewcommentslist, reviewspanel' : {
 				itemclick : this.reviewItemClick
 			},
 		});
@@ -35,6 +35,9 @@ Ext.define('RevCommunity.controller.ReviewController', {
 	reviewItemClick:function(grid, record, item, index, e, eOpts){
 		if (e.target.getAttribute("action") == "submitSpam") {
 			this.submitSpam(record);
+		}
+		else if (e.target.getAttribute("action") == "details") {
+			this.showDetails(record);
 		}
 	},
 	
@@ -182,4 +185,8 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			UtilService.showInfo('Wystąpił błąd podczas próby zgłoszenia spamu.');
 		}
 	},
+	showDetails : function(record){
+		var id = record.data.nodeId;
+		location.href = '#reviews/' + id;
+	}
 });

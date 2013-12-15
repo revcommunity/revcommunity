@@ -94,7 +94,8 @@ reviewsPanelColumn2:new Ext.XTemplate(
 ),
 reviewsPanelColumn3:new Ext.XTemplate(
 '<div class="rev-review-mark">{rank}</div>',
-'<div style="text-align:center; padding-top:5px">{[RatingUtil.getRatingWidget(values.nodeId,values.rank,true)]}</div>'
+'<div style="text-align:center; padding-top:7px">{[RatingUtil.getRatingWidget(values.nodeId,values.rank,true)]}</div>',
+'<div class="rev-box rev-box-button" action="details" style="width:100%; margin-top:10px">Szczegóły</div>'
 ),
 userNotificationList:new Ext.XTemplate(
 '<tpl for=".">',
