@@ -1,5 +1,7 @@
 package org.revcommunity.controller;
 
+import java.util.Date;
+
 import org.apache.log4j.Logger;
 import org.revcommunity.model.Comment;
 import org.revcommunity.model.Product;
@@ -178,6 +180,7 @@ public class TestDataController
                     User u = ur.findByUserName( users[j] );
 
                     Comment c = new Comment( txt, u );
+                    c.setDateAdded(new Date());
                     r.addComment( c );
 
                 }
