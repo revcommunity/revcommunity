@@ -127,16 +127,22 @@ Ext
 																					maxWidth : 120,
 																				},
 																				{
-																					xtype : 'displayfield',
+																					xtype : 'component',
 																					name : 'firstName',
-																					value : this.data.author.fullName,
+																					autoEl : {
+																						tag : 'div',
+																						cls : 'rev-user-name',
+																						html : this.data.author.fullName
+																					}
 																				},
 																				{
-																					xtype : 'displayfield',
+																					xtype : 'component',
 																					name : 'userRank',
-																					value : this.data.author.rank,
-																				} ]
-
+																					autoEl : {
+																						tag : 'div',
+																						html : this.data.author.rank,
+																					}
+																				}, ]
 																	},
 																	{
 																		xtype : 'container',

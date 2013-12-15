@@ -1,5 +1,12 @@
 var TemplateHolder={
-commentsList:new Ext.XTemplate(
+commentsListContent:new Ext.XTemplate(
+'<div class="rev-list-header">',
+'	<span style="float:left">Dodano: {dateAddedString}</span>',
+'	<span style="float:right" action="submitSpam" class="rev-spam-submit">Zgłoś spam!</span> ',
+'</div>',
+'<div class="rev-comment-content">{text}</div>'
+),
+commentsListUser:new Ext.XTemplate(
 '<div class="rev-user-container">',
 '	<img src={author.image} class="rev-comments-user-image" ></img>',
 '	<div class="rev-user-name-small">{author.fullName}</div>',

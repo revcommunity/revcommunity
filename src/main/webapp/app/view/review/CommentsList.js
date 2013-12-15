@@ -13,17 +13,12 @@ Ext.define('RevCommunity.view.review.CommentsList', {
 			{
 				xtype : 'templatecolumn',
 				width : 120,
-				tpl : TemplateHolder.commentsList,
+				tpl : TemplateHolder.commentsListUser,
 			},
 			{
 				xtype : 'templatecolumn',
 				flex : 1,
-				tpl : new Ext.XTemplate(
-						'<div class="rev-list-header">'
-						+ '<span style="float:left">Dodano: {dateAddedString}</span>'
-						+ '<span style="float:right" action="submitSpam" class="rev-spam-submit">Zgłoś spam!</span>' 
-						+ '</div>' 
-						+ '<div class="rev-comment-content">{text}</div>')
+				tpl : TemplateHolder.commentsListContent,
 			},
  ],
 	store : 'CommentStore',
