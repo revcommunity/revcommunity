@@ -4,9 +4,8 @@ Ext.define('RevCommunity.view.search.FilterForm' ,{
 	bodyPadding: 5,
 	cls:'rev-search-panel',
 	autoHeight:true,
-//	autoScroll:true,
     defaults: {
-//        anchor: '100%',
+        anchor: '100%',
         xtype:'textfield',
         labelAlign:'top'
     },

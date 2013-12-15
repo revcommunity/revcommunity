@@ -11,6 +11,8 @@ Ext.define('RevCommunity.view.category.CategoryTree', {
     		log('loadBase');
     		this.categoryId=null;
     		var tree=this;
+    		FilterService.clearActiveFilters();
+    		this.getSelectionModel().deselectAll();
     		this.getStore().load({
     			callback:function(st){
     				tree.getStore().getRootNode().expand();
@@ -19,7 +21,7 @@ Ext.define('RevCommunity.view.category.CategoryTree', {
     	    			FilterService.filter();
     			}
     		});
-    		FilterService.hideFilterForm();
+    		FilterService.clearFilterForm();
     },
     initComponent: function() {
     	this.store=Ext.create('Ext.data.TreeStore',{
@@ -35,10 +37,5 @@ Ext.define('RevCommunity.view.category.CategoryTree', {
 		    nodeParam:'parentId'
 		});
         this.callParent();
-//        var link=(window.location.href.substr(window.location.href.lastIndexOf('#')+1));
-        if( window.location.href.indexOf('products/filter')!=-1 ){
-        	this.loadBase();
-        }
-        
     }
 });
