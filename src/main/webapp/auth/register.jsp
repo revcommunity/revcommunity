@@ -39,7 +39,7 @@
 			<div class="rev-login-form-div">
 				<form id="registration-form" class="rev-login-form" method="POST" action="/revcommunity/rest/users">
 				<div class="rev-form-field">
-						<label>Imie</label>
+						<label>Imię</label>
 						<br>
 						<input type="text" value="" maxlength="255" name="firstName" data-validate="required,alphaNumeric,revMin(3),revMax(15)"/>
 					</div>
@@ -59,12 +59,12 @@
 						<input type="text" value="" maxlength="255" name="userName" data-validate="required,alphaNumeric,revMin(5),revMax(15)">
 					</div>
 					<div class="rev-form-field">
-						<label>Haslo</label>
+						<label>Hasło</label>
 						<br>
 						<input type="password" id="pass" value="" maxlength="255" name="password" data-validate="required,revMin(6),revMax(15)">
 					</div>
 					<div class="rev-form-field">
-						<label>Powtorz haslo</label>
+						<label>Powtórz hasło</label>
 						<br>
 						<input type="password" value="" maxlength="255" name="password1" data-validate="myRule"> 
 					</div>

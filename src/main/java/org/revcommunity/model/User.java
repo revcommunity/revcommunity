@@ -26,6 +26,10 @@ public class User
     private String lastName;
 
     private String password;
+    
+    private String email;
+    
+    private boolean sendNewsletter;
 
     private Set<String> roles;
 
@@ -232,6 +236,27 @@ public class User
         {
             return "Ekspert";
         }
+        
+    }
+    
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail( String email )
+    {
+        this.email = email;
+    }
+
+    public boolean isSendNewsletter()
+    {
+        return sendNewsletter;
+    }
+
+    public void setSendNewsletter( boolean sendNewsletter )
+    {
+        this.sendNewsletter = sendNewsletter;
     }
 
     @Override

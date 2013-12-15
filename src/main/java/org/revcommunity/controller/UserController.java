@@ -3,6 +3,7 @@ package org.revcommunity.controller;
 import java.io.IOException;
 import java.util.HashSet;
 
+import javax.imageio.spi.RegisterableService;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.log4j.Logger;
@@ -13,6 +14,7 @@ import org.revcommunity.model.User;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.UserService;
 import org.revcommunity.util.Message;
+import org.revcommunity.util.RegistrationService;
 import org.revcommunity.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.neo4j.conversion.EndResult;
@@ -48,18 +50,27 @@ public class UserController
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private RegistrationService registrationService;
+    
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
     @RequestMapping( method = RequestMethod.POST )
     @ResponseBody
     public ModelAndView save( User user )
     {
-        log.debug( user );
-        /*
-         * Zakldam że login oraz haslo to pola wymagane (walidacja na poziomie interfejsu)
-         */
-        userService.createUser( user );
-        // return new Message();
+        //walidacja danych z formularza
+        if(registrationService.validateUser( user )){
+            log.debug( user );
+            
+            userService.createUser( user );
+        }else{
+            //FIXME co tutaj?
+            log.debug( "Dane do rejestracji uzytkownika sa niepoprawne" );
+            return null;
+        }
+        
+        
         return new ModelAndView( "redirect:" + "/auth/login.jsp" );
     }
 
