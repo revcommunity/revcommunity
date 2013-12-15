@@ -11,6 +11,7 @@ import org.revcommunity.model.AbstractCategory;
 import org.revcommunity.model.Category;
 import org.revcommunity.model.CategoryFilter;
 import org.revcommunity.model.CategoryGroup;
+import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
@@ -34,6 +35,9 @@ public class CategoryController
 {
     @Autowired
     private CategoryRepo cr;
+
+    @Autowired
+    private AbstractCategoryRepo acr;
 
     @Autowired
     private ProductRepo productRepo;
@@ -123,6 +127,13 @@ public class CategoryController
     public EndResult<Category> getAll()
     {
         return cr.findAll();
+    }
+
+    @RequestMapping( value = "/{id}", method = RequestMethod.GET )
+    @ResponseBody
+    public AbstractCategory get( @PathVariable Long id )
+    {
+        return acr.findOne( id );
     }
 
     @RequestMapping( value = "/parent", method = RequestMethod.GET )

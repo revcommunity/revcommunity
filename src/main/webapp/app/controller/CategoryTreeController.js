@@ -7,10 +7,11 @@ Ext.define('RevCommunity.controller.CategoryTreeController', {
 			}
 		});
 	},
-	categorySelect:function(tree,rec){
+	categorySelect:function(view,rec){
+		log('categorySelect: '+rec.data.nodeId);
 		var category=rec.data;
-		log(category);
-		FilterService.filter();
-		FilterService.loadFilters(category);
+		var url='#products/filter/'+category.nodeId;
+		Backbone.history.navigate(url);
+		Backbone.history.loadUrl(url);
 	}
 });

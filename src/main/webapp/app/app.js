@@ -40,7 +40,8 @@ Ext.application({
 	    	'RevCommunity.view.category.CategoryTree',
 	    	'start.StartPanel',
 	    	'user.UserPanel',
-	    	'search.FilterForm'
+	    	'search.FilterForm',
+	    	'search.ActiveFiltersPanel'
 	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
             'ProductNotification'

@@ -31,6 +31,7 @@ public abstract class AbstractCategory
     @GraphId
     private Long nodeId;
 
+    @Fetch
     @RelatedTo( type = "CONTAINS", direction = Direction.INCOMING )
     private CategoryGroup parent;
 
