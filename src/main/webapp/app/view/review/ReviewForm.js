@@ -17,7 +17,7 @@ Ext
 										type : 'hbox',
 										align : 'stretch',
 									},
-									title : 'Recenzja produktu',
+									title : 'Recenzja produktu ' + this.data.product.name,
 									items : [
 											{
 												xtype : 'panel',
