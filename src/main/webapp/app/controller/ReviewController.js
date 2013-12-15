@@ -26,8 +26,18 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			'reviewform button[action=saveEditReviewLink]' : {
 				click : this.saveEditReviewLink
 			},
+			'reviewcommentslist' : {
+				itemclick : this.reviewItemClick
+			},
 		});
 	},
+	
+	reviewItemClick:function(grid, record, item, index, e, eOpts){
+		if (e.target.getAttribute("action") == "submitSpam") {
+			this.submitSpam(record);
+		}
+	},
+	
 	// addReviewForm : function() {
 	// location.href = '#addReview';
 	// },
@@ -104,8 +114,8 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		values.author = UserService.getLoggedUser();
 		var comment = new RevCommunity.model.Comment(values);
 
-		var grid = form.up('container').down('reviewcommentslist');
-
+		var grid = form.up('container').down('reviewcommentslist');		
+		
 		Ext.Ajax.request({
 			url : 'rest/comments',
 			method : 'POST',
@@ -114,8 +124,17 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				reviewNodeId : values.reviewNodeId,
 			},
 			success : function(response) {
-				grid.getStore().load();
-			}
+				UtilService.showInfo('Komentarz został zapisany pomyślnie.',{
+					fn:function(){
+						form.down('textareafield').setValue('');
+						grid.getStore().load();
+					}
+				});
+			},
+		    failure: function(response) 
+		    {
+		    	UtilService.showInfo('Zapis komentarza zakończył się niepowodzeniem');
+		    }
 		});
 	},
 	saveReviewRating : function(btn) {
@@ -152,5 +171,15 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		var reviewNodeId = Ext.getCmp('reviewNodeId').value;
 		location.href = '#reviews/edit' + reviewNodeId;
 
+	},
+	submitSpam : function(record) {
+		var m = UtilService.exec('comments',{
+			id:Ext.encode(record.data.nodeId)
+		});
+		if (m.success == true){
+			UtilService.showInfo('Komentarz został zgłoszony jako spam.');
+		}else{
+			UtilService.showInfo('Wystąpił błąd podczas próby zgłoszenia spamu.');
+		}
 	},
 });

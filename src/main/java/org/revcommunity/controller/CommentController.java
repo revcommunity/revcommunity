@@ -1,6 +1,7 @@
 package org.revcommunity.controller;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -76,6 +77,7 @@ public class CommentController
         ObjectMapper om = new ObjectMapper();
         om.configure( DeserializationConfig.Feature.FAIL_ON_UNKNOWN_PROPERTIES, false );
         Comment c = om.readValue( comment, Comment.class );
+        c.setDateAdded(new Date());
 
         Review r = rr.findOne( new Long( reviewNodeId ) );
 
@@ -83,6 +85,18 @@ public class CommentController
 
         rr.save( r );
         log.debug( "Dodano komentarz: " + c.getNodeId() + " do recenzji:" + r.getNodeId() );
+        return new Message();
+    }
+    
+    @RequestMapping( method = RequestMethod.POST, params = { "id" } )
+    @ResponseBody
+    public Message submitSpam(@RequestParam( value = "id" ) Long commentId )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+    	Comment c = cr.findOne(commentId);
+    	c.addSpamNotification();
+    	cr.save(c);
+        log.debug( "Zgłoszono spam dla komentarza: " + commentId);
         return new Message();
     }
 }
