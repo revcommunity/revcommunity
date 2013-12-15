@@ -50,7 +50,7 @@
 		<a href="#" onclick="Backbone.history.loadUrl('#');"><img class="rev-logo" src="img/logoLogin.png"></img></a>
 	</div>
 
-	<div id="category-path">
+	<div id="category-path" class="rev-category-path">
 		
 	</div>
 	<div id="main" class="main">

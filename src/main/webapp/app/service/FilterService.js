@@ -89,19 +89,10 @@ var FilterService={
 			return category.nodeId;
 		},
 		filter:function(){
+			ProductService.showProductList();
 			var filters=this.getFilterValues();
 			var query=this.getSearchFieldValue();
 			var categoryId=this.getSelectedCategoryId();
-			var url='#products/filter/'+categoryId;
-			//Backbone.history.loadUrl(url);
-//			if(Backbone.history.fragment==url){
-//				log('przeladowuje'+url);
-//				Backbone.history.loadUrl(url);
-//			}
-//			else{
-//				log('zmieniam link '+url);
-//				Backbone.history.navigate(url);
-//			}
 			var pl=Ext.getCmp('contentPanel').down('productlist[mode=filter]');
 			pl.getStore().load({
 				params:{

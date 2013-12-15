@@ -186,6 +186,5 @@ var AppRouter = Backbone.Router.extend({
 	filterProducts:function(categoryId){
 		ProductService.showProductList();
 		CategoryService.selectCategory(categoryId);
-		FilterService.filter();
 	}
 });

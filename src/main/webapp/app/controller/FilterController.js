@@ -8,7 +8,7 @@ Ext.define('RevCommunity.controller.FilterController', {
 			'filterform button[action=clear]' : {
 				click: this.clear
 			},
-			'activefilterspanel button[action=removeFilter]':{
+			'activefilterspanel image[action=removeFilter]':{
 				click:this.removeFilter
 			}
 		});
