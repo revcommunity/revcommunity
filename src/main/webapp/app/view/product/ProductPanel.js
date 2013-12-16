@@ -43,7 +43,7 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 				margin : '0,0,0,0', // overwrite rev-box class
 				autoEl : {
 					tag : 'div',
-					html : '<span>Cena: ' + this.data.priceAvg + ' zł</span>',
+					html : '<span>Cena: ' + this.data.priceAvg + (this.data.priceAvg=="-"?"":" zł") + '</span>',
 				}
 			} ]
 		}, {
