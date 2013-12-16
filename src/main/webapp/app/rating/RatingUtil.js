@@ -30,7 +30,7 @@ var RatingUtil = {
 					"rating-disabled");
 		}
 	},
-	addRatingLabel : function(rating, count) {
+	addRatingLabel : function(widgetId, rating, count) {
 		
 		var counter = '';
 		if (rating != '-') {
@@ -40,7 +40,7 @@ var RatingUtil = {
 		}
 		var label = "<div class=\"ratingLabel\">Ocena: " + rating + counter
 				+ " </div>";
-		$(".rating, .rating-disabled").after(label);
+		$('#' + widgetId).after(label);
 	},
 	getRatingWidget : function(widgetId, value, disabled) {
 		var widgetClass = 'rating';

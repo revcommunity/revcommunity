@@ -6,7 +6,7 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 	width : 250,
 	onRender : function() {
 		this.callParent();
-		RatingUtil.addRatingLabel(this.data.rating, this.data.reviewCount);
+		RatingUtil.addRatingLabel('productRank',this.data.rating, this.data.reviewCount);
 	},
 	initComponent : function() {
 		this.items = [ {
