@@ -86,6 +86,7 @@
 	color: #1570A6;
 	margin-bottom: 5px;
 	margin-top: 10px;
+	white-space: nowrap;
 }
 
 .rev-user-name-small {

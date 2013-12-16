@@ -6,26 +6,20 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 	    mode:'full',//okresla które kolumny mają być wyswietlane w tabeli
 	    //full - wszystkie
 	    //noUser - bez informacji o uzytkowniku(przydante w widoku recenzji uzytkownika)
-//		    tbar:[
-//		        {
-//		        	text : 'Dodaj nową recenzję dla tego produktu',
-//		        	action : 'addReviewForm'
-//		        }
-//		          ],
 	    viewConfig:{
 	    	disableSelection:true,
-	    	//overItemCls:'',
+	    	overItemCls:'',
 	    	enableTextSelection: true
 	    },
 	    store: 'ProductReviewsStore',
 	    cls: 'rev-review-panel',
 	    flex: 1,
-	    listeners : {
-	        itemdblclick: function(dv, record, item, index, e) {
-	    		var id = record.data.nodeId;
-	    		location.href = '#reviews/' + id;
-	        }
-	    },
+//	    listeners : {
+//	        itemdblclick: function(dv, record, item, index, e) {
+//	    		var id = record.data.nodeId;
+//	    		location.href = '#reviews/' + id;
+//	        }
+//	    },
 	    initComponent:function(){
 	    	this.columns=[
 			      {  

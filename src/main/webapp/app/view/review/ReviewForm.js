@@ -8,6 +8,13 @@ Ext
 						type : 'vbox',
 						align : 'stretch'
 					},
+					onRender : function() {
+						this.callParent();
+						var id =  this.data.product.nodeId;
+						$('.clickableTitle').bind('click', function() {
+			        		location.href = '#products/' + id;
+						});
+					},
 					initComponent : function() {
 						this.data.usefulness = Math.round(this.data.usefulness);
 						this.items = [
@@ -17,7 +24,10 @@ Ext
 										type : 'hbox',
 										align : 'stretch',
 									},
-									title : 'Recenzja produktu',
+									title : 'Recenzja produktu ' 
+										+ '<span class="clickableTitle">'
+										+ this.data.product.name
+										+ '</span>',
 									items : [
 											{
 												xtype : 'panel',
@@ -127,16 +137,22 @@ Ext
 																					maxWidth : 120,
 																				},
 																				{
-																					xtype : 'displayfield',
+																					xtype : 'component',
 																					name : 'firstName',
-																					value : this.data.author.fullName,
+																					autoEl : {
+																						tag : 'div',
+																						cls : 'rev-user-name',
+																						html : this.data.author.fullName
+																					}
 																				},
 																				{
-																					xtype : 'displayfield',
+																					xtype : 'component',
 																					name : 'userRank',
-																					value : this.data.author.rank,
-																				} ]
-
+																					autoEl : {
+																						tag : 'div',
+																						html : this.data.author.rank,
+																					}
+																				}, ]
 																	},
 																	{
 																		xtype : 'container',
