@@ -1,5 +1,7 @@
 package org.revcommunity.service;
 
+import java.util.List;
+
 import org.revcommunity.model.User;
 import org.revcommunity.model.subscription.UserChannel;
 import org.revcommunity.repo.UserRepo;
@@ -50,5 +52,12 @@ public class UserService
     {
         ur.delete( admin );
     }
-
+    
+    public boolean userExist(User user){
+        
+        if(ur.findByUserName( user.getUserName() ) == null)
+            return false;
+        
+        return true;
+    }
 }

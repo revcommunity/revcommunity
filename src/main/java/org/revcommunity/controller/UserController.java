@@ -60,7 +60,7 @@ public class UserController
     public ModelAndView save( User user )
     {
         //walidacja danych z formularza
-        if(registrationService.validateUser( user )){
+        if(registrationService.validateUser( user ) && !userService.userExist( user )){
             log.debug( user );
             
             userService.createUser( user );

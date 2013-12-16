@@ -11,13 +11,19 @@
 	
 	<context:property-placeholder location="classpath:config.properties" />
 	
+	<bean id="mailService" class="org.revcommunity.util.MailService"></bean>
+	
 	<bean name="newsletterJob" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="org.revcommunity.schedule.job.NewsletterJob" />
-		<!-- <property name="jobDataAsMap">
+		<property name="jobDataAsMap">
 			<map>
-				<entry key="runMeTask" value-ref="runMeTask" />
+				<entry key="userRepo" value-ref="userRepo" />
+				<entry key="productRepo" value-ref="productRepo" />
+				<entry key="reviewRepo" value-ref="reviewRepo" />
+				<entry key="subscriptionService" value-ref="subscriptionServiceImpl" />
+				<entry key="mailService" value-ref="mailService" />
 			</map>
-		</property>-->
+		</property>
 	</bean>
 	
 	

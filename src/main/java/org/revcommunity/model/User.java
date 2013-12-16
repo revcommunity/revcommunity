@@ -29,7 +29,8 @@ public class User
     
     private String email;
     
-    private boolean sendNewsletter;
+    //FIXME ustawilem true do testow, trzeba to jeszcze dodac do formularza rejestracji
+    private boolean sendNewsletter = true;
 
     private Set<String> roles;
 
