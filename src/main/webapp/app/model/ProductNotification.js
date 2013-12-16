@@ -6,6 +6,7 @@ Ext.define('RevCommunity.model.ProductNotification', {
           {name:'product',mapping:'channel.channelProduct'}
          
     ],
+    idProperty:'extid',
     proxy: {
         type: 'rest',
         url : 'rest/subscriptions/products/notifications'

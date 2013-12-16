@@ -20,7 +20,7 @@
 				<entry key="userRepo" value-ref="userRepo" />
 				<entry key="productRepo" value-ref="productRepo" />
 				<entry key="reviewRepo" value-ref="reviewRepo" />
-				<entry key="subscriptionService" value-ref="subscriptionServiceImpl" />
+				<entry key="subscriptionService" value-ref="subscriptionService" />
 				<entry key="mailService" value-ref="mailService" />
 			</map>
 		</property>
