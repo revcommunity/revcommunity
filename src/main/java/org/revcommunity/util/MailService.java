@@ -13,6 +13,11 @@ import javax.mail.internet.MimeMessage;
 
 import org.apache.log4j.Logger;
 
+/**
+ * 
+ *
+ * @author Tomek Straszewski Dec 16, 2013
+ */
 public class MailService
 {
     private static final Logger logger = Logger.getLogger( MailService.class );

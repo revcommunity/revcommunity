@@ -17,6 +17,11 @@ import org.revcommunity.util.MailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+/**
+ * 
+ *
+ * @author Tomek Straszewski Dec 16, 2013
+ */
 public class NewsletterJob
     extends QuartzJobBean
 {
