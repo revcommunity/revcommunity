@@ -19,6 +19,7 @@ import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.ReviewService;
 import org.revcommunity.util.Message;
+import org.revcommunity.util.SessionUtils;
 import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -126,7 +127,7 @@ public class ReviewController
         Review r = om.readValue( review, Review.class );
         if ( r.getAuthor() == null )
         {
-            User logged = ur.findByUserName( "anowak" );
+            User logged = ur.findByUserName( SessionUtils.getLoggedUserName() );
             if ( logged != null )
                 r.setAuthor( logged );
         }
@@ -140,8 +141,7 @@ public class ReviewController
     public Set<Review> getMyReviews()
         throws JsonParseException, JsonMappingException, IOException
     {
-        // TODO zmienić na uzytkownika zalogowanego
-        return getReviewsForUser( "jkowalski" );
+        return getReviewsForUser( SessionUtils.getLoggedUserName() );
     }
 
     @RequestMapping( method = RequestMethod.GET, value = "/user/{userName}" )
@@ -149,9 +149,6 @@ public class ReviewController
     public Set<Review> getReviewsForUser( @PathVariable String userName )
         throws JsonParseException, JsonMappingException, IOException
     {
-        // User u = ur.findByUserName( userName );
-        // tpl.fetch( u.getReviews() );
-        // return u.getReviews();
         return rr.findByAuthorUserName( userName );
     }
 

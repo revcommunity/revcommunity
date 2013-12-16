@@ -7,30 +7,32 @@ Ext.define('RevCommunity.controller.ProductController', {
 			},
 			'productlist' : {
 				itemclick : this.productItemClick
+			},
+			'productpanel panel[name=productButtonsPanel] button[action=addReview]':{
+				click:this.addReview
+			},
+			'productpanel panel[name=productButtonsPanel] button[action=editProduct]':{
+				click:this.editProduct
+			},
+			'productpanel panel[name=productButtonsPanel] button[action=deleteProduct]':{
+				click:this.deleteProduct
+			},
+			'productpanel panel[name=productButtonsPanel] button[action=watchProduct]':{
+				click:this.watchProduct
 			}
 		});
 	},
 	productItemClick:function(grid, record, item, index, e, eOpts){
-		if (e.target.getAttribute("action") == "review") {
-			console.log('review clicked. record data: ');
-			console.log(record.data);
-		} else if (e.target.getAttribute("action") == "details") {
-			this.showDetails(record);
-		}else if (e.target.getAttribute("action") == "addReview") {
-			this.addReview(record);
-		}else if (e.target.getAttribute("action") == "edit") {
-			this.showEditForm(record.data);
-		}else if (e.target.getAttribute("action") == "delete") {
-			this.deleteProduct(grid,record.data);
-		}
+		this.showDetails(record);
 	},
-	deleteProduct:function(grid,product){
-		var id=product.nodeId;
-		ProductService.deleteProduct(id);
-		grid.getStore().load();
+	deleteProduct:function(btn){
+		var data=btn.up('productpanel').data;
+		ProductService.deleteProduct(data.nodeId);
+		location.href = '#';
+		UtilService.showInfo("Produkt został usunięty pomyślnie");
 	},
-	showEditForm:function(product){
-		var id=product.nodeId;
+	editProduct:function(btn){
+		var id=btn.up('productpanel').data.nodeId;
 		location.href = '#products/edit/' + id;
 	},
 	save:function(btn){
@@ -62,8 +64,19 @@ Ext.define('RevCommunity.controller.ProductController', {
 		var id = record.data.nodeId;
 		location.href = '#products/' + id;
 	},
-	addReview : function(record) {
-		var id = record.data.nodeId;
-		location.href = '#reviews/add' + id;
+	addReview : function(btn) {
+		var data=btn.up('productpanel').data;
+		location.href = '#reviews/add' + data.nodeId;
+	},
+	watchProduct : function(btn) {
+		var data=btn.up('productpanel').data;
+		var added=SubscriptionService.subscribeProduct(data.nodeId);
+		btn.hide();
+		if(added==true){
+			UtilService.showInfo(data.name+' został dodany do obserwowanych produktów');
+		}
+		else{
+			UtilService.showInfo('Już obserwujesz produkt: '+data.name);
+		}
 	}
 });

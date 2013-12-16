@@ -66,6 +66,11 @@ public class ReviewService
         review.addComment( comment );
     }
 
+    public Review getReview( Long reviewId )
+    {
+        return rr.findOne( reviewId );
+    }
+
     public void addReviewRating( Review review, ReviewRating rating )
     {
         review.addReviewRating( rating );

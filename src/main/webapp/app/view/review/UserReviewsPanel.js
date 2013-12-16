@@ -8,7 +8,7 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 	    align : 'stretch',
 	    pack  : 'start',
 	},
-	mode:'myReviews',
+	mode:'all',
 	title:'Moje recenzje',
 	userName:null,
 	initComponent:function(){

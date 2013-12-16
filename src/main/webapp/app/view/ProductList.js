@@ -5,7 +5,7 @@ Ext.define('RevCommunity.view.ProductList', {
 		    cls:'rev-product-list',
 		    viewConfig:{
 		    	 disableSelection:true,
-		    	 overItemCls:'',
+		    	 overItemCls:Ext.baseCSSPrefix + 'grid-row-over rev-product-item-over',
 		    	 enableTextSelection: true
 		    },
 		    hideHeaders:true,

@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.User;
+import org.revcommunity.model.subscription.ProductNotification;
 import org.revcommunity.model.subscription.UserChannel;
 import org.revcommunity.model.subscription.UserChannelNotification;
 import org.revcommunity.model.subscription.UserNotificationType;
@@ -17,6 +18,7 @@ import org.revcommunity.model.subscription.UserSubscription;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.repo.subscription.UserChannelNotificationRepo;
 import org.revcommunity.repo.subscription.UserChannelRepo;
+import org.revcommunity.service.ReviewService;
 import org.revcommunity.service.SubscriptionService;
 import org.revcommunity.util.TestHelper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +50,9 @@ public class SubscriptionTest
 
     @Autowired
     private UserChannelNotificationRepo ucnr;
+
+    @Autowired
+    private ReviewService rs;
 
     @Test
     @Transactional
@@ -94,14 +99,22 @@ public class SubscriptionTest
 
     }
 
-    // @Test
+    @Test
     @Transactional
     public void aa()
     {
-        for ( User u : ur.findAll() )
+        User u = ur.findByUserName( "admin" );
+        Review r = rs.getReview( 4095L );
+        try
         {
-            log.debug( u.getUserName() );
+            ProductNotification pn = ss.findProductNotification( u, r );
+            log.debug( pn );
         }
+        catch ( Exception e )
+        {
+            log.error( e, e );
+        }
+        log.debug( "end" );
     }
 
 }

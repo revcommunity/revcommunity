@@ -68,4 +68,9 @@ public class ProductSubscription
         this.newNotifications = newNotifications;
     }
 
+    public void decreaseNewNotifications()
+    {
+        newNotifications--;
+    }
+
 }

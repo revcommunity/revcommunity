@@ -68,4 +68,10 @@ public class UserSubscription
         this.newNotifications = newNotifications;
     }
 
+    public void decreaseNewNotifications()
+    {
+        newNotifications--;
+
+    }
+
 }

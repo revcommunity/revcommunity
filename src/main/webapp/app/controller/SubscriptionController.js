@@ -7,6 +7,9 @@ Ext.define('RevCommunity.controller.SubscriptionController', {
 				},
 				'productsubscriptonlist' : {
 					itemclick :this.productSubscriptionItemClick
+				},
+				'userinfopanel button[action=subscribeUser]' : {
+					click :this.subscribeUser
 				}
 		});
 	},
@@ -19,5 +22,12 @@ Ext.define('RevCommunity.controller.SubscriptionController', {
 		log(rec.data);
 		var productSubscriptionId=rec.data.nodeId;
 		window.open('#subscriptions/products/notifications/'+productSubscriptionId,'_parent');
+	},
+	subscribeUser:function(btn){
+		var userPanel=btn.up('userinfopanel');
+		var userName=userPanel.userName;
+		if(Ext.isEmpty(userName))
+			return;
+		SubscriptionService.subscribeUser(userName);
 	}
 });

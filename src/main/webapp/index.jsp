@@ -21,6 +21,8 @@
 	<script src="app/config.js" type="text/javascript"></script>
 	<script type="text/javascript" src="app/routers.js"></script>
 	
+	<script type="text/javascript" src="app/view/components/Buttons.js"></script>
+	
 	<!-- Service -->
 	<script type="text/javascript" src="app/service/UtilService.js"></script>
 	<script type="text/javascript" src="app/service/ProductService.js"></script>

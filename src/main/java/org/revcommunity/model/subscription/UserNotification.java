@@ -15,6 +15,7 @@ public class UserNotification
 
     private boolean readed;
 
+    @Fetch
     @StartNode
     private UserSubscription subscription;
 

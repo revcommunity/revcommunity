@@ -50,6 +50,15 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 					    		 marginTop:'5px'  
 				    	   },
 				    	   text:'Ustawienia konta'
+				       },
+				       {
+				    	   xtype:'button',
+				    	   width:150,
+				    	   style:{
+					    		 marginTop:'5px'  
+				    	   },
+				    	   action:'subscribeUser',
+				    	   text:'Subskrybuj'
 				       }
 			   ]
 	       }
@@ -61,7 +70,6 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 		}else{
 			user=UserService.getByUserName(this.userName);
 		}
-		
 		this.callParent(arguments);
 		this.getForm().setValues(user);
 		this.down('image').setSrc(user.image);

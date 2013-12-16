@@ -15,6 +15,7 @@ public class ProductNotification
 
     private boolean readed;
 
+    @Fetch
     @StartNode
     private ProductSubscription subscription;
 
@@ -72,6 +73,13 @@ public class ProductNotification
     public void setNotification( ProductChannelNotification notification )
     {
         this.notification = notification;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "ProductNotification [nodeId=" + nodeId + ", readed=" + readed + ", subscription=" + subscription + ", notification=" + notification
+            + "]";
     }
 
 }

@@ -110,6 +110,7 @@ var AppRouter = Backbone.Router.extend({
 					data : review.data
 				});
 				Ext.getCmp('contentPanel').add(panel);
+				SubscriptionService.markReviewAsReaded(id);
 			}
 		});
 	},

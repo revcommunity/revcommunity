@@ -8,7 +8,47 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 		this.callParent();
 		RatingUtil.addRatingLabel(this.data.rating, this.data.reviewCount);
 	},
+	buildButtons:function(){
+		var buttons=[{
+		    	xtype:'addbtn',
+		    	text:'Dodaj recenzję',
+		    	action:'addReview'
+		}];  
+		var hideLbl=false;
+		if( !SubscriptionService.isProductSubscribed(this.data.nodeId) ){
+			buttons.push({
+		    	xtype:'watchbtn',
+		    	action:'watchProduct'
+		    });
+			hideLbl=true;
+		}
+		buttons.push({
+	    	xtype:'label',
+	    	hidden:hideLbl,
+	    	text:'Obserwujesz',
+	    	cls:'rev-btn-info x-btn x-unselectable x-btn-default-small'
+	    });
+		if( UserService.isAdmin() ){
+			buttons.push({
+			    xtype:'editbtn',
+			    action:'editProduct'
+			});
+			buttons.push({
+		    	xtype:'deletebtn',
+		    	action:'deleteProduct'
+			});
+		}
+		var buttonsPanel={
+				xtype:'panel',
+				name:'productButtonsPanel',
+				border:false,
+				cls:'rev-product-buttons-panel',
+				items:buttons
+		};
+		return buttonsPanel;
+	},
 	initComponent : function() {
+		var buttons=this.buildButtons();
 		this.items = [ {
 			xtype : 'component',
 			cls : 'rev-list-header',
@@ -46,7 +86,7 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 					html : '<span>Cena: ' + this.data.priceAvg + ' zł</span>',
 				}
 			} ]
-		}, {
+		},buttons, {
 			xtype : 'panel',
 			margin : '5, 0, 0, 0',
 			tpl : '<tpl for="filterValues"><p>{name}: {value}</p></tpl>',
