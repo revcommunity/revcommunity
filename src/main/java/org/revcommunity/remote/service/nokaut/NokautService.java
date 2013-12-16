@@ -389,7 +389,14 @@ public class NokautService
                     int idx = producerConnectedWithCategory.toLowerCase().indexOf( catName );
                     idx += c.getName().toLowerCase().length();
 
-                    String prod = producerConnectedWithCategory.substring( catName.length()+1 );
+                    String prod ="";
+                    try{
+                        prod = producerConnectedWithCategory.substring( catName.length()+1 );
+                    }catch(Exception ex){
+                        //czyli tutaj nie znajdziemy nazwy produktu
+                        return null;
+                    }
+                    
 
                     if ( prod.length() < 2 )
                     {

@@ -6,7 +6,7 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 	width : 250,
 	onRender : function() {
 		this.callParent();
-		RatingUtil.addRatingLabel(this.data.rating, this.data.reviewCount);
+		RatingUtil.addRatingLabel('productRank',this.data.rating, this.data.reviewCount);
 	},
 	buildButtons:function(){
 		var buttons=[{
@@ -83,7 +83,7 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 				margin : '0,0,0,0', // overwrite rev-box class
 				autoEl : {
 					tag : 'div',
-					html : '<span>Cena: ' + this.data.priceAvg + ' zł</span>',
+					html : '<span>Cena: ' + this.data.priceAvg + (this.data.priceAvg=="-"?"":" zł") + '</span>',
 				}
 			} ]
 		},buttons, {

@@ -7,4 +7,8 @@ Ext.define('RevCommunity.store.CommentStore', {
     setReviewNodeId:function(reviewNodeId){
     	this.proxy.url="rest/comments/reviewComments/"+reviewNodeId;
     },
+	sorters : [ {
+		property : 'dateAdded',
+		direction : 'DESC',
+	} ],
 });

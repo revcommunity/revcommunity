@@ -180,8 +180,8 @@ public class Review
         {
             // TODO: set proper weights and defaultReviewUsefulness
             double defaultReviewWeight = 1;
-            double votesWeight = 1;
-            double authorWeight = 1;
+            double votesWeight = 8;
+            double authorWeight = 3;
 
             double defaultReviewUsefulness = 0.5;
 

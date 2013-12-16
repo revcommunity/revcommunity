@@ -26,6 +26,11 @@ public class User
     private String lastName;
 
     private String password;
+    
+    private String email;
+    
+    //FIXME ustawilem true do testow, trzeba to jeszcze dodac do formularza rejestracji
+    private boolean sendNewsletter = true;
 
     private Set<String> roles;
 
@@ -232,6 +237,27 @@ public class User
         {
             return "Ekspert";
         }
+        
+    }
+    
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail( String email )
+    {
+        this.email = email;
+    }
+
+    public boolean isSendNewsletter()
+    {
+        return sendNewsletter;
+    }
+
+    public void setSendNewsletter( boolean sendNewsletter )
+    {
+        this.sendNewsletter = sendNewsletter;
     }
 
     @Override

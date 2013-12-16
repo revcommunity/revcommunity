@@ -21,5 +21,16 @@ public interface ProductRepo
     public Page<Product> find( Pageable pagable );
 
     public Page<Product> findAllByDescriptionLike( String query, Pageable pagable );
+    
+    /**
+     * 
+     * Zapytanie zwraca produkty nowsze od podanej daty
+     *
+     * @param date podajemy jako paramter long'a z daty przeklształconego do stringa
+     * @return
+     * @author Tomek Straszewski Dec 16, 2013
+     */
+    @Query("START product=node:__types__(className='Product') WHERE product.dateAdded > {0} RETURN product") 
+    List<Product> findNewerThanSpecifiedDate(String date);
 
 }
