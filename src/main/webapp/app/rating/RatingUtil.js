@@ -2,10 +2,10 @@ var idArray = [ "#rating-input-1-1", "#rating-input-1-2", "#rating-input-1-3",
 		"#rating-input-1-4", "#rating-input-1-5" ];
 var RatingUtil = {
 	getChecked : function(widgetId) {
-		var el =  $('#' + widgetId).find('[checked="checked"]');
-		if(el.length > 0){
-			 var c = el.attr('id').slice(-1);
-			 return parseInt(c);
+		var el = $('#' + widgetId).find('[checked="checked"]');
+		if (el.length > 0) {
+			var c = el.attr('id').slice(-1);
+			return parseInt(c);
 		}
 		return 0;
 	},
@@ -31,8 +31,15 @@ var RatingUtil = {
 		}
 	},
 	addRatingLabel : function(rating, count) {
-		var label = "<div class=\"ratingLabel\">Ocena: " + rating + " ("
-				+ count + ")" + " </div>";
+		
+		var counter = '';
+		if (rating != '-') {
+			counter = " (" + count + ")";
+		}else{
+			rating = "-";
+		}
+		var label = "<div class=\"ratingLabel\">Ocena: " + rating + counter
+				+ " </div>";
 		$(".rating, .rating-disabled").after(label);
 	},
 	getRatingWidget : function(widgetId, value, disabled) {

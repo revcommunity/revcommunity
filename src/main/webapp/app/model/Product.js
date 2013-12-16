@@ -6,8 +6,35 @@ Ext.define('RevCommunity.model.Product', {
     		'nodeId',
     		'productCode',
     		'category',
-    		'priceAvg',
-    		'rating',
+    		{
+    			name: 'priceAvg',	
+    			convert:function(v,model)
+    			{
+    				if(v == null)
+    				{
+    					return "-";
+    				}
+    				else
+    				{
+    					return v;
+    				}
+    			}
+    		},
+    		{
+    			name: 'rating',	
+    			convert:function(v,model)
+    			{
+    				if(v == null)
+    				{
+    					return "-";
+    				}
+    				else
+    				{
+    					return v;
+    				}
+    			}
+    		},
+    		
     		'dateAdded',
     		'filters',
     		{
