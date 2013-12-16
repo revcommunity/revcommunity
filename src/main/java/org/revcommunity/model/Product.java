@@ -270,6 +270,7 @@ public class Product
     {
         double total = 0;
         double weights = 0;
+        Double result = null;
         try
         {
             for ( Review r : getReviews() )
@@ -281,14 +282,14 @@ public class Product
             if ( weights != 0 )
             {
                 double value = total / weights;
-                return Math.round( value * 10.0 ) / 10.0;
+                result =  Math.round( value * 10.0 ) / 10.0;
             }
         }
         catch ( Exception e )
         {
             log.error( e.getMessage() );
         }
-        return (double) -1;
+        return result;
     }
 
     public void addFilterValue( String sym, Object value )
