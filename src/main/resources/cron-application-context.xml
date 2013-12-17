@@ -22,6 +22,7 @@
 				<entry key="reviewRepo" value-ref="reviewRepo" />
 				<entry key="subscriptionService" value-ref="subscriptionService" />
 				<entry key="mailService" value-ref="mailService" />
+				<entry key="daysAgo" value="${newsletter.daysAgo}" />
 			</map>
 		</property>
 	</bean>

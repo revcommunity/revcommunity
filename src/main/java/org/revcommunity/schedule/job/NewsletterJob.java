@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
- * 
- *
  * @author Tomek Straszewski Dec 16, 2013
  */
 public class NewsletterJob
@@ -33,15 +31,17 @@ public class NewsletterJob
 
     @Autowired
     private ProductRepo productRepo;
-    
+
     @Autowired
     private org.revcommunity.repo.ReviewRepo reviewRepo;
-    
+
     @Autowired
     private SubscriptionService subscriptionService;
-    
+
     private MailService mailService;
-    
+
+    private int daysAgo;
+
     @Override
     protected void executeInternal( JobExecutionContext arg0 )
         throws JobExecutionException
@@ -53,48 +53,51 @@ public class NewsletterJob
             czas = System.currentTimeMillis();
         }
 
-        Date yesterday = DateUtils.addDays( new Date(), -1 );
-        
+        Date yesterday = DateUtils.addDays( new Date(), -daysAgo );
+
         String yesterdayTime = "" + yesterday.getTime();
-        
+
         List<Product> products = productRepo.findNewerThanSpecifiedDate( yesterdayTime );
-        if(logger.isDebugEnabled()){
+        if ( logger.isDebugEnabled() )
+        {
             logger.debug( "Znalazłem: " + products.size() + " nowych produktów" );
         }
-        
+
         for ( Product product : products )
         {
-            //generujemy raport
-            System.out.println(product.getDateAdded().getTime());
+            // generujemy raport
+            System.out.println( product.getDateAdded().getTime() );
         }
-        
-        
+
         List<Review> reviews = reviewRepo.findNewerThanSpecifiedDate( yesterdayTime );
-        if(logger.isDebugEnabled()){
+        if ( logger.isDebugEnabled() )
+        {
             logger.debug( "Znalazłem: " + reviews.size() + " nowych recenzji" );
         }
-        
-       
+
         for ( Review review : reviews )
         {
-            //generujemy raport
-            System.out.println(review.getDateAdded().getTime());
+            // generujemy raport
+            System.out.println( review.getDateAdded().getTime() );
         }
-        
-        
-        
-        String report = "Tresc newsletter'a";
-        
+
+        // TODO Klasa tworząca raport z wyciągniętych danych z systemu
+
+        String report = "Działający mechanizm subskrypcji ;-)";
+
         List<User> users = userRepo.findUsersToSendNewsLetter();
-        String [] addressTo = new String[users.size()];
-        for(int i = 0; i< users.size(); ++i){
+        String[] addressTo = new String[users.size()];
+        for ( int i = 0; i < users.size(); ++i )
+        {
             addressTo[i] = users.get( i ).getEmail();
         }
-        
-        mailService.sendEmails( report, addressTo );
-        
-        if(logger.isDebugEnabled()){
-            logger.debug( "Newsletter koniec..., czas : " + (System.currentTimeMillis() - czas) +" ms" );
+
+        if ( users.size() > 0 )
+            mailService.sendEmails( report, addressTo );
+
+        if ( logger.isDebugEnabled() )
+        {
+            logger.debug( "Newsletter koniec..., czas : " + ( System.currentTimeMillis() - czas ) + " ms" );
         }
 
     }
@@ -128,6 +131,15 @@ public class NewsletterJob
     {
         this.mailService = mailService;
     }
-    
-    
+
+    public int getDaysAgo()
+    {
+        return daysAgo;
+    }
+
+    public void setDaysAgo( int daysAgo )
+    {
+        this.daysAgo = daysAgo;
+    }
+
 }
