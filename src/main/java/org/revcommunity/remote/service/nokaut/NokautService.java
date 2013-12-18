@@ -125,7 +125,7 @@ public class NokautService
                 {
                     addFiltersToCategory( category );
 
-                    logger.info( category );
+                    //logger.info( category );
                     category.setParent( parent );
                     this.abstractCategoryRepo.save( category );
 
@@ -212,7 +212,7 @@ public class NokautService
 
                         addFiltersToCategory( category );
 
-                        logger.info( category );
+                        //logger.info( category );
                         category.setParent( parent );
                         this.abstractCategoryRepo.save( category );
                     }
@@ -242,7 +242,7 @@ public class NokautService
 
                         addFiltersToCategory( category );
 
-                        logger.info( category );
+                        //logger.info( category );
                         category.setParent( parent );
                         this.abstractCategoryRepo.save( category );
                     }
@@ -341,7 +341,7 @@ public class NokautService
                 product.setCategory( category );
 
                 this.productService.createProduct( product );
-                logger.info( product );
+                logger.info( product.getName() );
             }
         }
         catch ( Exception ex )
@@ -357,7 +357,8 @@ public class NokautService
         /**
          * TODO Opis produktu, zobaczyc klase .FullDescription, tylko co z tymi obrazkami... ?
          */
-
+        
+        String prod ="";
         boolean categoryChanged = false;
         String url = p.getRemoteUrl() + NokautConstans.PRODUCT_DESCRIPTION_POSTFIX;
 
@@ -389,9 +390,13 @@ public class NokautService
                     int idx = producerConnectedWithCategory.toLowerCase().indexOf( catName );
                     idx += c.getName().toLowerCase().length();
 
-                    String prod ="";
+                   
                     try{
                         prod = producerConnectedWithCategory.substring( catName.length()+1 );
+                        if ( logger.isDebugEnabled() )
+                        {
+                            logger.debug( "Uzyskana nazwa producenta :  " + prod );
+                        }
                     }catch(Exception ex){
                         //czyli tutaj nie znajdziemy nazwy produktu
                         return null;
@@ -407,6 +412,8 @@ public class NokautService
                     }
 
                     p.addFilterValue( "producent", prod );
+                    
+                    
                 }
             }
 
@@ -497,12 +504,26 @@ public class NokautService
                     sb.append( "\n\n" );
                 }
                 p.setDescription( sb.toString() );
-
+                
+                
+                if ( prod.length() < 2 )
+                {
+                    // mniejsze od 2 jakby to byly jakies smieci
+                    // zazwyczaj bd to pusty string
+                    // nie pobieram tego
+                    return null;
+                }
+                tryAddProducerAndPropagateToParent( prod, c );
+                
+                
                 if ( categoryChanged )
                 {
                     abstractCategoryRepo.save( c );
                 }
-
+                
+                
+                
+                
                 return p;
             }
             else
@@ -510,6 +531,8 @@ public class NokautService
                 // strona nie istnieje
                 return null;
             }
+            
+            
 
         }
         catch ( IOException e )
@@ -522,6 +545,83 @@ public class NokautService
         }
     }
 
+    
+    private void tryAddProducerAndPropagateToParent(String producer, AbstractCategory c){
+        
+        boolean added = false;
+        boolean hasProducerFilter = false;
+        CategoryFilter categoryFilter = null;
+        
+        if(producer != null && producer.length() > 0){
+            for ( CategoryFilter cf : c.getFilters() )
+            {
+                if(cf.getName().equals( NokautConstans.PRODUCER_LABEL )){
+                    //categoria posiada filtr o nazwie producent wiec dodajemy wartosc
+                    hasProducerFilter = true;
+                    boolean add = true;
+                    //sprawdzam czy czasem tej wartosci nie ma juz na liscie
+                    for(String val : cf.getValues()){
+                       if(val.toLowerCase().equals( producer.toLowerCase() )){
+                           
+                           if(logger.isDebugEnabled()){
+                               logger.debug( "Kategoria : " + c.getName() + " ma na swojej liscie producentów : " + producer );
+                           }
+                           
+                           add = false;
+                           break;
+                       }
+                    }
+                    if(add){
+                        if(logger.isDebugEnabled()){
+                            logger.debug( "Dodaje do kategorii : " + c.getName() + " na liste producentów : " + producer );
+                        }
+                        added = true;
+                        cf.addFilterValue( producer );
+                        categoryFilter = cf;
+                    }
+                    
+                    break;
+                }
+                
+                if(!hasProducerFilter){
+                    //FIXME nie propaguje dalej w góre jeżeli sam nie mam takiego filtru, wydaje mi sie ze tak jest ok
+                    return;
+                }
+            }
+        }
+        
+        //sprawdzam czy mam parenta, jezeli tak to propaguje w gore
+        if(c.getParent() != null){
+            
+            if(logger.isDebugEnabled()){
+                logger.debug( "Z kategorii : " + c.getName() + " przechodze do jego rodzica : " + c.getParent().getName() );
+            }
+            
+            tryAddProducerAndPropagateToParent(producer, c.getParent());
+        }
+        
+        if(added){
+            if(logger.isDebugEnabled()){
+                logger.debug( "Kategoria : " + c.getName() + " zostala zmieniona, zapisuje w bazie...");
+                
+                for ( CategoryFilter f : c.getFilters() )
+                {
+                    if(f.getName().equals( NokautConstans.PRODUCER_LABEL )){
+                        logger.debug("\tProducenci : ");
+                        for(String v : f.getValues()){
+                            logger.debug("\t\t" + v);
+                        }
+                    }
+                }
+                
+            }
+            
+            this.categoryFilterRepo.save( categoryFilter );
+        }
+        //wychodze z rekurencji
+    }
+    
+    
     private static JSONObject getMethod( String URI, boolean filters )
     {
         String res = null;
@@ -535,7 +635,7 @@ public class NokautService
             {
                 res = getMethod.getResponseBodyAsString();
                 JSONObject j = new JSONObject( res );
-                logger.debug( j );
+                //logger.debug( j );
                 try
                 {
                     if ( filters )
@@ -653,26 +753,26 @@ public class NokautService
                 // mozemy pobrac
                 if ( key.equals( NokautConstans.FILTR_PRODUCERS ) )
                 {
-
+                    //w[isze tylko ze taki filtr jest ale nie pobieram wartosci
                     CategoryFilter producerCategory = new CategoryFilter();
                     producerCategory.setName( NokautConstans.PRODUCER_LABEL );
                     producerCategory.setType( CategoryFilterType.LIST );
-                    Set<String> producers = new HashSet<String>();
-                    JSONObject p = data.getJSONObject( key );
-
-                    Set<String> ps = p.keySet();
-
-                    for ( String pr : ps )
-                    {
-                        JSONObject prod = p.getJSONObject( pr );
-                        if ( prod.has( NokautConstans.FILTER_TITLE ) )
-                        {
-                            String ri = (String) prod.get( NokautConstans.FILTER_TITLE );
-                            producers.add( ri );
-                        }
-                    }
-
-                    producerCategory.setValues( producers );
+//                    Set<String> producers = new HashSet<String>();
+//                    JSONObject p = data.getJSONObject( key );
+//
+//                    Set<String> ps = p.keySet();
+//
+//                    for ( String pr : ps )
+//                    {
+//                        JSONObject prod = p.getJSONObject( pr );
+//                        if ( prod.has( NokautConstans.FILTER_TITLE ) )
+//                        {
+//                            String ri = (String) prod.get( NokautConstans.FILTER_TITLE );
+//                            producers.add( ri );
+//                        }
+//                    }
+//
+//                    producerCategory.setValues( producers );
                     category.addFilter( producerCategory );
 
                 }
@@ -740,10 +840,10 @@ public class NokautService
                                 values.add( val.getString( v ) );
                             }
 
-                            if ( logger.isDebugEnabled() )
-                            {
-                                logger.debug( values.toString() );
-                            }
+//                            if ( logger.isDebugEnabled() )
+//                            {
+//                                logger.debug( values.toString() );
+//                            }
 
                             if ( values.size() > 0 )
                             {
