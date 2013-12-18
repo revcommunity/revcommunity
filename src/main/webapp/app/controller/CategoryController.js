@@ -31,12 +31,15 @@ Ext
 									'newcategoryform checkboxfield' : {
 										change : this.changeLastcategoryfield
 									},
+									'newcategoryform categorycombo' : {
+										select : this.categorycombo
+									},
 
 								});
 					},
 					addParameter : function(btn) {
 						global_nr_parameters++;
-					
+
 						var form = btn.up('form');
 						var fc = form.down('basefieldset[name=radio_1]');
 						fc.add({
@@ -80,7 +83,7 @@ Ext
 
 						var fc2 = form.down('container[name=category_param]');
 						global_nr_values++;
-					
+
 						fc2.insert(2, {
 
 							xtype : 'basefieldset',
@@ -109,9 +112,13 @@ Ext
 
 					},
 
+					categorycombo : function(com) {
+
+						global_category_id_leaf = com.getValue();
+					},
+
 					addValueOfParameter : function(btn) {
 						global_nr_values++;
-						
 
 						var form = btn.up('form');
 						var fc = form.down('container[name=paramText_'
@@ -142,11 +149,11 @@ Ext
 					saveCategory : function(btn) {
 						var form = btn.up('form');
 						var fr = form.getForm().getFieldValues();
-						
+
 						var arrayCategory = new Array();
 
 						arrayCategory['name'] = fr.name;
-
+		
 						arrayCategory['parentId'] = global_category_id_leaf;
 
 						var list = [];
@@ -171,28 +178,28 @@ Ext
 						}
 
 						if (fr.lastcategoryfield) {// is leaf
-							Ext.Ajax.request({
-								url : 'rest/categories/add_leaf',
-								jsonData : {
-									name : arrayCategory['name'],
-									parentId : arrayCategory['parentId'],
-									filters : list,
-								},
-								method : 'POST',
-								success: function(response) 
-							    {
-									UtilService.showInfo('Dodano pomyślnie nową kategorię');
-									location.href = '#category/new';
-									
+							Ext.Ajax
+									.request({
+										url : 'rest/categories/add_leaf',
+										jsonData : {
+											name : arrayCategory['name'],
+											parentId : arrayCategory['parentId'],
+											filters : list,
+										},
+										method : 'POST',
+										success : function(response) {
+											UtilService
+													.showInfo('Dodano pomyślnie nową kategorię');
+											location.href = '#category/new';
 
-							    },
-							    failure: function(response) 
-							    {
-							    	UtilService.showInfo("Błąd przy dodawaniu nowej kategori");
-							    	location.href = '#category/new';
-							       
-							    }
-							});
+										},
+										failure : function(response) {
+											UtilService
+													.showInfo("Błąd przy dodawaniu nowej kategori");
+											location.href = '#category/new';
+
+										}
+									});
 						} else {
 							Ext.Ajax.request({
 								url : 'rest/categories/add_group',
@@ -208,7 +215,7 @@ Ext
 					},
 
 					changeTextField : function(panel) {
-						
+
 						var nr = panel.getName();
 						nr = nr.replace("param_field_", "");
 
@@ -216,7 +223,8 @@ Ext
 							global_active_parameters = nr;
 							hide_show(panel);
 
-						} else return;
+						} else
+							return;
 						if (Ext.getCmp('radio4_' + global_active_parameters)
 								.getValue() == false) {
 							hide_param(panel);

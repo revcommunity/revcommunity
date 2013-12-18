@@ -22,15 +22,14 @@ public interface ReviewRepo
 
     @Query( "start n=node:__types__(className='org.revcommunity.model.Review') where ID(n)>0  return n" )
     public Page<Review> find( Pageable pagable );
-    
+
     /**
-     * 
      * Zapytanie zwraca recenzje nowsze od podanej daty
-     *
+     * 
      * @param date podajemy jako paramter long'a z daty przeklształconego do stringa
      * @return
      * @author Tomek Straszewski Dec 16, 2013
      */
-    @Query("START rev=node:__types__(className='Review') WHERE rev.dateAdded > {0} RETURN rev") 
-    List<Review> findNewerThanSpecifiedDate(String date);
+    @Query( "START rev=node:__types__(className='org.revcommunity.model.Review') WHERE rev.dateAdded > {0} RETURN rev" )
+    List<Review> findNewerThanSpecifiedDate( String date );
 }

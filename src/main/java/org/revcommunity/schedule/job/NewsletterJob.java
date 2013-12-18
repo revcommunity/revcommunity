@@ -26,16 +26,12 @@ public class NewsletterJob
 
     private static final Logger logger = Logger.getLogger( NewsletterJob.class );
 
-    @Autowired
     private UserRepo userRepo;
 
-    @Autowired
     private ProductRepo productRepo;
 
-    @Autowired
     private org.revcommunity.repo.ReviewRepo reviewRepo;
 
-    @Autowired
     private SubscriptionService subscriptionService;
 
     private MailService mailService;
@@ -63,37 +59,32 @@ public class NewsletterJob
             logger.debug( "Znalazłem: " + products.size() + " nowych produktów" );
         }
 
-        for ( Product product : products )
-        {
-            // generujemy raport
-            System.out.println( product.getDateAdded().getTime() );
-        }
-
         List<Review> reviews = reviewRepo.findNewerThanSpecifiedDate( yesterdayTime );
         if ( logger.isDebugEnabled() )
         {
             logger.debug( "Znalazłem: " + reviews.size() + " nowych recenzji" );
         }
 
-        for ( Review review : reviews )
-        {
-            // generujemy raport
-            System.out.println( review.getDateAdded().getTime() );
-        }
-
-        // TODO Klasa tworząca raport z wyciągniętych danych z systemu
-
-        String report = "Działający mechanizm subskrypcji ;-)";
+        NewsletterMessage newsletterMsg = new NewsletterMessage();
+        String report = newsletterMsg.createMessage( products, reviews );
 
         List<User> users = userRepo.findUsersToSendNewsLetter();
         String[] addressTo = new String[users.size()];
+        int j = 0;
         for ( int i = 0; i < users.size(); ++i )
         {
-            addressTo[i] = users.get( i ).getEmail();
+            if ( users.get( i ).getEmail() != null )
+            {
+                addressTo[j] = users.get( i ).getEmail();
+                j++;
+            }
+
         }
 
         if ( users.size() > 0 )
+        {
             mailService.sendEmails( report, addressTo );
+        }
 
         if ( logger.isDebugEnabled() )
         {
