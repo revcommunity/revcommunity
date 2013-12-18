@@ -9,8 +9,13 @@ import org.apache.commons.httpclient.util.DateUtil;
 import org.apache.commons.lang3.time.DateUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.revcommunity.model.AbstractCategory;
+import org.revcommunity.model.CategoryFilter;
+import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.User;
+import org.revcommunity.repo.AbstractCategoryRepo;
+import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.util.MailService;
@@ -36,6 +41,9 @@ public class NeoQuery
     @Autowired
     private UserRepo userRepo;
     
+    @Autowired
+    private AbstractCategoryRepo cr;
+    
     @Test
     public void test(){
         
@@ -51,11 +59,17 @@ public class NeoQuery
 //            System.out.println(product.getDateAdded().getTime());
 //        }
         
-        List<User> users =  userRepo.findUsersToSendNewsLetter();
-        
-        for ( User user : users )
+        EndResult<AbstractCategory> l =   cr.findAll();
+        for ( AbstractCategory abstractCategory : l )
         {
-            System.out.println(user.getEmail() + " " + user.isSendNewsletter());
+            for ( CategoryFilter s : abstractCategory.getFilters() )
+            {
+                System.out.println(s.getName());
+                for ( String aa : s.getValues() )
+                {
+                    System.out.println("\t " + aa);
+                }
+            }
         }
         
     }
@@ -66,7 +80,7 @@ public class NeoQuery
         
         MailService ms = new MailService();
         
-        ms.sendEmails( "<3", "karolina_winiarczuk@onet.eu" );
+        ms.sendEmails( ":p", "rosol88@gmail.com" );
         
     }
     

@@ -1,7 +1,9 @@
 package org.revcommunity.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
 import org.springframework.data.neo4j.annotation.NodeEntity;
 
@@ -20,7 +22,7 @@ public class CategoryFilter
 
     private CategoryFilterType type;
 
-    private Set<String> values;
+    private Set<String> values = new HashSet<String>();
 
     public CategoryFilter()
     {
@@ -104,5 +106,10 @@ public class CategoryFilter
     {
         this.remoteId = remoteId;
     }
-
+    
+    
+    public void addFilterValue(String v){
+        
+        this.values.add( v );
+    }
 }

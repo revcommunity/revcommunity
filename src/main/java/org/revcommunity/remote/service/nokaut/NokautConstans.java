@@ -42,7 +42,7 @@ public class NokautConstans
 
     protected static final String FILTR_PRODUCERS = "filter_producers";
 
-    protected static final String PRODUCER_LABEL = "Producent";
+    public static final String PRODUCER_LABEL = "Producent";
 
     protected static final String FILTER_ID = "id";
 

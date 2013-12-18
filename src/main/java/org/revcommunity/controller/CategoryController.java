@@ -213,5 +213,24 @@ public class CategoryController
         cs.delete( categoryId );
         return new Message();
     }
+    
+//    
+//    @RequestMapping( value = "/getTest" )
+//    @ResponseBody
+//    public void getFiltersTest()
+//    {
+//        EndResult<AbstractCategory> l =   acr.findAll();
+//        for ( AbstractCategory abstractCategory : l )
+//        {
+//            for ( CategoryFilter s : abstractCategory.getFilters() )
+//            {
+//                System.out.println(s.getName());
+//                for ( String aa : s.getValues() )
+//                {
+//                    System.out.println("\t " + aa);
+//                }
+//            }
+//        }
+//    }
 
 }
