@@ -65,7 +65,7 @@ public class NewsletterJob
             logger.debug( "Znalazłem: " + reviews.size() + " nowych recenzji" );
         }
 
-        NewsletterMessage newsletterMsg = new NewsletterMessage();
+        NewsletterMessage newsletterMsg = new NewsletterDefault();
         String report = newsletterMsg.createMessage( products, reviews );
 
         List<User> users = userRepo.findUsersToSendNewsLetter();
