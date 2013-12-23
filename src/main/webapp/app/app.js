@@ -1,7 +1,7 @@
 Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
-             'ReviewEvaluationTestStore','CommentStore','UserSubscriptionStore','UserNotificationStore','ProductSubscriptionStore',
+             'CommentStore','UserSubscriptionStore','UserNotificationStore','ProductSubscriptionStore',
              'ProductNotificationStore'
             ],
 	controllers:['ProductController','ReviewController','CategoryController',
@@ -28,7 +28,6 @@ Ext.application({
 	    	'form.CategoryComboBoxSet',		
 	    	'review.UserReviewsPanel',
 	    	'review.ReviewForm',
-	    	'review.EvaluationForm',
 	    	'review.CommentsList',
 	    	'form.CategoryCombo',
 	    	'form.CategoryComboWithoutLeaf',

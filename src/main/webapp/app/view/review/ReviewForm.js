@@ -45,10 +45,7 @@ Ext
 															data : this.data,
 
 														},
-														{
-															xtype : 'reviewevaluationform',
-															width : 200,
-														} ]
+														]
 
 											},
 											{
