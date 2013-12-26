@@ -29,6 +29,7 @@ Ext.application({
 	    	'review.UserReviewsPanel',
 	    	'review.ReviewForm',
 	    	'review.CommentsList',
+	    	'review.ReviewSidePanel',
 	    	'form.CategoryCombo',
 	    	'form.CategoryComboWithoutLeaf',
 	    	'components.RevHtmlEditor',

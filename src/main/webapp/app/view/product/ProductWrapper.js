@@ -17,7 +17,6 @@ Ext.define('RevCommunity.view.product.ProductWrapper', {
 			items : [ {
 				title : 'Opis produktu',
 				xtype : 'panel',
-				cls : 'rev-review-panel',
 				bodyPadding : 5,
 				collapsible : true,
 				collapsed : true,

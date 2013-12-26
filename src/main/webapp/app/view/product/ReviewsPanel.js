@@ -12,7 +12,6 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 	    	enableTextSelection: true
 	    },
 	    store: 'ProductReviewsStore',
-	    cls: 'rev-review-panel',
 	    flex: 1,
 //	    listeners : {
 //	        itemdblclick: function(dv, record, item, index, e) {

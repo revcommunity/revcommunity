@@ -170,8 +170,15 @@ public class TestDataController
             {
                 Review r = new Review();
                 r.setAuthor( ur.findByUserName( users[i % 3] ) );
+                StringBuilder sb = new StringBuilder();
+                for (int j = 0; j < 20; j++) {
+					sb.append(" to wydajny laptop dla graczy, posiadający 17-calową matrycę. W przetestowanej konfiguracji znalazły się procesor Core i7-4800MQ, karta grafiki GeForce GTX 770M i dysk SSD Samsung 840 o pojemności 500 GB.");
+				}
+                
+                
                 r.setContent( p.getName()
-                    + " to wydajny laptop dla graczy, posiadający 17-calową matrycę. W przetestowanej konfiguracji znalazły się procesor Core i7-4800MQ, karta grafiki GeForce GTX 770M i dysk SSD Samsung 840 o pojemności 500 GB." );
+                    //+ " to wydajny laptop dla graczy, posiadający 17-calową matrycę. W przetestowanej konfiguracji znalazły się procesor Core i7-4800MQ, karta grafiki GeForce GTX 770M i dysk SSD Samsung 840 o pojemności 500 GB." );
+                		+ sb.toString());
                 r.setProduct( p );
                 r.setTitle( "Recenzja " + p.getName() );
                 for ( int j = 0; j < 2; j++ )
