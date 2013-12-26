@@ -13,13 +13,13 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 		var buttons=[{
 		    	xtype:'addbtn',
 		    	text:'Dodaj recenzję',
-		    	action:'addReview'
+		    	action:'addReview',
 		}];  
 		var hideLbl=false;
 		if( !SubscriptionService.isProductSubscribed(this.data.nodeId) ){
 			buttons.push({
 		    	xtype:'watchbtn',
-		    	action:'watchProduct'
+		    	action:'watchProduct',
 		    });
 			hideLbl=true;
 		}
@@ -32,11 +32,11 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 		if( UserService.isAdmin() ){
 			buttons.push({
 			    xtype:'editbtn',
-			    action:'editProduct'
+			    action:'editProduct',
 			});
 			buttons.push({
 		    	xtype:'deletebtn',
-		    	action:'deleteProduct'
+		    	action:'deleteProduct',
 			});
 		}
 		var buttonsPanel={
@@ -44,7 +44,14 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 				name:'productButtonsPanel',
 				border:false,
 				cls:'rev-product-buttons-panel',
-				items:buttons
+				items: buttons,
+		        layout: {
+		            type: 'table',
+		            columns: 2,
+		        },
+		        defaults : {
+		        	width : 117,
+		        }
 		};
 		return buttonsPanel;
 	},
