@@ -1,4 +1,4 @@
-package org.revcommunity.schedule.job;
+package org.revcommunity.util.newsletter;
 
 import java.util.List;
 

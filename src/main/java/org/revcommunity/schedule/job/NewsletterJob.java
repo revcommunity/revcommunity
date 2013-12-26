@@ -14,6 +14,8 @@ import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.SubscriptionService;
 import org.revcommunity.util.MailService;
+import org.revcommunity.util.newsletter.NewsletterDefault;
+import org.revcommunity.util.newsletter.NewsletterMessage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
