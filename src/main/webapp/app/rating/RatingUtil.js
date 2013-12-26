@@ -10,11 +10,12 @@ var RatingUtil = {
 		return 0;
 	},
 	setChecked : function(widgetId, value) {
-		if (value >= 1 && value <= 5) {
+		var intValue = Math.round(value);
+		if (intValue >= 1 && intValue <= 5) {			
 			this.clearWidget(widgetId);
-			$('#' + widgetId).find('#' + widgetId + '-input-' + value).attr(
+			$('#' + widgetId).find('#' + widgetId + '-input-' + intValue).attr(
 					'checked', 'checked');
-		} else if (value == 0) {
+		} else if (intValue == 0) {
 			this.clearWidget(widgetId);
 		}
 	},
@@ -55,8 +56,9 @@ var RatingUtil = {
 		b.children('[name="rating-input-1"]').each(function() {
 			$(this).attr('name', widgetId);
 		});
-		if (value != null && value >= 1 && value <= 5) {
-			b.find(idArray[value - 1]).attr('checked', 'checked');
+		var intValue = Math.round(value);
+		if (intValue != null && intValue >= 1 && intValue <= 5) {
+			b.find(idArray[intValue - 1]).attr('checked', 'checked');
 		}
 		for ( var i = 0; i < idArray.length; i++) {
 			b.find(idArray[i]).attr('id', widgetId + '-input-' + (i + 1));
