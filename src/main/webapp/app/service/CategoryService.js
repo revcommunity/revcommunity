@@ -43,6 +43,16 @@ var CategoryService={
 			log('Ścieżka kategorii: '+path);
 			Ext.get('category-path').update(path);
 		},
+		showCategoryPath2:function(domElementId){//tworzy ścieżkę do kategorii która zostanie wyświetlona na nawigacją
+			var path='<a href="#products/filter">Wszystkie</a> - ';
+			for(var i=0;i<this.categoryPath.length;i++){
+				var cat=this.categoryPath[i];
+				path+='<a href="#products/filter/'+cat.nodeId+'">'+cat.name+'</a> - ';
+			}
+			path=path.substr(0,path.length-4);
+			log('Ścieżka kategorii: '+path);
+			Ext.get(domElementId).update(path);
+		},
 		selectCategory:function(categoryId){//odpowiada za przeładowanie drzewa kategorii tak aby została wyświetlona tylko kategoria
 			//którą wybraliśmy wraz z jej podkategoriami
 			//tworzy również ścieżkę do kategorii i wyświetla ją nad nawigacją

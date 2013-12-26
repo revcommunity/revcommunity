@@ -4,7 +4,7 @@ Ext
                                 {
                                         extend : 'Ext.form.Panel',
                                         alias : 'widget.newreviewform',
-                                        title : 'Tworzenie recenzji',
+                                        //title : 'Tworzenie recenzji dla: ',
                                         bodyPadding : 5,
                                         layout : 'anchor',
                                         url : 'rest/reviews',
@@ -17,26 +17,27 @@ Ext
                                                         {
                                                                 xtype : 'displayfield',
                                                                 name : 'category',
-                                                                fieldLabel : 'Kategoria'
+                                                                id: 'new-review-category-path-123',
+                                                                //fieldLabel : ''
                                                         },
-                                                        {
-                                                                xtype : 'fieldset',
-                                                                layout : 'hbox',
-                                                                items : [ {
-                                                                        fieldLabel : 'Nazwa produktu',
-                                                                        xtype : 'textfield',
-                                                                        name : 'productName',
-                                                                        margin : '5 5 5 0',
-                                                                },
-
-                                                                {
-                                                                        xtype : 'button',
-                                                                        text : 'Dodaj nowy',
-                                                                        action : 'openCreateProductForm',
-                                                                        margin : '5 5 5 0',
-                                                                } ]
-
-                                                        },
+//                                                        {
+//                                                                xtype : 'fieldset',
+//                                                                layout : 'hbox',
+//                                                                items : [ {
+//                                                                        fieldLabel : 'Nazwa produktu',
+//                                                                        xtype : 'textfield',
+//                                                                        name : 'productName',
+//                                                                        margin : '5 5 5 0',
+//                                                                },
+//
+//                                                                {
+//                                                                        xtype : 'button',
+//                                                                        text : 'Dodaj nowy',
+//                                                                        action : 'openCreateProductForm',
+//                                                                        margin : '5 5 5 0',
+//                                                                } ]
+//
+//                                                        },
                                                         {
                                                                 xtype : 'container',
                                                                 layout : {
@@ -66,13 +67,13 @@ Ext
                                                                                                         {
                                                                                                                 xtype : 'textfield',
                                                                                                                 name : 'title',
-                                                                                                                value : 'Tutaj wpisz treść, która wyświetli się na liście recenzji'
+                                                                                                                emptyText : 'Tutaj wpisz treść, która wyświetli się na liście recenzji'
                                                                                                         }, {
                                                                                                                 xtype : 'textfield',
                                                                                                                 name : 'reviewId',
                                                                                                                 hidden : true
                                                                                                         }, {
-                                                                                                                xtype : 'htmleditor',
+                                                                                                                xtype : 'revhtmleditor',
                                                                                                                 labelAlign : 'top',
                                                                                                                 flex : 4,
                                                                                                                 name : 'content',
@@ -91,36 +92,34 @@ Ext
 
                                         ],
                                         buttons : [ {
-                                                text : 'Podgląd'
-                                        }, {
                                                 text : 'Zapisz',
                                                 action : 'saveReview',
                                                 id : 'savereview',
-                                        }, {
-
-                                                text : 'Aktualizuj',
-                                                action : 'saveEditReview',
-                                                id : 'saveeditreview',
-                                                hidden : true
-                                        }, {
-                                                text : 'Opublikuj'
                                         } ],
                                         buildCategoryValue : function(product) {
                                                 var category = product.category;
-                                                var value = category.name;
-                                                category = category.parent;
-                                                while (category != null) {
-                                                        value = category.name + ' -> ' + value;
-                                                        category = category.parent;
-                                                }
-                                                this.getForm().setValues({
-                                                        category : value
-                                                });
+                                                catId = category.nodeId;
+//                                                var value = category.name;
+//                                                category = category.parent;
+//                                                while (category != null) {
+//                                                        value = category.name + ' -> ' + value;
+//                                                        category = category.parent;
+//                                                }
+//                                                this.getForm().setValues({
+//                                                        category : value
+//                                                });
+                                                
+                                                CategoryService.loadCategoryPath(catId);
+                                                //FIXME tutaj podalem na sztywo id, można to zrobic lepiej?, końcówka 'bodyEl' sie nie zmeini?
+                                                CategoryService.showCategoryPath2('new-review-category-path-123-bodyEl');
                                         },
                                         initComponent : function() {
-                                                var product = ProductService.get(this.productId);
-
                                                 this.callParent(arguments);
-                                                this.buildCategoryValue(product);
+                                        },
+                                        listeners: {
+                                            afterrender: function(){
+                                            	var product = ProductService.get(this.productId);
+                                            	this.buildCategoryValue(product);
+                                            },
                                         }
                                 });

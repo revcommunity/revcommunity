@@ -70,11 +70,12 @@ var AppRouter = Backbone.Router.extend({
 				var form = Ext.widget('newreviewform', {
 					productId:product.data.nodeId
 				});
+				form.setTitle('Tworzenie recenzji dla: ' + product.data.name);
 				Ext.getCmp('contentPanel').add(form);
 				
-				form.getForm().setValues({
-					productName : product.data.name
-				});
+//				form.getForm().setValues({
+//					productName : product.data.name
+//				});
 				form.getForm().setValues({
 					productId : product.data.nodeId
 				});
