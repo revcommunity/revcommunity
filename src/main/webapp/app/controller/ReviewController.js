@@ -160,12 +160,11 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				reviewNodeId : reviewNodeId,
 			},
 			success : function(response) {
-				log(Ext.JSON.decode(response.responseText));
 				var value = Ext.JSON.decode(response.responseText).message;
-				log(value);
 				var dataToSet = new Object();
 				dataToSet.usefulness = Math.round(value);
-				Ext.getCmp('usefulnessBar').update(dataToSet);
+				var bar = Ext.ComponentQuery.query('[name=usefulnessBar]')[0];
+				bar.update(dataToSet);
 			}
 		});
 

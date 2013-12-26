@@ -71,13 +71,10 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 					items : [
 							{
 								xtype : 'component',
-								id : 'usefulnessBar',
-								autoEl : {
-									tag : 'div',
-									cls : 'rev-review-usefulness',
-									html : 'Przydatność: '
-											+ this.data.usefulness + '%',
-								}
+								name : 'usefulnessBar',
+								cls : 'rev-review-usefulness',
+								tpl : new Ext.XTemplate('<div>Przydatność: {usefulness}%</div>'),
+								data : this.data,
 							}, {
 								xtype : 'container',
 								layout : {
