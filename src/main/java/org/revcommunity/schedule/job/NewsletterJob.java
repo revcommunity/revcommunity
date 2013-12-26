@@ -38,6 +38,8 @@ public class NewsletterJob
 
     private int daysAgo;
 
+    private String serverUrl = "http://localhost:8080/revcommunity/";
+
     @Override
     protected void executeInternal( JobExecutionContext arg0 )
         throws JobExecutionException
@@ -66,7 +68,7 @@ public class NewsletterJob
         }
 
         NewsletterMessage newsletterMsg = new NewsletterDefault();
-        String report = newsletterMsg.createMessage( products, reviews );
+        String report = newsletterMsg.createMessage( products, reviews, serverUrl );
 
         List<User> users = userRepo.findUsersToSendNewsLetter();
         String[] addressTo = new String[users.size()];
@@ -131,6 +133,16 @@ public class NewsletterJob
     public void setDaysAgo( int daysAgo )
     {
         this.daysAgo = daysAgo;
+    }
+
+    public String getServerUrl()
+    {
+        return serverUrl;
+    }
+
+    public void setServerUrl( String serverUrl )
+    {
+        this.serverUrl = serverUrl;
     }
 
 }

@@ -10,6 +10,5 @@ import org.revcommunity.model.Review;
  */
 public interface NewsletterMessage
 {
-
-    public String createMessage( List<Product> products, List<Review> reviews );
+    public String createMessage( List<Product> products, List<Review> reviews, String serverUrl );
 }
