@@ -177,6 +177,9 @@ public class ReviewController
     {
         PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
         Page<Review> prods = rr.find( page );
+        for(Review r : prods){
+        	tpl.fetch(r.getAuthor());
+        }
         return prods;
     }
 }

@@ -28,7 +28,7 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 		});
 		this.add({
 	    	   xtype:'reviewspanel',
-	    	   mode:'noUser',
+	    	   mode:'user',
 	    	   store:Ext.create('Ext.data.Store',{
 	    		    model:'RevCommunity.model.Review',
 	    		    autoLoad:true,

@@ -41,7 +41,7 @@ Ext.application({
 	    	'start.StartPanel',
 	    	'user.UserPanel',
 	    	'search.FilterForm',
-	    	'search.ActiveFiltersPanel'
+	    	'search.ActiveFiltersPanel',
 	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
             'ProductNotification'

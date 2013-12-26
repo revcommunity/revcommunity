@@ -18,7 +18,7 @@ Ext.define('RevCommunity.view.product.ProductWrapper', {
 			}, {
 				title : 'Recenzje',
 				xtype : 'reviewspanel',
-				mode : 'full',
+				mode : 'product',
 			} ]
 		}, {
 			xtype : 'productpanel',

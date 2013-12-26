@@ -77,29 +77,25 @@ ratingWidget:new Ext.XTemplate(
 '	name="rating-input-1">',
 '<label for="rating-input-1-1" class="rating-star"></label>'
 ),
-reviewsPanelColumn1:new Ext.XTemplate(
-'<div class="rev-user-container">',
-'	<img src={author.image} class="rev-user-small-image" ></img>',
-'	<div class="rev-user-name">{author.fullName}</div>',
-'	<div class="rev-user-rank">{author.rank}</div>',
-'</div>'
-),
-reviewsPanelColumn2:new Ext.XTemplate(
-'<div class="rev-list-header">',
-'	<div style="float:left">{title}</div>',
-'	<div style="float:right">{dateAddedString}</div>',
-'</div>',
-'<div class="rev-reviewList-content">{content}</div> ',
-'<div>',
-'	<div class="rev-usefulness-progressbar">',
-'		<div style="width: {usefulness}%" class="rev-usefulness-inner"></div>',
+reviewsPanelContent:new Ext.XTemplate(
+'',
+'<div class="rev-col-wrap">',
+'	<div class="rev-product-info">',
+'		<div class="rev-title">{title}</div>',
+'		<div>Przydatność: {[Math.round(values.usefulness)]}%</div>',
+'		<div>Ocena produktu: {[RatingUtil.getRatingWidget(values.nodeId,values.rank,true)]}</div>',
 '	</div>',
 '</div>'
 ),
-reviewsPanelColumn3:new Ext.XTemplate(
-'<div class="rev-review-mark">{rank}</div>',
-'<div style="text-align:center; padding-top:7px">{[RatingUtil.getRatingWidget(values.nodeId,values.rank,true)]}</div>',
-'<div class="rev-box rev-box-button" action="details" style="width:100%; margin-top:10px">Szczegóły</div>'
+reviewsPanelProductImage:new Ext.XTemplate(
+'<img src="{product.mainImage}" class="rev-img-small"></img>'
+),
+reviewsPanelUser:new Ext.XTemplate(
+'	<div class="rev-user-container-mini">',
+'		<img src="{author.image}" class="rev-author-mini-img" ></img>',
+'		<div class="rev-author-mini-name">{author.fullName}</div>',
+'		<div class="rev-author-mini-rank">{author.rank}</div>',
+'	</div>'
 ),
 userNotificationList:new Ext.XTemplate(
 '<tpl for=".">',
