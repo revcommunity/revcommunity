@@ -217,15 +217,28 @@ Ext
 										}
 									});
 						} else {
-							Ext.Ajax.request({
-								url : 'rest/categories/add_group',
-								jsonData : {
-									name : arrayCategory['name'],
-									parentId : arrayCategory['parentId'],
-									filters : list,
-								},
-								method : 'POST'
-							});
+							Ext.Ajax
+									.request({
+										url : 'rest/categories/add_group',
+										jsonData : {
+											name : arrayCategory['name'],
+											parentId : arrayCategory['parentId'],
+											filters : list,
+										},
+										method : 'POST',
+										success : function(response) {
+											UtilService
+													.showInfo('Dodano pomyślnie nową kategorię');
+											location.href = '#category/new';
+
+										},
+										failure : function(response) {
+											UtilService
+													.showInfo("Błąd przy dodawaniu nowej kategori");
+											location.href = '#category/new';
+
+										}
+									});
 						}
 
 					},
