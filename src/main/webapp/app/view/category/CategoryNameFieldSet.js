@@ -1,10 +1,10 @@
 Ext.define('RevCommunity.view.category.CategoryNameFieldSet', {
 	extend : 'RevCommunity.view.form.BaseFieldSet',
 	alias : 'widget.categorynamefieldset',
-	title : 'Nazwa nowej kategorii',
+	title : '',
 	layout : 'anchor',
 	items : [ {
-		fieldLabel : 'Nazwa',
+		fieldLabel : 'Nazwa kategorii',
 		name : 'name'
 	}, {
 		xtype : 'container',
