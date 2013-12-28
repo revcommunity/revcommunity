@@ -17,10 +17,12 @@ Ext.define('RevCommunity.view.category.ParentCategoryFieldSet', {
 	layout : 'hbox',
 
 	items : [ {
-		fieldLabel:'Wybierz kategorię nadrzędną',
-		xtype:'categorycombo',
-		mode:'onlyParents'
+		fieldLabel : 'Wybierz kategorię nadrzędną',
+		labelWidth : 180,
+		xtype : 'categorycombo',
+		mode : 'onlyParents',
 	} ],
+
 	initComponent : function() {
 
 		if (Ext.isEmpty(this.defaults))

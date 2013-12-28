@@ -93,7 +93,7 @@ Ext
 							defaults : {
 								flex : 1
 							},
-
+							margin : '0 0 0 10',
 							layout : 'vbox',
 							items : [ {
 
@@ -109,12 +109,20 @@ Ext
 						global_active_parameters = global_nr_parameters;
 						hide_show(btn);
 						hide_param(btn);
-
 					},
 
 					categorycombo : function(com) {
 
 						global_category_id_leaf = com.getValue();
+						if (global_category_id_leaf != null) {
+							var form = com.up('form');
+							var fc = form.down('categorynamefieldset');
+							fc.show();
+							fc = form.down('categoryparameters');
+							fc.show();
+							Ext.getCmp('save_cat_button').setDisabled(false);
+
+						}
 					},
 
 					addValueOfParameter : function(btn) {
@@ -153,8 +161,16 @@ Ext
 						var arrayCategory = new Array();
 
 						arrayCategory['name'] = fr.name;
-		
+
 						arrayCategory['parentId'] = global_category_id_leaf;
+						if (global_category_id_leaf == null) {
+							UtilService.showInfo('Wybierz kategorię nadrzędną');
+							return;
+						}
+						if (fr.name == null || fr.name == '') {
+							UtilService.showInfo('Podaj nazwę nowej kategorii');
+							return;
+						}
 
 						var list = [];
 
@@ -233,7 +249,7 @@ Ext
 					},
 
 					changeLastcategoryfield : function(panel) {
-					}
+					},
 
 				});
 

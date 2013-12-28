@@ -19,16 +19,18 @@ Ext.define('RevCommunity.view.category.CategoryParameters', {
 			},
 			width : 300,
 			layout : 'vbox',
-			items : []
-		}, 
-		
+			items : [],
+			margin : '0 10 10 0'
+		},
+
 		{
 			xtype : 'button',
 			action : 'addValueOfParameter',
 			text : 'Dodaj Wartość',
-			name: 'add_value_parameter',
-				hidden: true
-		}
+			name : 'add_value_parameter',
+			hidden : true,
+			margin : '10 0 0 10'
+		},
 
 		]
 	}, {
@@ -39,7 +41,7 @@ Ext.define('RevCommunity.view.category.CategoryParameters', {
 
 	],
 	initComponent : function() {
-		
+
 		if (Ext.isEmpty(this.defaults))
 			this.defaults = {};
 

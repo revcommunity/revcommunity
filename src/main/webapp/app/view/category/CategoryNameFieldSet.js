@@ -2,13 +2,17 @@ Ext.define('RevCommunity.view.category.CategoryNameFieldSet', {
 	extend : 'RevCommunity.view.form.BaseFieldSet',
 	alias : 'widget.categorynamefieldset',
 	title : '',
-	layout : 'anchor',
+	layout : {
+		type : 'hbox',
+		align : 'stretch'
+	},
 	items : [ {
 		fieldLabel : 'Nazwa kategorii',
-		name : 'name'
+		name : 'name',
 	}, {
 		xtype : 'container',
 		defaultType : 'checkboxfield',
+		margin : '0 0 0 20',
 		items : [ {
 			boxLabel : 'Kategoria końcowa',
 			name : 'lastcategoryfield',
