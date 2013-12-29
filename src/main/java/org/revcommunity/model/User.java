@@ -212,7 +212,7 @@ public class User
 
     public String getRank()
     {
-        // TODO: update const values and verify method
+        // TODO: update const values
         double defaultRank = 0.5;
         double defaultRankWeight = 1;
         double reviewRatingsWeight = 1;
@@ -225,19 +225,26 @@ public class User
 
         double result = numerator * 100.0 / denominator;
 
-        if ( result <= 30.0 )
+        if ( result <= 20.0 )
         {
-            return "Hejter!";
+            return "Niezaufany";
         }
-        else if ( result <= 50.0 )
+        else if ( result <= 40.0 )
         {
-            return "Amator";
+            return "Adept";
+        }
+        else if ( result <= 60.0 )
+        {
+            return "Przeciętny";
+        }
+        else if ( result <= 80.0 )
+        {
+            return "Godny zaufania";
         }
         else
         {
             return "Ekspert";
-        }
-        
+        }       
     }
     
     public String getEmail()
