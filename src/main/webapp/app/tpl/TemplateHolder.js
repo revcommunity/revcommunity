@@ -82,10 +82,16 @@ reviewsPanelContent:new Ext.XTemplate(
 '<div class="rev-col-wrap">',
 '	<div class="rev-product-info">',
 '		<div class="rev-title">{title}</div>',
-'		<div>Przydatność: {[Math.round(values.usefulness)]}%</div>',
 '		<div>Ocena produktu: {[RatingUtil.getRatingWidget(values.nodeId,values.rank,true)]}</div>',
+'		<div>Przydatność:',
+'			<div class="rev-progressbar-outer"> ',
+'				<div class="rev-progressbar-label">{[Math.round(values.usefulness)]}%</div>',
+'				<div style="width: {usefulness}%" class="rev-progressbar-inner"></div>',
+'			</div>',
+'		</div>',
 '	</div>',
-'</div>'
+'</div>',
+''
 ),
 reviewsPanelProductImage:new Ext.XTemplate(
 '<img src="{product.mainImage}" class="rev-img-small"></img>'
