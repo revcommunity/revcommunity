@@ -22,6 +22,8 @@ Ext.define('RevCommunity.view.product.ReviewsPanel',
 					location.href = '#reviews/' + id;
 				}
 			},
+			USER_COL_WIDTH : 140,
+			IMG_COL_WIDTH : 110,
 			initComponent : function() {
 				this.columns = [ {
 					xtype : 'templatecolumn',
@@ -31,12 +33,12 @@ Ext.define('RevCommunity.view.product.ReviewsPanel',
 				if (this.mode == 'newest') {
 					this.columns.push({
 						xtype : 'templatecolumn',
-						width : 130,
+						width : this.USER_COL_WIDTH,
 						tpl : TemplateHolder.reviewsPanelUser,
 					});
 					this.columns.unshift({
 						xtype : 'templatecolumn',
-						width : 110,
+						width : this.IMG_COL_WIDTH,
 						tpl : TemplateHolder.reviewsPanelProductImage,
 					});
 					this.store = Ext.create('RevCommunity.store.ReviewStore', {
@@ -53,13 +55,13 @@ Ext.define('RevCommunity.view.product.ReviewsPanel',
 				} else if (this.mode == 'user') {
 					this.columns.unshift({
 						xtype : 'templatecolumn',
-						width : 110,
+						width : this.IMG_COL_WIDTH,
 						tpl : TemplateHolder.reviewsPanelProductImage,
 					});
 				} else if (this.mode == 'product') {
 					this.columns.push({
 						xtype : 'templatecolumn',
-						width : 130,
+						width : this.USER_COL_WIDTH,
 						tpl : TemplateHolder.reviewsPanelUser,
 					});
 				}

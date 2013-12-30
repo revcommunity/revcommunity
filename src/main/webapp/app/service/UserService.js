@@ -43,5 +43,8 @@ var UserService={
 			if(this.getLoggedUser().userName=='anonymousUser')
 				return true;
 			return false;
+		},
+		buildRankString:function(user){
+			return user.rank.concat(" (",user.positiveReviewRatingsCount,"/",user.reviewRatingsCount,")");
 		}
 };

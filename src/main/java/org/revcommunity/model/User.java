@@ -6,6 +6,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
@@ -185,7 +186,8 @@ public class User
     {
         this.userName = userName;
     }
-
+    
+    @JsonProperty("positiveReviewRatingsCount")
     public int countPositiveReviewRatings()
     {
         int result = 0;
@@ -198,6 +200,7 @@ public class User
         return result;
     }
 
+    @JsonProperty("reviewRatingsCount")
     public int countReviewRatings()
     {
         int result = 0;
@@ -214,7 +217,7 @@ public class User
     {
         // TODO: update const values
         double defaultRank = 0.5;
-        double defaultRankWeight = 1;
+        double defaultRankWeight = 10;
         double reviewRatingsWeight = 1;
 
         double numerator = defaultRank * defaultRankWeight;

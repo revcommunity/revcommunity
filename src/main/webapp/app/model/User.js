@@ -49,6 +49,8 @@ Ext.define('RevCommunity.model.User', {
     				return v;
     			}
     		},
+    		'positiveReviewRatingsCount',
+    		'reviewRatingsCount',
     ],
     proxy: {
         type: 'rest',

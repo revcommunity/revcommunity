@@ -134,9 +134,14 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 							name : 'userRank',
 							autoEl : {
 								tag : 'div',
-								html : this.data.author.rank,
+								html : UserService.buildRankString(this.data.author),
 							}
-						}, ]
+						}, {
+							xtype : 'hidden',
+							name : 'userName',
+							value : this.data.author.userName,
+						}
+						]
 					}, ]
 				}, ];
 		this.callParent(arguments);

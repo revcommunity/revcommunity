@@ -94,7 +94,7 @@ reviewsPanelUser:new Ext.XTemplate(
 '	<div class="rev-user-container-mini">',
 '		<img src="{author.image}" class="rev-author-mini-img" ></img>',
 '		<div class="rev-author-mini-name">{author.fullName}</div>',
-'		<div class="rev-author-mini-rank">{author.rank}</div>',
+'		<div class="rev-author-mini-rank">{[UserService.buildRankString(values.author)]}</div>',
 '	</div>'
 ),
 userNotificationList:new Ext.XTemplate(

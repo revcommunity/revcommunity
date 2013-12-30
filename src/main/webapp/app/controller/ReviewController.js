@@ -150,7 +150,8 @@ Ext.define('RevCommunity.controller.ReviewController', {
 
 		var reviewRating = new RevCommunity.model.ReviewRating();
 		reviewRating.data.positive = positive;
-		var reviewNodeId = Ext.getCmp('reviewNodeId').value;
+		var reviewNodeId = Ext.ComponentQuery.query('[name=reviewNodeId]')[0].value;
+		var userName = Ext.ComponentQuery.query('[name=userName]')[0].value;
 
 		Ext.Ajax.request({
 			url : 'rest/reviews',
@@ -167,6 +168,9 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				bar.update(dataToSet);
 			}
 		});
+		var u = UserService.getByUserName(userName);
+		var newRank = UserService.buildRankString(u);
+		Ext.ComponentQuery.query('[name=userRank]')[0].el.update(newRank);
 
 	},
 	saveEditReviewLink : function(btn) {

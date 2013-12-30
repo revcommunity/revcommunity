@@ -110,7 +110,6 @@ Ext.define('RevCommunity.view.review.ReviewForm', {
 					}, {
 						xtype : 'hidden',
 						name : 'reviewNodeId',
-						id : 'reviewNodeId',
 						value : this.data.nodeId,
 					} ]
 				} ];
