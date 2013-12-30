@@ -141,11 +141,14 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		});
 	},
 	saveReviewRating : function(btn) {
+		var btn2 = null;
 		var positive = new Boolean();
 		if (btn.action == 'like') {
 			positive = true;
+			btn2 = btn.prev('button');
 		} else {
 			positive = false;
+			btn2 = btn.next('button');
 		}
 
 		var reviewRating = new RevCommunity.model.ReviewRating();
@@ -166,6 +169,8 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				dataToSet.usefulness = Math.round(value);
 				var bar = Ext.ComponentQuery.query('[name=usefulnessBar]')[0];
 				bar.update(dataToSet);
+				btn.setDisabled(true);
+				btn2.setDisabled(true);
 			}
 		});
 		var u = UserService.getByUserName(userName);

@@ -5,7 +5,37 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 	border : false,
 	width : 250,
 	margin : '0 0 0 5',
-	buildButtons : function() {
+	buildRatingButtons : function(reviewId) {
+		var buttons = [];
+		var isDisabled = false;
+		isDisabled = UserService.isReviewRated(reviewId);
+		buttons.push({
+				xtype : 'button',
+				text : 'Nieprzydatne',
+				flex : 1,
+				action : 'unlike',
+				disabled: isDisabled,
+				scale : 'medium',
+				cls : 'rev-red-button',
+				margins : {
+					right : 1
+				},
+		});
+		buttons.push({
+				xtype : 'button',
+				text : 'Przydatne',
+				flex : 1,
+				action : 'like',
+				disabled: isDisabled,
+				scale : 'medium',
+				cls : 'rev-green-button',
+				margins : {
+					left : 1
+				},
+		});
+		return buttons;
+	},
+	buildAdminButtons : function() {
 		var buttons = [];
 		if (UserService.isAdmin()) {
 			buttons.push({
@@ -34,7 +64,7 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 		return buttonsPanel;
 	},
 	initComponent : function() {
-		var buttons=this.buildButtons();
+		var buttons=this.buildAdminButtons();
 		this.items = [
 				{
 					xtype : 'component',
@@ -44,7 +74,7 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 						html : 'Dodano: ' + this.data.dateAddedString,
 					}
 				},
-
+				buttons,
 				{
 					xtype : 'container',
 					border : 0,
@@ -57,7 +87,6 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 							+ '</div>',
 					data : this.data,
 				},
-				buttons,
 				{
 					xtype : 'container',
 					layout : {
@@ -80,27 +109,7 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 								layout : {
 									type : 'hbox',
 								},
-								items : [ {
-									xtype : 'button',
-									text : 'Nieprzydatne',
-									flex : 1,
-									action : 'unlike',
-									scale : 'large',
-									cls : 'rev-red-button',
-									margins : {
-										right : 1
-									},
-								}, {
-									xtype : 'button',
-									text : 'Przydatne',
-									flex : 1,
-									action : 'like',
-									scale : 'large',
-									cls : 'rev-green-button',
-									margins : {
-										left : 1
-									},
-								} ]
+								items : this.buildRatingButtons(this.data.nodeId),
 							} ]
 				}, {
 					xtype : 'container',

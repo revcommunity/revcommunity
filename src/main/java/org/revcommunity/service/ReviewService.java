@@ -75,8 +75,7 @@ public class ReviewService
     {
         review.addReviewRating( rating );
 
-        // TODO: zamienic na zalogowanego usera
-        User u = ur.findByUserName( "jkowalski" );
+        User u = ur.findByUserName( SessionUtils.getLoggedUserName() );
         u.addRating( rating );
         ur.save( u );
 
