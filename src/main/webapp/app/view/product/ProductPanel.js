@@ -64,12 +64,15 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 				tag : 'div',
 				html : this.data.name,
 			}
-		}, {
-			xtype : 'image',
-			src : this.data.mainImage,
-			height : 200,
-			maxWidth : 240,
-		}, {
+		},{
+			xtype : 'component',
+			margin: '0 0 5 0',
+			autoEl : {
+				tag : 'img',
+				src: this.data.mainImage,
+				width: 240,
+			}
+		},{
 			xtype : 'container',
 			layout : {
 				type : 'hbox',
