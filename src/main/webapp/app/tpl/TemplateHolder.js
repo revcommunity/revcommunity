@@ -9,7 +9,9 @@ commentsListContent:new Ext.XTemplate(
 commentsListUser:new Ext.XTemplate(
 '<div class="rev-user-container">',
 '	<img src={author.image} class="rev-comments-user-image" ></img>',
-'	<div class="rev-user-name-small">{author.fullName}</div>',
+'	<div class="rev-user-name-small">',
+'		<a href="{[UserService.buildUserLink(values.author)]}">{author.fullName}</a>',
+'	</div>',
 '</div>'
 ),
 evaluationForm:new Ext.XTemplate(
@@ -99,7 +101,9 @@ reviewsPanelProductImage:new Ext.XTemplate(
 reviewsPanelUser:new Ext.XTemplate(
 '	<div class="rev-user-container-mini">',
 '		<img src="{author.image}" class="rev-author-mini-img" ></img>',
-'		<div class="rev-author-mini-name">{author.fullName}</div>',
+'		<div class="rev-author-mini-name">',
+'			<a href="{[UserService.buildUserLink(values.author)]}">{author.fullName}</a>',
+'		</div>',
 '		<div class="rev-author-mini-rank">{[UserService.buildRankString(values.author)]}</div>',
 '	</div>'
 ),

@@ -50,4 +50,7 @@ var UserService = {
 		});
 		return m.message;
 	},
+	buildUserLink : function(user) {
+		return '#reviews/user/'.concat(user.userName);
+	},
 };

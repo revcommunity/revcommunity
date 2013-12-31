@@ -134,9 +134,10 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel', {
 							xtype : 'component',
 							name : 'firstName',
 							autoEl : {
-								tag : 'div',
+								tag : 'a',
+								href: UserService.buildUserLink(this.data.author),
 								cls : 'rev-user-name',
-								html : this.data.author.fullName
+								cn : this.data.author.fullName
 							}
 						}, {
 							xtype : 'component',
