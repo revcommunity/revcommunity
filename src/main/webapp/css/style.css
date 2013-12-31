@@ -88,7 +88,11 @@
 	
 }
 
-.rev-reviewList-content,.rev-container-fit,.rev-review-content,.rev-comment-content
+.rev-reviewList-content,
+.rev-container-fit,
+.rev-review-content,
+.rev-comment-content,
+.rev-title
 	{
 	white-space: pre-wrap; /* CSS3 */
 	white-space: -moz-pre-wrap; /* Firefox */
