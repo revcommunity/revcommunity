@@ -96,9 +96,11 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 			} ]
 		},buttons, {
 			xtype : 'panel',
+			bodyPadding : 5,
 			margin : '5, 0, 0, 0',
 			tpl : '<tpl for="filterValues"><p>{name}: {value}</p></tpl>',
 			data : this.data,
+			hidden: (this.data.filterValues.length<1),
 		}, ];
 		this.callParent(arguments);
 	}

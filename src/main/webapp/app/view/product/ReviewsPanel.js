@@ -22,7 +22,7 @@ Ext.define('RevCommunity.view.product.ReviewsPanel',
 					location.href = '#reviews/' + id;
 				}
 			},
-			USER_COL_WIDTH : 140,
+			USER_COL_WIDTH : 150,
 			IMG_COL_WIDTH : 110,
 			initComponent : function() {
 				this.columns = [ {
