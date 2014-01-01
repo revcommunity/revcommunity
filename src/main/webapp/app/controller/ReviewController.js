@@ -171,11 +171,12 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				bar.update(dataToSet);
 				btn.setDisabled(true);
 				btn2.setDisabled(true);
+				
+				var u = UserService.getByUserName(userName);
+				var newRank = UserService.buildRankString(u);
+				Ext.ComponentQuery.query('[name=userRank]')[0].el.update(newRank);
 			}
 		});
-		var u = UserService.getByUserName(userName);
-		var newRank = UserService.buildRankString(u);
-		Ext.ComponentQuery.query('[name=userRank]')[0].el.update(newRank);
 
 	},
 	saveEditReviewLink : function(btn) {

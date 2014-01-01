@@ -36,6 +36,9 @@ public class User
     private Set<String> roles;
 
     private String image = "img/empty.jpg";
+    
+    @JsonIgnore
+    private Double rankAsDouble;
 
     public User()
     {
@@ -213,8 +216,20 @@ public class User
         return result;
     }
 
-    public String getRank()
-    {
+    @JsonIgnore
+    public Double getRankAsDouble() {
+    	if(rankAsDouble == null){
+    		calculateRank();
+    	}
+		return rankAsDouble;
+	}
+
+    @JsonIgnore
+	public void setRankAsDouble(Double rankAsDouble) {
+		this.rankAsDouble = rankAsDouble;
+	}
+    
+    public void calculateRank(){
         // TODO: update const values
         double defaultRank = 0.5;
         double defaultRankWeight = 10;
@@ -227,20 +242,25 @@ public class User
         denominator += reviewRatingsWeight * countReviewRatings();
 
         double result = numerator * 100.0 / denominator;
+        
+        setRankAsDouble(result);
+    }
 
-        if ( result <= 20.0 )
+	public String getRank()
+    {
+        if ( getRankAsDouble() <= 20.0 )
         {
             return "Niezaufany";
         }
-        else if ( result <= 40.0 )
+        else if ( getRankAsDouble() <= 40.0 )
         {
             return "Adept";
         }
-        else if ( result <= 60.0 )
+        else if ( getRankAsDouble() <= 60.0 )
         {
             return "Przeciętny";
         }
-        else if ( result <= 80.0 )
+        else if ( getRankAsDouble() <= 80.0 )
         {
             return "Godny zaufania";
         }
