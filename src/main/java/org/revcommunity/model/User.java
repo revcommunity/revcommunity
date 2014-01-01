@@ -17,6 +17,9 @@ import org.springframework.data.neo4j.annotation.RelatedTo;
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class User
 {
+	@JsonIgnore
+	private static final double DEFAULT_RANK = 0.5;
+	
     @GraphId
     private Long nodeId;
 
@@ -38,7 +41,7 @@ public class User
     private String image = "img/empty.jpg";
     
     @JsonIgnore
-    private Double rankAsDouble;
+    private Double rankAsDouble = DEFAULT_RANK;
 
     public User()
     {
@@ -218,9 +221,6 @@ public class User
 
     @JsonIgnore
     public Double getRankAsDouble() {
-    	if(rankAsDouble == null){
-    		calculateRank();
-    	}
 		return rankAsDouble;
 	}
 
@@ -231,7 +231,7 @@ public class User
     
     public void calculateRank(){
         // TODO: update const values
-        double defaultRank = 0.5;
+        double defaultRank = DEFAULT_RANK;
         double defaultRankWeight = 10;
         double reviewRatingsWeight = 1;
 

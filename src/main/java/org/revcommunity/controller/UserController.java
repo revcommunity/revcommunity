@@ -21,6 +21,11 @@ import org.revcommunity.util.Message;
 import org.revcommunity.util.RegistrationService;
 import org.revcommunity.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.http.ResponseEntity;
@@ -186,5 +191,14 @@ public class UserController
         Message m = new Message();
         m.setMessage( result );
         return m;
+    }
+    
+    @RequestMapping( value = "best", method = RequestMethod.GET )
+    @ResponseBody
+    public Page<User> getBestUsers()
+    {
+        PageRequest page = new PageRequest( 0, 5, new Sort( new Order( Direction.DESC, "n.rankAsDouble" ) ) );
+        Page<User> users = userRepo.findBestUsers( page );
+        return users;
     }
 }
