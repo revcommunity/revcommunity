@@ -10,36 +10,22 @@ Ext.define('RevCommunity.view.category.CategoryParameters', {
 		items : [ {
 			xtype : 'basefieldset',
 			name : 'radio_1',
-
+			border : 0,
 			fieldLabel : 'Size',
-			title : 'Parametry',
-			defaultType : 'radiofield',
-			defaults : {
-				flex : 1
-			},
-			width : 300,
+			title : 'Parametry:',
+
+			width : 600,
 			layout : 'vbox',
 			items : [],
-			margin : '0 10 10 0'
-		},
-
-		{
-			xtype : 'button',
-			action : 'addValueOfParameter',
-			text : 'Dodaj Wartość',
-			name : 'add_value_parameter',
-			hidden : true,
-			margin : '10 0 0 10'
-		},
-
-		]
+			margin : '0 10 0 0'
+		} ]
 	}, {
 		xtype : 'button',
 		action : 'addParameter',
-		text : 'Dodaj parametr',
-	}
-
-	],
+		text : 'Dodaj nowy parametr',
+		margin : '0 0 0 10',
+		width : 160
+	} ],
 	initComponent : function() {
 
 		if (Ext.isEmpty(this.defaults))

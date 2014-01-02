@@ -2,6 +2,24 @@ var global_nr_parameters = 0;
 var global_nr_values = 0;
 var global_active_parameters = 0;
 var global_category_id_leaf = null;
+var listGlobal = [];
+
+var dataList = Ext.create('Ext.data.Store', {
+	fields : [ 'val', 'name' ],
+	data : [ {
+		"val" : "INTEGER",
+		"name" : "Liczba"
+	}, {
+		"val" : "DATE",
+		"name" : "Data"
+	}, {
+		"val" : "STRING",
+		"name" : "Tekst"
+	}, {
+		"val" : "LIST",
+		"name" : "Lista"
+	} ]
+});
 
 Ext
 		.define(
@@ -15,102 +33,107 @@ Ext
 									'newcategoryform button[action=addParameter]' : {
 										click : this.addParameter
 									},
-									'newcategoryform button[action=addValueOfParameter]' : {
+									'button[action=addValueOfParameter]' : {
 										click : this.addValueOfParameter
-									},
-									'newcategoryform radiofield' : {
-										change : this.changeRadio
 									},
 									'newcategoryform button[action=saveCategory]' : {
 										click : this.saveCategory
 									},
-
-									'newcategoryform textfield' : {
-										focus : this.changeTextField
-									},
-									'newcategoryform checkboxfield' : {
-										change : this.changeLastcategoryfield
-									},
 									'newcategoryform categorycombo' : {
 										select : this.categorycombo
 									},
-
+									'newcategoryform combobox' : {
+										select : this.comboboxSelect
+									},
+									'newcategoryform button[action=menagerValueParam]' : {
+										click : this.menagerValueParam
+									},
+									'button[action=delete_ValueOfParameter]' : {
+										click : this.delete_ValueOfParameter
+									},
+									'button[action=ok_ValueOfParameter]' : {
+										click : this.ok_ValueOfParameter
+									},
 								});
 					},
 					addParameter : function(btn) {
 						global_nr_parameters++;
-
 						var form = btn.up('form');
 						var fc = form.down('basefieldset[name=radio_1]');
 						fc.add({
-							xtype : 'textfield',
-							fieldLabel : '',
-							name : 'param_field_' + global_nr_parameters
-						});
-						var fc2 = form.down('container[name=category_param]');
-						fc2.insert(1, {
-							xtype : 'basefieldset',
-							title : 'Typ',
-							fieldLabel : 'Typ',
-							defaultType : 'radiofield',
-							name : 'parametrs_types_' + global_nr_parameters,
-							layout : 'vbox',
-							items : [ {
-								boxLabel : 'Liczba',
-								name : 'param_type_' + global_nr_parameters,
-								inputValue : 'INTEGER',
-								id : 'radio1_' + global_nr_parameters,
-								checked : true
-
-							}, {
-								boxLabel : 'Data',
-								name : 'param_type_' + global_nr_parameters,
-								inputValue : 'DATE',
-								id : 'radio2_' + global_nr_parameters,
-							}, {
-								boxLabel : 'Tekst',
-								name : 'param_type_' + global_nr_parameters,
-								inputValue : 'STRING',
-								id : 'radio3_' + global_nr_parameters,
-							}, {
-								boxLabel : 'Lista',
-								name : 'param_type_' + global_nr_parameters,
-								inputValue : 'LIST',
-								id : 'radio4_' + global_nr_parameters,
-
-							} ]
+							xtype : 'container',
+							layout : 'hbox',
+							margin : '0 0 10 0',
+							items : [
+									{
+										xtype : 'textfield',
+										fieldLabel : '',
+										name : 'param_field_'
+												+ global_nr_parameters,
+										margin : '0 10 0 0',
+										editable : true
+									},
+									{
+										xtype : 'combobox',
+										name : 'combo_param_field_'
+												+ global_nr_parameters,
+										store : dataList,
+										value : dataList.getAt(0).get('val'),
+										queryMode : 'local',
+										displayField : 'name',
+										valueField : 'val',
+									},
+									{
+										xtype : 'button',
+										action : 'menagerValueParam',
+										text : 'Dodaj Wartość',
+										name : 'add_ListValue_'
+												+ global_nr_parameters,
+										margin : '0 0 0 10',
+										hidden : true
+									} ]
 						});
 
-						var fc2 = form.down('container[name=category_param]');
-						global_nr_values++;
-
-						fc2.insert(2, {
-
-							xtype : 'basefieldset',
-							name : 'paramText_' + global_nr_parameters,
-							title : 'Wartości',
-							defaultType : 'textfield',
-							defaults : {
-								flex : 1
-							},
-							margin : '0 0 0 10',
-							layout : 'vbox',
-							items : [ {
-
-								xtype : 'textfield',
-								fieldLabel : '',
-								name : 'valOfParameters_'
-										+ global_nr_parameters + '_'
-										+ global_nr_values
-							}
-
-							]
-						});
 						global_active_parameters = global_nr_parameters;
-						hide_show(btn);
-						hide_param(btn);
-					},
 
+					},
+					comboboxSelect : function(combo) {
+						var nr = combo.name;
+						nr = nr.replace("combo_param_field_", "");
+						var form = combo.up('form');
+						var fc;
+						if (parseInt(nr)) {
+							fc = form.down('button[name=add_ListValue_' + nr
+									+ ']');
+						}
+						if (combo.value == "LIST") {
+							if (fc)
+								fc.show();
+						} else {
+							if (fc)
+								fc.hide();
+						}
+
+					},
+					ok_ValueOfParameter : function(btn) {
+						var form = btn.up("[name=windowPopup]");
+
+						for ( var int = 0; int < listGlobal.length; int++) {
+							if (listGlobal[int][0] == global_active_parameters) {
+								listGlobal[int] = [];
+							}
+						}
+
+						for ( var i = 0; i <= global_nr_values; i++) {
+							var fc = form.down('[name=valOfParameters_'
+									+ global_active_parameters + '_' + i + ']');
+							if (fc && fc.value != null && fc.value != '') {
+								listGlobal.push([ global_active_parameters,
+										fc.value ]);
+							}
+						}
+						form.hide();
+					},
 					categorycombo : function(com) {
 
 						global_category_id_leaf = com.getValue();
@@ -126,31 +149,44 @@ Ext
 					},
 
 					addValueOfParameter : function(btn) {
-						global_nr_values++;
-
-						var form = btn.up('form');
-						var fc = form.down('container[name=paramText_'
-								+ global_active_parameters + ']');
-						fc.add({
-
-							xtype : 'textfield',
-							fieldLabel : '',
-							name : 'valOfParameters_'
-									+ global_active_parameters + '_'
-									+ global_nr_values
-
-						});
-
-					},
-
-					changeRadio : function(radio) {
-						if (Ext.getCmp('radio4_' + global_active_parameters)
-								.getValue()) {
-							hide_show(radio);
-
+						var nr = btn.name;
+						nr = nr.replace("add_value_parameter_", "");
+						if (parseInt(nr)) {
+							global_active_parameters = nr;
 						} else {
-							hide_param(radio);
+							console.log("button error");
 						}
+						var form = btn.up("[name=windowPopup]");
+
+						global_nr_values++;
+						var fc = form.down('[name=paramText_'
+								+ global_active_parameters + ']');
+
+						fc.add({
+							xtype : 'basefieldset',
+							layout : {
+								type : 'hbox',
+								align : 'stretch'
+							},
+							border : 0,
+							padding : '0 0 0 0',
+							items : [
+									{
+
+										xtype : 'textfield',
+										width : 250,
+										fieldLabel : '',
+										name : 'valOfParameters_'
+												+ global_active_parameters
+												+ '_' + global_nr_values
+									}, {
+										xtype : 'button',
+										action : 'delete_ValueOfParameter',
+										text : 'Usuń',
+										name : 'delete_ValueOfParameter',
+										margin : '0 0 0 10'
+									} ]
+						});
 
 					},
 
@@ -175,24 +211,30 @@ Ext
 						var list = [];
 
 						for ( var i = 1; i <= global_nr_parameters; i++) {
+
 							var valuesList = [];
-							for ( var j = 1; j <= global_nr_values; j++) {
-								if (fr['valOfParameters_' + i + '_' + j]) {
-									valuesList.push(fr['valOfParameters_' + i
-											+ '_' + j]);
+							for ( var j = 0; j < listGlobal.length; j++) {
+								if (listGlobal[j][0] == i) {
+									if (listGlobal[j][1] != null
+											&& listGlobal[j][1] != '') {
+										valuesList.push(listGlobal[j][1]);
+									}
 								}
 							}
-							if (fr['param_type_' + i] !== "LIST") {
+
+							if (fr['combo_param_field_' + i] !== "LIST") {
 								valuesList = null;
 							}
-							list.push({
-								name : fr['param_field_' + i],
-								values : valuesList,
-								type : fr['param_type_' + i]
 
-							});
+							if (fr['param_field_' + i] != null
+									&& fr['param_field_' + i] != '') {
+								list.push({
+									name : fr['param_field_' + i],
+									values : valuesList,
+									type : fr['combo_param_field_' + i]
+								});
+							}
 						}
-
 						if (fr.lastcategoryfield) {// is leaf
 							Ext.Ajax
 									.request({
@@ -213,7 +255,6 @@ Ext
 											UtilService
 													.showInfo("Błąd przy dodawaniu nowej kategori");
 											location.href = '#category/new';
-
 										}
 									});
 						} else {
@@ -236,73 +277,151 @@ Ext
 											UtilService
 													.showInfo("Błąd przy dodawaniu nowej kategori");
 											location.href = '#category/new';
-
 										}
 									});
 						}
-
 					},
 
-					changeTextField : function(panel) {
-
-						var nr = panel.getName();
-						nr = nr.replace("param_field_", "");
-
+					menagerValueParam : function(btn) {
+						var nr = btn.name;
+						nr = nr.replace("add_ListValue_", "");
 						if (parseInt(nr)) {
 							global_active_parameters = nr;
-							hide_show(panel);
+						} else {
+							console.log("button error");
+						}
+						var form = btn.up('form');
 
-						} else
-							return;
-						if (Ext.getCmp('radio4_' + global_active_parameters)
-								.getValue() == false) {
-							hide_param(panel);
+						var paramName = form.down('[name=param_field_'
+								+ global_active_parameters + ']').value;
+						if (paramName == null || paramName == '') {
+							paramName = '';
 						}
 
-					},
+						var win = Ext
+								.create(
+										'Ext.window.Window',
+										{
+											title : 'Lista wartości parametru '
+													+ paramName,
+											name : 'windowPopup',
+											height : 270,
+											autoScroll : true,
+											width : 380,
+											layout : 'vbox',
+											border : 0,
+											items : [
+													{
+														xtype : 'basefieldset',
+														name : 'paramText_'
+																+ global_active_parameters,
+														border : 0,
 
-					changeLastcategoryfield : function(panel) {
-					},
+														margin : '10 10 10 10 ',
+														layout : 'vbox',
+														items : [
 
+														]
+													},
+													{
+														xtype : 'basefieldset',
+														layout : {
+															type : 'hbox',
+															align : 'stretch'
+														},
+														border : 0,
+														padding : '0 0 0 10',
+														items : [
+																{
+																	xtype : 'button',
+																	action : 'addValueOfParameter',
+																	width : 250,
+																	text : 'Dodaj Wartości',
+																	name : 'add_value_parameter_'
+																			+ global_active_parameters,
+																	margin : '0 0 0 10'
+																},
+																{
+																	xtype : 'button',
+																	action : 'ok_ValueOfParameter',
+																	text : 'Zapisz',
+																	name : 'ok_ValueOfParameter',
+																	margin : '0 0 0 10'
+																} ]
+													} ]
+										}).show();
+
+						var fc = win.down('[name=paramText_'
+								+ global_active_parameters + ']');
+						var contValues = 0;
+						for ( var int = 0; int < listGlobal.length; int++) {
+							if (listGlobal[int][0] == global_active_parameters) {
+								global_nr_values++;
+								contValues++;
+								fc
+										.add({
+											xtype : 'basefieldset',
+											layout : {
+												type : 'hbox',
+												align : 'stretch'
+											},
+											border : 0,
+											padding : '0 0 0 0',
+											items : [
+													{
+														xtype : 'textfield',
+														fieldLabel : '',
+														width : 250,
+														name : 'valOfParameters_'
+																+ global_active_parameters
+																+ '_'
+																+ global_nr_values,
+														value : listGlobal[int][1]
+													},
+													{
+														xtype : 'button',
+														action : 'delete_ValueOfParameter',
+														text : 'Usuń',
+														name : 'delete_ValueOfParameter',
+														margin : '0 0 0 10'
+													} ]
+										});
+
+							}
+						}
+
+						if (contValues == 0) {
+							global_nr_values++;
+							fc.add({
+								xtype : 'basefieldset',
+								layout : {
+									type : 'hbox',
+									align : 'stretch'
+								},
+								name : 'nameValueOfParam' + global_nr_values,
+								border : 0,
+								padding : '0 0 0 0',
+								items : [
+										{
+											xtype : 'textfield',
+											fieldLabel : '',
+											width : 250,
+											name : 'valOfParameters_'
+													+ global_active_parameters
+													+ '_' + global_nr_values
+										}, {
+											xtype : 'button',
+											action : 'delete_ValueOfParameter',
+											text : 'Usuń',
+											name : 'delete_ValueOfParameter',
+											margin : '0 0 0 10'
+										} ]
+							});
+						}
+					},
+					delete_ValueOfParameter : function(btn) {
+						var fc = btn.up('basefieldset');
+						fc.down('textfield').value = '';
+						fc.hide();
+					},
 				});
-
-function hide_show(panel) {
-	var form = panel.up('form');
-	var fc;
-	for (i = 1; i <= global_nr_parameters; i++) {
-		fc = form.down('container[name=paramText_' + i + ']');
-		if (fc)
-			fc.hide();
-
-		fc = form.down('container[name=parametrs_types_' + i + ']');
-		if (fc)
-			fc.hide();
-	}
-	fc = form
-			.down('container[name=paramText_' + global_active_parameters + ']');
-	fc2 = form.down('container[name=parametrs_types_'
-			+ global_active_parameters + ']');
-
-	if (fc) {
-		fc.show(); // aktywny
-		fc2.show();
-		fc = form.down('button[action=addValueOfParameter]');
-		if (fc)
-			fc.show();
-	}
-}
-
-function hide_param(panel) {
-	var form = panel.up('form');
-	var fc;
-	for (i = 1; i <= global_nr_parameters; i++) {
-		fc = form.down('container[name=paramText_' + i + ']');
-		if (fc)
-			fc.hide();
-
-	}
-	fc = form.down('button[action=addValueOfParameter]');
-	if (fc)
-		fc.hide();
-
-}

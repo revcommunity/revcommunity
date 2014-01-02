@@ -14,7 +14,10 @@ Ext.define('RevCommunity.view.category.ParentCategoryFieldSet', {
 	extend : 'RevCommunity.view.form.BaseFieldSet',
 	alias : 'widget.parentcategoryfieldset',
 	title : '',
-	layout : 'hbox',
+	layout : {
+		type : 'hbox',
+		align : 'stretch'
+	},
 
 	items : [ {
 		fieldLabel : 'Wybierz kategorię nadrzędną',
