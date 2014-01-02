@@ -15,6 +15,7 @@ import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.util.SessionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -22,6 +23,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class ReviewService
 {
+    @Autowired
+    private Neo4jTemplate tpl;
+    
     @Autowired
     private ReviewRepo rr;
 
@@ -71,12 +75,14 @@ public class ReviewService
         return rr.findOne( reviewId );
     }
 
+    @Transactional
     public void addReviewRating( Review review, ReviewRating rating )
     {
         review.addReviewRating( rating );
-
-        // TODO: zamienic na zalogowanego usera
-        User u = ur.findByUserName( "jkowalski" );
+        User reviewAuthor = tpl.fetch(review.getAuthor());
+        reviewAuthor.calculateRank();
+        
+        User u = ur.findByUserName( SessionUtils.getLoggedUserName() );
         u.addRating( rating );
         ur.save( u );
 

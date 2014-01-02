@@ -6,6 +6,7 @@ import java.util.Set;
 import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
 import org.springframework.data.neo4j.annotation.GraphId;
@@ -16,6 +17,9 @@ import org.springframework.data.neo4j.annotation.RelatedTo;
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class User
 {
+	@JsonIgnore
+	private static final double DEFAULT_RANK = 0.5;
+	
     @GraphId
     private Long nodeId;
 
@@ -35,6 +39,9 @@ public class User
     private Set<String> roles;
 
     private String image = "img/empty.jpg";
+    
+    @JsonIgnore
+    private Double rankAsDouble = DEFAULT_RANK;
 
     public User()
     {
@@ -185,7 +192,8 @@ public class User
     {
         this.userName = userName;
     }
-
+    
+    @JsonProperty("positiveReviewRatingsCount")
     public int countPositiveReviewRatings()
     {
         int result = 0;
@@ -198,6 +206,7 @@ public class User
         return result;
     }
 
+    @JsonProperty("reviewRatingsCount")
     public int countReviewRatings()
     {
         int result = 0;
@@ -210,11 +219,20 @@ public class User
         return result;
     }
 
-    public String getRank()
-    {
+    @JsonIgnore
+    public Double getRankAsDouble() {
+		return rankAsDouble;
+	}
+
+    @JsonIgnore
+	public void setRankAsDouble(Double rankAsDouble) {
+		this.rankAsDouble = rankAsDouble;
+	}
+    
+    public void calculateRank(){
         // TODO: update const values
-        double defaultRank = 0.5;
-        double defaultRankWeight = 1;
+        double defaultRank = DEFAULT_RANK;
+        double defaultRankWeight = 10;
         double reviewRatingsWeight = 1;
 
         double numerator = defaultRank * defaultRankWeight;
@@ -224,20 +242,25 @@ public class User
         denominator += reviewRatingsWeight * countReviewRatings();
 
         double result = numerator * 100.0 / denominator;
+        
+        setRankAsDouble(result);
+    }
 
-        if ( result <= 20.0 )
+	public String getRank()
+    {
+        if ( getRankAsDouble() <= 20.0 )
         {
             return "Niezaufany";
         }
-        else if ( result <= 40.0 )
+        else if ( getRankAsDouble() <= 40.0 )
         {
             return "Adept";
         }
-        else if ( result <= 60.0 )
+        else if ( getRankAsDouble() <= 60.0 )
         {
             return "Przeciętny";
         }
-        else if ( result <= 80.0 )
+        else if ( getRankAsDouble() <= 80.0 )
         {
             return "Godny zaufania";
         }

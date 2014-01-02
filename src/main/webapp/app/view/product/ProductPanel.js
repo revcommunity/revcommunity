@@ -64,12 +64,15 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 				tag : 'div',
 				html : this.data.name,
 			}
-		}, {
-			xtype : 'image',
-			src : this.data.mainImage,
-			height : 200,
-			maxWidth : 240,
-		}, {
+		},{
+			xtype : 'component',
+			margin: '0 0 5 0',
+			autoEl : {
+				tag : 'img',
+				src: this.data.mainImage,
+				width: 240,
+			}
+		},{
 			xtype : 'container',
 			layout : {
 				type : 'hbox',
@@ -96,9 +99,11 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 			} ]
 		},buttons, {
 			xtype : 'panel',
+			bodyPadding : 5,
 			margin : '5, 0, 0, 0',
 			tpl : '<tpl for="filterValues"><p>{name}: {value}</p></tpl>',
 			data : this.data,
+			hidden: (this.data.filterValues.length<1),
 		}, ];
 		this.callParent(arguments);
 	}

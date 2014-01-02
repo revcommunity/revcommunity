@@ -33,7 +33,7 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 				       },
 				       {
 				    	   xtype:'displayfield',
-				    	   name : 'rank',
+				    	   name : 'extendedRank',
 				       },
 				       {
 				    	   xtype:'button',
@@ -71,6 +71,8 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 			user=UserService.getByUserName(this.userName);
 		}
 		this.callParent(arguments);
+		var extendedRank = UserService.buildRankString(user);
+		user.extendedRank = extendedRank;
 		this.getForm().setValues(user);
 		this.down('image').setSrc(user.image);
 	}

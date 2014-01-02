@@ -183,6 +183,7 @@ public class Review
             double votesWeight = 8;
             double authorWeight = 3;
 
+            //TODO: set cron for calculating average system usefulness
             double defaultReviewUsefulness = 0.5;
 
             double numerator = defaultReviewWeight * defaultReviewUsefulness;

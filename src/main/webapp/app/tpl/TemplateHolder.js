@@ -9,7 +9,9 @@ commentsListContent:new Ext.XTemplate(
 commentsListUser:new Ext.XTemplate(
 '<div class="rev-user-container">',
 '	<img src={author.image} class="rev-comments-user-image" ></img>',
-'	<div class="rev-user-name-small">{author.fullName}</div>',
+'	<div class="rev-user-name-small">',
+'		<a href="{[UserService.buildUserLink(values.author)]}">{author.fullName}</a>',
+'	</div>',
 '</div>'
 ),
 evaluationForm:new Ext.XTemplate(
@@ -82,10 +84,16 @@ reviewsPanelContent:new Ext.XTemplate(
 '<div class="rev-col-wrap">',
 '	<div class="rev-product-info">',
 '		<div class="rev-title">{title}</div>',
-'		<div>Przydatność: {[Math.round(values.usefulness)]}%</div>',
 '		<div>Ocena produktu: {[RatingUtil.getRatingWidget(values.nodeId,values.rank,true)]}</div>',
+'		<div>Przydatność:',
+'			<div class="rev-progressbar-outer"> ',
+'				<div class="rev-progressbar-label">{[Math.round(values.usefulness)]}%</div>',
+'				<div style="width: {usefulness}%" class="rev-progressbar-inner"></div>',
+'			</div>',
+'		</div>',
 '	</div>',
-'</div>'
+'</div>',
+''
 ),
 reviewsPanelProductImage:new Ext.XTemplate(
 '<img src="{product.mainImage}" class="rev-img-small"></img>'
@@ -93,8 +101,10 @@ reviewsPanelProductImage:new Ext.XTemplate(
 reviewsPanelUser:new Ext.XTemplate(
 '	<div class="rev-user-container-mini">',
 '		<img src="{author.image}" class="rev-author-mini-img" ></img>',
-'		<div class="rev-author-mini-name">{author.fullName}</div>',
-'		<div class="rev-author-mini-rank">{author.rank}</div>',
+'		<div class="rev-author-mini-name">',
+'			<a href="{[UserService.buildUserLink(values.author)]}">{author.fullName}</a>',
+'		</div>',
+'		<div class="rev-author-mini-rank">{[UserService.buildRankString(values.author)]}</div>',
 '	</div>'
 ),
 userNotificationList:new Ext.XTemplate(
