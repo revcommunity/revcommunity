@@ -1,4 +1,13 @@
 var TemplateHolder={
+bestUsersList:new Ext.XTemplate(
+'<tpl for=".">',
+'	<div class="rev-best-user-wrap">',
+'	<div class="rev-best-user-img"><img src="{image}"></div>',
+'	<a href="{[UserService.buildUserLink(values)]}">{fullName}</a>',
+'	<span>{[UserService.buildRankString(values)]}</span>',
+'	</div>',
+'</tpl>'
+),
 commentsListContent:new Ext.XTemplate(
 '<div class="rev-list-header">',
 '	<span style="float:left">Dodano: {dateAddedString}</span>',

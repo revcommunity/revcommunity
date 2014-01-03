@@ -195,10 +195,13 @@ public class UserController
     
     @RequestMapping( value = "best", method = RequestMethod.GET )
     @ResponseBody
-    public Page<User> getBestUsers()
+    public Page<User> getBestUsers(@RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit)
     {
-        PageRequest page = new PageRequest( 0, 5, new Sort( new Order( Direction.DESC, "n.rankAsDouble" ) ) );
+        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.rankAsDouble" ) ) );
         Page<User> users = userRepo.findBestUsers( page );
+        
+        //TODO: zawsze zwraca "lastpage=true". Neo4j nie wspiera PageRequest?
+        
         return users;
     }
 }
