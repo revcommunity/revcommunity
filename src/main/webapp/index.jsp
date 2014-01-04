@@ -11,6 +11,10 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="ext-4/ext-all-dev.js"></script>
     
+    <script src="lightbox/js/jquery-1.10.2.min.js"></script>
+	<script src="lightbox/js/lightbox-2.6.min.js"></script>
+	<link rel="stylesheet" type="text/css" href="lightbox/css/lightbox.css" />
+    
     <script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
     
    	<script type="text/javascript" src="app/lib/jquery.min.js"></script>
