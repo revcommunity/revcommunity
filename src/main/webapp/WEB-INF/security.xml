@@ -40,6 +40,7 @@
 		<intercept-url pattern="/rest/subscriptions/**" access="ROLE_USER" />
 		<intercept-url pattern="/rest/comments/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/rest/users/name/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
+		<intercept-url pattern="/rest/users/**" access="IS_AUTHENTICATED_ANONYMOUSLY" />
 		<intercept-url pattern="/**" access="ROLE_USER" />
 		<intercept-url pattern="/**" access="ROLE_ADMIN" />
 		
