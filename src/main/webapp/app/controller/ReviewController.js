@@ -1,10 +1,7 @@
 Ext.define('RevCommunity.controller.ReviewController', {
 	extend : 'Ext.app.Controller',
 	init : function() {
-		this.control({/*
-						 * 'reviewspanel button[action=addReview]' : { click :
-						 * this.addReview },
-						 */
+		this.control({
 			'newreviewform button[action=openCreateProductForm]' : {
 				click : this.showNewProductForm
 			},
@@ -41,9 +38,6 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		}
 	},
 	
-	// addReviewForm : function() {
-	// location.href = '#addReview';
-	// },
 	showNewProductForm : function() {
 		location.href = '#product/new';
 	},

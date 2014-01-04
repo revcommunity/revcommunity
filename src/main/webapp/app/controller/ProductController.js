@@ -23,7 +23,9 @@ Ext.define('RevCommunity.controller.ProductController', {
 		});
 	},
 	productItemClick:function(grid, record, item, index, e, eOpts){
-		this.showDetails(record);
+		if (e.target.getAttribute("action") == "details") {
+			this.showDetails(record);
+		}
 	},
 	deleteProduct:function(btn){
 		var data=btn.up('productpanel').data;
