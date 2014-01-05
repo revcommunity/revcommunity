@@ -9,14 +9,16 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 	    pack  : 'start',
 	},
 	mode:'all',
-	title:'Moje recenzje',
 	userName:null,
 	initComponent:function(){
 		var url=null;
 		if(this.mode=='myReviews'){
 			url='rest/reviews/my';
+			this.title = 'Moje recenzje';
 		}else{
 			url='rest/reviews/user/'+this.userName;
+			var u = UserService.getByUserName(this.userName);
+			this.title = 'Recenzje użytkownika ' + u.fullName;
 		}
 		this.callParent(arguments);
 		this.add({
