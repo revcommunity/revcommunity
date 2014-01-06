@@ -60,7 +60,12 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		r.product = {
 			nodeId : values.productId
 		};
-
+		
+		//pobieram ocene produktu wystawiona przez autora
+		rank = RatingUtil.getChecked('new-review-product-rank');
+		
+		r.rank = rank;
+		
 		var encoded = Ext.encode(r);
 		Ext.Ajax.request({
 			url : 'rest/reviews',
