@@ -12,6 +12,22 @@
 	<context:property-placeholder location="classpath:config.properties" />
 	
 	<bean id="mailService" class="org.revcommunity.util.MailService"></bean>
+
+	<bean name="usefulnessCalculatorJob" class="org.springframework.scheduling.quartz.JobDetailBean">
+		<property name="jobClass" value="org.revcommunity.schedule.job.UsefulnessCalculatorJob" />
+		<property name="jobDataAsMap">
+			<map>
+				<entry key="reviewRepo" value-ref="reviewRepo" />
+				<entry key="keyValuePairRepo" value-ref="keyValuePairRepo" />
+			</map>
+		</property>
+	</bean>
+	
+	
+	<bean id="usefulnessCalculatorTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+    	<property name="jobDetail" ref="usefulnessCalculatorJob" />
+    	<property name="cronExpression" value="${usefulnessCalculator.cron}" />
+	</bean>
 	
 	<bean name="newsletterJob" class="org.springframework.scheduling.quartz.JobDetailBean">
 		<property name="jobClass" value="org.revcommunity.schedule.job.NewsletterJob" />
@@ -39,6 +55,7 @@
 		<property name="triggers">
         <list>
             <ref bean="newsletterTrigger" />
+            <ref bean="usefulnessCalculatorTrigger" />
         </list>
     </property>
 	</bean>

@@ -201,6 +201,7 @@ public class UserController
         Page<User> users = userRepo.findBestUsers( page );
         
         //TODO: zawsze zwraca "lastpage=true". Neo4j nie wspiera PageRequest?
+        //TODO: nie działa sortowanie
         
         return users;
     }

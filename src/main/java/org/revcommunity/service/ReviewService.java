@@ -3,6 +3,7 @@ package org.revcommunity.service;
 import java.util.Date;
 
 import org.revcommunity.model.Comment;
+import org.revcommunity.model.KeyValuePair;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
@@ -10,6 +11,7 @@ import org.revcommunity.model.User;
 import org.revcommunity.model.subscription.ProductNotificationType;
 import org.revcommunity.model.subscription.UserNotificationType;
 import org.revcommunity.repo.CommentRepo;
+import org.revcommunity.repo.KeyValuePairRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
@@ -25,7 +27,7 @@ public class ReviewService
 {
     @Autowired
     private Neo4jTemplate tpl;
-    
+
     @Autowired
     private ReviewRepo rr;
 
@@ -40,6 +42,9 @@ public class ReviewService
 
     @Autowired
     private SubscriptionService ss;
+
+    @Autowired
+    private KeyValuePairRepo keyValuePairRepo;
 
     public void createReview( Review review )
     {
@@ -79,13 +84,21 @@ public class ReviewService
     public void addReviewRating( Review review, ReviewRating rating )
     {
         review.addReviewRating( rating );
-        User reviewAuthor = tpl.fetch(review.getAuthor());
+        User reviewAuthor = tpl.fetch( review.getAuthor() );
         reviewAuthor.calculateRank();
-        
+
+        review.calculateUsefulness( getAvgUsefulness() );
+
         User u = ur.findByUserName( SessionUtils.getLoggedUserName() );
         u.addRating( rating );
         ur.save( u );
 
+    }
+
+    public Double getAvgUsefulness()
+    {
+        KeyValuePair kvp = keyValuePairRepo.findOneByKey( "avgUsefulness" );
+        return (Double) kvp.getValue();
     }
 
 }

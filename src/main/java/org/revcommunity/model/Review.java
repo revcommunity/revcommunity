@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.log4j.Logger;
+import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.neo4j.graphdb.Direction;
 import org.springframework.data.neo4j.annotation.Fetch;
@@ -19,6 +20,9 @@ public class Review
 {
     private static final Logger log = Logger.getLogger( Review.class );
 
+    @JsonIgnore
+    private static final double DEFAULT_USEFULNESS = 0.5;
+
     @Override
     public String toString()
     {
@@ -28,6 +32,8 @@ public class Review
     public Review()
     {
     }
+
+    private Double usefulness = DEFAULT_USEFULNESS * 100;
 
     private Date dateAdded;
 
@@ -173,20 +179,17 @@ public class Review
         getComments().add( comment );
     }
 
-    public Double getUsefulness()
+    public void calculateUsefulness( double avgSystemUsefulness )
     {
         double result = 0;
         try
         {
-            // TODO: set proper weights and defaultReviewUsefulness
+            // TODO: set proper weights
             double defaultReviewWeight = 1;
             double votesWeight = 8;
             double authorWeight = 3;
 
-            //TODO: set cron for calculating average system usefulness
-            double defaultReviewUsefulness = 0.5;
-
-            double numerator = defaultReviewWeight * defaultReviewUsefulness;
+            double numerator = defaultReviewWeight * avgSystemUsefulness;
             numerator += votesWeight * countPositiveRatings();
             numerator += authorWeight * author.countPositiveReviewRatings();
 
@@ -200,7 +203,18 @@ public class Review
         {
             log.error( e.getMessage() );
         }
-        return result;
+
+        setUsefulness( result );
+    }
+
+    public void setUsefulness( Double usefulness )
+    {
+        this.usefulness = usefulness;
+    }
+
+    public Double getUsefulness()
+    {
+        return usefulness;
     }
 
     public int countPositiveRatings()

@@ -4,7 +4,9 @@ import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
 import org.apache.log4j.Logger;
+import org.revcommunity.model.KeyValuePair;
 import org.revcommunity.model.User;
+import org.revcommunity.repo.KeyValuePairRepo;
 import org.revcommunity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +24,9 @@ public class RevContextListener
 
     @Autowired
     private UserService us;
+    
+    @Autowired
+    private KeyValuePairRepo keyValuePairRepo;
 
     @Value( "${admin.username}" )
     private String adminUserName;
@@ -34,6 +39,7 @@ public class RevContextListener
         WebApplicationContextUtils.getRequiredWebApplicationContext( sce.getServletContext() ).getAutowireCapableBeanFactory().autowireBean( this );
 
         checkAdminUser();
+        checkAverageUsefulness();
         log.debug( "System został uruchomiony." );
     }
 
@@ -60,6 +66,22 @@ public class RevContextListener
         else
         {
             log.debug( "Użytkownika admin już istnieje." );
+        }
+    }
+    
+    public void checkAverageUsefulness(){
+		KeyValuePair keyValuePair = keyValuePairRepo.findOneByKey("avgUsefulness");
+		if(keyValuePair == null){
+			keyValuePair = new KeyValuePair();
+			keyValuePair.setKey("avgUsefulness");
+			//TODO: mozna jakos wymusic akcje Joba?
+			keyValuePair.setValue(0.5);
+			keyValuePairRepo.save(keyValuePair);
+			log.debug( "Tworzę averageUsefulness keyValuePair." );
+		}
+        else
+        {
+            log.debug( "averageUsefulness keyValuePair już istnieje." );
         }
     }
 

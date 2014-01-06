@@ -17,9 +17,9 @@ import org.springframework.data.neo4j.annotation.RelatedTo;
 @JsonIgnoreProperties( ignoreUnknown = true )
 public class User
 {
-	@JsonIgnore
-	private static final double DEFAULT_RANK = 0.5;
-	
+    @JsonIgnore
+    private static final double DEFAULT_RANK = 0.5;
+
     @GraphId
     private Long nodeId;
 
@@ -30,18 +30,18 @@ public class User
     private String lastName;
 
     private String password;
-    
+
     private String email;
-    
-    //FIXME ustawilem true do testow, trzeba to jeszcze dodac do formularza rejestracji
+
+    // FIXME ustawilem true do testow, trzeba to jeszcze dodac do formularza rejestracji
     private boolean sendNewsletter = true;
 
     private Set<String> roles;
 
     private String image = "img/empty.jpg";
-    
+
     @JsonIgnore
-    private Double rankAsDouble = DEFAULT_RANK;
+    private Double rankAsDouble = DEFAULT_RANK * 100;
 
     public User()
     {
@@ -192,8 +192,8 @@ public class User
     {
         this.userName = userName;
     }
-    
-    @JsonProperty("positiveReviewRatingsCount")
+
+    @JsonProperty( "positiveReviewRatingsCount" )
     public int countPositiveReviewRatings()
     {
         int result = 0;
@@ -206,7 +206,7 @@ public class User
         return result;
     }
 
-    @JsonProperty("reviewRatingsCount")
+    @JsonProperty( "reviewRatingsCount" )
     public int countReviewRatings()
     {
         int result = 0;
@@ -220,16 +220,19 @@ public class User
     }
 
     @JsonIgnore
-    public Double getRankAsDouble() {
-		return rankAsDouble;
-	}
+    public Double getRankAsDouble()
+    {
+        return rankAsDouble;
+    }
 
     @JsonIgnore
-	public void setRankAsDouble(Double rankAsDouble) {
-		this.rankAsDouble = rankAsDouble;
-	}
-    
-    public void calculateRank(){
+    public void setRankAsDouble( Double rankAsDouble )
+    {
+        this.rankAsDouble = rankAsDouble;
+    }
+
+    public void calculateRank()
+    {
         // TODO: update const values
         double defaultRank = DEFAULT_RANK;
         double defaultRankWeight = 10;
@@ -242,11 +245,11 @@ public class User
         denominator += reviewRatingsWeight * countReviewRatings();
 
         double result = numerator * 100.0 / denominator;
-        
-        setRankAsDouble(result);
+
+        setRankAsDouble( result );
     }
 
-	public String getRank()
+    public String getRank()
     {
         if ( getRankAsDouble() <= 20.0 )
         {
@@ -267,9 +270,9 @@ public class User
         else
         {
             return "Ekspert";
-        }       
+        }
     }
-    
+
     public String getEmail()
     {
         return email;
