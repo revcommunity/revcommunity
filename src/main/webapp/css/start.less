@@ -1,3 +1,39 @@
-.rev-startpanel{
-	background-color:transparent;
+.rev-startpanel {
+	background-color: transparent;
 }
+
+.rev-best-users-panel{
+	margin-left:10px;
+	margin-top:5px;
+}
+
+@wrapWidth: 130px;
+@wrapPadding: 5px;
+@imgSize: 80px;
+@imgPadding: (@wrapWidth - @imgSize - 2*@wrapPadding)/2;
+
+.rev-best-user-wrap {
+	float: left;
+	margin: 4px;
+	padding: @wrapPadding;
+	width: @wrapWidth;
+}
+
+.rev-best-user-img {
+	padding-right: @imgPadding;
+	padding-left: @imgPadding;
+	padding-bottom: 0;
+}
+
+.rev-best-user-img img {
+    height: @imgSize;
+    width: @imgSize;
+}
+
+.rev-best-user-wrap span,
+.rev-best-user-wrap a {
+    display: block;
+    overflow: hidden;
+    text-align: center;    
+}
+

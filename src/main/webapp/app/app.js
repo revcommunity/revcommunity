@@ -2,7 +2,7 @@ Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
              'CommentStore','UserSubscriptionStore','UserNotificationStore','ProductSubscriptionStore',
-             'ProductNotificationStore'
+             'ProductNotificationStore', 'BestUsersStore'
             ],
 	controllers:['ProductController','ReviewController','CategoryController',
 	             'ProductFormController','RevHtmlEditorController','LoginController',
@@ -39,6 +39,7 @@ Ext.application({
 	    	'subscription.ProductNotificationList',
 	    	'RevCommunity.view.category.CategoryTree',
 	    	'start.StartPanel',
+	    	'start.BestUsersList',
 	    	'user.UserPanel',
 	    	'search.FilterForm',
 	    	'search.ActiveFiltersPanel',

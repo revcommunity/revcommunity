@@ -3,8 +3,9 @@
 	
 	<img src="{mainImage}" class="rev-img-small rev-col" ></img>
 	<div class="rev-product-info">
-		<div class="rev-title">{name}</div>
-		<div>Cena: {priceAvg} zł</div>
+		<div class="rev-title" action="details">{name}</div>
+		<div class="rev-list-item">Kategoria: <a href="#products/filter/{category.nodeId}">{category.name}</a></div>
+		<div class="rev-list-item">Cena: {priceAvg} zł</div>
 	</div>
 	<div class="rev-product-rating">
 		<div>{[RatingUtil.getRatingWidget(Ext.id(),values.rating,true)]}</div>

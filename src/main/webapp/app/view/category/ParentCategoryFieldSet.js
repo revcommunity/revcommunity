@@ -13,50 +13,19 @@ var storeCat = Ext.create('Ext.data.Store', {
 Ext.define('RevCommunity.view.category.ParentCategoryFieldSet', {
 	extend : 'RevCommunity.view.form.BaseFieldSet',
 	alias : 'widget.parentcategoryfieldset',
-	title : 'Wybór kategorii',
-	layout : 'hbox',
+	title : '',
+	layout : {
+		type : 'hbox',
+		align : 'stretch'
+	},
 
 	items : [ {
-		fieldLabel:'Wybierz kategorie',
-		xtype:'categorycombo',
-		mode:'onlyParents'
-	},/*{
-		xtype : 'container',
-		defaultType : 'checkboxfield',
-		width : 200,
-		items : [ {
-			boxLabel : 'Kategoria nadrzędna',
-			name : 'parentCategory',
-			inputValue : '1',
-			checked : false
-		} ]
-	}, {
-		fieldLabel : 'wybrano:',
-		name : 'parent_category',
-		xtype : 'combobox',
-		store : storeCat,
-		valueField : 'nodeId',
-		displayField : 'name',
+		fieldLabel : 'Wybierz kategorię nadrzędną',
+		labelWidth : 180,
+		xtype : 'categorycombo',
+		mode : 'onlyParents',
+	} ],
 
-		editable : false
-
-	}, {
-		name : 'child_category_1',
-		xtype : 'combobox',
-		store : [],
-		valueField : 'nodeId',
-		displayField : 'name',
-		autoSelect : true,
-		forceSelection : true
-	}, {
-		name : 'child_category_2',
-		xtype : 'combobox',
-		store : [],
-		valueField : 'nodeId',
-		displayField : 'name',
-		autoSelect : true,
-		forceSelection : true
-	}*/ ],
 	initComponent : function() {
 
 		if (Ext.isEmpty(this.defaults))

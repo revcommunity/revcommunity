@@ -25,9 +25,9 @@ var mainPanel = Ext.define('RevCommunity.view.category.NewCategoryForm', {
 			style : {
 				marginRight : '5px'
 			},
-			flex : 1
+			flex : 1,
+			hidden: true
 		}
-
 		]
 	}, {
 		xtype : 'container',
@@ -41,7 +41,8 @@ var mainPanel = Ext.define('RevCommunity.view.category.NewCategoryForm', {
 			style : {
 				marginRight : '5px'
 			},
-			flex : 1
+			flex : 1,
+			hidden: true
 		}
 
 		]
@@ -49,9 +50,10 @@ var mainPanel = Ext.define('RevCommunity.view.category.NewCategoryForm', {
 
 	],
 	buttons : [
-
 	{
 		text : 'Zapisz',
-		action : 'saveCategory'
+		action : 'saveCategory',
+		disabled : true,
+		id : 'save_cat_button',
 	} ]
 });

@@ -1,7 +1,6 @@
 package org.revcommunity.controller;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -11,7 +10,6 @@ import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.revcommunity.model.Comment;
-import org.revcommunity.model.Product;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
 import org.revcommunity.model.User;
@@ -20,7 +18,6 @@ import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.ReviewService;
 import org.revcommunity.util.Message;
 import org.revcommunity.util.SessionUtils;
-import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
