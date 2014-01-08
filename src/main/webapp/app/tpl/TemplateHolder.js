@@ -33,7 +33,7 @@ productList:new Ext.XTemplate(
 '',
 '<div class="rev-col-wrap">',
 '	',
-'	<img src="{mainImage}" class="rev-img-small rev-col" ></img>',
+'	<a data-lightbox="example-{nodeId}" title="{name}" href="{mainImage}"><img class="rev-img-small rev-col" src="{mainImage}"/></a>',
 '	<div class="rev-product-info">',
 '		<div class="rev-title" action="details">{name}</div>',
 '		<div class="rev-list-item">Kategoria: <a href="#products/filter/{category.nodeId}">{category.name}</a></div>',
@@ -129,7 +129,7 @@ reviewsPanelContentProductMode:new Ext.XTemplate(
 '</div>'
 ),
 reviewsPanelProductImage:new Ext.XTemplate(
-'<img src="{product.mainImage}" class="rev-img-small"></img>'
+'<a data-lightbox="example-{nodeId}" title="{name}" href="{product.mainImage}"><img class="rev-img-small" src="{product.mainImage}"/></a>'
 ),
 reviewsPanelUser:new Ext.XTemplate(
 '	<div class="rev-user-container-mini">',
