@@ -20,6 +20,7 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 			var u = UserService.getByUserName(this.userName);
 			this.title = 'Recenzje użytkownika ' + u.fullName;
 		}
+	
 		this.callParent(arguments);
 		this.add({
 	    	   xtype:'userinfopanel',

@@ -34,7 +34,7 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 				       {
 				    	   xtype:'displayfield',
 				    	   name : 'extendedRank',
-				       },
+				       },/*
 				       {
 				    	   xtype:'button',
 				    	   width:150,
@@ -50,10 +50,11 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 					    		 marginTop:'5px'  
 				    	   },
 				    	   text:'Ustawienia konta'
-				       },
+				       },*/
 				       {
 				    	   xtype:'button',
 				    	   width:150,
+				    	   name: 'botton-subscribe',
 				    	   style:{
 					    		 marginTop:'5px'  
 				    	   },
@@ -70,10 +71,17 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 		}else{
 			user=UserService.getByUserName(this.userName);
 		}
+
 		this.callParent(arguments);
 		var extendedRank = UserService.buildRankString(user);
 		user.extendedRank = extendedRank;
 		this.getForm().setValues(user);
 		this.down('image').setSrc(user.image);
+
+		if (user.nodeId==UserService.getLoggedUser().nodeId){
+			var btn = this.down('button[name=botton-subscribe]');
+			btn.hide();
+		}
+		
 	}
 });
