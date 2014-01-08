@@ -59,8 +59,8 @@ Ext
 														name : 'productImage',
 														src : 'img/empty.jpg',
 														 margin : '5 5 5 0',
-														maxHeight : 210,
-														maxWidth : 170,
+														//maxHeight : 210,
+														width : 170,
 														flex : 5
 													},
 													{
@@ -72,7 +72,7 @@ Ext
 														
 														//autoEl : {
 															//tag : 'div',
-														html: '<div style=\'align:center\'>'
+														html: '<div style=\'align:center; width:150px;\'>'
 														+ '<span>Ocena:  '
 														+ '</span><div>'
 														+ RatingUtil.getRatingWidget('new-review-product-rank',
