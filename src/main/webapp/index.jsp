@@ -11,8 +11,6 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css" />
     <script type="text/javascript" src="ext-4/ext-all-dev.js"></script>
     
-    <script src="lightbox/js/jquery-1.10.2.min.js"></script>
-	<script src="lightbox/js/lightbox-2.6.min.js"></script>
 	<link rel="stylesheet" type="text/css" href="lightbox/css/lightbox.css" />
     
     <script type="text/javascript" src="app/tpl/TemplateHolder.js"></script>
@@ -21,6 +19,8 @@
 	<script type="text/javascript" src="app/lib/underscore.js"></script>
 	<script type="text/javascript" src="app/lib/backbone.js"></script>
 	<script type="text/javascript" src="app/lib/galleria-1.2.9.min.js"></script>
+	
+	<script src="lightbox/js/lightbox-2.6.min.js"></script>
 	
 	<script src="app/config.js" type="text/javascript"></script>
 	<script type="text/javascript" src="app/routers.js"></script>
