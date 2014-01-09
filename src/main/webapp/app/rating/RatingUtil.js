@@ -2,7 +2,7 @@ var idArray = [ "#rating-input-1-1", "#rating-input-1-2", "#rating-input-1-3",
 		"#rating-input-1-4", "#rating-input-1-5" ];
 var RatingUtil = {
 	getChecked : function(widgetId) {
-		var el = $('#' + widgetId).find('[checked="checked"]');
+		var el = $('#' + widgetId + ' .rating-input:checked');
 		if (el.length > 0) {
 			var c = el.attr('id').slice(-1);
 			return parseInt(c);
