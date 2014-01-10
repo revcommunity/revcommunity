@@ -33,7 +33,7 @@ productList:new Ext.XTemplate(
 '',
 '<div class="rev-col-wrap">',
 '	',
-'	<a data-lightbox="example-{nodeId}" title="{name}" href="{mainImage}"><img class="rev-img-small rev-col" src="{mainImage}"/></a>',
+'	<img src="{mainImage}" class="rev-img-small rev-col" ></img>',
 '	<div class="rev-product-info">',
 '		<div class="rev-title" action="details">{name}</div>',
 '		<div class="rev-list-item">Kategoria: <a href="#products/filter/{category.nodeId}">{category.name}</a></div>',
@@ -89,6 +89,15 @@ ratingWidget:new Ext.XTemplate(
 '	name="rating-input-1">',
 '<label for="rating-input-1-1" class="rating-star"></label>'
 ),
+reviewFormRank:new Ext.XTemplate(
+'<div>Przydatność recenzji:</div>',
+'<div class="rev-usefulness-label">{usefulness}%</div>'
+),
+reviewFormUsefulness:new Ext.XTemplate(
+'<div>Ocena produktu:</div>',
+'<div class="rev-overal-mark">{rank}</div>',
+'{[RatingUtil.getRatingWidget("overal", values.rank, true)]}'
+),
 reviewsPanelContent:new Ext.XTemplate(
 '<div class="rev-col-wrap">',
 '	<div class="rev-product-info">',
@@ -129,7 +138,7 @@ reviewsPanelContentProductMode:new Ext.XTemplate(
 '</div>'
 ),
 reviewsPanelProductImage:new Ext.XTemplate(
-'<a data-lightbox="example-{nodeId}" title="{name}" href="{product.mainImage}"><img class="rev-img-small" src="{product.mainImage}"/></a>'
+'<img src="{product.mainImage}" class="rev-img-small"></img>'
 ),
 reviewsPanelUser:new Ext.XTemplate(
 '	<div class="rev-user-container-mini">',
