@@ -79,11 +79,13 @@ Ext.define('RevCommunity.view.review.ReviewForm', {
 				{
 					xtype : 'reviewcommentslist',
 					reviewNodeId : this.data.nodeId,
+					margin : '10 255 0 0',
 				}, {
 					xtype : 'form',
 					layout : {
 						type : 'hbox'
 					},
+					margin : '0 255 0 0',
 					cls : 'rev-comment-submit-form',
 					border : false,
 					items : [ {

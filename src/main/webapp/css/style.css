@@ -132,27 +132,3 @@
 	width: 100%;
 	text-align: center;
 }
-
-.rev-overal-mark-in {
-	background-color: #1570A6;
-	border-radius: 8px;
-	border: 2px solid #075685;
-	font-size: 40px;
-	text-align: center;
-	color: white;
-	padding: 5px;
-}
-
-.rev-overal-mark-out {
-	padding: 10px;
-}
-
-.rev-review-usefulness {
-	padding: 10px;
-	background-color: #1570A6;
-	border-radius: 8px;
-	border: 2px solid #075685;
-	color: white;
-	text-align: center;
-	font-weight:bold;
-}
