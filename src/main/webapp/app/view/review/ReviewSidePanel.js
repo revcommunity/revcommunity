@@ -89,7 +89,6 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel',
 							items : [
 									{
 										xtype : 'component',
-										name : 'usefulnessBar',
 										cls : 'rev-review-usefulness',
 										tpl : TemplateHolder.reviewFormUsefulness,
 										data : this.data,
