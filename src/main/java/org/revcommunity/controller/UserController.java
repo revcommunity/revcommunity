@@ -1,6 +1,8 @@
 package org.revcommunity.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
@@ -17,6 +20,7 @@ import org.revcommunity.repo.ReviewRatingRepo;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.UserService;
+import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
 import org.revcommunity.util.RegistrationService;
 import org.revcommunity.util.SessionUtils;
@@ -37,7 +41,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -68,6 +74,9 @@ public class UserController
     
     @Autowired
     private ReviewRatingRepo ratingRepo;
+    
+    @Autowired
+    private ImageService imageService;
     
     @Autowired
     private ReviewRepo reviewRepo;
@@ -159,6 +168,46 @@ public class UserController
         return new Message( j.toString() );
     }
 
+    @RequestMapping( value = "/update", method = RequestMethod.POST )
+    @ResponseBody
+    public Message update( @RequestPart("image") MultipartFile image, @RequestParam("userData") String userData ) throws JsonParseException, JsonMappingException, IOException
+    {
+        
+        ObjectMapper om = new ObjectMapper();
+        User user = om.readValue( userData, User.class );
+        if(log.isDebugEnabled()){
+            log.debug( "Update uzytkownika:" );
+            log.debug( user );
+        }
+        
+        
+        
+        User u = userRepo.findOne( user.getNodeId() );
+        
+        /**
+         * Do tesow by wiedziec czy nie jest nullem
+         */
+        if(u == null){
+            u.getEmail();
+        }
+        
+        u.setEmail( user.getEmail() );
+        u.setFirstName( user.getFirstName() );
+        u.setLastName( user.getLastName() );
+//      
+        if(image.getSize() > 0){
+            List<MultipartFile> a = new ArrayList<MultipartFile>();
+            a.add( image );
+            List<File> file = imageService.save( a );
+            
+            u.setImage( ImageService.imgDirName + "/" + file.get( 0 ).getName() );
+        }
+        userRepo.save( u );
+        
+        return new Message();
+        //return new ModelAndView( "redirect:" + "/#users/me" );
+    }
+    
     @RequestMapping( value = "/redirect", method = RequestMethod.GET )
     @ResponseBody
     public ResponseEntity redirectToLoginPage()

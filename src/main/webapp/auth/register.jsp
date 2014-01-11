@@ -15,7 +15,7 @@
 	
 	<script type="text/javascript">
     
-			var form = Ext.getElementById('registration-form');
+			/*var form = Ext.getElementById('registration-form');
 			var vals = form.getForm().getFieldValues();
 			form.submit(function () {
  
@@ -26,10 +26,10 @@
 						user : vals
 					}
 					,failure: function(form, action) {
-						console.log("blad podczas rejestracji");
+						UtilService.showInfo("Błąd podczas rejestracji użytkownika");
 				    }
 				});
-            })
+            })*/
  
      </script>
 	

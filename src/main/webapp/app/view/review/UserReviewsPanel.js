@@ -26,7 +26,7 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 	    	   xtype:'userinfopanel',
 	    	   userName:this.userName,
 	    	   style:{
-	    		   marginRight:5
+	    		   marginRight:10
 	    	   }
 		});
 		this.add({

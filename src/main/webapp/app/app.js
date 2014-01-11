@@ -7,7 +7,7 @@ Ext.application({
 	controllers:['ProductController','ReviewController','CategoryController',
 	             'ProductFormController','RevHtmlEditorController','LoginController',
 	             'SubscriptionController','CategoryTreeController',
-	             'SearchController','FilterController','SortController'],    
+	             'SearchController','FilterController','SortController','UserController'],    
 	views:[
 	    	'form.BaseFieldSet',
 	    	'form.CategoryFieldSet',
