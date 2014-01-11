@@ -4,7 +4,7 @@ bestUsersList:new Ext.XTemplate(
 '	<div class="rev-best-user-wrap">',
 '	<div class="rev-best-user-img"><img src="{image}"></div>',
 '	<a href="{[UserService.buildUserLink(values)]}">{fullName}</a>',
-'	<span>{[UserService.buildRankString(values)]}</span>',
+'	<div>{[UserService.buildRankString(values)]}</div>',
 '	</div>',
 '</tpl>'
 ),
@@ -71,6 +71,12 @@ productSubscriptionList:new Ext.XTemplate(
 '      <img src="{product.mainImage}" width="18"/><span>{channel.channelProduct.name} ({newNotifications})</span>',
 '    </div>',
 '</tpl>'
+),
+rankInfo:new Ext.XTemplate(
+'<div class="rev-rank-info">',
+'	<span>__user_rank__</span>',
+'<!--     <img src="img/help.png" class="rev-rank-info-img" /> -->',
+'</div>'
 ),
 ratingWidget:new Ext.XTemplate(
 '<input type="radio" class="rating-input" id="rating-input-1-5"',
