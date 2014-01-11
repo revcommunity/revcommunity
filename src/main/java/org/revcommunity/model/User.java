@@ -41,10 +41,11 @@ public class User
     private String image = "img/empty.jpg";
 
     @JsonIgnore
-    private Double rankAsDouble = DEFAULT_RANK * 100;
+    private Double rankAsDouble;
 
     public User()
     {
+        rankAsDouble = DEFAULT_RANK * 100;
     }
 
     @JsonIgnore
@@ -297,6 +298,7 @@ public class User
     public String toString()
     {
         return "User [nodeId=" + nodeId + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
-            + ", roles=" + roles + ", image=" + image + ", reviews=" + reviews + ", comments=" + comments + ", ratings=" + ratings + "]";
+            + ", roles=" + roles + ", image=" + image + ", reviews=" + reviews + ", comments=" + comments + ", ratings=" + ratings 
+            + ", rankAsDouble=" + rankAsDouble + "]";
     }
 }
