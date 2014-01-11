@@ -175,6 +175,24 @@ public class UserController
         
         ObjectMapper om = new ObjectMapper();
         User user = om.readValue( userData, User.class );
+        
+        
+        String userName = SessionUtils.getLoggedUserName();
+        //uzytkownik niezalogowany zmienia dane innego uzytkownika
+        if(userName.equals( "anonymousUser" ))
+            return null;
+        
+        User u = userRepo.findByUserName( userName );
+        
+        if( u == null){
+            return null;
+        }
+        
+        if(u.getNodeId().longValue() != user.getNodeId().longValue()){
+            //jakis inny zalogowany uzytkownik chce zmienic dane innemu uzytkownikowi
+            return null;
+        }
+        
         if(log.isDebugEnabled()){
             log.debug( "Update uzytkownika:" );
             log.debug( user );
@@ -182,14 +200,8 @@ public class UserController
         
         
         
-        User u = userRepo.findOne( user.getNodeId() );
+       // User u = userRepo.findOne( user.getNodeId() );
         
-        /**
-         * Do tesow by wiedziec czy nie jest nullem
-         */
-        if(u == null){
-            u.getEmail();
-        }
         
         u.setEmail( user.getEmail() );
         u.setFirstName( user.getFirstName() );
@@ -229,7 +241,15 @@ public class UserController
         throws JsonParseException, JsonMappingException, IOException
     {
     	boolean result = false;
+    	Message m = new Message();
         String userName = SessionUtils.getLoggedUserName();
+        if(userName.equals( "anonymousUser" )){
+            m.setMessage( result );
+            return m;
+        }
+           
+        
+        
         Review r = reviewRepo.findByNodeId(reviewId);
         tpl.fetch(r.getRatings());
         List<ReviewRating> reviewRatings = ratingRepo.findUserRatings(r, userName);
@@ -237,21 +257,17 @@ public class UserController
         	result = true;
         }
         
-        Message m = new Message();
+        
         m.setMessage( result );
         return m;
     }
     
     @RequestMapping( value = "best", method = RequestMethod.GET )
     @ResponseBody
-    public Page<User> getBestUsers(@RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit)
+    public List<User> getBestUsers()
     {
-        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.rankAsDouble" ) ) );
-        Page<User> users = userRepo.findBestUsers( page );
-        
-        //TODO: zawsze zwraca "lastpage=true". Neo4j nie wspiera PageRequest?
-        //TODO: nie działa sortowanie
-        
+        List<User> users = userRepo.findBestUsers();
+                
         return users;
     }
 }
