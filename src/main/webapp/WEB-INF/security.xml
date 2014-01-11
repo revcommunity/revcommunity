@@ -35,7 +35,7 @@
 		<intercept-url pattern="/rest/categories/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/products/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/rest/reviews/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-		<intercept-url pattern="/rest/users/me" access="ROLE_USER, ROLE_ADMIN"/>
+		<!-- <intercept-url pattern="/rest/users/me" access="ROLE_USER, ROLE_ADMIN"/>-->
 		<intercept-url pattern="/#product/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/#category/new" access="ROLE_USER, ROLE_ADMIN" />
 		<intercept-url pattern="/rest/subscriptions/**" access="ROLE_USER" />
