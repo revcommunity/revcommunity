@@ -7,7 +7,7 @@ Ext.application({
 	controllers:['ProductController','ReviewController','CategoryController',
 	             'ProductFormController','RevHtmlEditorController','LoginController',
 	             'SubscriptionController','CategoryTreeController',
-	             'SearchController','FilterController'],    
+	             'SearchController','FilterController','SortController'],    
 	views:[
 	    	'form.BaseFieldSet',
 	    	'form.CategoryFieldSet',
@@ -43,6 +43,9 @@ Ext.application({
 	    	'user.UserPanel',
 	    	'search.FilterForm',
 	    	'search.ActiveFiltersPanel',
+	    	'components.ProductSortCombo',
+	    	'components.ReviewSortCombo',
+	    	'components.SortDirection'
 	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
             'ProductNotification'

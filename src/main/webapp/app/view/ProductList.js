@@ -8,6 +8,15 @@ Ext.define('RevCommunity.view.ProductList', {
 		    	 overItemCls:Ext.baseCSSPrefix + 'grid-row-over',
 		    	 enableTextSelection: true
 		    },
+		    tbar:[
+		          {
+		        	  xtype:'productsortcombo'
+		          },
+		          {
+		        	xtype:'sortdirection'  
+		          }
+		          
+		    ],
 		    hideHeaders:true,
 		    initComponent:function(){
 		    	this.columns=[
@@ -26,8 +35,24 @@ Ext.define('RevCommunity.view.ProductList', {
 			                   root: 'content',
 			                   totalProperty: 'totalElements'
 			            }
-		    		})
+		    		}),
+		    		listeners:{
+		    			beforeload:function(store){
+		    				Ext.apply(store.getProxy().extraParams,FilterService.currentProductParams);
+		    				log(store.getProxy().extraParams);
+		    			}
+		    		}
+		    		
+		    		
 		    	});
+	            if( Ext.isEmpty(this.bbar) ){ 
+		            this.bbar=Ext.create('Ext.PagingToolbar', {
+		                store: this.store,
+		                displayInfo: true,
+		                displayMsg: 'Produkty {0} - {1} z {2}',
+		                emptyMsg: "Brak produktów"
+		            });
+	            }
 			    this.callParent(arguments);
 		    }
 });

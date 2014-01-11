@@ -12,6 +12,15 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 		overItemCls : Ext.baseCSSPrefix + 'grid-row-over',
 		enableTextSelection : true
 	},
+	 tbar:[
+          {
+        	  xtype:'reviewsortcombo'
+          },
+          {
+        	xtype:'sortdirection'  
+          }
+          
+    ],
 	store : 'ProductReviewsStore',
 	flex : 1,
 	USER_COL_WIDTH : 150,
@@ -68,6 +77,14 @@ Ext.define('RevCommunity.view.product.ReviewsPanel', {
 				tpl : TemplateHolder.reviewsPanelUser,
 			});
 		}
+		if( Ext.isEmpty(this.bbar) ){ 
+            this.bbar=Ext.create('Ext.PagingToolbar', {
+                store: this.store,
+                displayInfo: true,
+                displayMsg: 'Recenzje {0} - {1} z {2}',
+                emptyMsg: "Brak recenzji"
+            });
+        }
 		this.callParent(arguments);
 	}
 });

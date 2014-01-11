@@ -35,9 +35,14 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 	    	   store:Ext.create('Ext.data.Store',{
 	    		    model:'RevCommunity.model.Review',
 	    		    autoLoad:true,
+	    		    pageSize:Rev.pageSize,
 				    proxy: {
 				        type: 'rest',
-				        url : url
+				        url : url,
+						reader : {
+							root : 'content',
+							totalProperty : 'totalElements'
+						}
 				    },
 					sorters : [ {
 						property : 'usefulness',

@@ -1,6 +1,7 @@
 package org.revcommunity.controller;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -16,8 +17,11 @@ import org.revcommunity.model.User;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.ReviewService;
+import org.revcommunity.util.ControllerUtils;
 import org.revcommunity.util.Message;
 import org.revcommunity.util.SessionUtils;
+import org.revcommunity.util.search.SortDirection;
+import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -79,9 +83,11 @@ public class ReviewController
 
     @RequestMapping( value = "/productReviews/{productId}", method = RequestMethod.GET )
     @ResponseBody
-    public Set<Review> getReviewsByProductId( @PathVariable Long productId )
+    public Page<Review> getReviewsByProductId( @PathVariable Long productId, @RequestParam( required = false ) Integer start,
+                                               @RequestParam( required = false ) Integer limit )
     {
-        Set<Review> reviews = rr.findByProductNodeId( productId );
+        PageRequest page = new PageRequest( start / limit, limit );
+        Page<Review> reviews = rs.findByProductNodeId( productId, page );
         for ( Review r : reviews )
         {
             tpl.fetch( r.getAuthor() );
@@ -135,18 +141,20 @@ public class ReviewController
 
     @RequestMapping( method = RequestMethod.GET, value = "my" )
     @ResponseBody
-    public Set<Review> getMyReviews()
+    public Page<Review> getMyReviews( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
         throws JsonParseException, JsonMappingException, IOException
     {
-        return getReviewsForUser( SessionUtils.getLoggedUserName() );
+        return getReviewsForUser( SessionUtils.getLoggedUserName(), start, limit );
     }
 
     @RequestMapping( method = RequestMethod.GET, value = "/user/{userName}" )
     @ResponseBody
-    public Set<Review> getReviewsForUser( @PathVariable String userName )
+    public Page<Review> getReviewsForUser( @PathVariable String userName, @RequestParam( required = false ) Integer start,
+                                           @RequestParam( required = false ) Integer limit )
         throws JsonParseException, JsonMappingException, IOException
     {
-        return rr.findByAuthorUserName( userName );
+        PageRequest page = new PageRequest( start / limit, limit );
+        return rs.findByAuthorUserName( userName, page );
     }
 
     @RequestMapping( method = RequestMethod.POST, params = { "rating", "reviewNodeId" } )
@@ -170,13 +178,37 @@ public class ReviewController
 
     @RequestMapping( value = "find", method = RequestMethod.GET )
     @ResponseBody
-    public Page<Review> find( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
+    public Page<Review> find( @RequestParam( value = "sort", required = false ) String sSorters, @RequestParam( required = false ) Integer start,
+                              @RequestParam( required = false ) Integer limit )
     {
-        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.dateAdded" ) ) );
-        Page<Review> prods = rr.find( page );
-        for(Review r : prods){
-        	tpl.fetch(r.getAuthor());
+        List<Sorter> sorters = ControllerUtils.readSorters( sSorters );
+
+        if ( sorters.isEmpty() )
+            sorters.add( new Sorter( SortDirection.DESC, "n.dateAdded" ) );
+        Page<Review> prods = rs.find( start, limit, sorters );
+
+        for ( Review r : prods )
+        {
+            tpl.fetch( r.getAuthor() );
         }
         return prods;
+    }
+
+    private Sort buildSort( List<Sorter> sorters )
+    {
+        if ( sorters.isEmpty() )
+            return new Sort( new Order( Direction.DESC, "n.dateAdded" ) );
+        else
+        {
+            return new Sort( new Order( convertDirection( sorters.get( 0 ).getDirection() ), "n." + sorters.get( 0 ).getProperty() ) );
+        }
+    }
+
+    private Direction convertDirection( SortDirection direction )
+    {
+        if ( direction == SortDirection.ASC )
+            return Direction.ASC;
+        else
+            return Direction.DESC;
     }
 }

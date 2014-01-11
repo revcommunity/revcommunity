@@ -20,13 +20,11 @@ import org.revcommunity.util.SessionUtils;
 import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import sun.swing.StringUIClientPropertyKey;
 
 @Service
 @Transactional
@@ -75,6 +73,8 @@ public class ProductService
         User modificationUser = ur.findByUserName( userName );
         product.setLastEditUser( modificationUser );
         product.setLastModification( new Date() );
+        Product saved = pr.findOne( product.getNodeId() );
+        product.setReviews( saved.getReviews() );
         pr.save( product );
     }
 
@@ -149,8 +149,9 @@ public class ProductService
             sb.append( " and ( product.description?=~ {query}  or product.name?=~ {query} ) " );
             params.put( "query", "(?i).*" + query + ".*" );
         }
+        String countQuery = sb.toString() + " return count(distinct product) ";
         sb.append( " return distinct product " );
-        CypherQueryBuilder.buildSort( sb, sorters );
+        CypherQueryBuilder.buildSort( sb, sorters, "product." );
         CypherQueryBuilder.buildPaging( sb, params, start, limit );
         String cypherQuery = sb.toString();
         log.debug( "Wygenerowane zapytanie: " + cypherQuery );
@@ -161,6 +162,9 @@ public class ProductService
             params.put( "categoryId", "*" );
 
         Page<Product> result = tpl.query( cypherQuery, params ).to( Product.class ).as( Page.class );
+        Long count = tpl.query( countQuery, params ).to( Long.class ).single();
+        log.debug( "totalElements: " + count );
+        result = new PageImpl<Product>( result.getContent(), null, count );
         return result;
 
     }

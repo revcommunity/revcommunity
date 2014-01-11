@@ -13,12 +13,13 @@ Ext.define('RevCommunity.view.form.ProductInfoFieldSet' ,{
 				name:'name'
 			},
 			{
-				fieldLabel:'Producent',
-				name:'producer'
+				fieldLabel:'Cena',
+				name:'priceAvg',
+				xtype:'numberfield'
 			},
 			{
-				fieldLabel:'Kod produktu',
-				name:'productCode'
+				hidden:true,
+				name:'mainImage'
 			}
 	],
 	initComponent:function(){

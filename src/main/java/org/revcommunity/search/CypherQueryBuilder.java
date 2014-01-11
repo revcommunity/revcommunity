@@ -10,14 +10,14 @@ import org.revcommunity.util.search.Sorter;
 public class CypherQueryBuilder
 {
 
-    public static void buildSort( StringBuilder sb, List<Sorter> sorters )
+    public static void buildSort( StringBuilder sb, List<Sorter> sorters, String prefix )
     {
         if ( sorters != null && !sorters.isEmpty() )
         {
             sb.append( " order by " );
             for ( Sorter sorter : sorters )
             {
-                sb.append( StringUtils.join( "product.", sorter.getProperty(), "? ", sorter.getDirection().toString(), "," ) );
+                sb.append( StringUtils.join( prefix, sorter.getProperty(), "? ", sorter.getDirection().toString(), "," ) );
             }
             sb.setLength( sb.length() - 1 );
             sb.append( " " );

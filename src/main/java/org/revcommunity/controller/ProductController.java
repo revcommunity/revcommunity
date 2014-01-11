@@ -19,18 +19,13 @@ import org.revcommunity.repo.AbstractCategoryRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.service.CategoryService;
 import org.revcommunity.service.ProductService;
+import org.revcommunity.util.ControllerUtils;
 import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
 import org.revcommunity.util.TestHelper;
-import org.revcommunity.util.search.SortDirection;
 import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
-import org.springframework.data.domain.Sort.Order;
-import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -138,7 +133,7 @@ public class ProductController
         throws JsonParseException, JsonMappingException, IOException
     {
         List<FilterValue> filters = readFilters( sFilters );
-        List<Sorter> sorters = readSorters( sSorters );
+        List<Sorter> sorters = ControllerUtils.readSorters( sSorters );
         Page<Product> prods = ps.findByFilters( categoryId, query, filters, sorters, start, limit );
         return prods;
     }
@@ -152,17 +147,6 @@ public class ProductController
         {
         } );
         return filters;
-    }
-
-    private List<Sorter> readSorters( String sSorters )
-        throws JsonParseException, JsonMappingException, IOException
-    {
-        if ( StringUtils.isBlank( sSorters ) )
-            return null;
-        List<Sorter> sorters = om.readValue( sSorters, new TypeReference<List<Sorter>>()
-        {
-        } );
-        return sorters;
     }
 
     @RequestMapping( method = RequestMethod.DELETE, value = "{productId}" )

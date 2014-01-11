@@ -114,6 +114,18 @@ public class TestHelper
         p.addFilterValue( "producent", "DELL" );
 
         ps.createProduct( p );
+
+        for ( int i = 0; i < 20; i++ )
+        {
+            p = new Product();
+            p.setCategory( cr.findByName( "Dell" ) );
+            p.setDescription( "Laptop DELL D600" );
+            p.addImage( "img/dell2.jpg" );
+            p.setName( "DELL D600 - " + i );
+            p.setPriceAvg( 4550.0 );
+            p.addFilterValue( "producent", "DELL" );
+            ps.createProduct( p );
+        }
     }
 
     public void clean()

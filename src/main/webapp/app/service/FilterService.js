@@ -112,16 +112,18 @@ var FilterService={
 			var query=this.getSearchFieldValue();
 			var categoryId=this.getSelectedCategoryId();
 			var pl=Ext.getCmp('contentPanel').down('productlist[mode=filter]');
+			this.currentProductParams={
+				categoryId:categoryId,
+				filters:Ext.encode(filters),
+				query:query,
+				sort:Ext.encode([])
+			};
 			pl.getStore().load({
-				params:{
-					categoryId:categoryId,
-					filters:Ext.encode(filters),
-					query:query,
-					sort:Ext.encode([])
-				}
+				params:this.currentProductParams
 			});
 			this.showActiveFilters();
 		},
+		currentProductParams:{},
 		//---------------------AKTYWNE FILTRY (nad listą produktów)-----------------
 		getActiveFilterFields:function(){//pobiera aktywne pola filtrowania(z formularza filtrowania) czyli takie które są uzupełnione(niepuste)
 			var form=Ext.getCmp('filterForm');
