@@ -1,5 +1,6 @@
 package org.revcommunity.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
@@ -79,7 +80,10 @@ public class SubscriptionService
 
     public List<UserSubscription> getUserSubscriptions( User observer )
     {
-        return usr.getUserSubscritions( observer );
+        if(observer != null){
+            return usr.getUserSubscritions( observer );
+        }
+        return new ArrayList<UserSubscription>();
     }
 
     public UserChannelNotification createUserChannelNotification( User channelOwner, UserNotificationType type, Review review )
@@ -114,6 +118,9 @@ public class SubscriptionService
 
     public ProductSubscription addProductSubscription( User observer, Product subscribed )
     {
+        if(observer == null)
+            return null;
+        
         boolean exist = checkProductSubscriptionExist( observer, subscribed );
         if ( exist )
         {
@@ -129,7 +136,7 @@ public class SubscriptionService
     }
 
     public boolean checkProductSubscriptionExist( User observer, Product subscribed )
-    {
+    {   
         List<ProductSubscription> subs = getProductSubscriptions( observer );
         for ( ProductSubscription sub : subs )
         {
@@ -143,7 +150,10 @@ public class SubscriptionService
 
     public List<ProductSubscription> getProductSubscriptions( User observer )
     {
-        return psr.getProductSubscritions( observer );
+        if(observer != null){
+            return psr.getProductSubscritions( observer );
+        }
+        return new ArrayList<ProductSubscription>();
     }
 
     public ProductChannelNotification createProductChannelNotification( Product product, ProductNotificationType type, Review review )
@@ -170,12 +180,18 @@ public class SubscriptionService
 
     public ProductNotification findProductNotification( User user, Review review )
     {
-        return pbr.findProductNotification( user, review );
+        if(user != null){
+            return pbr.findProductNotification( user, review );
+        }
+        return null;
     }
 
     public UserNotification findUserNotification( User user, Review review )
     {
-        return unr.findUserNotification( user, review );
+        if(user != null){
+            return unr.findUserNotification( user, review );
+        }
+        return null;
     }
 
     public void markReviewAsReaded( String userName, Long reviewId )

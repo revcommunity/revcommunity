@@ -157,7 +157,7 @@ public class ReviewController
         return rs.findByAuthorUserName( userName, page );
     }
 
-    @RequestMapping( method = RequestMethod.POST, params = { "rating", "reviewNodeId" } )
+    @RequestMapping( method = RequestMethod.POST,  params = { "rating", "reviewNodeId" } )
     @ResponseBody
     public Message saveReviewRating( @RequestParam( value = "rating" ) String rating, @RequestParam( value = "reviewNodeId" ) Long reviewNodeId )
         throws JsonParseException, JsonMappingException, IOException
