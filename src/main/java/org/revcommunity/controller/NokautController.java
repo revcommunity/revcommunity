@@ -42,7 +42,7 @@ public class NokautController
             EndResult<Category> p = this.categoryRepo.findAll();
             for ( Category c : p )
             {
-                nokautConnector.downloadProductsByCategoryId( c, 1 );
+                nokautConnector.downloadProductsByCategoryId( c, 4 );
             }
 
             // nokautConnector.downloadMainCategories();
