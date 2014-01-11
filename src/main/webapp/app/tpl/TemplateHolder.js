@@ -168,6 +168,19 @@ userNotificationList:new Ext.XTemplate(
 '	</tpl>',
 '</tpl>'
 ),
+userRankDescription:new Ext.XTemplate(
+'<p> Ranga użytkownika uzależniona jest od liczby napisanych przez niego recenzji i ich przydatności.<br />',
+'	Wyróżniamy następujące rangi:</p>',
+'<ul>',
+'	<li>Niekompetenty</li>',
+'	<li>Niezaufany</li>',
+'	<li>Przeciętny</li>',
+'	<li>Godny zaufania</li>',
+'	<li>Ekspert</li>',
+'</ul>',
+'<p>Początkowo, recenzent posiada rangę &quot;Przeciętny&quot;.</p>',
+'<p>Liczby znajdujące się obok rangi użytkownika informują kolejno o liczbie pozytywnych głosów, a także łącznej liczbie głosów oddanych na recenzje użytkownika.</p>'
+),
 userSubscriptionList:new Ext.XTemplate(
 '<p class="rev-header">Subskrupcje</p>',
 '<tpl for=".">',

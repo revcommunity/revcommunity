@@ -254,11 +254,11 @@ public class User
     {
         if ( getRankAsDouble() <= 20.0 )
         {
-            return "Niezaufany";
+            return "Niekompetenty";
         }
         else if ( getRankAsDouble() <= 40.0 )
         {
-            return "Adept";
+            return "Niezaufany";
         }
         else if ( getRankAsDouble() <= 60.0 )
         {
