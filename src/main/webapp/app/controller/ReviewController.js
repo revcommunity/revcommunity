@@ -71,9 +71,8 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				review : encoded
 			},
 			success : function(response) {
-				UtilService.showInfo('Dodano pomyślnie nową recenzję');
+				UtilService.showInfo('Pomyślnie dodano nową recenzję');
 				location.href = '#reviews/my';
-
 			},
 			failure : function(response) {
 				UtilService.showInfo("Błąd przy dodawaniu nowej recenzji");
@@ -183,7 +182,7 @@ Ext.define('RevCommunity.controller.ReviewController', {
 	},
 	deleteReview:function(btn){
 		var review = Ext.ComponentQuery.query('[name=reviewNodeId]')[0].up('reviewform').data;
-		if(ReviewService.isReviewEditable(review)){
+		if(ReviewService.isReviewEditable(review) || UserService.isAdmin()){
 			ReviewService.deleteReview(review.nodeId);
 			location.href = '#';
 			UtilService.showInfo("Recenzja została pomyślnie usunięta.");
@@ -193,7 +192,7 @@ Ext.define('RevCommunity.controller.ReviewController', {
 	},
 	editReview : function(btn) {
 		var review = Ext.ComponentQuery.query('[name=reviewNodeId]')[0].up('reviewform').data;
-		if(ReviewService.isReviewEditable(review)){
+		if(ReviewService.isReviewEditable(review) || UserService.isAdmin()){
 			location.href = '#reviews/edit' + review.nodeId;
 		}else{
 			UtilService.showInfo("Nie można edytować recenzji na którą oddano głos.");
