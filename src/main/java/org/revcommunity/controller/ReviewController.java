@@ -198,6 +198,14 @@ public class ReviewController
         }
         return prods;
     }
+    
+    @RequestMapping( value = "countReviewRatings/{reviewId}", method = RequestMethod.GET )
+    @ResponseBody
+    public Integer countReviewRatings(@PathVariable Long reviewId)
+    {
+        Review r =  rr.findByNodeId( reviewId );
+        return r.getRatings().size();
+    }
 
     private Sort buildSort( List<Sorter> sorters )
     {

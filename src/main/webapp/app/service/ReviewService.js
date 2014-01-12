@@ -18,5 +18,9 @@ var ReviewService={
 		},
 		getMyReviews:function(){
 			return UtilService.exec('reviews/myReviews');
+		},
+		countReviewRatings:function(review){
+			return UtilService.exec('reviews/countReviewRatings/' + review.nodeId);
 		}
+		
 };
