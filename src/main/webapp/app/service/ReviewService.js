@@ -21,6 +21,23 @@ var ReviewService={
 		},
 		countReviewRatings:function(review){
 			return UtilService.exec('reviews/countReviewRatings/' + review.nodeId);
+		},
+		deleteReview:function(id){
+			UtilService.exec('reviews/'+id,null,
+				{
+					method:'DELETE'
+				}
+			);
+		},
+		isReviewEditable : function(review) {
+			var result = false;
+			var loggedUser = UserService.getLoggedUser();
+			if (review.author.userName == loggedUser.userName) {
+				if (this.countReviewRatings(review) == 0) {
+					result = true;
+				}
+			}
+			return result;
 		}
-		
+
 };

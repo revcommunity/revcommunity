@@ -38,7 +38,7 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel',
 			},
 			buildAdminButtons : function() {
 				var buttons = [];
-				if (UserService.isAdmin() || UserService.isReviewEditable(this.data)) {
+				if (UserService.isAdmin() || ReviewService.isReviewEditable(this.data)) {
 					buttons.push({
 						xtype : 'editbtn',
 						action : 'editReview',
@@ -148,7 +148,7 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel',
 									value : this.data.author.userName,
 								} ]
 							}, ]
-						}, ];
+						}];
 				this.callParent(arguments);
 			}
 		});

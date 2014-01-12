@@ -71,14 +71,4 @@ var UserService = {
 			win.show();
 		});
 	},
-	isReviewEditable : function(review) {
-		var result = false;
-		var loggedUser = this.getLoggedUser();
-		if (review.author.userName == loggedUser.userName) {
-			if (ReviewService.countReviewRatings(review) == 0) {
-				result = true;
-			}
-		}
-		return result;
-	}
 };
