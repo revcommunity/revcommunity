@@ -7,7 +7,7 @@ Ext.application({
 	controllers:['ProductController','ReviewController','CategoryController',
 	             'ProductFormController','RevHtmlEditorController','LoginController',
 	             'SubscriptionController','CategoryTreeController',
-	             'SearchController','FilterController','SortController'],    
+	             'SearchController','FilterController','SortController','UserController'],    
 	views:[
 	    	'form.BaseFieldSet',
 	    	'form.CategoryFieldSet',
@@ -61,6 +61,7 @@ Ext.application({
     	
     	new AppRouter(); // Router initialization 
 		Backbone.history.start();
+		UserService.registerRankClickEvent();
     },
     initExceptionHandler:function(){//dodaje listener na zdarzeniu wystąpienia błędu podczas zapytania Ajax
     	Ext.Ajax.on('requestexception', function(conn, response, options, eOpts) {

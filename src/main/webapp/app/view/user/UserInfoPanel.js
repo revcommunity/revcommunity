@@ -28,7 +28,7 @@ Ext.define('RevCommunity.view.user.UserInfoPanel' ,{
 				       },
 	    	           {
 				    	   xtype:'displayfield',
-				    	   fieldCls:'rev-user-name',
+				    	   fieldCls:'rev-user-name-small',
 				    	   name:'fullName'
 				       },
 				       {

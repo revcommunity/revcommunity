@@ -66,7 +66,6 @@ Ext.define('RevCommunity.view.product.ProductPanel', {
 			}
 		},{
 			xtype : 'component',
-			id: 'productImgMain',
 			margin: '0 0 5 0',
 			autoEl : {
 				html: "<a data-lightbox='example-set' title='"+this.data.name+"' href='"+this.data.mainImage+"'><img width='240' src='"+this.data.mainImage+"'/></a>",

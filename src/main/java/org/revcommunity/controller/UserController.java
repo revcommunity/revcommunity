@@ -1,6 +1,8 @@
 package org.revcommunity.controller;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -9,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.log4j.Logger;
 import org.codehaus.jackson.JsonParseException;
 import org.codehaus.jackson.map.JsonMappingException;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.json.JSONObject;
 import org.revcommunity.model.Review;
 import org.revcommunity.model.ReviewRating;
@@ -17,6 +20,7 @@ import org.revcommunity.repo.ReviewRatingRepo;
 import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.service.UserService;
+import org.revcommunity.util.ImageService;
 import org.revcommunity.util.Message;
 import org.revcommunity.util.RegistrationService;
 import org.revcommunity.util.SessionUtils;
@@ -37,7 +41,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
@@ -68,6 +74,9 @@ public class UserController
 
     @Autowired
     private ReviewRatingRepo ratingRepo;
+
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     private ReviewRepo reviewRepo;
@@ -161,6 +170,59 @@ public class UserController
         return new Message( j.toString() );
     }
 
+    @RequestMapping( value = "/update", method = RequestMethod.POST )
+    @ResponseBody
+    public Message update( @RequestPart( "image" ) MultipartFile image, @RequestParam( "userData" ) String userData )
+        throws JsonParseException, JsonMappingException, IOException
+    {
+
+        ObjectMapper om = new ObjectMapper();
+        User user = om.readValue( userData, User.class );
+
+        String userName = SessionUtils.getLoggedUserName();
+        // uzytkownik niezalogowany zmienia dane innego uzytkownika
+        if ( userName.equals( "anonymousUser" ) )
+            return null;
+
+        User u = userRepo.findByUserName( userName );
+
+        if ( u == null )
+        {
+            return null;
+        }
+
+        if ( u.getNodeId().longValue() != user.getNodeId().longValue() )
+        {
+            // jakis inny zalogowany uzytkownik chce zmienic dane innemu uzytkownikowi
+            return null;
+        }
+
+        if ( log.isDebugEnabled() )
+        {
+            log.debug( "Update uzytkownika:" );
+            log.debug( user );
+        }
+
+        // User u = userRepo.findOne( user.getNodeId() );
+
+        u.setEmail( user.getEmail() );
+        u.setFirstName( user.getFirstName() );
+        u.setLastName( user.getLastName() );
+        //
+        if ( image.getSize() > 0 )
+        {
+            List<MultipartFile> a = new ArrayList<MultipartFile>();
+            a.add( image );
+            List<File> file = imageService.save( a );
+
+            u.setImage( ImageService.imgDirName + "/" + file.get( 0 ).getName() );
+        }
+        userRepo.save( u );
+
+        return new Message();
+        // return new ModelAndView( "redirect:" + "/#users/me" );
+    }
+
     @RequestMapping( value = "/redirect", method = RequestMethod.GET )
     @ResponseBody
     public ResponseEntity redirectToLoginPage()
@@ -182,7 +244,14 @@ public class UserController
         throws JsonParseException, JsonMappingException, IOException
     {
         boolean result = false;
+        Message m = new Message();
         String userName = SessionUtils.getLoggedUserName();
+        if ( userName.equals( "anonymousUser" ) )
+        {
+            m.setMessage( result );
+            return m;
+        }
+
         Review r = reviewRepo.findByNodeId( reviewId );
         tpl.fetch( r.getRatings() );
         List<ReviewRating> reviewRatings = ratingRepo.findUserRatings( r, userName );
@@ -191,20 +260,15 @@ public class UserController
             result = true;
         }
 
-        Message m = new Message();
         m.setMessage( result );
         return m;
     }
 
     @RequestMapping( value = "best", method = RequestMethod.GET )
     @ResponseBody
-    public Page<User> getBestUsers( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
+    public List<User> getBestUsers()
     {
-        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.rankAsDouble" ) ) );
-        Page<User> users = userRepo.findBestUsers( page );
-
-        // TODO: zawsze zwraca "lastpage=true". Neo4j nie wspiera PageRequest?
-        // TODO: nie działa sortowanie
+        List<User> users = userRepo.findBestUsers();
 
         return users;
     }

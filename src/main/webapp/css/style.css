@@ -67,6 +67,8 @@
 
 .rev-user-small-image {
 	width: 120px;
+	height: 120px;
+	padding: 0 0 2 0;
 }
 
 .rev-user-name {

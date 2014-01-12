@@ -25,8 +25,8 @@ public interface UserRepo
     @Query("START user=node:__types__(className='org.revcommunity.model.User') WHERE user.sendNewsletter = true AND NOT (user.userName='admin') RETURN user") 
     public List<User> findUsersToSendNewsLetter();
     
-    @Query( "start n=node:__types__(className='org.revcommunity.model.User') where ID(n)>0  return n" )
-    public Page<User> findBestUsers( Pageable pagable );
+    @Query( "start n=node:__types__(className='org.revcommunity.model.User') return n ORDER BY n.rankAsDouble DESC LIMIT 5" )
+    public List<User> findBestUsers();
 }
 
 

@@ -13,7 +13,7 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 	initComponent:function(){
 		var url=null;
 		if(this.mode=='myReviews'){
-			url='rest/reviews/my';
+			url='rest/reviews/my/reviews';
 			this.title = 'Moje recenzje';
 		}else{
 			url='rest/reviews/user/'+this.userName;
@@ -26,7 +26,7 @@ Ext.define('RevCommunity.view.review.UserReviewsPanel' ,{
 	    	   xtype:'userinfopanel',
 	    	   userName:this.userName,
 	    	   style:{
-	    		   marginRight:5
+	    		   marginRight:10
 	    	   }
 		});
 		this.add({

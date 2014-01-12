@@ -97,15 +97,12 @@ public class ReviewService
     public void addReviewRating( Review review, ReviewRating rating )
     {
         review.addReviewRating( rating );
-        User reviewAuthor = tpl.fetch( review.getAuthor() );
-        reviewAuthor.calculateRank();
-
         review.calculateUsefulness( getAvgUsefulness() );
 
         User u = ur.findByUserName( SessionUtils.getLoggedUserName() );
         u.addRating( rating );
+        
         ur.save( u );
-
     }
 
     public Double getAvgUsefulness()

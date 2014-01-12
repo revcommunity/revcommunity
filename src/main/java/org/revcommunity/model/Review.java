@@ -31,9 +31,10 @@ public class Review
 
     public Review()
     {
+        initUsefulness();
     }
 
-    private Double usefulness = DEFAULT_USEFULNESS * 100;
+    private Double usefulness;
 
     private Date dateAdded;
 
@@ -214,6 +215,11 @@ public class Review
 
     public Double getUsefulness()
     {
+        if ( usefulness == null )
+        {
+            initUsefulness();
+        }
+
         return usefulness;
     }
 
@@ -228,5 +234,10 @@ public class Review
             }
         }
         return result;
+    }
+
+    public void initUsefulness()
+    {
+        setUsefulness( DEFAULT_USEFULNESS * 100 );
     }
 }
