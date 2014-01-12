@@ -46,6 +46,7 @@
 		<div class="top-bar-item" hidden="true" id="top-bar-logout-ref"><a href="/revcommunity/j_spring_security_logout" >Wyloguj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-register-ref"><a href="auth/register.jsp" >Zarejestruj</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-login-ref"><a href="auth/login.jsp" >Zaloguj</a></div>
+		<div class="top-bar-item" hidden="true" id="top-bar-admin-panel-ref"><a href="#adminPanel/view">Panel administratora</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-user-panel-ref"><a href="#users/me">Moje konto</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-add-product-ref"><a href="#products/new">Dodaj produkt</a></div>
 		<div class="top-bar-item" hidden="true" id="top-bar-add-category-ref"><a href="#category/new">Dodaj kategorię</a></div>

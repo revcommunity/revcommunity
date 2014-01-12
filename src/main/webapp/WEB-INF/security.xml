@@ -42,24 +42,23 @@
 		
 		<intercept-url pattern="/rest/users/rated/"  access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST" />
 		<intercept-url pattern="/rest/users/**" access="IS_AUTHENTICATED_ANONYMOUSLY" method="GET" />
-		<intercept-url pattern="/rest/products/**" access="IS_AUTHENTICATED_ANONYMOUSLY" method="GET" />
+		<intercept-url pattern="/rest/products/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER" method="GET" />
 		<!-- Uzytkownik gosc i zalogowany nie moga dodawac kategori, moga tylko przegladac (GET) -->
 		<intercept-url pattern="/rest/categories/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER" method="GET" />
 		<intercept-url pattern="/rest/comments/**" access="IS_AUTHENTICATED_ANONYMOUSLY" method="GET" />
 		<intercept-url pattern="/rest/subscriptions/products/subscribed*" access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST"/>
 		<intercept-url pattern="/rest/subscriptions/read" access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST"/>
 		
-		<!-- UZYSTKOWNIK -->
+		<!-- UZYTKOWNIK -->
  		<intercept-url pattern="/rest/comments/**" access="ROLE_USER"/>
 		<intercept-url pattern="/rest/subscriptions/**" access="ROLE_USER"/>
 		<intercept-url pattern="/rest/reviews/**" access="ROLE_USER"/>
 		<intercept-url pattern="/rest/users/**" access="ROLE_USER"/>
-		<intercept-url pattern="/rest/products/**" access="ROLE_USER"/>
 		
 		<!-- ADMINISTRATOR -->
 		<intercept-url pattern="/**" access="ROLE_ADMIN" />
+		<!-- <intercept-url pattern="/rest/remoteImport/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
 		<!-- To zmienic na ADMIN -->
-		<intercept-url pattern="/rest/nokaut/download" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 
 		<form-login login-page="/rest/users/redirect"
 			authentication-failure-url="/auth/login.jsp?login_error=true"
@@ -94,7 +93,7 @@
 
 	<beans:bean id="sessionConfig" class="org.springframework.security.web.authentication.session.ConcurrentSessionControlStrategy">
     	<beans:constructor-arg name="sessionRegistry" ref="sessionRegistry" />
-    	<beans:property name="maximumSessions" value="2" />
+    	<beans:property name="maximumSessions" value="1" />
   	</beans:bean>
 
 	<beans:bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />

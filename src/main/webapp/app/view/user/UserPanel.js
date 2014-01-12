@@ -4,7 +4,6 @@ Ext.define('RevCommunity.view.user.UserPanel', {
 	bodyPadding : 5,
 	method : 'POST',
 	width : 200,
-	id : 'userPanelId',
 	layout : {
 		type : 'hbox',
 		align : 'stretch',

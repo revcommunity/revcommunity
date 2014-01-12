@@ -100,12 +100,12 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				review : encoded
 			},
 			success : function(response) {
-				alert('Pomyślnie edytowano recenzję');
+				UtilService.showInfo('Pomyślnie edytowano recenzję');
 				window.location.reload();
 
 			},
 			failure : function(response) {
-				alert("Błąd przy edycji recenzji");
+				UtilService.showInfo("Błąd przy edycji recenzji");
 				window.location.reload();
 			}
 		});

@@ -2,7 +2,7 @@ var ViewService={
 	showTopMenu:function(){//wyświetla odpowiednie przyciski na górnej belce
 		var anonymousItems=['login','register'];
 		var userItems=['logout','user-panel','my-reviews'];
-		var adminItems=userItems.concat(['add-product','add-category']);
+		var adminItems=userItems.concat(['add-product','add-category','admin-panel']);
 		if(UserService.isAnonymous()){
 			this.showTopMenuItems(anonymousItems);
 		}else if(UserService.isAdmin()){

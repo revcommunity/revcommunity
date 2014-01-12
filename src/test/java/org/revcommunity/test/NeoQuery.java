@@ -15,6 +15,7 @@ import org.revcommunity.model.CategoryGroup;
 import org.revcommunity.model.Product;
 import org.revcommunity.model.User;
 import org.revcommunity.repo.AbstractCategoryRepo;
+import org.revcommunity.repo.CategoryGroupRepo;
 import org.revcommunity.repo.CategoryRepo;
 import org.revcommunity.repo.ProductRepo;
 import org.revcommunity.repo.UserRepo;
@@ -44,7 +45,10 @@ public class NeoQuery
     @Autowired
     private AbstractCategoryRepo cr;
     
-    @Test
+    @Autowired
+    private CategoryGroupRepo cg;
+    
+    //@Test
     public void test(){
         
         
@@ -72,6 +76,17 @@ public class NeoQuery
             }
         }
         
+    }
+    
+    @Test
+    public void asdf(){
+       List<AbstractCategory> l=  cg.findByBaseCategory( false );
+       
+       for ( AbstractCategory abstractCategory : l )
+    {
+        System.out.println(abstractCategory.getNodeId() + " " + abstractCategory.getName());
+    }
+       
     }
     
     //@Test

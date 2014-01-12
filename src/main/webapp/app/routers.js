@@ -16,7 +16,8 @@ var AppRouter = Backbone.Router.extend({
 		'reviews/user/:userName':'userReviews',
 		'auth/login' : 'login',
 		'subscriptions/users/notifications/:userSubscriptionId':'userNotifications',
-		'subscriptions/products/notifications/:productSubscriptionId':'productNotifications'
+		'subscriptions/products/notifications/:productSubscriptionId':'productNotifications',
+		'adminPanel/view' : 'showAdminPanel'
 	},
 	home : function() {
 		this.clearPage();
@@ -189,5 +190,10 @@ var AppRouter = Backbone.Router.extend({
 	filterProducts:function(categoryId){
 		ProductService.showProductList();
 		CategoryService.selectCategory(categoryId);
+	},
+	showAdminPanel : function(){
+		this.clearPage();
+		var panel = Ext.widget('adminpanel',{});
+		Ext.getCmp('contentPanel').add(panel);
 	}
 });
