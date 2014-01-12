@@ -41,6 +41,7 @@
 		
 		
 		<intercept-url pattern="/rest/users/rated/"  access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST" />
+		<intercept-url pattern="/rest/users/last"  access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST" />
 		<intercept-url pattern="/rest/users/**" access="IS_AUTHENTICATED_ANONYMOUSLY" method="GET" />
 		<intercept-url pattern="/rest/products/**" access="IS_AUTHENTICATED_ANONYMOUSLY, ROLE_USER" method="GET" />
 		<!-- Uzytkownik gosc i zalogowany nie moga dodawac kategori, moga tylko przegladac (GET) -->
@@ -55,7 +56,7 @@
 		<intercept-url pattern="/rest/reviews/**" access="ROLE_USER"/>
 		<intercept-url pattern="/rest/users/**" access="ROLE_USER"/>
 		
-		<!-- ADMINISTRATOR -->
+	
 		<intercept-url pattern="/**" access="ROLE_ADMIN" />
 		<!-- <intercept-url pattern="/rest/remoteImport/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>-->
 		<!-- To zmienic na ADMIN -->
