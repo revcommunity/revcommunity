@@ -689,6 +689,7 @@
       Backbone.history || (Backbone.history = new Backbone.History);
       if (!_.isRegExp(route)) route = this._routeToRegExp(route);
       Backbone.history.route(route, _.bind(function(fragment) {
+    	UtilService.setLastUrl(fragment);
         var args = this._extractParameters(route, fragment);
         callback && callback.apply(this, args);
         this.trigger.apply(this, ['route:' + name].concat(args));
@@ -698,6 +699,7 @@
     // Simple proxy to `Backbone.history` to save a fragment into the history.
     navigate : function(fragment, triggerRoute) {
       Backbone.history.navigate(fragment, triggerRoute);
+      log(fragment);
     },
 
     // Bind all defined routes to `Backbone.history`. We have to reverse the

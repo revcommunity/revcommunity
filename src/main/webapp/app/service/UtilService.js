@@ -45,5 +45,11 @@ var UtilService={
 			Ext.Ajax.request({
 			    url:'rest/nokaut/download'
 			});
+		},
+		setLastUrl:function(fragment){
+			var url="/#"+fragment;
+			this.exec("users/last",{
+				url:url
+			});
 		}
 };

@@ -65,31 +65,33 @@ public class UserController
 
     @Autowired
     private RegistrationService registrationService;
-    
+
     @Autowired
     private ReviewRatingRepo ratingRepo;
-    
+
     @Autowired
     private ReviewRepo reviewRepo;
-    
+
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
     @RequestMapping( method = RequestMethod.POST )
     @ResponseBody
     public ModelAndView save( User user )
     {
-        //walidacja danych z formularza
-        if(registrationService.validateUser( user ) && !userService.userExist( user )){
+        // walidacja danych z formularza
+        if ( registrationService.validateUser( user ) && !userService.userExist( user ) )
+        {
             log.debug( user );
-            
+
             userService.createUser( user );
-        }else{
-            //FIXME co tutaj?
+        }
+        else
+        {
+            // FIXME co tutaj?
             log.debug( "Dane do rejestracji uzytkownika sa niepoprawne" );
             return null;
         }
-        
-        
+
         return new ModelAndView( "redirect:" + "/auth/login.jsp" );
     }
 
@@ -173,36 +175,45 @@ public class UserController
 
         return new ResponseEntity( org.springframework.http.HttpStatus.UNAUTHORIZED );
     }
-    
+
     @RequestMapping( value = "rated" )
     @ResponseBody
     public Message isReviewRated( @RequestParam Long reviewId )
         throws JsonParseException, JsonMappingException, IOException
     {
-    	boolean result = false;
+        boolean result = false;
         String userName = SessionUtils.getLoggedUserName();
-        Review r = reviewRepo.findByNodeId(reviewId);
-        tpl.fetch(r.getRatings());
-        List<ReviewRating> reviewRatings = ratingRepo.findUserRatings(r, userName);
-        if(!reviewRatings.isEmpty()){
-        	result = true;
+        Review r = reviewRepo.findByNodeId( reviewId );
+        tpl.fetch( r.getRatings() );
+        List<ReviewRating> reviewRatings = ratingRepo.findUserRatings( r, userName );
+        if ( !reviewRatings.isEmpty() )
+        {
+            result = true;
         }
-        
+
         Message m = new Message();
         m.setMessage( result );
         return m;
     }
-    
+
     @RequestMapping( value = "best", method = RequestMethod.GET )
     @ResponseBody
-    public Page<User> getBestUsers(@RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit)
+    public Page<User> getBestUsers( @RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit )
     {
         PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.rankAsDouble" ) ) );
         Page<User> users = userRepo.findBestUsers( page );
-        
-        //TODO: zawsze zwraca "lastpage=true". Neo4j nie wspiera PageRequest?
-        //TODO: nie działa sortowanie
-        
+
+        // TODO: zawsze zwraca "lastpage=true". Neo4j nie wspiera PageRequest?
+        // TODO: nie działa sortowanie
+
         return users;
+    }
+
+    @RequestMapping( value = "last" )
+    @ResponseBody
+    public Message saveLastUrl( @RequestParam String url, HttpServletRequest request )
+    {
+        SessionUtils.setLastUrl( url, request );
+        return new Message();
     }
 }
