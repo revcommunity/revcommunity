@@ -25,13 +25,17 @@ import org.revcommunity.repo.subscription.UserChannelNotificationRepo;
 import org.revcommunity.repo.subscription.UserChannelRepo;
 import org.revcommunity.repo.subscription.UserNotificationRepo;
 import org.revcommunity.repo.subscription.UserSubscriptionRepo;
+import org.revcommunity.service.ReviewService;
+import org.revcommunity.service.SubscriptionService;
+import org.revcommunity.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service( "subscriptionService" )
 @Transactional
 public class SubscriptionServiceImpl
+    implements SubscriptionService
 {
     private static final Logger log = Logger.getLogger( SubscriptionServiceImpl.class );
 
@@ -63,10 +67,10 @@ public class SubscriptionServiceImpl
     private ProductNotificationRepo pnr;
 
     @Autowired
-    private UserServiceImpl us;
+    private UserService us;
 
     @Autowired
-    private ReviewServiceImpl rs;
+    private ReviewService rs;
 
     public UserSubscription addUserSubscription( User observer, User subscribed )
     {
@@ -80,7 +84,8 @@ public class SubscriptionServiceImpl
 
     public List<UserSubscription> getUserSubscriptions( User observer )
     {
-        if(observer != null){
+        if ( observer != null )
+        {
             return usr.getUserSubscritions( observer );
         }
         return new ArrayList<UserSubscription>();
@@ -118,9 +123,9 @@ public class SubscriptionServiceImpl
 
     public ProductSubscription addProductSubscription( User observer, Product subscribed )
     {
-        if(observer == null)
+        if ( observer == null )
             return null;
-        
+
         boolean exist = checkProductSubscriptionExist( observer, subscribed );
         if ( exist )
         {
@@ -136,7 +141,7 @@ public class SubscriptionServiceImpl
     }
 
     public boolean checkProductSubscriptionExist( User observer, Product subscribed )
-    {   
+    {
         List<ProductSubscription> subs = getProductSubscriptions( observer );
         for ( ProductSubscription sub : subs )
         {
@@ -150,7 +155,8 @@ public class SubscriptionServiceImpl
 
     public List<ProductSubscription> getProductSubscriptions( User observer )
     {
-        if(observer != null){
+        if ( observer != null )
+        {
             return psr.getProductSubscritions( observer );
         }
         return new ArrayList<ProductSubscription>();
@@ -180,7 +186,8 @@ public class SubscriptionServiceImpl
 
     public ProductNotification findProductNotification( User user, Review review )
     {
-        if(user != null){
+        if ( user != null )
+        {
             return pbr.findProductNotification( user, review );
         }
         return null;
@@ -188,7 +195,8 @@ public class SubscriptionServiceImpl
 
     public UserNotification findUserNotification( User user, Review review )
     {
-        if(user != null){
+        if ( user != null )
+        {
             return unr.findUserNotification( user, review );
         }
         return null;

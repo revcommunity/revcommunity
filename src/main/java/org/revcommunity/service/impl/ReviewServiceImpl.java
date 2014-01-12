@@ -22,6 +22,7 @@ import org.revcommunity.repo.ReviewRepo;
 import org.revcommunity.repo.UserRepo;
 import org.revcommunity.search.CypherQueryBuilder;
 import org.revcommunity.service.ReviewService;
+import org.revcommunity.service.SubscriptionService;
 import org.revcommunity.util.SessionUtils;
 import org.revcommunity.util.search.Sorter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,7 +54,7 @@ public class ReviewServiceImpl
     private CommentRepo cr;
 
     @Autowired
-    private SubscriptionServiceImpl ss;
+    private SubscriptionService ss;
 
     @Autowired
     private KeyValuePairRepo keyValuePairRepo;
