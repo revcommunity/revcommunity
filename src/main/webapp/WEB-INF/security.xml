@@ -63,7 +63,8 @@
 		<form-login login-page="/rest/users/redirect"
 			authentication-failure-url="/auth/login.jsp?login_error=true"
 			default-target-url="/"
-			always-use-default-target="true"  />
+			always-use-default-target="false"
+			authentication-success-handler-ref="authSuccessHandler"  />
 		<logout logout-url="/j_spring_security_logout" logout-success-url="/" delete-cookies="JSESSIONID" />
 		
 		<custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter"/>

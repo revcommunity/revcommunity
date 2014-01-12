@@ -7,6 +7,7 @@ import org.revcommunity.model.KeyValuePair;
 import org.revcommunity.model.Review;
 import org.revcommunity.repo.KeyValuePairRepo;
 import org.revcommunity.repo.ReviewRepo;
+import org.springframework.data.neo4j.conversion.EndResult;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
 /**
@@ -16,7 +17,7 @@ public class UsefulnessCalculatorJob
     extends QuartzJobBean
 {
 
-    private static final Logger logger = Logger.getLogger( NewsletterJob.class );
+    private static final Logger logger = Logger.getLogger( UsefulnessCalculatorJob.class );
 
     private ReviewRepo reviewRepo;
 
@@ -35,12 +36,14 @@ public class UsefulnessCalculatorJob
         }
         Double sum = 0.0;
         Double avg;
-
-        for ( Review r : reviewRepo.findAll() )
+               
+        EndResult<Review> reviews =  reviewRepo.findAll();     
+        
+        for ( Review r : reviews )
         {
             // średnia użyteczność reprezentowana jest przez liczbę z zakresu [0;1]
             sum += ( r.getUsefulness() / 100 );
-        }
+        } 
 
         avg = sum / reviewRepo.count();
         KeyValuePair keyValuePair = keyValuePairRepo.findOneByKey( "avgUsefulness" );
@@ -51,10 +54,10 @@ public class UsefulnessCalculatorJob
         }
         keyValuePair.setValue( avg );
         keyValuePairRepo.save( keyValuePair );
-
+        
         if ( logger.isDebugEnabled() )
         {
-            logger.debug( "avg:" + avg );
+            logger.debug( "calculated avg:" + avg );
         }
 
         if ( logger.isDebugEnabled() )
@@ -62,6 +65,16 @@ public class UsefulnessCalculatorJob
             logger.debug( "UsefulnessCalculatorJob koniec, czas : " + ( System.currentTimeMillis() - czas ) + " ms" );
         }
 
+    }
+
+    public void setReviewRepo( ReviewRepo reviewRepo )
+    {
+        this.reviewRepo = reviewRepo;
+    }
+
+    public void setKeyValuePairRepo( KeyValuePairRepo keyValuePairRepo )
+    {
+        this.keyValuePairRepo = keyValuePairRepo;
     }
 
 }

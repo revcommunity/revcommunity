@@ -45,15 +45,6 @@ Ext.define('RevCommunity.view.start.StartPanel', {
 		this.down('reviewspanel').getStore().sort('dateAdded', 'DESC');
 	},
 	initComponent : function() {
-		this.callParent(arguments);
-		var store = this.down('[name=usersPanel]').down('bestuserslist').getStore();
-//		this.down('[name=usersPanel]').addDocked([{
-//			xtype: 'pagingtoolbar',
-//	        store: store,
-//	        dock: 'bottom',
-//            displayInfo: true,
-//            displayMsg: '{0} - {1} z {2}',
-//		}]);
-		
+		this.callParent(arguments);		
 	}
 });

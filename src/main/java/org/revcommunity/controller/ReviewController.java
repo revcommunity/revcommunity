@@ -171,6 +171,11 @@ public class ReviewController
         rs.addReviewRating( review, reviewRating );
 
         rr.save( review );
+        
+        User reviewAuthor = tpl.fetch( review.getAuthor() );
+        reviewAuthor.calculateRank();
+        
+        ur.save( reviewAuthor );
 
         log.debug( "Dodano ReviewRating: " + reviewRating.getNodeId() + " do recenzji:" + review.getNodeId() );
         return new Message( review.getUsefulness() );

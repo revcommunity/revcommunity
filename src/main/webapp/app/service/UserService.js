@@ -60,12 +60,13 @@ var UserService = {
 				title : 'Rangi użytkowników',
 				closeAction : 'hide',
 				width : 400,
-				height : 400,
-				minHeight : 400,
+				height : 350,
+				minHeight : 350,
 				layout : 'fit',
 				resizable : true,
 				modal : true,
-				html : 'Informacje o rangach userów.',
+				bodyPadding: 5,
+				html : TemplateHolder.userRankDescription.html,
 			});
 			win.show();
 		});

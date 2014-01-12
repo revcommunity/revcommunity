@@ -71,34 +71,36 @@ public class UserController
 
     @Autowired
     private RegistrationService registrationService;
-    
+
     @Autowired
     private ReviewRatingRepo ratingRepo;
-    
+
     @Autowired
     private ImageService imageService;
-    
+
     @Autowired
     private ReviewRepo reviewRepo;
-    
+
     private ShaPasswordEncoder passwordEncoder = new ShaPasswordEncoder( 256 );
 
     @RequestMapping( method = RequestMethod.POST )
     @ResponseBody
     public ModelAndView save( User user )
     {
-        //walidacja danych z formularza
-        if(registrationService.validateUser( user ) && !userService.userExist( user )){
+        // walidacja danych z formularza
+        if ( registrationService.validateUser( user ) && !userService.userExist( user ) )
+        {
             log.debug( user );
-            
+
             userService.createUser( user );
-        }else{
-            //FIXME co tutaj?
+        }
+        else
+        {
+            // FIXME co tutaj?
             log.debug( "Dane do rejestracji uzytkownika sa niepoprawne" );
             return null;
         }
-        
-        
+
         return new ModelAndView( "redirect:" + "/auth/login.jsp" );
     }
 
@@ -170,56 +172,57 @@ public class UserController
 
     @RequestMapping( value = "/update", method = RequestMethod.POST )
     @ResponseBody
-    public Message update( @RequestPart("image") MultipartFile image, @RequestParam("userData") String userData ) throws JsonParseException, JsonMappingException, IOException
+    public Message update( @RequestPart( "image" ) MultipartFile image, @RequestParam( "userData" ) String userData )
+        throws JsonParseException, JsonMappingException, IOException
     {
-        
+
         ObjectMapper om = new ObjectMapper();
         User user = om.readValue( userData, User.class );
-        
-        
+
         String userName = SessionUtils.getLoggedUserName();
-        //uzytkownik niezalogowany zmienia dane innego uzytkownika
-        if(userName.equals( "anonymousUser" ))
+        // uzytkownik niezalogowany zmienia dane innego uzytkownika
+        if ( userName.equals( "anonymousUser" ) )
             return null;
-        
+
         User u = userRepo.findByUserName( userName );
-        
-        if( u == null){
+
+        if ( u == null )
+        {
             return null;
         }
-        
-        if(u.getNodeId().longValue() != user.getNodeId().longValue()){
-            //jakis inny zalogowany uzytkownik chce zmienic dane innemu uzytkownikowi
+
+        if ( u.getNodeId().longValue() != user.getNodeId().longValue() )
+        {
+            // jakis inny zalogowany uzytkownik chce zmienic dane innemu uzytkownikowi
             return null;
         }
-        
-        if(log.isDebugEnabled()){
+
+        if ( log.isDebugEnabled() )
+        {
             log.debug( "Update uzytkownika:" );
             log.debug( user );
         }
-        
-        
-        
-       // User u = userRepo.findOne( user.getNodeId() );
-        
-        
+
+        // User u = userRepo.findOne( user.getNodeId() );
+
         u.setEmail( user.getEmail() );
         u.setFirstName( user.getFirstName() );
         u.setLastName( user.getLastName() );
-//      
-        if(image.getSize() > 0){
+        //
+        if ( image.getSize() > 0 )
+        {
             List<MultipartFile> a = new ArrayList<MultipartFile>();
             a.add( image );
             List<File> file = imageService.save( a );
-            
+
             u.setImage( ImageService.imgDirName + "/" + file.get( 0 ).getName() );
         }
         userRepo.save( u );
-        
+
         return new Message();
-        //return new ModelAndView( "redirect:" + "/#users/me" );
+        // return new ModelAndView( "redirect:" + "/#users/me" );
     }
-    
+
     @RequestMapping( value = "/redirect", method = RequestMethod.GET )
     @ResponseBody
     public ResponseEntity redirectToLoginPage()
@@ -234,44 +237,47 @@ public class UserController
 
         return new ResponseEntity( org.springframework.http.HttpStatus.UNAUTHORIZED );
     }
-    
+
     @RequestMapping( value = "rated" )
     @ResponseBody
     public Message isReviewRated( @RequestParam Long reviewId )
         throws JsonParseException, JsonMappingException, IOException
     {
-    	boolean result = false;
-    	Message m = new Message();
+        boolean result = false;
+        Message m = new Message();
         String userName = SessionUtils.getLoggedUserName();
-        if(userName.equals( "anonymousUser" )){
+        if ( userName.equals( "anonymousUser" ) )
+        {
             m.setMessage( result );
             return m;
         }
-           
-        
-        
-        Review r = reviewRepo.findByNodeId(reviewId);
-        tpl.fetch(r.getRatings());
-        List<ReviewRating> reviewRatings = ratingRepo.findUserRatings(r, userName);
-        if(!reviewRatings.isEmpty()){
-        	result = true;
+
+        Review r = reviewRepo.findByNodeId( reviewId );
+        tpl.fetch( r.getRatings() );
+        List<ReviewRating> reviewRatings = ratingRepo.findUserRatings( r, userName );
+        if ( !reviewRatings.isEmpty() )
+        {
+            result = true;
         }
-        
-        
+
         m.setMessage( result );
         return m;
     }
-    
+
     @RequestMapping( value = "best", method = RequestMethod.GET )
     @ResponseBody
-    public Page<User> getBestUsers(@RequestParam( required = false ) Integer start, @RequestParam( required = false ) Integer limit)
+    public List<User> getBestUsers()
     {
-        PageRequest page = new PageRequest( start, limit, new Sort( new Order( Direction.DESC, "n.rankAsDouble" ) ) );
-        Page<User> users = userRepo.findBestUsers( page );
-        
-        //TODO: zawsze zwraca "lastpage=true". Neo4j nie wspiera PageRequest?
-        //TODO: nie działa sortowanie
-        
+        List<User> users = userRepo.findBestUsers();
+
         return users;
+    }
+
+    @RequestMapping( value = "last" )
+    @ResponseBody
+    public Message saveLastUrl( @RequestParam String url, HttpServletRequest request )
+    {
+        SessionUtils.setLastUrl( url, request );
+        return new Message();
     }
 }
