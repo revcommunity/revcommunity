@@ -39,7 +39,7 @@
 		<intercept-url pattern="/rest/reviews/productReviews/*" access="IS_AUTHENTICATED_ANONYMOUSLY" method="GET" />
 		<intercept-url pattern="/rest/reviews/rating" access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST" />
 		
-		
+		<intercept-url pattern="/rest/users"  access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST" />
 		<intercept-url pattern="/rest/users/rated/"  access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST" />
 		<intercept-url pattern="/rest/users/last"  access="IS_AUTHENTICATED_ANONYMOUSLY" method="POST" />
 		<intercept-url pattern="/rest/users/**" access="IS_AUTHENTICATED_ANONYMOUSLY" method="GET" />
