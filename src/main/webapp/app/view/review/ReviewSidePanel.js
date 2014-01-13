@@ -38,15 +38,15 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel',
 			},
 			buildAdminButtons : function() {
 				var buttons = [];
-				if (UserService.isAdmin()) {
+				if (UserService.isAdmin() || ReviewService.isReviewEditable(this.data)) {
 					buttons.push({
 						xtype : 'editbtn',
-						action : 'editProduct',
+						action : 'editReview',
 						flex : 1
 					});
 					buttons.push({
 						xtype : 'deletebtn',
-						action : 'deleteProduct',
+						action : 'deleteReview',
 						flex : 1
 					});
 				}
@@ -148,7 +148,7 @@ Ext.define('RevCommunity.view.review.ReviewSidePanel',
 									value : this.data.author.userName,
 								} ]
 							}, ]
-						}, ];
+						}];
 				this.callParent(arguments);
 			}
 		});

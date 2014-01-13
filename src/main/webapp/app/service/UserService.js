@@ -42,7 +42,7 @@ var UserService = {
 		return false;
 	},
 	buildRankString : function(user) {
-		var rank = user.rank.concat(" (", user.positiveReviewRatingsCount, "/",	user.reviewRatingsCount, ")");
+		var rank = user.rank.concat(" (", user.positiveReviewRatingsCount, "/", user.reviewRatingsCount, ")");
 		return TemplateHolder.rankInfo.html.replace("__user_rank__", rank);
 	},
 	isReviewRated : function(reviewId) {
@@ -54,7 +54,7 @@ var UserService = {
 	buildUserLink : function(user) {
 		return '#reviews/user/'.concat(user.userName);
 	},
-	registerRankClickEvent : function(){
+	registerRankClickEvent : function() {
 		Ext.live('.rev-rank-info', 'click', function() {
 			var win = Ext.widget('window', {
 				title : 'Rangi użytkowników',
@@ -65,10 +65,10 @@ var UserService = {
 				layout : 'fit',
 				resizable : true,
 				modal : true,
-				bodyPadding: 5,
+				bodyPadding : 5,
 				html : TemplateHolder.userRankDescription.html,
 			});
 			win.show();
 		});
-	}
+	},
 };

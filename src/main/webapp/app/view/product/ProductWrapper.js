@@ -16,7 +16,7 @@ Ext.define('RevCommunity.view.product.ProductWrapper', {
 				html : this.productData.description,
 
 			}, {
-				title : 'Recenzje',
+				title : 'Recenzje (' + this.productData.reviewCount + ')',
 				xtype : 'reviewspanel',
 				mode : 'product',
 			} ]

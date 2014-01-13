@@ -6,7 +6,8 @@ Ext.define('RevCommunity.view.form.ProductInfoFieldSet' ,{
 	items:[
 	       	{
 	       		xtype:'hidden',
-	       		name:'nodeId'
+	       		name:'nodeId',
+	       		value:null
 	       	},
 			{
 				fieldLabel:'Nazwa produktu',
@@ -19,7 +20,8 @@ Ext.define('RevCommunity.view.form.ProductInfoFieldSet' ,{
 			},
 			{
 				hidden:true,
-				name:'mainImage'
+				name:'mainImage',
+				xtype:'hidden'
 			}
 	],
 	initComponent:function(){

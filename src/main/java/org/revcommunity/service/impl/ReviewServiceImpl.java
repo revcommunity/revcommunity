@@ -149,4 +149,9 @@ public class ReviewServiceImpl
         reviews = new PageImpl<Review>( reviews.getContent(), page, count );
         return reviews;
     }
+    
+    public void delete( Long nodeId )
+    {
+        rr.delete( nodeId );
+    }
 }

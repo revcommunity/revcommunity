@@ -71,12 +71,15 @@ public class ReviewController
     public Review get( @PathVariable Long id )
     {
         Review r = rr.findOne( id );
-        tpl.fetch( r.getAuthor() );
-        tpl.fetch( r.getProduct() );
-        tpl.fetch( r.getRatings() );
-        for ( Comment c : tpl.fetch( r.getComments() ) )
+        if ( r != null )
         {
-            tpl.fetch( c.getAuthor() );
+            tpl.fetch( r.getAuthor() );
+            tpl.fetch( r.getProduct() );
+            tpl.fetch( r.getRatings() );
+            for ( Comment c : tpl.fetch( r.getComments() ) )
+            {
+                tpl.fetch( c.getAuthor() );
+            }
         }
         return r;
     }
@@ -198,6 +201,14 @@ public class ReviewController
         }
         return prods;
     }
+    
+    @RequestMapping( value = "countReviewRatings/{reviewId}", method = RequestMethod.GET )
+    @ResponseBody
+    public Integer countReviewRatings(@PathVariable Long reviewId)
+    {
+        Review r =  rr.findByNodeId( reviewId );
+        return r.getRatings().size();
+    }
 
     private Sort buildSort( List<Sorter> sorters )
     {
@@ -215,5 +226,13 @@ public class ReviewController
             return Direction.ASC;
         else
             return Direction.DESC;
+    }
+    
+    @RequestMapping( method = RequestMethod.DELETE, value = "{reviewId}" )
+    @ResponseBody
+    public Message delete( @PathVariable Long reviewId )
+    {
+        rs.delete( reviewId );
+        return new Message();
     }
 }

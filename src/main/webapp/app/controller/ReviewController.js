@@ -20,8 +20,11 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			'reviewform button[action=unlike]' : {
 				click : this.saveReviewRating
 			},
-			'reviewform button[action=saveEditReviewLink]' : {
-				click : this.saveEditReviewLink
+			'reviewsidepanel button[action=editReview]' : {
+				click : this.editReview
+			},
+			'reviewsidepanel button[action=deleteReview]' : {
+				click : this.deleteReview
 			},
 			'reviewcommentslist, reviewspanel' : {
 				itemclick : this.reviewItemClick
@@ -68,9 +71,8 @@ Ext.define('RevCommunity.controller.ReviewController', {
 				review : encoded
 			},
 			success : function(response) {
-				UtilService.showInfo('Dodano pomyślnie nową recenzję');
+				UtilService.showInfo('Pomyślnie dodano nową recenzję');
 				location.href = '#reviews/my';
-
 			},
 			failure : function(response) {
 				UtilService.showInfo("Błąd przy dodawaniu nowej recenzji");
@@ -178,10 +180,23 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		});
 
 	},
-	saveEditReviewLink : function(btn) {
-		var reviewNodeId = Ext.getCmp('reviewNodeId').value;
-		location.href = '#reviews/edit' + reviewNodeId;
-
+	deleteReview:function(btn){
+		var review = Ext.ComponentQuery.query('[name=reviewNodeId]')[0].up('reviewform').data;
+		if(ReviewService.isReviewEditable(review) || UserService.isAdmin()){
+			ReviewService.deleteReview(review.nodeId);
+			location.href = '#';
+			UtilService.showInfo("Recenzja została pomyślnie usunięta.");
+		}else{
+			UtilService.showInfo("Nie można usunąć recenzji na którą oddano głos.");
+		}
+	},
+	editReview : function(btn) {
+		var review = Ext.ComponentQuery.query('[name=reviewNodeId]')[0].up('reviewform').data;
+		if(ReviewService.isReviewEditable(review) || UserService.isAdmin()){
+			location.href = '#reviews/edit' + review.nodeId;
+		}else{
+			UtilService.showInfo("Nie można edytować recenzji na którą oddano głos.");
+		}
 	},
 	submitSpam : function(record) {
 		var m = UtilService.exec('comments',{
