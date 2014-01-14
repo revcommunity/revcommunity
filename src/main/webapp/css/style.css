@@ -138,3 +138,18 @@
 	width: 100%;
 	text-align: center;
 }
+
+.api_link_nokaut
+{
+    float:left;
+    font-family: "wf_SegoeUILight","wf_SegoeUI","Tahoma","Verdana","Arial","sans-serif";
+    color: #fff;
+    margin-left: 50px;
+    font-size: 14px;
+    margin-top: 105px;
+}
+
+.api_link_nokaut a
+{ 
+    color: #fff;
+}
