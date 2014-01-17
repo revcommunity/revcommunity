@@ -98,11 +98,14 @@ public class ReviewServiceImpl
     {
         review.addReviewRating( rating );
         review.calculateUsefulness( getAvgUsefulness() );
-
         User u = ur.findByUserName( SessionUtils.getLoggedUserName() );
         u.addRating( rating );
-
-        ur.save( u );
+        ur.save( u );       
+        rr.save( review );
+     
+        User reviewAuthor = tpl.fetch( review.getAuthor() );
+        reviewAuthor.calculateRank();
+        ur.save( reviewAuthor );
     }
 
     public Double getAvgUsefulness()

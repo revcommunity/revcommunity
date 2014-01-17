@@ -23,6 +23,18 @@ public class Review
     @JsonIgnore
     private static final double DEFAULT_USEFULNESS = 0.5;
 
+    @JsonIgnore
+    private static final double DEFAULT_REVIEW_WEIGHT = 1;
+
+    @JsonIgnore
+    private static final double VOTES_WEIGHT = 8;
+
+    @JsonIgnore
+    private static final double AUTOR_RANK_WEIGHT = 3;
+    
+    @JsonIgnore
+    private static final double CONST_VALUE = 15;
+
     @Override
     public String toString()
     {
@@ -185,18 +197,13 @@ public class Review
         double result = 0;
         try
         {
-            // TODO: set proper weights
-            double defaultReviewWeight = 1;
-            double votesWeight = 8;
-            double authorWeight = 3;
+            double numerator = DEFAULT_REVIEW_WEIGHT * CONST_VALUE * avgSystemUsefulness;
+            numerator += VOTES_WEIGHT * countPositiveRatings();
+            numerator += AUTOR_RANK_WEIGHT * author.countPositiveReviewRatings();
 
-            double numerator = defaultReviewWeight * avgSystemUsefulness;
-            numerator += votesWeight * countPositiveRatings();
-            numerator += authorWeight * author.countPositiveReviewRatings();
-
-            double denominator = defaultReviewWeight;
-            denominator += votesWeight * getRatings().size();
-            denominator += authorWeight * author.countReviewRatings();
+            double denominator = DEFAULT_REVIEW_WEIGHT * CONST_VALUE;
+            denominator += VOTES_WEIGHT * getRatings().size();
+            denominator += AUTOR_RANK_WEIGHT * author.countReviewRatings();
 
             result = numerator * 100.0 / denominator;
         }
