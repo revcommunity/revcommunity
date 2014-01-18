@@ -20,6 +20,15 @@ public class User
     @JsonIgnore
     private static final double DEFAULT_RANK = 0.5;
 
+    @JsonIgnore
+    private static final double DEFAULT_RANK_WEIGHT = 1;
+
+    @JsonIgnore
+    private static final double REVIEW_RATINGS_WEIGHT = 1;
+
+    @JsonIgnore
+    private static final double CONST_VALUE = 15;
+
     @GraphId
     private Long nodeId;
 
@@ -234,16 +243,12 @@ public class User
 
     public void calculateRank()
     {
-        // TODO: update const values
-        double defaultRank = DEFAULT_RANK;
-        double defaultRankWeight = 10;
-        double reviewRatingsWeight = 1;
 
-        double numerator = defaultRank * defaultRankWeight;
-        numerator += countPositiveReviewRatings() * reviewRatingsWeight;
+        double numerator = DEFAULT_RANK * DEFAULT_RANK_WEIGHT * CONST_VALUE;
+        numerator += countPositiveReviewRatings() * REVIEW_RATINGS_WEIGHT;
 
-        double denominator = defaultRankWeight;
-        denominator += reviewRatingsWeight * countReviewRatings();
+        double denominator = DEFAULT_RANK_WEIGHT * CONST_VALUE;
+        denominator += REVIEW_RATINGS_WEIGHT * countReviewRatings();
 
         double result = numerator * 100.0 / denominator;
 
@@ -298,7 +303,7 @@ public class User
     public String toString()
     {
         return "User [nodeId=" + nodeId + ", userName=" + userName + ", firstName=" + firstName + ", lastName=" + lastName + ", password=" + password
-            + ", roles=" + roles + ", image=" + image + ", reviews=" + reviews + ", comments=" + comments + ", ratings=" + ratings 
+            + ", roles=" + roles + ", image=" + image + ", reviews=" + reviews + ", comments=" + comments + ", ratings=" + ratings
             + ", rankAsDouble=" + rankAsDouble + "]";
     }
 }
