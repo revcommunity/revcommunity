@@ -102,7 +102,7 @@
 			<p>kontakt@revcommunity.com</p>
 		</div>
 	</div>
-	<div id="bottom-bar" class="bottom-bar">Copyright 2013 by
+	<div id="bottom-bar" class="bottom-bar">Copyright 2014 by
 		RevCommunity. All Rights Reserved.</div>
 </body>
 </html>

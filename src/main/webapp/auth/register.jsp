@@ -69,7 +69,7 @@
 						<input type="password" value="" maxlength="255" name="password1" data-validate="myRule"> 
 					</div>
 					<div class="rev-form-field-registration rev-submit-button">
-						<button type="submit" tabindex="0">Zarejestruj sie</button>
+						<button type="submit" tabindex="0">Zarejestruj się</button>
 					</div>
 					
 				</form>
@@ -80,7 +80,7 @@
 	</div>
 	</div>
 	<div class="footer">
-	<span class="bottom-bar">Copyright 2013 by RevCommunity. All Rights Reserved.</span>
+	<span class="bottom-bar">Copyright 2014 by RevCommunity. All Rights Reserved.</span>
 	</div>
 </body>
 </html>

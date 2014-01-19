@@ -39,7 +39,7 @@
 	</div>
 	</div>
 	<div class="footer">
-	<span class="bottom-bar">Copyright 2013 by RevCommunity. All Rights Reserved.</span>
+	<span class="bottom-bar">Copyright 2014 by RevCommunity. All Rights Reserved.</span>
 	</div>
 </body>
 </html>

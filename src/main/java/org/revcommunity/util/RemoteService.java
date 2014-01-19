@@ -10,7 +10,6 @@ import org.springframework.transaction.annotation.Transactional;
 public interface RemoteService
 {
 
-    @Transactional
     public void downloadAllCategories();
     
     /**
@@ -19,7 +18,6 @@ public interface RemoteService
      * @param nokautParentId
      * @return Lista bezposrednich potomkow danej kategorii
      */
-    @Transactional
     public List<AbstractCategory> downloadCategoriesByParentId( Long parentId );
     
     /**
@@ -29,7 +27,6 @@ public interface RemoteService
      * @param limit
      * @return JSON z produkatmi
      */
-    @Transactional
     public void downloadProductsByCategoryId( Category category, int limit );
     
     /**
@@ -37,6 +34,5 @@ public interface RemoteService
      * @param id
      * @return Listę ientyfikatorów pobranych kategorii 
      */
-    @Transactional
     public List<CategoryGroup> downloadMainCategories();
 }
