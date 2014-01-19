@@ -33,7 +33,7 @@ import org.springframework.data.neo4j.support.Neo4jTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-@Service
+@Service( "reviewService" )
 @Transactional
 public class ReviewServiceImpl
     implements ReviewService
@@ -93,16 +93,15 @@ public class ReviewServiceImpl
         return rr.findOne( reviewId );
     }
 
-    @Transactional
     public void addReviewRating( Review review, ReviewRating rating )
     {
         review.addReviewRating( rating );
         review.calculateUsefulness( getAvgUsefulness() );
         User u = ur.findByUserName( SessionUtils.getLoggedUserName() );
         u.addRating( rating );
-        ur.save( u );       
+        ur.save( u );
         rr.save( review );
-     
+
         User reviewAuthor = tpl.fetch( review.getAuthor() );
         reviewAuthor.calculateRank();
         ur.save( reviewAuthor );
@@ -152,9 +151,20 @@ public class ReviewServiceImpl
         reviews = new PageImpl<Review>( reviews.getContent(), page, count );
         return reviews;
     }
-    
+
     public void delete( Long nodeId )
     {
         rr.delete( nodeId );
+    }
+
+    public void calculateUsefulnessForAll()
+    {
+        double avgSystemUsefulness = this.getAvgUsefulness();
+        for ( Review r : rr.findAll() )
+        {
+            tpl.fetch( r.getRatings() );
+            tpl.fetch( r.getAuthor() );
+            r.calculateUsefulness( avgSystemUsefulness );
+        }
     }
 }

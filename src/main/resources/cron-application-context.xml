@@ -17,6 +17,7 @@
 		<property name="jobClass" value="org.revcommunity.schedule.job.UsefulnessCalculatorJob" />
 		<property name="jobDataAsMap">
 			<map>
+				<entry key="reviewService" value-ref="reviewService" />
 				<entry key="reviewRepo" value-ref="reviewRepo" />
 				<entry key="keyValuePairRepo" value-ref="keyValuePairRepo" />
 			</map>

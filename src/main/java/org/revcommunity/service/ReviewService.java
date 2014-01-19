@@ -31,4 +31,6 @@ public interface ReviewService
     public Page<Review> findByAuthorUserName( String userName, PageRequest page );
     
     public void delete( Long nodeId );
+    
+    public void calculateUsefulnessForAll();
 }
