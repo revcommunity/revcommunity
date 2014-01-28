@@ -16,7 +16,9 @@ Ext.define('RevCommunity.view.admin.AdminPanel', {
 				xtype : 'dataimportpanel'
 
 			}, {
-				title : 'Lista komentarzy'
+				title : 'Lista komentarzy',
+				bodyPadding : 5,
+				xtype : 'spamlistpanel'
 			} ]
 		}, 
 		];

@@ -2,12 +2,12 @@ Ext.application({
     name: 'RevCommunity',
     stores:['ProductStore','ReviewStore','ProductReviewsStore',
              'CommentStore','UserSubscriptionStore','UserNotificationStore','ProductSubscriptionStore',
-             'ProductNotificationStore', 'BestUsersStore'
+             'ProductNotificationStore', 'BestUsersStore','SpamStore'
             ],
 	controllers:['ProductController','ReviewController','CategoryController',
 	             'ProductFormController','RevHtmlEditorController','LoginController',
 	             'SubscriptionController','CategoryTreeController',
-	             'SearchController','FilterController','SortController','UserController','AdminPanelController'],    
+	             'SearchController','FilterController','SortController','UserController','AdminPanelController','SpamController'],    
 	views:[
 	    	'form.BaseFieldSet',
 	    	'form.CategoryFieldSet',
@@ -47,7 +47,8 @@ Ext.application({
 	    	'components.ReviewSortCombo',
 	    	'components.SortDirection',
 	    	'admin.AdminPanel',
-	    	'admin.DataImportPanel'
+	    	'admin.DataImportPanel',
+	    	'admin.SpamListPanel'
 	],
     models:['Product','Review','Category', 'Comment','ReviewRating','User','UserSubscription','UserNotification','ProductSubscription',
             'ProductNotification'
@@ -85,7 +86,7 @@ Ext.application({
 		});
     	panel.calculateWidth();//obliczanie szerokości komponentu tak aby dostosowywał się do szerokości okna
     	Ext.EventManager.onWindowResize(function(w, h){
-    		log('win resize');
+    		//log('win resize');
     		panel.calculateWidth();
     	});
     },

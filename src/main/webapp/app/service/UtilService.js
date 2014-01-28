@@ -8,6 +8,15 @@ var UtilService={
 			},cfg)).responseText;
 			return Ext.decode(resp);
 		},
+		execWithMethod:function(path,params,method,cfg){
+			var resp=Ext.Ajax.request(Ext.apply({
+				url:'rest/'+path,
+				async:false,
+				params:params,
+				method:method
+			},cfg)).responseText;
+			return Ext.decode(resp);
+		},
 		execJson:function(path,params){
 			var resp=Ext.Ajax.request({
 				url:'rest/'+path,

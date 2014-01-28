@@ -2,6 +2,7 @@ package org.revcommunity.controller;
 
 import java.io.IOException;
 import java.util.Date;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.ServletContext;
@@ -87,16 +88,5 @@ public class CommentController
         log.debug( "Dodano komentarz: " + c.getNodeId() + " do recenzji:" + r.getNodeId() );
         return new Message();
     }
-    
-    @RequestMapping( method = RequestMethod.POST, params = { "id" } )
-    @ResponseBody
-    public Message submitSpam(@RequestParam( value = "id" ) Long commentId )
-        throws JsonParseException, JsonMappingException, IOException
-    {
-    	Comment c = cr.findOne(commentId);
-    	c.addSpamNotification();
-    	cr.save(c);
-        log.debug( "Zgłoszono spam dla komentarza: " + commentId);
-        return new Message();
-    }
+  
 }

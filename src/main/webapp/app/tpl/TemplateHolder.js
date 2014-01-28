@@ -15,6 +15,14 @@ commentsListContent:new Ext.XTemplate(
 '</div>',
 '<div class="rev-comment-content">{text}</div>'
 ),
+commentsListContentInAdminPanel:new Ext.XTemplate(
+'<div class="rev-list-header">',
+'	<span style="float:left">Dodano: {dateAddedString}</span>',
+'	<span style="float:right" action="unspam" class="rev-spam-submit">Usuń z listy spamu</span> ',
+'	<span style="float:right;margin-right:10px" action="deleteSpam" class="rev-spam-submit">Usuń komentarz</span> ',
+'</div>',
+'<div class="rev-comment-content">{text}</div>'
+),
 commentsListUser:new Ext.XTemplate(
 '<div class="rev-user-container">',
 '	<img src={author.image} class="rev-comments-user-image" ></img>',

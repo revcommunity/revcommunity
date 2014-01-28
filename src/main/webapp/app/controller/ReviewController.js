@@ -201,7 +201,7 @@ Ext.define('RevCommunity.controller.ReviewController', {
 		}
 	},
 	submitSpam : function(record) {
-		var m = UtilService.exec('comments',{
+		var m = UtilService.exec('spam',{
 			id:Ext.encode(record.data.nodeId)
 		});
 		if (m.success == true){
