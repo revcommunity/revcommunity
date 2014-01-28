@@ -110,8 +110,8 @@ public class ReviewController
         Review reviewTemp = rr.findByNodeId( r.getNodeId() );
         reviewTemp.setContent( r.getContent() );
         reviewTemp.setTitle( r.getTitle() );
-
-        rs.createReview( reviewTemp );
+        reviewTemp.setRank( r.getRank() );
+        rs.updateReview( reviewTemp );
         log.debug( "Edytowano recenzje: " + reviewTemp.getNodeId() );
         return new Message();
     }
@@ -160,7 +160,7 @@ public class ReviewController
         return rs.findByAuthorUserName( userName, page );
     }
 
-    @RequestMapping( method = RequestMethod.POST,  params = { "rating", "reviewNodeId" } )
+    @RequestMapping( method = RequestMethod.POST, params = { "rating", "reviewNodeId" } )
     @ResponseBody
     public Message saveReviewRating( @RequestParam( value = "rating" ) String rating, @RequestParam( value = "reviewNodeId" ) Long reviewNodeId )
         throws JsonParseException, JsonMappingException, IOException
@@ -194,12 +194,12 @@ public class ReviewController
         }
         return prods;
     }
-    
+
     @RequestMapping( value = "countReviewRatings/{reviewId}", method = RequestMethod.GET )
     @ResponseBody
-    public Integer countReviewRatings(@PathVariable Long reviewId)
+    public Integer countReviewRatings( @PathVariable Long reviewId )
     {
-        Review r =  rr.findByNodeId( reviewId );
+        Review r = rr.findByNodeId( reviewId );
         return r.getRatings().size();
     }
 
@@ -220,7 +220,7 @@ public class ReviewController
         else
             return Direction.DESC;
     }
-    
+
     @RequestMapping( method = RequestMethod.DELETE, value = "{reviewId}" )
     @ResponseBody
     public Message delete( @PathVariable Long reviewId )

@@ -93,6 +93,8 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			nodeId : values.productId
 		};
 		r.nodeId = values.reviewId;
+		rank = RatingUtil.getChecked('new-review-product-rank');		
+		r.rank = rank;
 
 		var encoded = Ext.encode(r);
 		Ext.Ajax.request({
@@ -103,12 +105,12 @@ Ext.define('RevCommunity.controller.ReviewController', {
 			},
 			success : function(response) {
 				UtilService.showInfo('Pomyślnie edytowano recenzję');
-				window.location.reload();
+				location.href = '#reviews/my';
 
 			},
 			failure : function(response) {
 				UtilService.showInfo("Błąd przy edycji recenzji");
-				window.location.reload();
+				location.href = '#reviews/my';
 			}
 		});
 	},

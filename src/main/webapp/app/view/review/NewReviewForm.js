@@ -47,19 +47,19 @@ Ext
 								items : [
 										{
 											xtype : 'container',
-											//margin : '5 5 5 0',
+											// margin : '5 5 5 0',
 											flex : 1,
-//											layout : {
-//												type: 'vbox',
-//											   // align: 'center'
-//											},
+											// layout : {
+											// type: 'vbox',
+											// // align: 'center'
+											// },
 											items : [
 													{
 														xtype : 'image',
 														name : 'productImage',
 														src : 'img/empty.jpg',
-														 margin : '5 5 5 0',
-														//maxHeight : 210,
+														margin : '5 5 5 0',
+														// maxHeight : 210,
 														width : 170,
 														flex : 5
 													},
@@ -69,16 +69,19 @@ Ext
 														cls : 'rev-box',
 														flex : 1,
 														align : 'center',
-														
-														//autoEl : {
-															//tag : 'div',
-														html: '<div style=\'align:center; width:150px;\'>'
-														+ '<span>Ocena:  '
-														+ '</span><div>'
-														+ RatingUtil.getRatingWidget('new-review-product-rank',
-																0, false)
-														+ '</div></div>',
-														//}
+
+														// autoEl : {
+														// tag : 'div',
+														html : '<div style=\'align:center; width:150px;\'>'
+																+ '<span>Ocena:  '
+																+ '</span><div>'
+																+ RatingUtil
+																		.getRatingWidget(
+																				'new-review-product-rank',
+																				0,
+																				false)
+																+ '</div></div>',
+													// }
 													} // ]
 											// },
 											]
@@ -126,6 +129,11 @@ Ext
 						text : 'Zapisz',
 						action : 'saveReview',
 						id : 'savereview',
+					}, {
+						text : 'Zapisz',
+						action : 'saveEditReview',
+						id : 'saveeditreview',
+						hidden : true
 					} ],
 					buildCategoryValue : function(product) {
 						var category = product.category;
