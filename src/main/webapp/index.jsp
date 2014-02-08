@@ -11,6 +11,7 @@
 
 <link rel="stylesheet" type="text/css" href="css/style.css" />
 <script type="text/javascript" src="ext-4/ext-all-dev.js"></script>
+<script type="text/javascript" src="ext-4/locale/ext-lang-pl.js"></script>
 
 <link rel="stylesheet" type="text/css" href="lightbox/css/lightbox.css" />
 
