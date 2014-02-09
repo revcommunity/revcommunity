@@ -7,7 +7,7 @@ Ext.define('RevCommunity.view.components.ReviewSortCombo' ,{
     		data:[
     		      {
     		    	  name:'Przydatność',
-    		    	  property:'rank'
+    		    	  property:'usefulness'
     		      },
     		      {
     		    	  name:'Data dodania',
